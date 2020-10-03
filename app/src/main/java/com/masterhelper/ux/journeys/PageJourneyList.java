@@ -9,7 +9,7 @@ import com.masterhelper.ux.components.fragments.*;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class PageJourneyList extends AppCompatActivity {
 
   ComponentUILabel label;
   ComponentUIInputText field;
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_page_journey_list);
     FragmentManager mn = getSupportFragmentManager();
 
     label = ComponentUILabel.cast(mn.findFragmentById(R.id.SOME_LABEL_ID));
