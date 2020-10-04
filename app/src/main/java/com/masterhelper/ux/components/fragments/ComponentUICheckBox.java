@@ -14,7 +14,7 @@ import com.masterhelper.ux.components.library.Check;
  * fragment for working with Checkbox buttons
  */
 public class ComponentUICheckBox extends Fragment {
-  private static final int CHEKBOX_ID = R.id.COMPONENT_CHEKBOX_ID;
+  private static final int CHECKBOX_ID = R.id.COMPONENT_CHEKBOX_ID;
 
   public Check controls;
 
@@ -26,7 +26,7 @@ public class ComponentUICheckBox extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     View fr = inflater.inflate(R.layout.fragment_component_ui_check, container, false);
-    controls = new Check(fr.findViewById(CHEKBOX_ID));
+    controls = new Check(fr.findViewById(CHECKBOX_ID));
     return fr;
   }
 

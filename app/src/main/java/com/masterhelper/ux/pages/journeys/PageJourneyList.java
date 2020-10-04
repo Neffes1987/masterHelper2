@@ -1,9 +1,11 @@
-package com.masterhelper.ux.journeys;
+package com.masterhelper.ux.pages.journeys;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
+import com.masterhelper.ux.resources.ResourceColors;
+import com.masterhelper.ux.resources.ResourceIcons;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.fragments.*;
 
@@ -33,7 +35,7 @@ public class PageJourneyList extends AppCompatActivity {
 
     button = ComponentUITextButton.cast(mn.findFragmentById(R.id.SOME_TEXT_BUTTON_ID));
     button.controls.setText("test");
-    button.controls.setColor("#FF0000");
+    button.controls.setColor(ResourceColors.ResourceColorType.secondary);
     button.controls.setOnClick(new SetBtnEvent() {
       @Override
       public void onClick(int btnId) {
@@ -46,14 +48,14 @@ public class PageJourneyList extends AppCompatActivity {
       }
     });
     iconButton = ComponentUIImageButton.cast(mn.findFragmentById(R.id.SOME_IMAGE_BUTTON_ID));
-    iconButton.controls.setIcon(R.drawable.ic_launcher_foreground);
+    iconButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.mace));
 
     checkBox = ComponentUICheckBox.cast(mn.findFragmentById(R.id.SOME_IMAGE_CHECK_ID));
     checkBox.controls.setLabelText("test");
 
     floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.SOME_FLOAT_BUTTON_ID));
-    floatingButton.controls.setIcon(R.mipmap.ic_launcher_round);
-    floatingButton.controls.setColor("#FF00FF");
+    floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
+    floatingButton.controls.setColor(ResourceColors.ResourceColorType.primary);
 
     group = ComponentUIRadioGroup.cast(mn.findFragmentById(R.id.SOME_RADIO_GROUP));
     group.controls.setRadioList(Arrays.asList("test", "test1", "test2"));

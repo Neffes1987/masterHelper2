@@ -1,4 +1,4 @@
-package com.masterhelper.ux.journeys;
+package com.masterhelper.ux.pages.journeys;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;

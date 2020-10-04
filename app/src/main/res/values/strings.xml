@@ -1,9 +1,131 @@
 <resources>
-  <string name="app_name">My Application</string>
-
   <!-- support texts -->
   <string name="ui_text">text-component-fragment</string>
 
+  <!-- journey -->
+  <string name="journey_list_name">Список приключений</string>
+  <string name="journey_name">Название приключения</string>
+  <string name="journey_description">Краткое описания приключения</string>
+  <string name="journey_create_title">Создать приключение</string>
+  <string name="journey_update_title">Изменить имя приключения</string>
+
+  <!-- scene -->
+  <string name="scene">Сцена</string>
+  <string name="scene_list">Список сцен</string>
+  <string name="scene_name">Имя сцены</string>
+  <string name="scene_description">Описание сцены</string>
+  <string name="screen_steps">События сцены</string>
+  <string name="scene_create_title">Создать сцену</string>
+  <string name="screen_name_scene">Сцена</string>
+  <string name="screen_name_scene_create">Создать сцену</string>
+  <string name="screen_name_scene_update">Изменить имя сцены</string>
+  <string name="screen_name_scene_start">Начать сцену</string>
+  <string name="screen_name_scene_step">Событие сцены</string>
+
+  <!-- settings -->
+  <string name="app_name">Помошник настольщика</string>
+  <string name="action_settings">Загрузить музыку</string>
+  <string name="abilities_settings">Характеристики</string>
+  <string name="add_setting_dialog_caption">Создать запись</string>
+  <string name="update_setting_dialog_caption">Обновить запись</string>
+  <string name="screen_name_music">Музыка</string>
+  <string name="background_music">Фоновая музыка</string>
+  <string name="library_music">Фоновая музыка</string>
+  <string name="screen_name_facts">Факты и Мифы</string>
+  <string name="screen_settings_default_caption">Настройки</string>
+  <string name="advantages">Преимущества</string>
+  <string name="disadvantages">Слабости</string>
+  <string name="goals">Цели</string>
+
+
+  <!-- abilities -->
+  <string name="property_description">Описание</string>
+  <string name="property_name">Имя</string>
+  <string name="property_value">Значение</string>
+  <string name="enemy_max_health_title">Максимальное здоровье</string>
+  <string name="enemy_health_title">Здоровье</string>
+  <string name="enemy_damage_title">Повреждение</string>
+  <string name="enemy_ordering_title">Инициатива</string>
+  <string name="empty_value">0</string>
+
+
+  <!-- scripts -->
+  <string name="script">Событие сцены</string>
+  <string name="script_name">Имя события</string>
+  <string name="script_description">Описание события</string>
+  <string name="script_has_battle">Есть боевое взаимодействие</string>
+  <string name="script_start">К месту схватки</string>
+  <string name="script_create_title">Создать событие сцены</string>
+  <string name="script_update_title">Изменить событие сцены</string>
+
+  <string name="script_enemy_icon">Иконка врага</string>
+
+  <!-- general -->
+  <string name="search">Поиск…</string>
+  <string name="name">Имя</string>
+  <string name="description">Описание</string>
+  <string name="isDoneFlag">Выполнен</string>
+  <string name="toggleAccordionButtonDescription">Переключить состояние аккордиона</string>
+  <string name="default_enemy_stat">20</string>
+  <string name="attack_icon">attack_icon</string>
+  <string name="heart_icon">heart_icon</string>
+  <string name="goal">Цель</string>
+  <string name="advantage">Преимущество</string>
+  <string name="disadvantage">Слабость</string>
+  <string name="person">Одиночка</string>
+  <string name="group">Организация</string>
+
+
+  <!-- actions -->
+  <string name="create">Создать</string>
+  <string name="cancel">Отмена</string>
+  <string name="accept">Согласен</string>
+  <string name="update">Обновить</string>
+  <string name="download">Загрузить новый файл</string>
+  <string name="add_music">Добавить музыкальный файл</string>
+  <string name="popup_menu_update">Изменить</string>
+  <string name="popup_menu_delete">Удалить</string>
+  <string name="popup_menu_order">Сортировать</string>
+  <string name="goal_settings_create">Создать цели приключения</string>
+  <string name="advance_settings_create">Создать преимущество или слабость фракции</string>
+  <string name="force_settings_create">Создать фракцию</string>
+  <string name="force_journeys_add">Добавить фракцию в преключение</string>
+
+  <!-- dialogs -->
+  <string name="delete_dialog_caption">Удалить выбранный элемент?</string>
+
+
+  <!-- placeholders -->
+  <string name="add_enemy_achieve_placeholder">Добавить…</string>
+  <string name="add_enemy_title_placeholder">Имя врага…</string>
+  <string name="add_enemy_warning_title_placeholder">Сначала добавьте название характеристики</string>
+
+  <!-- forces -->
+  <string name="force_menu_item_title">Фракции и NPC</string>
+  <string name="force_menu_create_item_title">Список фракций</string>
+  <string name="force_goal_title">Цели</string>
+  <string name="force_cooperators_title">Союзники</string>
+  <string name="force_enemies_title">Противники</string>
+  <string name="force_advantages_title">Преимущества</string>
+  <string name="force_disadvantages_title">Слабости</string>
+  <string name="force_owned_title">Владеет, помогает</string>
+  <string name="force_depended_title">Пренадлежит, подчиняется</string>
+  <string name="force_description_title">Краткая история</string>
+  <string name="force_type_title">Тип</string>
+  <string name="force_journeys_title">Активна в приключениях</string>
+
+  <string name="force_enemy_type_title">Враги</string>
+  <string name="force_cooperators_type_title">Союзники</string>
+
+  <string name="force_goal_status_in_progress">Не завершено</string>
+  <string name="force_goal_status_solved">Выполнено</string>
+  <string name="force_goal_status_failed">Провалено</string>
+
+  <string name="force_relation_status_positive">Выгоды</string>
+  <string name="force_relation_status_negative">Осложнения</string>
+
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
+
+  <string name="caption">Заголовок</string>
 </resources>

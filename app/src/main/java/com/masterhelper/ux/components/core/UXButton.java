@@ -1,10 +1,8 @@
 package com.masterhelper.ux.components.core;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.View;
 import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
+import com.masterhelper.ux.resources.ResourceColors;
 
 
 /** base class for all buttons in ux system */
@@ -30,7 +28,7 @@ public abstract class UXButton<ButtonType extends View> extends UXElement<Button
     });
   }
 
-  public void setColor(String color){
-    ViewCompat.setBackgroundTintList(this.getUxElement(), ColorStateList.valueOf(Color.parseColor(color)));
+  public void setColor(ResourceColors.ResourceColorType color){
+    ResourceColors.setBackgroundTint(this.getUxElement(), color);
   }
 }
