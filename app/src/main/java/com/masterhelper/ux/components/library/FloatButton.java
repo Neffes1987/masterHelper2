@@ -16,6 +16,4 @@ public class FloatButton extends UXButton<FloatingActionButton> {
   public void setIcon(int icon){
     this.getUxElement().setImageResource(icon);
   }
-
-
 }

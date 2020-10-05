@@ -3,6 +3,7 @@ package com.masterhelper.ux.global;
 import android.app.Application;
 import android.content.Context;
 
+/** static method for getting application context */
 public class GlobalApplication extends Application {
 
   private static Context appContext;
