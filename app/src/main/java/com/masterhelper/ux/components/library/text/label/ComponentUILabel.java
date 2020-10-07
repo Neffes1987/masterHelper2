@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.fragments;
+package com.masterhelper.ux.components.library.text.label;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.masterhelper.R;
-import com.masterhelper.ux.components.library.Label;
 
 
 /**
@@ -14,7 +13,7 @@ import com.masterhelper.ux.components.library.Label;
  */
 public class ComponentUILabel extends Fragment {
 
-  private static final int LABEL_ID = R.id.COMPONENT_LABEL_ID;
+  public static final int ID = R.id.COMPONENT_LABEL_ID;
 
   public Label controls;
 
@@ -25,7 +24,7 @@ public class ComponentUILabel extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View fragmentView = inflater.inflate(R.layout.fragment_component_ui_label, container, false);
-    this.controls = new Label(fragmentView.findViewById(LABEL_ID));
+    this.controls = new Label(fragmentView.findViewById(ID));
     return fragmentView;
   }
 

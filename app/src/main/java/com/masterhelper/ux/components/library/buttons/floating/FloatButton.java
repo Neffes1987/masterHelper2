@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.library;
+package com.masterhelper.ux.components.library.buttons.floating;
 
 import android.view.View;
 import androidx.annotation.NonNull;

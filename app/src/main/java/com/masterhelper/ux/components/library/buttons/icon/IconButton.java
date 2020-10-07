@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.library;
+package com.masterhelper.ux.components.library.buttons.icon;
 
 import android.view.View;
 import android.widget.ImageButton;

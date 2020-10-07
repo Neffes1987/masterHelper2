@@ -1,17 +1,12 @@
-package com.masterhelper.ux.components.library;
+package com.masterhelper.ux.components.library.text.label;
 
 import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import com.masterhelper.ux.components.core.UXTextElement;
 
 /** class for working with TextView as readonly label */
-public class InputTextField extends UXTextElement<EditText> {
-
-  public InputTextField(@NonNull View androidSystemComponent){
-    this.setUxElement((EditText) androidSystemComponent);
-  }
-
+public class Label extends UXTextElement<TextView> {
   /**
    * set text value in text component
    *
@@ -19,7 +14,7 @@ public class InputTextField extends UXTextElement<EditText> {
    */
   @Override
   public void setText(@NonNull String text) {
-    this.getUxElement().setText(text.trim());
+    this.getUxElement().setText(text);
   }
 
   /**
@@ -28,6 +23,10 @@ public class InputTextField extends UXTextElement<EditText> {
   @Override
   public String getText() {
     return this.getUxElement().getText().toString();
+  }
+
+  public Label(@NonNull View androidSystemComponent){
+    this.setUxElement((TextView) androidSystemComponent);
   }
 
 }

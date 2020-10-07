@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.fragments;
+package com.masterhelper.ux.components.library.tickButton.radio;
 
 
 import android.os.Bundle;
@@ -7,16 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.masterhelper.R;
-import com.masterhelper.ux.components.library.Radio;
 
 
 /**
  * fragment for working with Radio group widget
  */
 public class ComponentUIRadioGroup extends Fragment {
-  private static final int RADIOGROUP_ID = R.id.COMPONENT_RADIOGROUP_ID;
+  public static final int ID = R.id.COMPONENT_RADIOGROUP_ID;
 
-  public Radio controls;
+  public RadioControlsGroup controls;
 
 
   public ComponentUIRadioGroup() {
@@ -27,7 +26,7 @@ public class ComponentUIRadioGroup extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     View fr = inflater.inflate(R.layout.fragment_component_ui_radio_group, container, false);
-    controls = new Radio(fr.findViewById(RADIOGROUP_ID));
+    controls = new RadioControlsGroup(fr.findViewById(ID));
     return fr;
   }
 

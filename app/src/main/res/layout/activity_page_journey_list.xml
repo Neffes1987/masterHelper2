@@ -10,7 +10,7 @@
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.fragments.ComponentUILabel"
+    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
     android:id="@+id/SOME_LABEL_ID"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +20,7 @@
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.fragments.ComponentUIInputText"
+    android:name="com.masterhelper.ux.components.library.text.input.ComponentUIInputText"
     android:id="@+id/SOME_INPUT_FIELD_ID"
     app:layout_constraintTop_toBottomOf="@+id/SOME_LABEL_ID"
     app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.fragments.ComponentUITextButton"
+    android:name="com.masterhelper.ux.components.library.buttons.text.ComponentUITextButton"
     android:id="@+id/SOME_TEXT_BUTTON_ID"
     app:layout_constraintTop_toBottomOf="@+id/SOME_INPUT_FIELD_ID"
     app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.fragments.ComponentUIImageButton"
+    android:name="com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton"
     android:id="@+id/SOME_IMAGE_BUTTON_ID"
     app:layout_constraintTop_toBottomOf="@+id/SOME_TEXT_BUTTON_ID"
     app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.fragments.ComponentUICheckBox"
+    android:name="com.masterhelper.ux.components.library.tickButton.check.ComponentUICheckBox"
     android:id="@+id/SOME_IMAGE_CHECK_ID"
     app:layout_constraintTop_toBottomOf="@+id/SOME_IMAGE_BUTTON_ID"
     app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.fragments.ComponentUIFloatingButton"
+    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
     android:id="@+id/SOME_FLOAT_BUTTON_ID"
     tools:layout="@layout/fragment_component_ui_floating_button"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +69,7 @@
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.fragments.ComponentUIRadioGroup"
+    android:name="com.masterhelper.ux.components.library.tickButton.radio.ComponentUIRadioGroup"
     android:id="@+id/SOME_RADIO_GROUP"
     app:layout_constraintTop_toBottomOf="@+id/SOME_IMAGE_CHECK_ID"
     app:layout_constraintEnd_toEndOf="parent"

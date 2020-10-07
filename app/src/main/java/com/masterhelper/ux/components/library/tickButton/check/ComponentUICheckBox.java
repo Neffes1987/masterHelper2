@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.fragments;
+package com.masterhelper.ux.components.library.tickButton.check;
 
 
 import android.os.Bundle;
@@ -7,16 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.masterhelper.R;
-import com.masterhelper.ux.components.library.Check;
 
 
 /**
  * fragment for working with Checkbox buttons
  */
 public class ComponentUICheckBox extends Fragment {
-  private static final int CHECKBOX_ID = R.id.COMPONENT_CHEKBOX_ID;
+  public static final int ID = R.id.COMPONENT_CHEKBOX_ID;
 
-  public Check controls;
+  public CheckBoxesGroup controls;
 
   public ComponentUICheckBox() {
     // Required empty public constructor
@@ -26,7 +25,7 @@ public class ComponentUICheckBox extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     View fr = inflater.inflate(R.layout.fragment_component_ui_check, container, false);
-    controls = new Check(fr.findViewById(CHECKBOX_ID));
+    controls = new CheckBoxesGroup(fr.findViewById(ID));
     return fr;
   }
 

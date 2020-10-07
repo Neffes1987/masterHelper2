@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.library;
+package com.masterhelper.ux.components.library.buttons.text;
 
 import android.view.View;
 import android.widget.Button;

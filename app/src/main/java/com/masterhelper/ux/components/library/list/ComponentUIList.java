@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.fragments;
+package com.masterhelper.ux.components.library.list;
 
 
 import android.os.Bundle;

@@ -1,6 +1,5 @@
-package com.masterhelper.ux.components.library;
+package com.masterhelper.ux.components.library.tickButton.radio;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -10,9 +9,9 @@ import com.masterhelper.ux.components.core.UXElement;
 import java.util.List;
 
 /** class for working with RadioGroup widget */
-public class Radio extends UXElement<RadioGroup> {
+public class RadioControlsGroup extends UXElement<RadioGroup> {
 
-  public Radio(@NonNull View androidSystemComponent){
+  public RadioControlsGroup(@NonNull View androidSystemComponent){
     this.setUxElement((RadioGroup) androidSystemComponent);
   }
 
@@ -28,7 +27,7 @@ public class Radio extends UXElement<RadioGroup> {
   /**
    * create list of radio buttons by array of buttons name
    */
-  public void setRadioList(List<String> list){
+  public void setList(List<String> list){
     RadioGroup group = this.getUxElement();
     for (String name : list) {
       RadioButton button = new RadioButton(group.getContext());

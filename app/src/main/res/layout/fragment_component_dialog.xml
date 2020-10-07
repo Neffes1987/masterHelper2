@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:id="@+id/COMPONENT_DIALOG_ID">
+
+  <fragment
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+    android:id="@+id/DIALOG_NAME_LABEL_ID"
+    tools:layout="@layout/fragment_component_ui_label"/>
+
+  <fragment
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.text.input.ComponentUIInputText"
+    android:id="@+id/DIALOG_NAME_INPUT_ID"
+    tools:layout="@layout/fragment_component_ui_input_text"/>
+
+  <fragment
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+    android:id="@+id/DIALOG_DESCRIPTION_LABEL_ID"
+    tools:layout="@layout/fragment_component_ui_label"/>
+
+  <fragment
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.text.input.ComponentUIInputText"
+    android:id="@+id/DIALOG_DESCRIPTION_INPUT_ID"
+    tools:layout="@layout/fragment_component_ui_input_text"/>
+
+  <fragment
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.tickButton.radio.ComponentUIRadioGroup"
+    android:id="@+id/DIALOG_RADIOS_ID"
+    tools:layout="@layout/fragment_component_ui_radio_group"/>
+
+  <fragment
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.tickButton.check.ComponentUICheckBox"
+    android:id="@+id/DIALOG_CHECKBOXES_ID"/>
+</LinearLayout>

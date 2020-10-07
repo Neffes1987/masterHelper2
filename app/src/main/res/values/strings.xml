@@ -92,7 +92,8 @@
   <string name="force_journeys_add">Добавить фракцию в преключение</string>
 
   <!-- dialogs -->
-  <string name="delete_dialog_caption">Удалить выбранный элемент?</string>
+  <string name="dialog_resolve">Применить</string>
+  <string name="dialog_reject">Отменить</string>
 
 
   <!-- placeholders -->

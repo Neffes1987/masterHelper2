@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.fragments;
+package com.masterhelper.ux.components.library.buttons.floating;
 
 
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.masterhelper.R;
-import com.masterhelper.ux.components.library.FloatButton;
 
 
 /**
