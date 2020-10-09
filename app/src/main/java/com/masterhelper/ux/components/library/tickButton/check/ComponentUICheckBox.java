@@ -7,12 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.masterhelper.R;
+import com.masterhelper.ux.components.core.ComponentUIFragment;
 
 
 /**
  * fragment for working with Checkbox buttons
  */
-public class ComponentUICheckBox extends Fragment {
+public class ComponentUICheckBox extends ComponentUIFragment {
   public static final int ID = R.id.COMPONENT_CHEKBOX_ID;
 
   public CheckBoxesGroup controls;
@@ -26,6 +27,9 @@ public class ComponentUICheckBox extends Fragment {
                            Bundle savedInstanceState) {
     View fr = inflater.inflate(R.layout.fragment_component_ui_check, container, false);
     controls = new CheckBoxesGroup(fr.findViewById(ID));
+    if(pListener != null){
+      pListener.onFragmentAttached(this.getTag());
+    }
     return fr;
   }
 
@@ -40,4 +44,13 @@ public class ComponentUICheckBox extends Fragment {
     throw new Error(uiComponent + " does not a ComponentUICheckBox");
   }
 
+  @Override
+  public void setOnAttachListener(OnAttachListener listener) {
+    pListener = listener;
+  }
+
+  @Override
+  public void setLayoutWeight(int weight) {
+
+  }
 }

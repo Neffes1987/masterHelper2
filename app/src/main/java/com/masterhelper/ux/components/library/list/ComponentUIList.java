@@ -6,8 +6,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.masterhelper.R;
-import com.masterhelper.ux.components.library.list.ComponentList;
 
 
 /**
@@ -22,11 +23,28 @@ public class ComponentUIList<DataModel> extends Fragment {
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                           Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View fr = inflater.inflate(R.layout.fragment_component_ui_list, container, false);
-    controls = new ComponentList<>(fr.findViewById(COMPONENT_LIST_ID));
+    RecyclerView list = fr.findViewById(COMPONENT_LIST_ID);
+    controls = new ComponentList<>(list);
+
+    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+    list.setLayoutManager(layoutManager);
+    list.setHasFixedSize(true);
+
     return fr;
+  }
+
+  /**
+   * check that component is instance of current ui fragment
+   * @param uiComponent - fragment ui for testing
+   */
+  public static <Model> ComponentUIList<Model> cast(Fragment uiComponent) {
+    if(uiComponent instanceof ComponentUIList){
+      return (ComponentUIList<Model>) uiComponent;
+    }
+    throw new Error(uiComponent + " does not a ComponentUIList");
   }
 
 }

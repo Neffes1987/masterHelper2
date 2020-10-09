@@ -6,14 +6,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
 
 /** class for working with TextView as readonly label */
 public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<DataType>> {
-  private List<CommonHolderPayloadData<DataType>> mDataset;
-  private CommonItem<DataType> commonItem;
-
+  private final ArrayList<CommonHolderPayloadData<DataType>> mDataset;
+  private final CommonItem<DataType> pCommonItem;
   int idsCounter = 0;
 
   /** counter that assign local unique id for list items */
@@ -43,20 +41,20 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
    * @param  data - data for list items views
    * @param template - special object that described how the list item record looks like
    * */
-  public CommonAdapter(List<DataType> data, CommonItem<DataType> template) {
-    mDataset = Collections.emptyList();
+  public CommonAdapter(ArrayList<DataType> data, CommonItem<DataType> template) {
+    mDataset = new ArrayList<>();
     for (DataType item: data ) {
       mDataset.add(new CommonHolderPayloadData<>(this.getIdsCounter(), item));
     }
-    commonItem = template;
+    pCommonItem = template;
     setHasStableIds(true);
   }
 
   @NonNull
   @Override
   public CommonHolder<DataType> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    View v = LayoutInflater.from(parent.getContext()).inflate(this.commonItem.TEMPLATE_ID, parent, false);
-    return new CommonHolder<>(v, this.commonItem);
+    View v = LayoutInflater.from(parent.getContext()).inflate(CommonItem.TEMPLATE_ID, parent, false);
+    return new CommonHolder<>(v, this.pCommonItem);
   }
 
   @Override
@@ -72,7 +70,7 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
    */
   @Override
   public int getItemCount() {
-    return 0;
+    return mDataset.size();
   }
 
 

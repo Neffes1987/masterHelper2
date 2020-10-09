@@ -7,55 +7,66 @@
   android:layout_height="match_parent"
   tools:context=".ux.pages.journeys.PageJourneyList">
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-    android:id="@+id/SOME_LABEL_ID"
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    tools:layout="@layout/fragment_component_ui_label"/>
+    android:id="@+id/linearLayout">
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.text.input.ComponentUIInputText"
-    android:id="@+id/SOME_INPUT_FIELD_ID"
-    app:layout_constraintTop_toBottomOf="@+id/SOME_LABEL_ID"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_input_text"/>
+    <fragment
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+      android:id="@+id/SOME_LABEL_ID"
+      tools:layout="@layout/fragment_component_ui_label"/>
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.text.ComponentUITextButton"
-    android:id="@+id/SOME_TEXT_BUTTON_ID"
-    app:layout_constraintTop_toBottomOf="@+id/SOME_INPUT_FIELD_ID"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_text_button"/>
+    <fragment
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.components.library.text.input.ComponentUIInputText"
+      android:id="@+id/SOME_INPUT_FIELD_ID"
+      tools:layout="@layout/fragment_component_ui_input_text"/>
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton"
-    android:id="@+id/SOME_IMAGE_BUTTON_ID"
-    app:layout_constraintTop_toBottomOf="@+id/SOME_TEXT_BUTTON_ID"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_image_button"/>
+    <fragment
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.components.library.buttons.text.ComponentUITextButton"
+      android:id="@+id/SOME_TEXT_BUTTON_ID"
+      tools:layout="@layout/fragment_component_ui_text_button"/>
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.tickButton.check.ComponentUICheckBox"
-    android:id="@+id/SOME_IMAGE_CHECK_ID"
-    app:layout_constraintTop_toBottomOf="@+id/SOME_IMAGE_BUTTON_ID"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_check"/>
+    <fragment
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton"
+      android:id="@+id/SOME_IMAGE_BUTTON_ID"
+      tools:layout="@layout/fragment_component_ui_image_button"/>
+
+    <fragment
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.components.library.tickButton.check.ComponentUICheckBox"
+      android:id="@+id/SOME_IMAGE_CHECK_ID"
+      tools:layout="@layout/fragment_component_ui_check"/>
+
+    <fragment
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.components.library.tickButton.radio.ComponentUIRadioGroup"
+      android:id="@+id/SOME_RADIO_GROUP"
+      tools:layout="@layout/fragment_component_ui_radio_group"
+      />
+
+    <fragment
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
+      android:id="@+id/SOME_LIST_ID"
+      tools:layout="@layout/fragment_component_ui_list"
+      />
+  </LinearLayout>
 
   <fragment
     android:layout_width="wrap_content"
@@ -63,17 +74,7 @@
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
     android:id="@+id/SOME_FLOAT_BUTTON_ID"
     tools:layout="@layout/fragment_component_ui_floating_button"
-    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
     app:layout_constraintEnd_toEndOf="parent"/>
-
-  <fragment
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.tickButton.radio.ComponentUIRadioGroup"
-    android:id="@+id/SOME_RADIO_GROUP"
-    app:layout_constraintTop_toBottomOf="@+id/SOME_IMAGE_CHECK_ID"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_radio_group"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

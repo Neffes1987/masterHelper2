@@ -45,5 +45,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.tickButton.check.ComponentUICheckBox"
-    android:id="@+id/DIALOG_CHECKBOXES_ID"/>
+    android:id="@+id/DIALOG_CHECKBOXES_ID"
+    tools:layout="@layout/fragment_component_ui_check"/>
 </LinearLayout>

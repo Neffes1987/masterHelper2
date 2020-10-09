@@ -7,7 +7,8 @@ import com.masterhelper.R;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.buttons.text.ComponentUITextButton;
-import com.masterhelper.ux.components.library.dialog.DialogComponent;
+import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.text.input.ComponentUIInputText;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.components.library.tickButton.check.ComponentUICheckBox;
@@ -16,6 +17,7 @@ import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PageJourneyList extends AppCompatActivity {
@@ -27,7 +29,8 @@ public class PageJourneyList extends AppCompatActivity {
   ComponentUICheckBox checkBox;
   ComponentUIFloatingButton floatingButton;
   ComponentUIRadioGroup group;
-  DialogComponent dialog;
+  ComponentUIDialog dialog;
+  ComponentUIList<TestUIListDataItem> list;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class PageJourneyList extends AppCompatActivity {
     setContentView(R.layout.activity_page_journey_list);
     FragmentManager mn = getSupportFragmentManager();
 
-    dialog = new DialogComponent("test", this, null);
+    dialog = new ComponentUIDialog("test", this, null);
 
     label = ComponentUILabel.cast(mn.findFragmentById(R.id.SOME_LABEL_ID));
     label.controls.setText("Test string");
@@ -69,5 +72,18 @@ public class PageJourneyList extends AppCompatActivity {
 
     group = ComponentUIRadioGroup.cast(mn.findFragmentById(R.id.SOME_RADIO_GROUP));
     group.controls.setList(Arrays.asList("test", "test1", "test2"));
+
+
+    list = ComponentUIList.cast(mn.findFragmentById(R.id.SOME_LIST_ID));
+    ArrayList<TestUIListDataItem> items = new ArrayList<>();
+    TestUIListDataItem item = new TestUIListDataItem();
+    item.setText("test list item111111");
+    items.add(item);
+    items.add(item);
+    items.add(item);
+    items.add(item);
+    items.add(item);
+    list.controls.setAdapter(items, new ListItemJourney(getSupportFragmentManager()));
+
   }
 }

@@ -4,16 +4,16 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-/** class for working with TextView as readonly label */
+/** class for working with  */
 public class CommonHolder<DataModel> extends RecyclerView.ViewHolder {
-  private CommonItem<DataModel> commonItem;
+  private final CommonItem<DataModel> commonItem;
 
-  public CommonHolder(@NonNull View itemView, CommonItem<DataModel> template) {
+  public CommonHolder(@NonNull View itemView, CommonItem<DataModel> workingClassInstance) {
     super(itemView);
-    commonItem = template.getInstance(itemView);
+    commonItem = workingClassInstance.clone(itemView);
   }
 
   public void update(CommonHolderPayloadData<DataModel> item) {
-    commonItem.updateHolderByData(item.getPayload());
+    commonItem.update(item.getPayload(), item.getId());
   }
 }

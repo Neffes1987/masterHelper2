@@ -2,20 +2,24 @@ package com.masterhelper.ux.components.library.tickButton.radio;
 
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.masterhelper.R;
+import com.masterhelper.ux.components.core.ComponentUIFragment;
 
 
 /**
  * fragment for working with Radio group widget
  */
-public class ComponentUIRadioGroup extends Fragment {
+public class ComponentUIRadioGroup extends ComponentUIFragment {
   public static final int ID = R.id.COMPONENT_RADIOGROUP_ID;
 
   public RadioControlsGroup controls;
+
+  private View fragmentView;
 
 
   public ComponentUIRadioGroup() {
@@ -25,9 +29,12 @@ public class ComponentUIRadioGroup extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View fr = inflater.inflate(R.layout.fragment_component_ui_radio_group, container, false);
-    controls = new RadioControlsGroup(fr.findViewById(ID));
-    return fr;
+    fragmentView = inflater.inflate(R.layout.fragment_component_ui_radio_group, container, false);
+    controls = new RadioControlsGroup(fragmentView.findViewById(ID));
+    if(pListener != null){
+      pListener.onFragmentAttached(this.getTag());
+    }
+    return fragmentView;
   }
 
   /**
@@ -41,4 +48,15 @@ public class ComponentUIRadioGroup extends Fragment {
     throw new Error(uiComponent + " does not a ComponentUIRadioGroup");
   }
 
+  @Override
+  public void setOnAttachListener(OnAttachListener listener) {
+    pListener = listener;
+  }
+
+  @Override
+  public void setLayoutWeight(int weight) {
+    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
+    params.weight = weight;
+    fragmentView.setLayoutParams(params);
+  }
 }

@@ -18,7 +18,7 @@ import com.masterhelper.ux.components.library.tickButton.radio.RadioControlsGrou
 import com.masterhelper.ux.resources.localization.DialogLocale;
 
 /** class for working with dialogs popups */
-public class DialogComponent extends UXElement<View> {
+public class ComponentUIDialog extends UXElement<View> {
   /** pointer on created dialog instance */
   AlertDialog pDialog;
   /** pointer on the currentActivity*/
@@ -61,7 +61,7 @@ public class DialogComponent extends UXElement<View> {
    * @param activity - activity class for getting context
    * @param listener - class with callbacks for resolve and reject buttons
    * */
-  public DialogComponent(@NonNull String dialogTitle, @NonNull AppCompatActivity activity, final DialogClickListener listener){
+  public ComponentUIDialog(@NonNull String dialogTitle, @NonNull AppCompatActivity activity, final DialogClickListener listener){
     this.pActivity = activity;
 
     AlertDialog.Builder dialogBuilder =  new AlertDialog.Builder(activity);

@@ -34,4 +34,7 @@ public abstract class UXElement<Type extends View> {
   public int getId(){
     return getUxElement().getId();
   }
+  public void setId(int id){
+    getUxElement().setId(id);
+  }
 }
