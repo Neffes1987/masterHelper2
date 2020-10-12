@@ -2,7 +2,7 @@ package com.masterhelper.ux.components.library.list;
 
 /** holder data wrapper that wrap payload data for list item view into abstract container */
 public class CommonHolderPayloadData<DataModel> {
-  private int id;
+  private final int id;
   private DataModel payload;
 
   /**
@@ -20,5 +20,9 @@ public class CommonHolderPayloadData<DataModel> {
 
   public DataModel getPayload() {
     return payload;
+  }
+
+  public void setPayload(DataModel payload){
+    this.payload = payload;
   }
 }

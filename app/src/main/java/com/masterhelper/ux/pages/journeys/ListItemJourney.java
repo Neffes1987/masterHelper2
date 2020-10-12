@@ -1,8 +1,6 @@
 package com.masterhelper.ux.pages.journeys;
 
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
@@ -12,27 +10,35 @@ import com.masterhelper.ux.resources.ResourceIcons;
 
 /**  */
 public class ListItemJourney extends CommonItem<TestUIListDataItem> implements SetBtnEvent {
-  public boolean isInitiated = false;
+  private boolean isInitiated = false;
 
   private View pLayout;
-  private int pListItemId;
   private FragmentManager pManager;
 
-  public ComponentUILabel name;
+  private ComponentUILabel name;
   private TestUIListDataItem defaultData;
 
-  public ComponentUIImageButton editButton;
-  public ComponentUIImageButton deleteButton;
+  private ComponentUIImageButton editButton;
+  private ComponentUIImageButton deleteButton;
 
-  public ListItemJourney(FragmentManager manager) {
+  private ListItemJourneyEvents listItemJourneyEvents;
+
+
+
+  public void setListItemJourneyEvents(ListItemJourneyEvents listItemJourneyEvents) {
+    this.listItemJourneyEvents = listItemJourneyEvents;
+  }
+
+  public ListItemJourney(FragmentManager manager, ListItemJourneyEvents listItemJourneyEvents) {
+    setListItemJourneyEvents(listItemJourneyEvents);
     setManager(manager);
   }
 
-  public ListItemJourney(View view, FragmentManager manager) {
+  public ListItemJourney(View view, FragmentManager manager, ListItemJourneyEvents listItemJourneyEvents) {
     pLayout = view.findViewById(CommonItem.TEMPLATE_HEADER_ID);
     pLayout.setId(this.generateViewId());
     setManager(manager);
-    init();
+    setListItemJourneyEvents(listItemJourneyEvents);
   }
 
   private void setManager(FragmentManager pManager) {
@@ -41,13 +47,13 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
 
   @Override
   protected void update(TestUIListDataItem itemData, int listItemId) {
+    init(listItemId);
     if(name.controls == null){
       defaultData = itemData;
     } else {
       defaultData = null;
       name.controls.setText(itemData.getText());
     }
-    pListItemId = listItemId;
   }
 
   private void initName(){
@@ -65,7 +71,8 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
     attachFragment(this, deleteButton, pLayout, pManager);
   }
 
-  protected void init(){
+  protected void init(int listItemId){
+    setListItemId(listItemId);
     if(isInitiated){
       return ;
     }
@@ -77,7 +84,7 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
 
   @Override
   public CommonItem<TestUIListDataItem> clone(View view) {
-    return new ListItemJourney(view, pManager);
+    return new ListItemJourney(view, pManager, listItemJourneyEvents);
   }
 
   @Override
@@ -105,16 +112,17 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
    * @param btnId - element unique id that fired event
    */
   @Override
-  public void onClick(int btnId) {
-    Log.i("TAG", "onClick: " + btnId);
-    Log.i("TAG", "onClick: deleteButton " + deleteButton.controls.getId());
-    Log.i("TAG", "onClick: editButton " + editButton.controls.getId());
-    if(deleteButton.controls.getId() == btnId){
-      Toast.makeText(pLayout.getContext(), "delete", Toast.LENGTH_SHORT).show();
+  public void onClick(int btnId, String tag) {
+    if(deleteButton.controls.getTag().equals(tag)){
+      if(listItemJourneyEvents != null){
+        listItemJourneyEvents.onDelete(pListItemId);
+      }
       return;
     }
-    if(editButton.controls.getId() == btnId){
-      Toast.makeText(pLayout.getContext(), "edit", Toast.LENGTH_SHORT).show();
+    if(editButton.controls.getTag().equals(tag)){
+      if(listItemJourneyEvents != null){
+        listItemJourneyEvents.onUpdate(pListItemId);
+      }
     }
   }
 
@@ -126,5 +134,10 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
   @Override
   public void onLongClick(int btnId) {
 
+  }
+
+  public interface ListItemJourneyEvents{
+    void onUpdate(int listItemId);
+    void onDelete(int listItemId);
   }
 }

@@ -29,9 +29,9 @@ public class ComponentUIImageButton extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_image_button, container, false);
     controls = new IconButton(fragmentView.findViewById(BUTTON_ID));
+    controls.setTag(this.getTag());
     if(pListener != null){
       pListener.onFragmentAttached(this.getTag());
-
     }
     return fragmentView;
   }

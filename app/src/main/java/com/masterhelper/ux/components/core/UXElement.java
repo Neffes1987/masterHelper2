@@ -37,4 +37,12 @@ public abstract class UXElement<Type extends View> {
   public void setId(int id){
     getUxElement().setId(id);
   }
+
+
+  public String getTag(){
+    return getUxElement().getTag().toString();
+  }
+  public void setTag(String tag){
+    getUxElement().setTag(tag);
+  }
 }

@@ -1,5 +1,6 @@
 package com.masterhelper.ux.pages.journeys;
 
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -51,7 +52,7 @@ public class PageJourneyList extends AppCompatActivity {
     button.controls.setColor(ResourceColors.ResourceColorType.secondary);
     button.controls.setOnClick(new SetBtnEvent() {
       @Override
-      public void onClick(int btnId) {
+      public void onClick(int btnId, String tag) {
         dialog.show();
       }
 
@@ -83,7 +84,22 @@ public class PageJourneyList extends AppCompatActivity {
     items.add(item);
     items.add(item);
     items.add(item);
-    list.controls.setAdapter(items, new ListItemJourney(getSupportFragmentManager()));
+    items.add(item);
+    list.controls.setAdapter(items, new ListItemJourney(getSupportFragmentManager(), new ListItemJourney.ListItemJourneyEvents() {
+      @Override
+      public void onUpdate(int listItemId) {
+        TestUIListDataItem newItem = new TestUIListDataItem();
+        newItem.setText("new text");
+        list.controls.update(newItem, listItemId);
+        Toast.makeText(PageJourneyList.this, "update " + listItemId, Toast.LENGTH_SHORT).show();
+      }
+
+      @Override
+      public void onDelete(int listItemId) {
+        list.controls.delete(listItemId);
+        Toast.makeText(PageJourneyList.this, "delete " + listItemId, Toast.LENGTH_SHORT).show();
+      }
+    }));
 
   }
 }

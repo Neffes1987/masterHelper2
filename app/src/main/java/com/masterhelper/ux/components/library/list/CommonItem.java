@@ -1,7 +1,6 @@
 package com.masterhelper.ux.components.library.list;
 
 import android.view.View;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.ux.components.core.ComponentUIFragment;
@@ -12,11 +11,22 @@ public abstract class CommonItem<DataModel> implements ComponentUIFragment.OnAtt
   public static final int TEMPLATE_HEADER_ID = R.id.COMPONENT_LIST_ITEM_HEADER_ID;
   public static final int TEMPLATE_BODY_ID = R.id.COMPONENT_LIST_ITEM_BODY_ID;
 
+  protected int pListItemId = -1;
+
+  public void setListItemId(int pListItemId) {
+    this.pListItemId = pListItemId;
+  }
+
+  public int getListItemId() {
+    return pListItemId;
+  }
+
+
   public CommonItem() {}
 
   protected abstract void update(DataModel itemData, int listItemId);
 
-  protected abstract void init();
+  protected abstract void init(int listItemId);
 
   public abstract CommonItem<DataModel> clone(View view);
 
@@ -31,7 +41,7 @@ public abstract class CommonItem<DataModel> implements ComponentUIFragment.OnAtt
 
   protected void attachFragment( CommonItem<DataModel> context, ComponentUIFragment newFragment, View container, FragmentManager pManager ){
     newFragment.setOnAttachListener(context);
-    String tag = generateTag(generateViewId());
+    String tag = generateTag(generateViewId()) + "_item_" + context.getListItemId();
     pManager
       .beginTransaction()
       .add(container.getId(), newFragment, tag)

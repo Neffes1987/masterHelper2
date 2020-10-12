@@ -25,14 +25,12 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
    * @param listId - special id of CommonHolderPayloadData wrapper
    * */
   private int getListPositionByListId(int listId){
-    int result = 0;
-    int listIndexCounter = 0;
-    for (CommonHolderPayloadData<DataType> listItem : mDataset) {
-      if(listItem.getId() == listId){
+    int result = -1;
+    for(int listIndexCounter = 0; listIndexCounter < mDataset.size(); listIndexCounter+=1){
+      if(mDataset.get(listIndexCounter).getId() == listId){
         result=listIndexCounter;
         break;
       }
-      listIndexCounter+=1;
     }
     return result;
   }
@@ -90,7 +88,7 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
    * */
   public void updateItem(DataType updatedData, int listItemId){
     int position = getListPositionByListId(listItemId);
-    mDataset.set(position, new CommonHolderPayloadData<>(listItemId, updatedData));
+    mDataset.get(position).setPayload(updatedData);
     notifyItemChanged(position, updatedData);
   }
 
@@ -109,4 +107,8 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
     notifyItemInserted(position);
   }
 
+  @Override
+  public long getItemId(int position) {
+    return mDataset.get(position).getId();
+  }
 }

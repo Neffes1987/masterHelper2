@@ -31,6 +31,7 @@ public class ComponentUIRadioGroup extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_radio_group, container, false);
     controls = new RadioControlsGroup(fragmentView.findViewById(ID));
+    controls.setTag(this.getTag());
     if(pListener != null){
       pListener.onFragmentAttached(this.getTag());
     }

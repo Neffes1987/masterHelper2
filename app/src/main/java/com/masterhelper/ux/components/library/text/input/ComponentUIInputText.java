@@ -28,6 +28,7 @@ public class ComponentUIInputText extends ComponentUIFragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_input_text, container, false);
     controls = new InputTextField(fragmentView.findViewById(ID));
+    controls.setTag(this.getTag());
     if(pListener != null){
       pListener.onFragmentAttached(this.getTag());
     }

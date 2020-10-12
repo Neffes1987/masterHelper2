@@ -27,6 +27,7 @@ public class ComponentUICheckBox extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     View fr = inflater.inflate(R.layout.fragment_component_ui_check, container, false);
     controls = new CheckBoxesGroup(fr.findViewById(ID));
+    controls.setTag(this.getTag());
     if(pListener != null){
       pListener.onFragmentAttached(this.getTag());
     }

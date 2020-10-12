@@ -31,6 +31,7 @@ public class ComponentUITextButton extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_text_button, container, false);
     controls = new TextButton(fragmentView.findViewById(BUTTON_ID));
+    controls.setTag(this.getTag());
     if(pListener != null){
       pListener.onFragmentAttached(this.getTag());
     }

@@ -30,6 +30,7 @@ public class ComponentUIFloatingButton extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_floating_button, container, false);
     controls = new FloatButton(fragmentView.findViewById(BUTTON_ID));
+    controls.setTag(this.getTag());
     if(pListener != null){
       pListener.onFragmentAttached(this.getTag());
     }
