@@ -12,6 +12,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:id="@+id/COMPONENT_FLOAT_BUTTON_ID"/>
+    android:id="@+id/COMPONENT_FLOAT_BUTTON_ID"
+    style="@style/float_button_styles"
+    android:tint="@color/colorCommon"/>
 
 </FrameLayout>

@@ -8,7 +8,8 @@
   <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/COMPONENT_LIST_ITEM_CARD">
+    android:id="@+id/COMPONENT_LIST_ITEM_CARD"
+    style="@style/rowStyled">
 
     <TextView
       android:layout_width="match_parent"

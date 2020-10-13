@@ -49,7 +49,7 @@ public class PageJourneyList extends AppCompatActivity {
 
     button = ComponentUITextButton.cast(mn.findFragmentById(R.id.SOME_TEXT_BUTTON_ID));
     button.controls.setText("test");
-    button.controls.setColor(ResourceColors.ResourceColorType.secondary);
+    button.controls.setTextColor(ResourceColors.ResourceColorType.alert);
     button.controls.setOnClick(new SetBtnEvent() {
       @Override
       public void onClick(int btnId, String tag) {
@@ -63,13 +63,14 @@ public class PageJourneyList extends AppCompatActivity {
     });
     iconButton = ComponentUIImageButton.cast(mn.findFragmentById(R.id.SOME_IMAGE_BUTTON_ID));
     iconButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.mace));
+    iconButton.controls.setIconColor(ResourceColors.ResourceColorType.alert);
 
     checkBox = ComponentUICheckBox.cast(mn.findFragmentById(R.id.SOME_IMAGE_CHECK_ID));
     checkBox.controls.setList(Arrays.asList("test", "test1", "test2"));
 
     floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.SOME_FLOAT_BUTTON_ID));
     floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
-    floatingButton.controls.setColor(ResourceColors.ResourceColorType.primary);
+    floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
 
     group = ComponentUIRadioGroup.cast(mn.findFragmentById(R.id.SOME_RADIO_GROUP));
     group.controls.setList(Arrays.asList("test", "test1", "test2"));

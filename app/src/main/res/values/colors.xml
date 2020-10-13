@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="colorPrimary">#60F7E4</color>
-  <color name="colorSecondary">#FFFFFF</color>
+  <color name="colorPrimary">#008577</color>
+  <color name="colorPrimaryDark">#00574B</color>
   <color name="colorAccent">#D81B60</color>
+  <color name="colorTextReverse">#FFFFFF</color>
+  <color name="colorCommon">#8AD618</color>
+  <color name="colorDark">#F3162201</color>
+  <color name="colorDelete">#E53935</color>
+  <color name="colorCardBG">#26DFF7E5</color>
+
+  <color name="colorCommonFloatTint">#FF80cbc4</color>
+  <color name="colorMusicStartedFloatTint">#D45127</color>
+  <color name="colorAttention">#FFFFFF</color>
+  <color name="colorFloatBtnBackground">#23353434</color>
+  <color name="colorForceCaption">#12C3897C</color>
 </resources>

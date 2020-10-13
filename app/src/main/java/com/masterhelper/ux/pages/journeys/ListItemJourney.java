@@ -6,6 +6,7 @@ import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
+import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 /**  */
@@ -22,8 +23,6 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
   private ComponentUIImageButton deleteButton;
 
   private ListItemJourneyEvents listItemJourneyEvents;
-
-
 
   public void setListItemJourneyEvents(ListItemJourneyEvents listItemJourneyEvents) {
     this.listItemJourneyEvents = listItemJourneyEvents;
@@ -78,8 +77,8 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
     }
     isInitiated = true;
     initName();
-    initEditBtn();
     initDeleteBtn();
+    initEditBtn();
   }
 
   @Override
@@ -99,6 +98,7 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
     if(this.checkEqual(deleteButton, tag)){
       deleteButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.clear));
       deleteButton.controls.setOnClick(this);
+      deleteButton.controls.setIconColor(ResourceColors.ResourceColorType.alert);
     }
     if(this.checkEqual(editButton, tag)){
       editButton.controls.setId(View.generateViewId());

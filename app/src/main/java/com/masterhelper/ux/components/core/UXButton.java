@@ -31,4 +31,5 @@ public abstract class UXButton<ButtonType extends View> extends UXElement<Button
   public void setColor(ResourceColors.ResourceColorType color){
     ResourceColors.setBackgroundTint(this.getUxElement(), color);
   }
+
 }
