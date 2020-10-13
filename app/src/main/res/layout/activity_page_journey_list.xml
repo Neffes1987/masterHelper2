@@ -17,6 +17,13 @@
     android:id="@+id/linearLayout">
 
     <fragment
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
+      android:id="@+id/fragment"
+      tools:layout="@layout/fragment_component_ui_app_bar"/>
+
+    <fragment
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"

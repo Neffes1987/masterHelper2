@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
+import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.buttons.text.ComponentUITextButton;
@@ -38,6 +39,8 @@ public class PageJourneyList extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_journey_list);
     FragmentManager mn = getSupportFragmentManager();
+
+    UIToolbar.setTitle(this, "test");
 
     dialog = new ComponentUIDialog("test", this, null);
 
