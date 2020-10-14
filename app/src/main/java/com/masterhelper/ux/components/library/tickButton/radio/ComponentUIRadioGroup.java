@@ -33,7 +33,7 @@ public class ComponentUIRadioGroup extends ComponentUIFragment {
     controls = new RadioControlsGroup(fragmentView.findViewById(ID));
     controls.setTag(this.getTag());
     if(pListener != null){
-      pListener.onFragmentAttached(this.getTag());
+      pListener.onFragmentAttached();
     }
     return fragmentView;
   }

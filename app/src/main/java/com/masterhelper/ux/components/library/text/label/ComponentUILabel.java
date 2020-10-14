@@ -30,7 +30,7 @@ public class ComponentUILabel extends ComponentUIFragment {
     this.controls = new Label(fragmentView.findViewById(ID));
     controls.setTag(this.getTag());
     if(pListener != null){
-      pListener.onFragmentAttached(this.getTag());
+      pListener.onFragmentAttached();
     }
     return fragmentView;
   }

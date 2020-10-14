@@ -29,7 +29,7 @@ public class ComponentUICheckBox extends ComponentUIFragment {
     controls = new CheckBoxesGroup(fr.findViewById(ID));
     controls.setTag(this.getTag());
     if(pListener != null){
-      pListener.onFragmentAttached(this.getTag());
+      pListener.onFragmentAttached();
     }
     return fr;
   }

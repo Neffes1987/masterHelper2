@@ -15,6 +15,7 @@ import com.masterhelper.ux.components.library.text.input.ComponentUIInputText;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.components.library.tickButton.check.ComponentUICheckBox;
 import com.masterhelper.ux.components.library.tickButton.radio.ComponentUIRadioGroup;
+import com.masterhelper.ux.pages.journeys.list.ListItemJourney;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 import com.masterhelper.ux.components.core.SetBtnEvent;

@@ -30,7 +30,7 @@ public class ComponentUIInputText extends ComponentUIFragment {
     controls = new InputTextField(fragmentView.findViewById(ID));
     controls.setTag(this.getTag());
     if(pListener != null){
-      pListener.onFragmentAttached(this.getTag());
+      pListener.onFragmentAttached();
     }
     return fragmentView;
   }

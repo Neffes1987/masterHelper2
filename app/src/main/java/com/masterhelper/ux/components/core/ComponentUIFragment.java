@@ -15,7 +15,7 @@ public abstract class ComponentUIFragment extends Fragment {
   public abstract void setOnAttachListener(OnAttachListener listener);
 
   public interface OnAttachListener{
-    void onFragmentAttached(String tag);
+    void onFragmentAttached();
   }
 
   public abstract void setLayoutWeight(int weight);

@@ -32,7 +32,7 @@ public class ComponentUIFloatingButton extends ComponentUIFragment {
     controls = new FloatButton(fragmentView.findViewById(BUTTON_ID));
     controls.setTag(this.getTag());
     if(pListener != null){
-      pListener.onFragmentAttached(this.getTag());
+      pListener.onFragmentAttached();
     }
     return fragmentView;
   }

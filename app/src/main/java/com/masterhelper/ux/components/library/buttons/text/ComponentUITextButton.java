@@ -33,7 +33,7 @@ public class ComponentUITextButton extends ComponentUIFragment {
     controls = new TextButton(fragmentView.findViewById(BUTTON_ID));
     controls.setTag(this.getTag());
     if(pListener != null){
-      pListener.onFragmentAttached(this.getTag());
+      pListener.onFragmentAttached();
     }
     return fragmentView;
   }
