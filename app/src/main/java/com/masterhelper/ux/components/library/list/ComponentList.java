@@ -34,6 +34,10 @@ public class ComponentList<DataType> extends UXElement<RecyclerView> {
     this.getUxElement().setAdapter(adapter);
   }
 
+  public DataType getItemByListId(int listItemId){
+    checkAdapter();
+    return adapter.getItem(listItemId);
+  }
 
   /**
    * will update particular item into the list

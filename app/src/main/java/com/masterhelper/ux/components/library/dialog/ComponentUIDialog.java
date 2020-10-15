@@ -24,12 +24,18 @@ public class ComponentUIDialog extends UXElement<View> {
   /** pointer on the currentActivity*/
   AppCompatActivity pActivity;
 
+  DialogClickListener listener;
+
   public Label pNameLabel;
   public Label pDescriptionLabel;
   public InputTextField pNameField;
   public InputTextField pDescriptionField;
   public RadioControlsGroup pRadioGroup;
   public CheckBoxesGroup pCheckboxesGroup;
+
+  public void setListener(DialogClickListener listener){
+    this.listener = listener;
+  }
 
   private void intiRadioGroup(View dialogView){
     pRadioGroup = new RadioControlsGroup(dialogView.findViewById(R.id.DIALOG_RADIOS_ID).findViewById(ComponentUIRadioGroup.ID));
@@ -47,7 +53,10 @@ public class ComponentUIDialog extends UXElement<View> {
 
     pNameField = new InputTextField(dialogView.findViewById(R.id.DIALOG_NAME_INPUT_ID).findViewById(ComponentUIInputText.ID));
     pNameField.hide();
+  }
 
+  public void setTitle(String title){
+    pDialog.setTitle(title);
   }
 
   private void initDescription(View dialogView){
@@ -59,9 +68,8 @@ public class ComponentUIDialog extends UXElement<View> {
 
   /**
    * @param activity - activity class for getting context
-   * @param listener - class with callbacks for resolve and reject buttons
    * */
-  public ComponentUIDialog(@NonNull String dialogTitle, @NonNull AppCompatActivity activity, final DialogClickListener listener){
+  public ComponentUIDialog(@NonNull String dialogTitle, @NonNull AppCompatActivity activity){
     this.pActivity = activity;
 
     AlertDialog.Builder dialogBuilder =  new AlertDialog.Builder(activity);
@@ -71,20 +79,14 @@ public class ComponentUIDialog extends UXElement<View> {
     dialogBuilder.setView(dialogView);
     dialogBuilder
       .setTitle(dialogTitle)
-      .setPositiveButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.resolveBtn), new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface d, int v) {
-          if(listener != null){
-            listener.onResolve();
-          }
+      .setPositiveButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.resolveBtn), (d, v) -> {
+        if(listener != null){
+          listener.onResolve();
         }
       })
-      .setNegativeButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.rejectBtn), new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-          if(listener != null){
-            listener.onReject();
-          }
+      .setNegativeButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.rejectBtn), (dialog, which) -> {
+        if(listener != null){
+          listener.onReject();
         }
       });
     pDialog = dialogBuilder.create();

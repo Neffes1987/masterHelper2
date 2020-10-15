@@ -111,4 +111,8 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
   public long getItemId(int position) {
     return mDataset.get(position).getId();
   }
+
+  public DataType getItem(int position) {
+    return mDataset.get(position).getPayload();
+  }
 }

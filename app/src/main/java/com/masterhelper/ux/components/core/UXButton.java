@@ -15,7 +15,12 @@ public abstract class UXButton<ButtonType extends View> extends UXElement<Button
     this.getUxElement().setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        eventHandler.onClick(v.getId(), v.getTag().toString());
+        if(v.getTag() == null){
+          eventHandler.onClick(v.getId(), null);
+        } else {
+          eventHandler.onClick(v.getId(), v.getTag().toString());
+        }
+
       }
     });
 

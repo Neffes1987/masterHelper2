@@ -1,6 +1,7 @@
 package com.masterhelper.ux.pages.journeys.list;
 
 import android.view.View;
+import android.view.View.OnClickListener;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
@@ -32,6 +33,8 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
     name = new JourneyName(pLayout, manager);
     deleteButton = new JourneyDeleteControl(pLayout, manager, this);
     editButton = new JourneyEditControl(pLayout, manager, this);
+
+    pLayout.setOnClickListener(v -> listItemJourneyEvents.onSelect(pListItemId));
   }
 
   private void setManager(FragmentManager pManager) {
@@ -78,5 +81,6 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
   public interface ListItemJourneyEvents{
     void onUpdate(int listItemId);
     void onDelete(int listItemId);
+    void onSelect(int listItemId);
   }
 }
