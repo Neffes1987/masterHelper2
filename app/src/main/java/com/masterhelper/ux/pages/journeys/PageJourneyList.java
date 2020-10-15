@@ -110,6 +110,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemJourne
       public void onResolve() {
         TestUIListDataItem item = list.controls.getItemByListId(listItemId);
         item.setText(dialog.pNameField.getText());
+        onUpdateItem(item.getText());
         list.controls.update(item, listItemId);
       }
 
