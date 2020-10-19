@@ -24,7 +24,8 @@ public abstract class CommonListItemElement<DataModel> {
   }
 
   protected abstract void init(View container, FragmentManager pManager);
-  protected abstract void render(DataModel data);
+  protected abstract void onRender(DataModel data);
+  protected abstract void onAttached();
 
   private DataModel getElementData() {
     return pElementData;
@@ -32,18 +33,20 @@ public abstract class CommonListItemElement<DataModel> {
 
   public void setElementData(DataModel data){
     if(attached){
-      render(data);
+      onRender(data);
       return;
     }
     pElementData = data;
   };
 
   private void onFragmentAttached(){
+    getFragment()
+    onAttached();
     if(getElementData() != null){
-      render(getElementData());
-
+      onRender(getElementData());
     }
     attached = true;
+
   };
 
   public SetBtnEvent getListener() {

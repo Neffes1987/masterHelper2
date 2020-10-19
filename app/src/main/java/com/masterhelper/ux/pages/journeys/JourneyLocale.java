@@ -1,4 +1,4 @@
-package com.masterhelper.ux.resources.localization;
+package com.masterhelper.ux.pages.journeys;
 
 import android.content.Context;
 import com.masterhelper.R;

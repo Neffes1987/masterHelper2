@@ -1,14 +1,13 @@
-package com.masterhelper.ux.pages.journeys.list;
+package com.masterhelper.ux.pages.scenes.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
-import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.components.library.list.CommonListItemElement;
+import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 
-public class JourneyName extends CommonListItemElement<String> {
-  ComponentUILabel name;
+public class SceneName extends CommonListItemElement<String> {
 
-  public JourneyName(View container, FragmentManager manager){
+  public SceneName(View container, FragmentManager manager){
     init(container, manager);
   }
 
@@ -20,12 +19,13 @@ public class JourneyName extends CommonListItemElement<String> {
 
   @Override
   protected void onRender(String data) {
+    ComponentUILabel name = (ComponentUILabel) getFragment();
     name.controls.setText(data);
+    name.setLayoutWeight(1);
   }
 
   @Override
   protected void onAttached() {
-    name = (ComponentUILabel) getFragment();
-    name.setLayoutWeight(1);
+
   }
 }

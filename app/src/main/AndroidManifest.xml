@@ -12,7 +12,7 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
       android:theme="@style/CustomTheme">
-        <activity android:name=".ux.pages.journeys.PageJourneyItem">
+        <activity android:name=".ux.pages.scenes.PageSceneList">
         </activity>
         <activity android:name=".ux.pages.journeys.PageJourneyList">
             <intent-filter>

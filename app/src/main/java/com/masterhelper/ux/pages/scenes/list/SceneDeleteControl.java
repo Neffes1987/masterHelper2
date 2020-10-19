@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.journeys.list;
+package com.masterhelper.ux.pages.scenes.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
@@ -8,11 +8,10 @@ import com.masterhelper.ux.components.library.list.CommonListItemElement;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
-public class JourneyDeleteControl extends CommonListItemElement<SetBtnEvent> {
+public class SceneDeleteControl extends CommonListItemElement<SetBtnEvent> {
+  ComponentUIImageButton deleteButton;
 
-  private ComponentUIImageButton deleteButton;
-
-  public JourneyDeleteControl(View container, FragmentManager manager, SetBtnEvent event){
+  public SceneDeleteControl(View container, FragmentManager manager, SetBtnEvent event){
     init(container, manager);
     setElementData(event);
   }

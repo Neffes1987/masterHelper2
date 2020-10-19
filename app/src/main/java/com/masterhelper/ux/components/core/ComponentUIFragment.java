@@ -1,7 +1,6 @@
 package com.masterhelper.ux.components.core;
 
 import androidx.fragment.app.Fragment;
-import com.masterhelper.ux.components.library.text.label.Label;
 
 
 /**
@@ -9,8 +8,6 @@ import com.masterhelper.ux.components.library.text.label.Label;
  */
 public abstract class ComponentUIFragment extends Fragment {
   protected OnAttachListener pListener;
-
-  public Label controls;
 
   public abstract void setOnAttachListener(OnAttachListener listener);
 

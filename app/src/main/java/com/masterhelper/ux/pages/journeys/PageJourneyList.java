@@ -13,11 +13,10 @@ import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.pages.journeys.list.ListItemJourney;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
-import com.masterhelper.ux.resources.localization.JourneyLocale;
 
 import java.util.ArrayList;
 
-import static com.masterhelper.ux.resources.localization.JourneyLocale.getLocalizationByKey;
+import static com.masterhelper.ux.pages.journeys.JourneyLocale.getLocalizationByKey;
 
 public class PageJourneyList extends AppCompatActivity implements ListItemJourney.ListItemJourneyEvents {
   FragmentManager mn;
