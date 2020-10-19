@@ -37,17 +37,16 @@ public abstract class CommonListItemElement<DataModel> {
       return;
     }
     pElementData = data;
-  };
+  }
 
   private void onFragmentAttached(){
-    getFragment()
     onAttached();
     if(getElementData() != null){
       onRender(getElementData());
     }
     attached = true;
 
-  };
+  }
 
   public SetBtnEvent getListener() {
     return pListener;
@@ -68,5 +67,5 @@ public abstract class CommonListItemElement<DataModel> {
       .beginTransaction()
       .add(container.getId(), newFragment, tag)
       .commit();
-  };
+  }
 }
