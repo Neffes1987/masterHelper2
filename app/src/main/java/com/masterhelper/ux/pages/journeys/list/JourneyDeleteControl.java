@@ -3,35 +3,21 @@ package com.masterhelper.ux.pages.journeys.list;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.core.SetBtnEvent;
-import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
-import com.masterhelper.ux.components.library.list.CommonListItemElement;
+import com.masterhelper.ux.components.library.list.elements.ButtonControl;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
-public class JourneyDeleteControl extends CommonListItemElement<SetBtnEvent> {
+public class JourneyDeleteControl extends ButtonControl {
 
-  private ComponentUIImageButton deleteButton;
 
-  public JourneyDeleteControl(View container, FragmentManager manager, SetBtnEvent event){
-    init(container, manager);
-    setElementData(event);
-  }
-
-  @Override
-  protected void init(View container, FragmentManager manager) {
-    setFragment(new ComponentUIImageButton());
-    attach(container, manager);
-  }
-
-  @Override
-  protected void onRender(SetBtnEvent event) {
-    deleteButton.controls.setOnClick(event);
+  public JourneyDeleteControl(View container, FragmentManager manager, SetBtnEvent event) {
+    super(container, manager, event);
   }
 
   @Override
   protected void onAttached() {
-    deleteButton = (ComponentUIImageButton) getFragment();
-    deleteButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.clear));
-    deleteButton.controls.setIconColor(ResourceColors.ResourceColorType.alert);
+    super.onAttached();
+    getBtn().controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.clear));
+    getBtn().controls.setIconColor(ResourceColors.ResourceColorType.alert);
   }
 }

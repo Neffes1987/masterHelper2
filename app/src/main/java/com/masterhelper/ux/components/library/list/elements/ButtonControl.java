@@ -1,15 +1,20 @@
-package com.masterhelper.ux.pages.scenes.list;
+package com.masterhelper.ux.components.library.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.list.CommonListItemElement;
-import com.masterhelper.ux.resources.ResourceIcons;
 
-public class SceneExpand extends CommonListItemElement<SetBtnEvent> {
-  ComponentUIImageButton btn;
-  public SceneExpand(View container, FragmentManager manager, SetBtnEvent event){
+public class ButtonControl extends CommonListItemElement<SetBtnEvent> {
+
+  private ComponentUIImageButton btn;
+
+  public ComponentUIImageButton getBtn() {
+    return btn;
+  }
+
+  public ButtonControl(View container, FragmentManager manager, SetBtnEvent event){
     init(container, manager);
     setElementData(event);
   }
@@ -29,6 +34,5 @@ public class SceneExpand extends CommonListItemElement<SetBtnEvent> {
   protected void onAttached() {
     btn = (ComponentUIImageButton) getFragment();
     btn.controls.setId(View.generateViewId());
-    btn.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.filter));
   }
 }

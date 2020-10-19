@@ -2,13 +2,116 @@ package com.masterhelper.ux.pages.scenes;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
+import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.library.appBar.UIToolbar;
+import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
+import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.list.ComponentUIList;
+import com.masterhelper.ux.pages.journeys.JourneyLocale;
+import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.pages.scenes.list.ListItemScene;
+import com.masterhelper.ux.pages.scenes.list.UISceneItemData;
+import com.masterhelper.ux.resources.ResourceColors;
+import com.masterhelper.ux.resources.ResourceIcons;
 
-public class PageSceneList extends AppCompatActivity {
+import java.util.ArrayList;
+
+import static com.masterhelper.ux.pages.scenes.SceneLocale.getLocalizationByKey;
+
+public class PageSceneList extends AppCompatActivity implements ListItemEvents {
+
+  FragmentManager mn;
+
+  ComponentUIDialog dialog;
+  ComponentUIList<UISceneItemData> list;
+
+  ComponentUIDialog initDialog(){
+    ComponentUIDialog dialog = new ComponentUIDialog(this);
+    dialog.pNameLabel.show();
+    dialog.pNameField.setText("");
+    dialog.pNameField.show();
+
+    dialog.pDescriptionLabel.show();
+    dialog.pDescriptionField.setText("");
+    dialog.pDescriptionField.show();
+    return dialog;
+  }
+
+  void initNewItemButton(ComponentUIDialog itemDialog){
+    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.SCENE_ADD_NEW_ITEM));
+    floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
+    floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
+    floatingButton.controls.setOnClick(new SetBtnEvent() {
+      @Override
+      public void onClick(int btnId, String tag) {
+        itemDialog.setTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.createJourney));
+        itemDialog.setListener(new ComponentUIDialog.DialogClickListener() {
+          @Override
+          public void onResolve() {
+            onCreateItem(itemDialog.pNameField.getText(), itemDialog.pDescriptionField.getText());
+          }
+
+          @Override
+          public void onReject() {
+
+          }
+        });
+        itemDialog.show();
+      }
+
+      @Override
+      public void onLongClick(int btnId) {
+
+      }
+    });
+  }
+
+  ComponentUIList<UISceneItemData> initList(ArrayList<UISceneItemData> items){
+    ComponentUIList<UISceneItemData> list = ComponentUIList.cast(mn.findFragmentById(R.id.SCENE_LIST));
+    list.controls.setAdapter(items, new ListItemScene(getSupportFragmentManager(), this));
+    return list;
+  }
+
+  private void onCreateItem(String text, String description) {
+
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_scene_list);
+    UIToolbar.setTitle(this, getLocalizationByKey(SceneLocale.Keys.listCaption));
+    mn = getSupportFragmentManager();
+    dialog = initDialog();
+    initNewItemButton(dialog);
+
+    ArrayList<UISceneItemData> items = new ArrayList<>();
+    UISceneItemData item = new UISceneItemData("name", "description", 0, 0);
+
+    item.setText("test list item111111");
+    items.add(item);
+    items.add(item);
+    items.add(item);
+    items.add(item);
+    items.add(item);
+    items.add(item);
+    list = initList(items);
+  }
+
+  @Override
+  public void onUpdate(int listItemId) {
+
+  }
+
+  @Override
+  public void onDelete(int listItemId) {
+
+  }
+
+  @Override
+  public void onSelect(int listItemId) {
+
   }
 }

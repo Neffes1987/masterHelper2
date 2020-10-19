@@ -1,55 +1,39 @@
 package com.masterhelper.ux.pages.journeys.list;
 
 import android.view.View;
-import android.view.View.OnClickListener;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.pages.journeys.TestUIListDataItem;
+import com.masterhelper.ux.components.library.list.ListItemEvents;
 
 /**  */
-public class ListItemJourney extends CommonItem<TestUIListDataItem> implements SetBtnEvent {
-  private FragmentManager pManager;
+public class ListItemJourney extends CommonItem<UIJourneyItemData> implements SetBtnEvent {
   private JourneyName name;
-
   private JourneyEditControl editButton;
   private JourneyDeleteControl deleteButton;
-  private ListItemJourneyEvents listItemJourneyEvents;
 
-  public void setListItemJourneyEvents(ListItemJourneyEvents listItemJourneyEvents) {
-    this.listItemJourneyEvents = listItemJourneyEvents;
+
+  public ListItemJourney(FragmentManager manager, ListItemEvents listItemJourneyEvents) {
+    super(manager, listItemJourneyEvents);
   }
 
-  public ListItemJourney(FragmentManager manager, ListItemJourneyEvents listItemJourneyEvents) {
-    setListItemJourneyEvents(listItemJourneyEvents);
-    setManager(manager);
-  }
-
-  public ListItemJourney(View view, FragmentManager manager, ListItemJourneyEvents listItemJourneyEvents) {
-    View pLayout = view.findViewById(CommonItem.TEMPLATE_HEADER_ID);
-    pLayout.setId(View.generateViewId());
-    setListItemJourneyEvents(listItemJourneyEvents);
-
+  public ListItemJourney(View view, FragmentManager manager, ListItemEvents listItemJourneyEvents) {
+    super(view, manager, listItemJourneyEvents);
+    View pLayout = getHeader();
     name = new JourneyName(pLayout, manager);
     deleteButton = new JourneyDeleteControl(pLayout, manager, this);
     editButton = new JourneyEditControl(pLayout, manager, this);
-
-    pLayout.setOnClickListener(v -> listItemJourneyEvents.onSelect(pListItemId));
-  }
-
-  private void setManager(FragmentManager pManager) {
-    this.pManager = pManager;
   }
 
   @Override
-  protected void update(TestUIListDataItem itemData, int listItemId) {
+  protected void update(UIJourneyItemData itemData, int listItemId) {
     setListItemId(listItemId);
     name.setElementData(itemData.getText());
   }
 
   @Override
-  public CommonItem<TestUIListDataItem> clone(View view) {
-    return new ListItemJourney(view, pManager, listItemJourneyEvents);
+  public CommonItem<UIJourneyItemData> clone(View view) {
+    return new ListItemJourney(view, getManager(), getListItemSceneEvents());
   }
 
   /**
@@ -58,16 +42,15 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
    */
   @Override
   public void onClick(int btnId, String tag) {
+    if(getListItemSceneEvents() == null){
+      return;
+    }
     if(deleteButton.getTag().equals(tag)){
-      if(listItemJourneyEvents != null){
-        listItemJourneyEvents.onDelete(pListItemId);
-      }
+      getListItemSceneEvents().onDelete(pListItemId);
       return;
     }
     if(editButton.getTag().equals(tag)){
-      if(listItemJourneyEvents != null){
-        listItemJourneyEvents.onUpdate(pListItemId);
-      }
+      getListItemSceneEvents().onUpdate(pListItemId);
     }
   }
 
@@ -78,9 +61,4 @@ public class ListItemJourney extends CommonItem<TestUIListDataItem> implements S
   @Override
   public void onLongClick(int btnId) {}
 
-  public interface ListItemJourneyEvents{
-    void onUpdate(int listItemId);
-    void onDelete(int listItemId);
-    void onSelect(int listItemId);
-  }
 }

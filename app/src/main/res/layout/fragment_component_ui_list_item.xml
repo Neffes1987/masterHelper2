@@ -3,11 +3,11 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             tools:context=".ux.pages.journeys.ListItemJourney">
+             tools:context=".ux.components.library.list.ComponentUIList">
 
   <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:id="@+id/COMPONENT_LIST_ITEM_CARD"
     style="@style/rowStyled">
 
@@ -19,18 +19,27 @@
       tools:visibility="gone"/>
 
     <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/COMPONENT_LIST_ITEM_HEADER_ID"
-      android:gravity="center_vertical"/>
-
-    <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/COMPONENT_LIST_ITEM_BODY_ID">
+      android:layout_height="match_parent">
+
+      <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/COMPONENT_LIST_ITEM_HEADER_ID"
+        android:gravity="center_vertical">
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/COMPONENT_LIST_ITEM_BODY_ID">
+      </LinearLayout>
     </LinearLayout>
+
   </androidx.cardview.widget.CardView>
 
 </FrameLayout>

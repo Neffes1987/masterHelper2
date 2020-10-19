@@ -16,8 +16,10 @@ import com.masterhelper.ux.components.core.ComponentUIFragment;
 public class ComponentUILabel extends ComponentUIFragment {
 
   public static final int ID = R.id.COMPONENT_LABEL_ID;
+  public static final int VALUE_ID = R.id.COMPONENT_LABEL_VALUE_ID;
 
   public Label controls;
+  public Label valueControls;
   public View fragmentView;
 
   public ComponentUILabel() {
@@ -28,7 +30,9 @@ public class ComponentUILabel extends ComponentUIFragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_label, container, false);
     this.controls = new Label(fragmentView.findViewById(ID));
+    this.valueControls = new Label(fragmentView.findViewById(VALUE_ID));
     controls.setTag(this.getTag());
+    valueControls.setTag(this.getTag()+"_value");
     if(pListener != null){
       pListener.onFragmentAttached();
     }

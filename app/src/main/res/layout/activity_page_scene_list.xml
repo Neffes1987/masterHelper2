@@ -12,7 +12,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
-    android:id="@+id/fragment"
+    android:id="@+id/SCENE_MAIN_BAR_ID"
     tools:layout="@layout/fragment_component_ui_app_bar"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
@@ -22,18 +22,18 @@
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
-    android:id="@+id/fragment2"
+    android:id="@+id/SCENE_LIST"
     tools:layout="@layout/fragment_component_ui_list"
-    app:layout_constraintTop_toBottomOf="@+id/fragment"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"/>
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/SCENE_MAIN_BAR_ID"/>
 
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/fragment3"
+    android:id="@+id/SCENE_ADD_NEW_ITEM"
     tools:layout="@layout/fragment_component_ui_floating_button"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"/>

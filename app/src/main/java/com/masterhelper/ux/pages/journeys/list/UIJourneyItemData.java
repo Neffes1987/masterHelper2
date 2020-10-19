@@ -1,6 +1,6 @@
-package com.masterhelper.ux.pages.journeys;
+package com.masterhelper.ux.pages.journeys.list;
 
-public class TestUIListDataItem {
+public class UIJourneyItemData {
   String text;
 
   public String getText() {

@@ -69,7 +69,7 @@ public class ComponentUIDialog extends UXElement<View> {
   /**
    * @param activity - activity class for getting context
    * */
-  public ComponentUIDialog(@NonNull String dialogTitle, @NonNull AppCompatActivity activity){
+  public ComponentUIDialog(@NonNull AppCompatActivity activity){
     this.pActivity = activity;
 
     AlertDialog.Builder dialogBuilder =  new AlertDialog.Builder(activity);
@@ -78,7 +78,6 @@ public class ComponentUIDialog extends UXElement<View> {
 
     dialogBuilder.setView(dialogView);
     dialogBuilder
-      .setTitle(dialogTitle)
       .setPositiveButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.resolveBtn), (d, v) -> {
         if(listener != null){
           listener.onResolve();

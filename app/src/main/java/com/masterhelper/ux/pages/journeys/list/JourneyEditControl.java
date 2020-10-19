@@ -6,31 +6,20 @@ import com.masterhelper.ux.components.core.ComponentUIFragment;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.list.CommonListItemElement;
+import com.masterhelper.ux.components.library.list.elements.ButtonControl;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
+import com.masterhelper.ux.resources.ResourceColors;
+import com.masterhelper.ux.resources.ResourceIcons;
 
-public class JourneyEditControl extends CommonListItemElement<SetBtnEvent> {
-
-  private ComponentUIImageButton btn;
+public class JourneyEditControl extends ButtonControl {
 
   public JourneyEditControl(View container, FragmentManager manager, SetBtnEvent event){
-    init(container, manager);
-    setElementData(event);
-  }
-
-  @Override
-  protected void init(View container, FragmentManager manager) {
-    setFragment(new ComponentUIImageButton());
-    attach(container, manager);
-  }
-
-  @Override
-  protected void onRender(SetBtnEvent event) {
-    btn.controls.setOnClick(event);
+    super(container, manager, event);
   }
 
   @Override
   protected void onAttached() {
-    btn = (ComponentUIImageButton) getFragment();
-    btn.controls.setId(View.generateViewId());
+    super.onAttached();
+    getBtn().controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
   }
 }

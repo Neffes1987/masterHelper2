@@ -4,51 +4,42 @@ import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.pages.journeys.TestUIListDataItem;
+import com.masterhelper.ux.components.library.list.ListItemEvents;
 
 /**  */
-public class ListItemScene extends CommonItem<TestUIListDataItem> implements SetBtnEvent {
-  private FragmentManager pManager;
+public class ListItemScene extends CommonItem<UISceneItemData> implements SetBtnEvent {
+
   private SceneName name;
+  private SceneName description;
 
-  private SceneExpand editButton;
+  private SceneEditBtn editButton;
   private SceneDeleteControl deleteButton;
-  private ListItemJourneyEvents listItemJourneyEvents;
 
-  public void setListItemJourneyEvents(ListItemJourneyEvents listItemJourneyEvents) {
-    this.listItemJourneyEvents = listItemJourneyEvents;
+  public ListItemScene(FragmentManager manager, ListItemEvents listItemScenesEvents) {
+    super(manager, listItemScenesEvents);
   }
 
-  public ListItemScene(FragmentManager manager, ListItemJourneyEvents listItemJourneyEvents) {
-    setListItemJourneyEvents(listItemJourneyEvents);
-    setManager(manager);
-  }
+  public ListItemScene(View view, FragmentManager manager, ListItemEvents listItemScenesEvents) {
+    super(view, manager, listItemScenesEvents);
+    View header = getHeader();
+    View body = getBody();
 
-  public ListItemScene(View view, FragmentManager manager, ListItemJourneyEvents listItemJourneyEvents) {
-    View pLayout = view.findViewById(CommonItem.TEMPLATE_HEADER_ID);
-    pLayout.setId(View.generateViewId());
-    setListItemJourneyEvents(listItemJourneyEvents);
-
-    name = new SceneName(pLayout, manager);
-    deleteButton = new SceneDeleteControl(pLayout, manager, this);
-    editButton = new SceneExpand(pLayout, manager, this);
-
-    pLayout.setOnClickListener(v -> listItemJourneyEvents.onSelect(pListItemId));
-  }
-
-  private void setManager(FragmentManager pManager) {
-    this.pManager = pManager;
+    name = new SceneName(header, manager);
+    description = new SceneName(body, manager);
+    deleteButton = new SceneDeleteControl(header, manager, this);
+    editButton = new SceneEditBtn(header, manager, this);
   }
 
   @Override
-  protected void update(TestUIListDataItem itemData, int listItemId) {
+  protected void update(UISceneItemData itemData, int listItemId) {
     setListItemId(listItemId);
     name.setElementData(itemData.getText());
+    description.setElementData(itemData.getDescription());
   }
 
   @Override
-  public CommonItem<TestUIListDataItem> clone(View view) {
-    return new ListItemScene(view, pManager, listItemJourneyEvents);
+  public CommonItem<UISceneItemData> clone(View view) {
+    return new ListItemScene(view, getManager(), getListItemSceneEvents());
   }
 
   /**
@@ -57,16 +48,15 @@ public class ListItemScene extends CommonItem<TestUIListDataItem> implements Set
    */
   @Override
   public void onClick(int btnId, String tag) {
+    if(getListItemSceneEvents() == null){
+      return;
+    }
     if(deleteButton.getTag().equals(tag)){
-      if(listItemJourneyEvents != null){
-        listItemJourneyEvents.onDelete(pListItemId);
-      }
+      getListItemSceneEvents().onDelete(pListItemId);
       return;
     }
     if(editButton.getTag().equals(tag)){
-      if(listItemJourneyEvents != null){
-        listItemJourneyEvents.onUpdate(pListItemId);
-      }
+      getListItemSceneEvents().onUpdate(pListItemId);
     }
   }
 
@@ -76,10 +66,4 @@ public class ListItemScene extends CommonItem<TestUIListDataItem> implements Set
    */
   @Override
   public void onLongClick(int btnId) {}
-
-  public interface ListItemJourneyEvents{
-    void onUpdate(int listItemId);
-    void onDelete(int listItemId);
-    void onSelect(int listItemId);
-  }
 }

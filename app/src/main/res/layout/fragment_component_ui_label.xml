@@ -7,11 +7,23 @@
   >
 
   <!-- TODO: Update blank fragment layout -->
-  <TextView
+  <LinearLayout
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/COMPONENT_LABEL_ID"
-    android:text="@string/ui_text"
-    android:layout_gravity="center_vertical"/>
+    android:layout_height="match_parent">
+
+    <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:id="@+id/COMPONENT_LABEL_ID"
+      android:text="@string/ui_text"
+      android:layout_gravity="center_vertical"
+      android:layout_weight="1"/>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/COMPONENT_LABEL_VALUE_ID"/>
+  </LinearLayout>
 
 </FrameLayout>

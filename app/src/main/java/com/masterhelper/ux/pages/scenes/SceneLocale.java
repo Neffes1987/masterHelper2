@@ -13,11 +13,11 @@ public abstract class SceneLocale {
   public static String getLocalizationByKey(Keys localeKey){
     Context context = GlobalApplication.getAppContext();
     switch (localeKey){
-      case journeyName: return context.getResources().getString(R.string.journey_name);
-      case listCaption: return context.getResources().getString(R.string.journey_list_name);
-      case createJourney: return context.getResources().getString(R.string.journey_create_title);
-      case updateJourney:return context.getResources().getString(R.string.journey_update_title);
-      case shortDescription: return context.getResources().getString(R.string.journey_description);
+      case sceneName: return context.getResources().getString(R.string.scene_name);
+      case listCaption: return context.getResources().getString(R.string.scene_list);
+      case createScene: return context.getResources().getString(R.string.scene_create_title);
+      case updateScene:return context.getResources().getString(R.string.screen_name_scene_update);
+      case shortDescription: return context.getResources().getString(R.string.scene_description);
     }
     return "";
   }
@@ -25,9 +25,9 @@ public abstract class SceneLocale {
   /** available vocabulary keys */
   public enum Keys{
     listCaption,
-    journeyName,
+    sceneName,
     shortDescription,
-    createJourney,
-    updateJourney
+    createScene,
+    updateScene
   }
 }

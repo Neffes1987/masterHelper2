@@ -2,30 +2,16 @@ package com.masterhelper.ux.pages.journeys.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
-import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
-import com.masterhelper.ux.components.library.list.CommonListItemElement;
+import com.masterhelper.ux.components.library.list.elements.LabelControl;
 
-public class JourneyName extends CommonListItemElement<String> {
-  ComponentUILabel name;
-
+public class JourneyName extends LabelControl {
   public JourneyName(View container, FragmentManager manager){
-    init(container, manager);
-  }
-
-  @Override
-  protected void init(View container, FragmentManager manager) {
-    setFragment(new ComponentUILabel());
-    attach(container, manager);
-  }
-
-  @Override
-  protected void onRender(String data) {
-    name.controls.setText(data);
+    super(container, manager);
   }
 
   @Override
   protected void onAttached() {
-    name = (ComponentUILabel) getFragment();
-    name.setLayoutWeight(1);
+    super.onAttached();
+    getLabel().setLayoutWeight(1);
   }
 }

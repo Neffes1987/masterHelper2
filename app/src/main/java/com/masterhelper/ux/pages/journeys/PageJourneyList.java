@@ -1,5 +1,6 @@
 package com.masterhelper.ux.pages.journeys;
 
+import android.content.Intent;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,10 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
+import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.ux.pages.journeys.list.ListItemJourney;
+import com.masterhelper.ux.pages.journeys.list.UIJourneyItemData;
+import com.masterhelper.ux.pages.scenes.PageSceneList;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
@@ -18,21 +22,20 @@ import java.util.ArrayList;
 
 import static com.masterhelper.ux.pages.journeys.JourneyLocale.getLocalizationByKey;
 
-public class PageJourneyList extends AppCompatActivity implements ListItemJourney.ListItemJourneyEvents {
+public class PageJourneyList extends AppCompatActivity implements ListItemEvents {
   FragmentManager mn;
 
-  ComponentUIFloatingButton floatingButton;
   ComponentUIDialog dialog;
-  ComponentUIList<TestUIListDataItem> list;
+  ComponentUIList<UIJourneyItemData> list;
 
   ComponentUIDialog initDialog(){
-    ComponentUIDialog dialog = new ComponentUIDialog("test", this);
+    ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameField.setText("");
     dialog.pNameField.show();
     return dialog;
   }
 
-  ComponentUIFloatingButton initNewItemButton(ComponentUIDialog itemDialog){
+  void initNewItemButton(ComponentUIDialog itemDialog){
     ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.JOURNEY_ADD_NEW_ITEM_BUTTON));
     floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
     floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
@@ -59,11 +62,10 @@ public class PageJourneyList extends AppCompatActivity implements ListItemJourne
 
       }
     });
-    return floatingButton;
   }
 
-  ComponentUIList<TestUIListDataItem> initList(ArrayList<TestUIListDataItem> items){
-    ComponentUIList<TestUIListDataItem> list = ComponentUIList.cast(mn.findFragmentById(R.id.JOURMEY_ITEMS_LIST));
+  ComponentUIList<UIJourneyItemData> initList(ArrayList<UIJourneyItemData> items){
+    ComponentUIList<UIJourneyItemData> list = ComponentUIList.cast(mn.findFragmentById(R.id.JOURMEY_ITEMS_LIST));
     list.controls.setAdapter(items, new ListItemJourney(getSupportFragmentManager(), this));
     return list;
   }
@@ -84,8 +86,8 @@ public class PageJourneyList extends AppCompatActivity implements ListItemJourne
 
     UIToolbar.setTitle(this, getLocalizationByKey(JourneyLocale.Keys.listCaption));
 
-    ArrayList<TestUIListDataItem> items = new ArrayList<>();
-    TestUIListDataItem item = new TestUIListDataItem();
+    ArrayList<UIJourneyItemData> items = new ArrayList<>();
+    UIJourneyItemData item = new UIJourneyItemData();
 
     item.setText("test list item111111");
     items.add(item);
@@ -98,7 +100,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemJourne
     // init page components
     dialog = initDialog();
     list = initList(items);
-    floatingButton = initNewItemButton(dialog);
+    initNewItemButton(dialog);
   }
 
   @Override
@@ -107,7 +109,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemJourne
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
       public void onResolve() {
-        TestUIListDataItem item = list.controls.getItemByListId(listItemId);
+        UIJourneyItemData item = list.controls.getItemByListId(listItemId);
         item.setText(dialog.pNameField.getText());
         onUpdateItem(item.getText());
         list.controls.update(item, listItemId);
@@ -129,6 +131,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemJourne
 
   @Override
   public void onSelect(int listItemId) {
-    Toast.makeText(PageJourneyList.this, "select " + listItemId, Toast.LENGTH_SHORT).show();
+    Intent sceneIntent = new Intent(this, PageSceneList.class);
+    startActivity(sceneIntent);
   }
 }
