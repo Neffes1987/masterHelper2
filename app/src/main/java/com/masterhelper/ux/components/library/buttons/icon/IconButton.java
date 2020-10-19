@@ -23,4 +23,8 @@ public class IconButton extends UXButton<ImageButton> {
     this.getUxElement().setImageTintList(ResourceColors.getColorStateList(colorType));
   }
 
+  public void setRotation(float degrees){
+    this.getUxElement().setRotation(degrees);
+  }
+
 }

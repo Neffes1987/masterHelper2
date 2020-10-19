@@ -19,8 +19,7 @@
   <string name="screen_name_scene">Сцена</string>
   <string name="screen_name_scene_create">Создать сцену</string>
   <string name="screen_name_scene_update">Изменить имя сцены</string>
-  <string name="screen_name_scene_start">Начать сцену</string>
-  <string name="screen_name_scene_step">Событие сцены</string>
+  <string name="screen_events_progress">События сцены</string>
 
   <!-- settings -->
   <string name="app_name">Помошник настольщика</string>

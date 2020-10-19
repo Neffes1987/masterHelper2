@@ -1,5 +1,6 @@
 package com.masterhelper.ux.pages.scenes;
 
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -11,6 +12,8 @@ import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.pages.journeys.JourneyLocale;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.pages.journeys.PageJourneyList;
+import com.masterhelper.ux.pages.journeys.list.UIJourneyItemData;
 import com.masterhelper.ux.pages.scenes.list.ListItemScene;
 import com.masterhelper.ux.pages.scenes.list.UISceneItemData;
 import com.masterhelper.ux.resources.ResourceColors;
@@ -30,10 +33,14 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
   ComponentUIDialog initDialog(){
     ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameLabel.show();
+    dialog.pNameLabel.setText(SceneLocale.getLocalizationByKey(SceneLocale.Keys.sceneName));
+
     dialog.pNameField.setText("");
     dialog.pNameField.show();
 
     dialog.pDescriptionLabel.show();
+    dialog.pDescriptionLabel.setText(SceneLocale.getLocalizationByKey(SceneLocale.Keys.shortDescription));
+
     dialog.pDescriptionField.setText("");
     dialog.pDescriptionField.show();
     return dialog;
@@ -88,7 +95,7 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
     initNewItemButton(dialog);
 
     ArrayList<UISceneItemData> items = new ArrayList<>();
-    UISceneItemData item = new UISceneItemData("name", "description", 0, 0);
+    UISceneItemData item = new UISceneItemData("name", "description", 1, 5);
 
     item.setText("test list item111111");
     items.add(item);
@@ -102,12 +109,34 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
 
   @Override
   public void onUpdate(int listItemId) {
+    dialog.setTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.updateJourney));
+    UISceneItemData item = list.controls.getItemByListId(listItemId);
+    dialog.pDescriptionField.setText(item.getDescription());
+    dialog.pNameField.setText(item.getText());
+    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+      @Override
+      public void onResolve() {
+        item.setText(dialog.pNameField.getText());
+        item.setDescription(dialog.pDescriptionField.getText());
+        onUpdateItem(item.getText(), item.getDescription());
+        list.controls.update(item, listItemId);
+      }
+      @Override
+      public void onReject() {
+
+      }
+    });
+    dialog.show();
+  }
+
+  private void onUpdateItem(String text, String description) {
 
   }
 
   @Override
   public void onDelete(int listItemId) {
-
+    list.controls.delete(listItemId);
+    Toast.makeText(this, "delete " + listItemId, Toast.LENGTH_SHORT).show();
   }
 
   @Override

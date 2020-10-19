@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.scenes.list;
+package com.masterhelper.ux.pages.scenes.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;

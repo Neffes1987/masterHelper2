@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.journeys.list;
+package com.masterhelper.ux.pages.journeys.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;

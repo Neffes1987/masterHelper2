@@ -1,10 +1,10 @@
 package com.masterhelper.ux.pages.scenes.list;
 
 public class UISceneItemData {
-  String text;
-  String description;
-  int finishedEvents = 0;
-  int totalEvents = 0;
+  private String text;
+  private String description;
+  private int finishedEvents = 0;
+  private int totalEvents = 0;
 
   public UISceneItemData(String text, String description, int finishedEvents, int totalEvents){
     setText(text);

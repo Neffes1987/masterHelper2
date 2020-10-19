@@ -3,41 +3,74 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             tools:context=".ux.components.library.list.ComponentUIList">
+             tools:context=".ux.components.library.list.ComponentUIList"
+             android:layout_marginLeft="4dp"
+             android:layout_marginRight="4dp">
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/textView"
+    android:visibility="gone"
+    tools:visibility="gone"/>
 
   <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/COMPONENT_LIST_ITEM_CARD"
-    style="@style/rowStyled">
-
-    <TextView
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/textView"
-      android:visibility="gone"
-      tools:visibility="gone"/>
+    style="@style/rowStyled"
+    >
 
     <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      >
 
       <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/COMPONENT_LIST_ITEM_HEADER_ID"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@color/colorPrimary"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp">
 
+      </LinearLayout>
+
+      <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/COMPONENT_LIST_ITEM_STATIC_PART">
+      </LinearLayout>
+
+      <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        />
+
+      <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/COMPONENT_LIST_ITEM_CONTROLS_ID">
       </LinearLayout>
 
       <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/COMPONENT_LIST_ITEM_BODY_ID">
+        android:id="@+id/COMPONENT_LIST_ITEM_BODY_ID"
+        android:paddingStart="4dp"
+        android:visibility="visible"
+        android:paddingEnd="4dp">
+
       </LinearLayout>
+
     </LinearLayout>
 
   </androidx.cardview.widget.CardView>

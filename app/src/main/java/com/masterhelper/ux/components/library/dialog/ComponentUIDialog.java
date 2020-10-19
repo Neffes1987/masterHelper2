@@ -1,7 +1,6 @@
 package com.masterhelper.ux.components.library.dialog;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +31,11 @@ public class ComponentUIDialog extends UXElement<View> {
   public InputTextField pDescriptionField;
   public RadioControlsGroup pRadioGroup;
   public CheckBoxesGroup pCheckboxesGroup;
+
+  public void clean(){
+    pNameField.setText("");
+    pDescriptionField.setText("");
+  }
 
   public void setListener(DialogClickListener listener){
     this.listener = listener;
@@ -81,11 +85,13 @@ public class ComponentUIDialog extends UXElement<View> {
       .setPositiveButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.resolveBtn), (d, v) -> {
         if(listener != null){
           listener.onResolve();
+          clean();
         }
       })
       .setNegativeButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.rejectBtn), (dialog, which) -> {
         if(listener != null){
           listener.onReject();
+          clean();
         }
       });
     pDialog = dialogBuilder.create();

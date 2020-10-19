@@ -4,7 +4,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-              android:id="@+id/COMPONENT_DIALOG_ID">
+              android:id="@+id/COMPONENT_DIALOG_ID"
+              android:paddingStart="4dp"
+              android:paddingEnd="4dp"
+              android:layout_marginTop="8dp">
 
   <fragment
     android:layout_width="match_parent"

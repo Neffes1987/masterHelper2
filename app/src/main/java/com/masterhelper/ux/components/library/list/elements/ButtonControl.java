@@ -35,4 +35,5 @@ public class ButtonControl extends CommonListItemElement<SetBtnEvent> {
     btn = (ComponentUIImageButton) getFragment();
     btn.controls.setId(View.generateViewId());
   }
+
 }

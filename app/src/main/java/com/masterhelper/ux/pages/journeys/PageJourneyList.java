@@ -106,15 +106,15 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
   @Override
   public void onUpdate(int listItemId) {
     dialog.setTitle(getLocalizationByKey(JourneyLocale.Keys.updateJourney));
+    UIJourneyItemData item = list.controls.getItemByListId(listItemId);
+    dialog.pNameField.setText(item.getText());
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
       public void onResolve() {
-        UIJourneyItemData item = list.controls.getItemByListId(listItemId);
         item.setText(dialog.pNameField.getText());
         onUpdateItem(item.getText());
         list.controls.update(item, listItemId);
       }
-
       @Override
       public void onReject() {
 

@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.scenes.list;
+package com.masterhelper.ux.pages.scenes.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
@@ -20,5 +20,6 @@ public class SceneDeleteControl extends ButtonControl {
     super.onAttached();
     getBtn().controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.clear));
     getBtn().controls.setIconColor(ResourceColors.ResourceColorType.alert);
+    getBtn().setLayoutWeight(2);
   }
 }

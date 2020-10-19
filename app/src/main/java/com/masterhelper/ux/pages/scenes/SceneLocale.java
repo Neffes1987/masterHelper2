@@ -18,6 +18,7 @@ public abstract class SceneLocale {
       case createScene: return context.getResources().getString(R.string.scene_create_title);
       case updateScene:return context.getResources().getString(R.string.screen_name_scene_update);
       case shortDescription: return context.getResources().getString(R.string.scene_description);
+      case scriptsProgressTitle: return context.getResources().getString(R.string.screen_events_progress);
     }
     return "";
   }
@@ -28,6 +29,7 @@ public abstract class SceneLocale {
     sceneName,
     shortDescription,
     createScene,
-    updateScene
+    updateScene,
+    scriptsProgressTitle
   }
 }
