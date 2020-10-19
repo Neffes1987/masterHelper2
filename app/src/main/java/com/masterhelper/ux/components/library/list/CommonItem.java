@@ -36,12 +36,14 @@ public class CommonItem<DataModel>{
 
   public CommonItem(View view, FragmentManager manager, ListItemEvents listItemEvents) {
     header = view.findViewById(CommonItem.TEMPLATE_HEADER_ID);
-    body = view.findViewById(CommonItem.TEMPLATE_BODY_ID);
     header.setId(View.generateViewId());
+    header.setOnClickListener(v -> listItemEvents.onSelect(pListItemId));
+
+    body = view.findViewById(CommonItem.TEMPLATE_BODY_ID);
     body.setId(View.generateViewId());
+
     setListItemSceneEvents(listItemEvents);
     setManager(manager);
-    header.setOnClickListener(v -> listItemEvents.onSelect(pListItemId));
   }
 
   protected void update(DataModel itemData, int listItemId){}
