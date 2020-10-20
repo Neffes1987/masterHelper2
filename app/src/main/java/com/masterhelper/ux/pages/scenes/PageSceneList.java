@@ -85,6 +85,10 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
 
   }
 
+  private void onUpdateItem(String text, String description) {
+
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -127,10 +131,6 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
       }
     });
     dialog.show();
-  }
-
-  private void onUpdateItem(String text, String description) {
-
   }
 
   @Override
