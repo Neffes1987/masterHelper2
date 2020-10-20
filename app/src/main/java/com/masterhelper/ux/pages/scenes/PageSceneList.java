@@ -1,5 +1,6 @@
 package com.masterhelper.ux.pages.scenes;
 
+import android.content.Intent;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,10 +11,9 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
+import com.masterhelper.ux.pages.events.PageEventsList;
 import com.masterhelper.ux.pages.journeys.JourneyLocale;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
-import com.masterhelper.ux.pages.journeys.PageJourneyList;
-import com.masterhelper.ux.pages.journeys.list.UIJourneyItemData;
 import com.masterhelper.ux.pages.scenes.list.ListItemScene;
 import com.masterhelper.ux.pages.scenes.list.UISceneItemData;
 import com.masterhelper.ux.resources.ResourceColors;
@@ -141,6 +141,7 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
 
   @Override
   public void onSelect(int listItemId) {
-
+    Intent eventIntent = new Intent(this, PageEventsList.class);
+    startActivity(eventIntent);
   }
 }

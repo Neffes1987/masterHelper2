@@ -16,6 +16,11 @@ public class ResourceColors {
       case primary: return context.getResources().getColor(R.color.colorTextReverse);
       case alert: return context.getResources().getColor(R.color.colorDelete);
       case common: return context.getResources().getColor(R.color.colorCommon);
+      case attention: return context.getResources().getColor(R.color.colorAttention);
+      case musicStarted: return context.getResources().getColor(R.color.colorMusicStartedFloatTint);
+      case battleEvent: return context.getResources().getColor(R.color.listItemHeaderBattle);
+      case accidentEvent: return context.getResources().getColor(R.color.listItemHeaderAccident);
+      case meetingEvent: return context.getResources().getColor(R.color.listItemHeaderMeeting);
       default:
         throw new Error("ResourceColors - Wrong type of color");
     }
@@ -33,6 +38,11 @@ public class ResourceColors {
     primary,
     secondary,
     alert,
-    common
+    common,
+    musicStarted,
+    attention,
+    battleEvent,
+    accidentEvent,
+    meetingEvent
   }
 }

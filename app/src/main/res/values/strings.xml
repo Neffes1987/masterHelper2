@@ -48,14 +48,17 @@
   <string name="empty_value">0</string>
 
 
-  <!-- scripts -->
-  <string name="script">Событие сцены</string>
-  <string name="script_name">Имя события</string>
-  <string name="script_description">Описание события</string>
-  <string name="script_has_battle">Есть боевое взаимодействие</string>
-  <string name="script_start">К месту схватки</string>
-  <string name="script_create_title">Создать событие сцены</string>
-  <string name="script_update_title">Изменить событие сцены</string>
+  <!-- events -->
+  <string name="event">Событие сцены</string>
+  <string name="events_list">События сцены</string>
+  <string name="event_name">Имя события</string>
+  <string name="event_description">Описание события</string>
+  <string name="event_is_battle">Схватка</string>
+  <string name="event_is_meeting">Встреча</string>
+  <string name="event_is_accident">Происшествие</string>
+  <string name="event_start">К месту схватки</string>
+  <string name="event_create_title">Создать событие сцены</string>
+  <string name="event_update_title">Изменить событие сцены</string>
 
   <string name="script_enemy_icon">Иконка врага</string>
 

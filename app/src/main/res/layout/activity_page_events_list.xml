@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ux.pages.events.PageEventsList">
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
+    android:id="@+id/EVENTS_APP_BAR"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:layout="@layout/fragment_component_ui_app_bar"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
+    android:id="@+id/EVENTS_LIST_ID"
+    tools:layout="@layout/fragment_component_ui_list"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/EVENTS_APP_BAR"/>
+
+  <fragment
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
+    android:id="@+id/EVENTS_ADD_NEW_ITEM_ID"
+    tools:layout="@layout/fragment_component_ui_floating_button"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="@+id/EVENTS_LIST_ID"/>
+
+  <fragment
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
+    android:id="@+id/EVENTS_MUSIC_CONTROL_BUTTON"
+    app:layout_constraintBottom_toTopOf="@+id/EVENTS_ADD_NEW_ITEM_ID"
+    app:layout_constraintEnd_toEndOf="@id/EVENTS_ADD_NEW_ITEM_ID"
+    tools:layout="@layout/fragment_component_ui_floating_button"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
