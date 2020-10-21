@@ -18,7 +18,6 @@ public class ComponentUIImageButton extends ComponentUIFragment {
   public static final int BUTTON_ID = R.id.COMPONENT_IMAGE_BUTTON_ID;
 
   public IconButton controls;
-  private View fragmentView;
 
   public ComponentUIImageButton() {
     // Required empty public constructor
@@ -29,10 +28,7 @@ public class ComponentUIImageButton extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_image_button, container, false);
     controls = new IconButton(fragmentView.findViewById(BUTTON_ID));
-    controls.setTag(this.getTag());
-    if(pListener != null){
-      pListener.onFragmentAttached();
-    }
+    initControls(controls);
     return fragmentView;
   }
 
@@ -45,17 +41,5 @@ public class ComponentUIImageButton extends ComponentUIFragment {
       return (ComponentUIImageButton) uiComponent;
     }
     throw new Error(uiComponent + " does not a ComponentUIImageButton");
-  }
-
-  @Override
-  public void setOnAttachListener(OnAttachListener listener) {
-    pListener = listener;
-  }
-
-  @Override
-  public void setLayoutWeight(int weight) {
-    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
-    params.weight = weight;
-    fragmentView.setLayoutParams(params);
   }
 }

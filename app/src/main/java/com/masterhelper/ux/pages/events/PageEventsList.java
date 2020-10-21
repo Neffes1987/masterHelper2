@@ -1,5 +1,6 @@
 package com.masterhelper.ux.pages.events;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -104,15 +105,12 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         initMusicButton();
 
         ArrayList<UIEventItemData> items = new ArrayList<>();
-        UIEventItemData item = new UIEventItemData("name", "description", UIEventItemData.EventType.battle);
-
-        item.setName("test list item111111");
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
-        items.add(item);
+        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
+        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
+        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
+        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
+        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
+        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
         list = initList(items);
     }
 
@@ -172,10 +170,12 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
     public void onUpdate(int listItemId) {
         dialog.setTitle(EventLocale.getLocalizationByKey(EventLocale.Keys.updateEvent));
         UIEventItemData item = list.controls.getItemByListId(listItemId);
+        Toast.makeText(this, "onUpdate " + item.getName() + " : " + listItemId, Toast.LENGTH_SHORT).show();
+
         dialog.pDescriptionField.setText(item.getDescription());
         dialog.pNameField.setText(item.getName());
         ArrayList<UIEventItemData.EventType> eventTypesKeys = new ArrayList<>(eventsTypesList.keySet());
-
+        dialog.pRadioGroup.setSelectedItem(eventTypesKeys.indexOf(item.getEventType()));
         dialog.setListener(new ComponentUIDialog.DialogClickListener() {
             @Override
             public void onResolve() {

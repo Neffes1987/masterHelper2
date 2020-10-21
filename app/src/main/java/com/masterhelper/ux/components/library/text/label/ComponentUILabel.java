@@ -20,7 +20,6 @@ public class ComponentUILabel extends ComponentUIFragment {
 
   public Label controls;
   public Label valueControls;
-  public View fragmentView;
 
   public ComponentUILabel() {
     // Required empty public constructor
@@ -31,11 +30,8 @@ public class ComponentUILabel extends ComponentUIFragment {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_label, container, false);
     this.controls = new Label(fragmentView.findViewById(ID));
     this.valueControls = new Label(fragmentView.findViewById(VALUE_ID));
-    controls.setTag(this.getTag());
+    initControls(controls);
     valueControls.setTag(this.getTag()+"_value");
-    if(pListener != null){
-      pListener.onFragmentAttached();
-    }
     return fragmentView;
   }
 
@@ -50,11 +46,6 @@ public class ComponentUILabel extends ComponentUIFragment {
       return (ComponentUILabel) uiComponent;
     }
     throw new Error(uiComponent + " does not a ComponentUILabel");
-  }
-
-  @Override
-  public void setOnAttachListener(OnAttachListener listener) {
-    pListener = listener;
   }
 
   @Override

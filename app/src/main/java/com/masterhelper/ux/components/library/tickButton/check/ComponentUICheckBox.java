@@ -25,13 +25,10 @@ public class ComponentUICheckBox extends ComponentUIFragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View fr = inflater.inflate(R.layout.fragment_component_ui_check, container, false);
-    controls = new CheckBoxesGroup(fr.findViewById(ID));
-    controls.setTag(this.getTag());
-    if(pListener != null){
-      pListener.onFragmentAttached();
-    }
-    return fr;
+    fragmentView = inflater.inflate(R.layout.fragment_component_ui_check, container, false);
+    controls = new CheckBoxesGroup(fragmentView.findViewById(ID));
+    initControls(controls);
+    return fragmentView;
   }
 
   /**
@@ -43,15 +40,5 @@ public class ComponentUICheckBox extends ComponentUIFragment {
       return (ComponentUICheckBox) uiComponent;
     }
     throw new Error(uiComponent + " does not a ComponentUICheckBox");
-  }
-
-  @Override
-  public void setOnAttachListener(OnAttachListener listener) {
-    pListener = listener;
-  }
-
-  @Override
-  public void setLayoutWeight(int weight) {
-
   }
 }

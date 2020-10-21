@@ -15,12 +15,25 @@ public class RadioControlsGroup extends UXElement<RadioGroup> {
     this.setUxElement((RadioGroup) androidSystemComponent);
   }
 
+  public void setSelectedItem(int index){
+    RadioGroup group = this.getUxElement();
+    group.clearCheck();
+    RadioButton button = (RadioButton) group.getChildAt(index == -1 ? 0 : index);
+    if(button == null){
+      throw new Error("RadioControlsGroup: setSelectedItem - element not found");
+    }
+    button.setChecked(true);
+  }
+
   /**
    * get current checked radio button in group
    */
   public int getSelectedItemIndex() {
     RadioGroup group = this.getUxElement();
     RadioButton button = group.findViewById(group.getCheckedRadioButtonId());
+    if(button == null){
+      return 0;
+    }
     return (int) button.getTag();
   }
 

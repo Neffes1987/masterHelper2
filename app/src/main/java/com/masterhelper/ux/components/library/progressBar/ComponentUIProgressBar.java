@@ -25,24 +25,10 @@ public class ComponentUIProgressBar extends ComponentUIFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_component_ui_progress_bar, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        fragmentView = inflater.inflate(R.layout.fragment_component_ui_progress_bar, container, false);
         controls = new ProgressBarControl(fragmentView.findViewById(ID));
-        controls.setTag(this.getTag());
-        if(pListener != null){
-            pListener.onFragmentAttached();
-        }
+        initControls(controls);
         return fragmentView;
-    }
-
-    @Override
-    public void setOnAttachListener(OnAttachListener listener) {
-        pListener = listener;
-    }
-
-    @Override
-    public void setLayoutWeight(int weight) {
-
     }
 }

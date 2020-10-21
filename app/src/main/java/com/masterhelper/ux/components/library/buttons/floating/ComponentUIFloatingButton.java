@@ -18,7 +18,6 @@ public class ComponentUIFloatingButton extends ComponentUIFragment {
   private static final int BUTTON_ID = R.id.COMPONENT_FLOAT_BUTTON_ID;
 
   public FloatButton controls;
-  private View fragmentView;
 
   public ComponentUIFloatingButton() {
     // Required empty public constructor
@@ -30,10 +29,7 @@ public class ComponentUIFloatingButton extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_floating_button, container, false);
     controls = new FloatButton(fragmentView.findViewById(BUTTON_ID));
-    controls.setTag(this.getTag());
-    if(pListener != null){
-      pListener.onFragmentAttached();
-    }
+    initControls(controls);
     return fragmentView;
   }
 
@@ -48,15 +44,4 @@ public class ComponentUIFloatingButton extends ComponentUIFragment {
     throw new Error(uiComponent + " does not a ComponentUIFloatingButton");
   }
 
-  @Override
-  public void setOnAttachListener(OnAttachListener listener) {
-    pListener = listener;
-  }
-
-  @Override
-  public void setLayoutWeight(int weight) {
-    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
-    params.weight = weight;
-    fragmentView.setLayoutParams(params);
-  }
 }

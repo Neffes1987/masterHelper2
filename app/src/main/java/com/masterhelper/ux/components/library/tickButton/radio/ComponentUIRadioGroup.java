@@ -19,9 +19,6 @@ public class ComponentUIRadioGroup extends ComponentUIFragment {
 
   public RadioControlsGroup controls;
 
-  private View fragmentView;
-
-
   public ComponentUIRadioGroup() {
     // Required empty public constructor
   }
@@ -31,10 +28,7 @@ public class ComponentUIRadioGroup extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_radio_group, container, false);
     controls = new RadioControlsGroup(fragmentView.findViewById(ID));
-    controls.setTag(this.getTag());
-    if(pListener != null){
-      pListener.onFragmentAttached();
-    }
+    initControls(controls);
     return fragmentView;
   }
 
@@ -47,17 +41,5 @@ public class ComponentUIRadioGroup extends ComponentUIFragment {
       return (ComponentUIRadioGroup) uiComponent;
     }
     throw new Error(uiComponent + " does not a ComponentUIRadioGroup");
-  }
-
-  @Override
-  public void setOnAttachListener(OnAttachListener listener) {
-    pListener = listener;
-  }
-
-  @Override
-  public void setLayoutWeight(int weight) {
-    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
-    params.weight = weight;
-    fragmentView.setLayoutParams(params);
   }
 }

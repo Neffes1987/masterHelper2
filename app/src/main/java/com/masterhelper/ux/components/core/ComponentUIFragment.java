@@ -1,5 +1,7 @@
 package com.masterhelper.ux.components.core;
 
+import android.view.View;
+import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 
 
@@ -8,12 +10,26 @@ import androidx.fragment.app.Fragment;
  */
 public abstract class ComponentUIFragment extends Fragment {
   protected OnAttachListener pListener;
+  protected View fragmentView;
 
-  public abstract void setOnAttachListener(OnAttachListener listener);
+  public void setOnAttachListener(OnAttachListener listener){
+    this.pListener = listener;
+  }
 
   public interface OnAttachListener{
     void onFragmentAttached();
   }
 
-  public abstract void setLayoutWeight(int weight);
+  protected <Type extends View> void initControls(UXElement<Type> controls){
+    controls.setTag(this.getTag());
+    if(pListener != null){
+      pListener.onFragmentAttached();
+    }
+  }
+
+  public void setLayoutWeight(int weight){
+    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
+    params.weight = weight;
+    fragmentView.setLayoutParams(params);
+  }
 }

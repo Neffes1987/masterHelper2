@@ -19,8 +19,6 @@ public class ComponentUITextButton extends ComponentUIFragment {
 
   public TextButton controls;
 
-  private View fragmentView;
-
   public ComponentUITextButton() {
     // Required empty public constructor
   }
@@ -31,10 +29,7 @@ public class ComponentUITextButton extends ComponentUIFragment {
                            Bundle savedInstanceState) {
     fragmentView = inflater.inflate(R.layout.fragment_component_ui_text_button, container, false);
     controls = new TextButton(fragmentView.findViewById(BUTTON_ID));
-    controls.setTag(this.getTag());
-    if(pListener != null){
-      pListener.onFragmentAttached();
-    }
+    initControls(controls);
     return fragmentView;
   }
 
@@ -47,17 +42,5 @@ public class ComponentUITextButton extends ComponentUIFragment {
       return (ComponentUITextButton) uiComponent;
     }
     throw new Error(uiComponent + " does not a ComponentUITextButton");
-  }
-
-  @Override
-  public void setOnAttachListener(OnAttachListener listener) {
-    pListener = listener;
-  }
-
-  @Override
-  public void setLayoutWeight(int weight) {
-    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
-    params.weight = weight;
-    fragmentView.setLayoutParams(params);
   }
 }
