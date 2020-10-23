@@ -18,11 +18,40 @@
     app:layout_constraintTop_toTopOf="parent"/>
 
   <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
+    android:id="@+id/MEETING_PREVIEW_ID"
+    app:layout_constraintTop_toBottomOf="@+id/MEETING_APP_BAR"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:layout="@layout/fragment_component_ui_image"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+    android:id="@+id/MEETING_DESCRIPTION_VIEW_ID"
+    app:layout_constraintTop_toBottomOf="@+id/MEETING_PREVIEW_ID"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:layout="@layout/fragment_component_ui_label"/>
+
+  <fragment
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
+    android:id="@+id/MEETING_EDIT_BTN"
+    tools:layout="@layout/fragment_component_ui_floating_button"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"/>
+
+  <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
     android:id="@+id/MEETING_MUSIC_CONTROL_ID"
-    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_floating_button"/>
+    tools:layout="@layout/fragment_component_ui_floating_button"
+    app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -93,7 +93,7 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_scene_list);
-    UIToolbar.setTitle(this, getLocalizationByKey(SceneLocale.Keys.listCaption));
+    UIToolbar.setTitle(this, getLocalizationByKey(SceneLocale.Keys.listCaption), null);
     mn = getSupportFragmentManager();
     dialog = initDialog();
     initNewItemButton(dialog);

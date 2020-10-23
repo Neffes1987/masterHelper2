@@ -1,6 +1,6 @@
 package com.masterhelper.ux.pages.events;
 
-import android.util.Log;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +15,8 @@ import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.ux.pages.events.list.ListItemEvent;
 import com.masterhelper.ux.pages.events.list.UIEventItemData;
-import com.masterhelper.ux.pages.scenes.list.UISceneItemData;
+import com.masterhelper.ux.pages.meetings.PageMeeting;
+import com.masterhelper.ux.pages.scenes.PageSceneList;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
@@ -99,7 +100,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_events_list);
         mn = getSupportFragmentManager();
-        UIToolbar.setTitle(this, getLocalizationByKey(EventLocale.Keys.listCaption));
+        UIToolbar.setTitle(this, getLocalizationByKey(EventLocale.Keys.listCaption), null);
         dialog = initDialog();
         initNewItemButton();
         initMusicButton();
@@ -203,6 +204,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
 
     @Override
     public void onSelect(int listItemId) {
-
+        Intent eventIntent = new Intent(this, PageMeeting.class);
+        startActivity(eventIntent);
     }
 }

@@ -84,7 +84,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
     setContentView(R.layout.activity_page_journey_list);
     mn = getSupportFragmentManager();
 
-    UIToolbar.setTitle(this, getLocalizationByKey(JourneyLocale.Keys.listCaption));
+    UIToolbar.setTitle(this, getLocalizationByKey(JourneyLocale.Keys.listCaption), null);
 
     ArrayList<UIJourneyItemData> items = new ArrayList<>();
     UIJourneyItemData item = new UIJourneyItemData();
