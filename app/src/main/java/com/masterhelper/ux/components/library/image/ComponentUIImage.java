@@ -14,7 +14,7 @@ import com.masterhelper.ux.components.library.text.input.InputTextField;
 
 /**  */
 public class ComponentUIImage extends ComponentUIFragment {
-  public static final int ID = R.id.COMPONENT_IMAGE_BUTTON_ID;
+  public static final int ID = R.id.COMPONENT_IMAGE_ID;
   public Image controls;
 
   public ComponentUIImage() {

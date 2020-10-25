@@ -40,7 +40,9 @@ public class PageMeeting extends AppCompatActivity implements SetBtnEvent {
 
     void initImageWidget(){
         previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.MEETING_PREVIEW_ID));
-        previewControl.controls.setClickListener(this);
+        previewControl.controls.setOnClick(this);
+        previewControl.controls.setId(View.generateViewId());
+        previewControl.controls.setResource(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.enemy1));
     }
 
     void initDescriptionLabel(){
@@ -79,26 +81,26 @@ public class PageMeeting extends AppCompatActivity implements SetBtnEvent {
 
     @Override
     public void onClick(int btnId, String tag) {
-        if(btnId == editButton.getId()){
+        if(btnId == editButton.controls.getId()){
             Toast.makeText(this, "edit", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(btnId == musicControl.getId()){
+        if(btnId == musicControl.controls.getId()){
             setBackgroundMusicState();
             return;
         }
-        if(btnId == previewControl.getId()){
+        if(btnId == previewControl.controls.getId()){
             Toast.makeText(this, "preview show", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onLongClick(int btnId) {
-        if(btnId == musicControl.getId()){
+        if(btnId == musicControl.controls.getId()){
             Toast.makeText(this, "music open list", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(btnId == previewControl.getId()){
+        if(btnId == previewControl.controls.getId()){
             Toast.makeText(this, "preview upload", Toast.LENGTH_SHORT).show();
         }
     }
