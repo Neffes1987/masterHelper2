@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ux.pages.accidents.PageAccident">
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
+    android:id="@+id/ACCIDENT_APP_BAR_ID"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:layout="@layout/fragment_component_ui_app_bar"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
+    android:id="@+id/ACCIDENT_IMAGE_PREVIEW_ID"
+    app:layout_constraintTop_toBottomOf="@+id/ACCIDENT_COUNTDOWN_TIMER_ID"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:layout="@layout/fragment_component_ui_image"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+    android:id="@+id/ACCIDENT_COUNTDOWN_TIMER_ID"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:layout="@layout/fragment_component_ui_label"
+    app:layout_constraintTop_toBottomOf="@+id/ACCIDENT_APP_BAR_ID"/>
+
+  <fragment
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
+    android:id="@+id/ACCIDENT_TOGGLE_TIMER_ID"
+    tools:layout="@layout/fragment_component_ui_floating_button"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"/>
+
+  <fragment
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
+    android:id="@+id/ACCIDENT_EDIT_ID"
+    tools:layout="@layout/fragment_component_ui_floating_button"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+    android:id="@+id/ACCIDENT_DESCRIPTION"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:layout="@layout/fragment_component_ui_label"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintTop_toBottomOf="@+id/ACCIDENT_IMAGE_PREVIEW_ID"/>
+
+  <fragment
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
+    android:id="@+id/ACCIDENT_START_MUSIC_ID"
+    app:layout_constraintBottom_toTopOf="@+id/ACCIDENT_TOGGLE_TIMER_ID"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:layout="@layout/fragment_component_ui_floating_button"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

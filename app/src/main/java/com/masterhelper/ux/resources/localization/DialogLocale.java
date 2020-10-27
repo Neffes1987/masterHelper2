@@ -2,7 +2,7 @@ package com.masterhelper.ux.resources.localization;
 
 import android.content.Context;
 import com.masterhelper.R;
-import com.masterhelper.ux.global.GlobalApplication;
+import com.masterhelper.global.GlobalApplication;
 
 /** static facade class with localized strings of journeys */
 public abstract class DialogLocale {

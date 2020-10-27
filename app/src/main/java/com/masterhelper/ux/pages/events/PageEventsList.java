@@ -13,6 +13,8 @@ import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloati
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.pages.accidents.PageAccident;
+import com.masterhelper.ux.pages.encounter.PageEncounterEnimiesList;
 import com.masterhelper.ux.pages.events.list.ListItemEvent;
 import com.masterhelper.ux.pages.events.list.UIEventItemData;
 import com.masterhelper.ux.pages.meetings.PageMeeting;
@@ -204,7 +206,20 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
 
     @Override
     public void onSelect(int listItemId) {
-        Intent eventIntent = new Intent(this, PageMeeting.class);
+        UIEventItemData item = list.controls.getItemByListId(listItemId);
+        Intent eventIntent;
+        switch (item.getEventType()){
+            case accident:
+                eventIntent = new Intent(this, PageAccident.class);
+                break;
+            case battle:
+                eventIntent = new Intent(this, PageEncounterEnimiesList.class);
+                break;
+            case meeting:
+                eventIntent = new Intent(this, PageMeeting.class);
+                break;
+            default: throw new Error("PageEventsList: onSelect - wrong event type");
+        }
         startActivity(eventIntent);
     }
 }

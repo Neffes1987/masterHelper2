@@ -5,7 +5,7 @@ import android.content.res.ColorStateList;
 import android.view.View;
 import androidx.core.view.ViewCompat;
 import com.masterhelper.R;
-import com.masterhelper.ux.global.GlobalApplication;
+import com.masterhelper.global.GlobalApplication;
 
 /** Class for working with colors from resources */
 public class ResourceColors {

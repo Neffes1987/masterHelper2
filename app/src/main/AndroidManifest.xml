@@ -6,7 +6,7 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
   <application
-    android:name=".ux.global.GlobalApplication"
+    android:name=".global.GlobalApplication"
     android:allowBackup="true"
     android:debuggable="true"
     android:icon="@mipmap/ic_launcher"
@@ -14,6 +14,12 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/CustomTheme">
+    <activity android:name=".ux.pages.encounter.enemy.PageEnemy">
+    </activity>
+    <activity android:name=".ux.pages.encounter.PageEncounterEnimiesList">
+    </activity>
+    <activity android:name=".ux.pages.accidents.PageAccident">
+    </activity>
     <activity android:name=".ux.pages.meetings.PageMeeting">
     </activity>
     <activity android:name=".ux.pages.events.PageEventsList">
