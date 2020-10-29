@@ -1,9 +1,9 @@
-package com.masterhelper.baseclasses.repository;
+package com.masterhelper.db.repositories.common.repositories;
 
 import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.baseclasses.fields.GeneralField;
-import com.masterhelper.baseclasses.model.GeneralModel;
-import com.masterhelper.db.contracts.common.AbstractContract;
+import com.masterhelper.db.repositories.common.model.GeneralModel;
+import com.masterhelper.db.repositories.common.contracts.AbstractContract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 public abstract class AbstractRepository<Model extends GeneralModel> implements IRepository<Model> {
   private final ArrayList<Model> mRecordsList;
   private final AbstractContract<Model> contract;
-  protected GeneralField<String> repositoryName = new GeneralField<>();
+  public GeneralField<String> repositoryName = new GeneralField<>();
 
   public AbstractContract<Model> getContract() {
     return contract;
@@ -40,16 +40,17 @@ public abstract class AbstractRepository<Model extends GeneralModel> implements 
 
   @Override
   public void saveRecord(Model updatedElement) {
-    Model record = findRecordById(updatedElement.id);
-    if(record.type.get() != this.repositoryName.get()){
+    if(updatedElement.type.get() != this.repositoryName.get()){
       throw new Error("BaseRepository:update - updated element does not exist in repository");
     }
-    int recordIndex = mRecordsList.indexOf(record);
-    contract.updateRecord(updatedElement);
+    int recordIndex = mRecordsList.indexOf(updatedElement);
+
     if(recordIndex > -1){
-      mRecordsList.add(recordIndex, record);
+      mRecordsList.add(recordIndex, updatedElement);
+      contract.updateRecord(updatedElement);
     } else {
-      mRecordsList.add(0, record);
+      mRecordsList.add(0, updatedElement);
+      contract.insertRecord(updatedElement);
     }
   }
 
@@ -74,5 +75,10 @@ public abstract class AbstractRepository<Model extends GeneralModel> implements 
       }
     }
     return foundedRecord;
+  }
+
+  @Override
+  public void createTable() {
+    getContract().createTable();
   }
 }

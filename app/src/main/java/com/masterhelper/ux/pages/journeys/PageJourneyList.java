@@ -5,8 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
-import com.masterhelper.db.contracts.journeys.JourneyModel;
-import com.masterhelper.db.contracts.journeys.JourneyRepository;
+import com.masterhelper.db.repositories.journeys.JourneyModel;
+import com.masterhelper.db.repositories.journeys.JourneyRepository;
+import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
@@ -81,7 +82,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_journey_list);
     mn = getSupportFragmentManager();
-    journeyRepository = new JourneyRepository();
+    journeyRepository = GlobalApplication.getAppDB().journeyRepository;
 
     UIToolbar.setTitle(this, getLocalizationByKey(JourneyLocale.Keys.listCaption), null);
 

@@ -2,7 +2,7 @@ package com.masterhelper.ux.pages.journeys.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
-import com.masterhelper.db.contracts.journeys.JourneyModel;
+import com.masterhelper.db.repositories.journeys.JourneyModel;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemEvents;

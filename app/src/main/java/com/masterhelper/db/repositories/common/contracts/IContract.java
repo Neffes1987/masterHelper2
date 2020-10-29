@@ -1,7 +1,7 @@
-package com.masterhelper.db.contracts.common;
+package com.masterhelper.db.repositories.common.contracts;
 
 import android.database.Cursor;
-import com.masterhelper.baseclasses.model.GeneralModel;
+import com.masterhelper.db.repositories.common.model.GeneralModel;
 import com.masterhelper.baseclasses.fields.DataID;
 
 public interface IContract<Model extends GeneralModel> {

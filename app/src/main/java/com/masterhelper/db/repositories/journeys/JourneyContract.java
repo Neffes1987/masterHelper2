@@ -1,10 +1,10 @@
-package com.masterhelper.db.contracts.journeys;
+package com.masterhelper.db.repositories.journeys;
 
 import android.database.Cursor;
 import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.db.DbHelpers;
-import com.masterhelper.db.contracts.common.GeneralColumn;
-import com.masterhelper.db.contracts.common.AbstractContract;
+import com.masterhelper.db.repositories.common.contracts.GeneralColumn;
+import com.masterhelper.db.repositories.common.contracts.AbstractContract;
 
 public class JourneyContract extends AbstractContract<JourneyModel> {
   private final String TABLE_NAME = "journeys";
@@ -24,13 +24,13 @@ public class JourneyContract extends AbstractContract<JourneyModel> {
 
   @Override
   public void updateRecord(JourneyModel record) {
-    String updateQuery = getContract().updateRecord(record.id, new String[]{record.id.get().toString(), record.name.get()});
+    String updateQuery = getContract().updateRecord(record.id, new String[]{record.id.get().toString(), record.name.get()}, JourneyId.getColumnTitle());
     getDbHelpers().write(updateQuery);
   }
 
   @Override
   public void deleteRecord(DataID recordId) {
-    String deleteQuery = getContract().deleteRecord(recordId);
+    String deleteQuery = getContract().deleteRecord(recordId, JourneyId.getColumnTitle());
     getDbHelpers().write(deleteQuery);
   }
 

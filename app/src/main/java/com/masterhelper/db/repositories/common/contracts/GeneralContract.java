@@ -1,7 +1,7 @@
-package com.masterhelper.db.contracts.common;
+package com.masterhelper.db.repositories.common.contracts;
 
 import com.masterhelper.baseclasses.fields.DataID;
-import com.masterhelper.db.contracts.utils.ContractsUtilities;
+import com.masterhelper.db.repositories.utils.ContractsUtilities;
 
 import java.util.ArrayList;
 
@@ -50,15 +50,15 @@ public class GeneralContract {
     return ContractsUtilities.generateInsertQuery(getTableName(), getColumnsTitles(), columnsValues);
   }
 
-  public String updateRecord(DataID id, String[] columnsValues) {
+  public String updateRecord(DataID id, String[] columnsValues, String columnName) {
     if(columnsValues.length != getColumnsTitles().length){
       throw new Error("insertRecord: columns values quantity does not equal columns count");
     }
-    return ContractsUtilities.generateUpdateValues(getTableName(), id.get().toString(), getColumnsTitles(), columnsValues);
+    return ContractsUtilities.generateUpdateValues(getTableName(),columnName, id.get().toString(), getColumnsTitles(), columnsValues);
   }
 
-  public String deleteRecord(DataID id) {
-    return ContractsUtilities.generateDeleteItemQuery(getTableName(), id.get().toString());
+  public String deleteRecord(DataID id, String columnName) {
+    return ContractsUtilities.generateDeleteItemQuery(getTableName(), columnName, id.get().toString());
   }
 
   public String selectRecords(int offset, int limit, String[] columns, String ordering) {

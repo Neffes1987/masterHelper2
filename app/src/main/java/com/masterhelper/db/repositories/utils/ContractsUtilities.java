@@ -1,6 +1,7 @@
-package com.masterhelper.db.contracts.utils;
+package com.masterhelper.db.repositories.utils;
 
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,8 +29,8 @@ public abstract class ContractsUtilities implements BaseColumns {
     return "INSERT INTO " + tableName + " (" + columnsResult + ") VALUES ("+ valuesResult +")";
   }
 
-  public static String generateUpdateValues(String tableName, String tableRecordId, String[] columns, String[] values){
-    return commonUpdateGenerator(tableName, columns, values) +" WHERE " + BaseColumns._ID + "='"+tableRecordId+"'";
+  public static String generateUpdateValues(String tableName, String searchColumnName, String tableRecordId, String[] columns, String[] values){
+    return commonUpdateGenerator(tableName, columns, values) +" WHERE " + searchColumnName + "='"+tableRecordId+"'";
   }
 
   public static String commonUpdateGenerator(String tableName, String[] columns, String[] values){
@@ -66,13 +67,21 @@ public abstract class ContractsUtilities implements BaseColumns {
     return "CREATE TABLE " + TableName + " (" +result.toString() + ")";
   }
 
-  public static String generateDeleteItemQuery(String tableName, String deletedItemId){
-    return "DELETE FROM " + tableName + " WHERE " + _ID + "='"+deletedItemId+"'";
+  public static String generateDeleteItemQuery(String tableName, String searchColumnName, String deletedItemId){
+    return "DELETE FROM " + tableName + " WHERE " + searchColumnName + "='"+deletedItemId+"'";
   }
 
   public static String generateSelectItemQuery(String tableName, String[] columns, int offset, int limit, String order){
     StringBuilder query = new StringBuilder();
-    query.append("SELECT ").append(Arrays.toString(columns)).append(" FROM ").append(tableName);
+    query.append("SELECT ");
+
+    for(int columnIndex = 0; columnIndex < columns.length; columnIndex++){
+      query.append(columns[columnIndex]);
+      if(columnIndex != columns.length-1){
+        query.append(", ");
+      }
+    }
+    query.append(" FROM ").append(tableName);
     if(offset != 0){
       query.append(" OFFSET ").append(offset);
     }
@@ -81,8 +90,8 @@ public abstract class ContractsUtilities implements BaseColumns {
       query.append(" LIMIT ").append(limit);
     }
 
-    query.append(" ORDER ").append(order != null ? order : "DESC");
-
+    query.append(" ORDER BY ").append(order != null ? order : "_ID DESC");
+    Log.i("TAG", "generateSelectItemQuery: " + query.toString());
     return query.toString();
   }
 

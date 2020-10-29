@@ -1,6 +1,6 @@
-package com.masterhelper.db.contracts.common;
+package com.masterhelper.db.repositories.common.contracts;
 
-import com.masterhelper.baseclasses.model.GeneralModel;
+import com.masterhelper.db.repositories.common.model.GeneralModel;
 import com.masterhelper.db.DbHelpers;
 
 public abstract class AbstractContract<ModelType extends GeneralModel> implements IContract<ModelType> {
@@ -17,8 +17,7 @@ public abstract class AbstractContract<ModelType extends GeneralModel> implement
 
   @Override
   public void createTable() {
-    String query = contract.createTable();
-    getDbHelpers().write(query);
+    getDbHelpers().write(contract.createTable());
   }
 
   @Override

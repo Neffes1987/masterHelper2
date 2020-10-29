@@ -1,6 +1,6 @@
-package com.masterhelper.db.contracts.common;
+package com.masterhelper.db.repositories.common.contracts;
 
-import com.masterhelper.db.contracts.utils.ContractsUtilities;
+import com.masterhelper.db.repositories.utils.ContractsUtilities;
 
 public class GeneralColumn {
   private String columnTitle;
