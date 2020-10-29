@@ -1,20 +1,27 @@
-package com.masterhelper.db.contracts;
+package com.masterhelper.db.contracts.common;
 
-public class BaseColumn {
+import com.masterhelper.db.contracts.utils.ContractsUtilities;
+
+public class GeneralColumn {
   private String columnTitle;
-  public void setColumnTitle(String columnTitle) { this.columnTitle = columnTitle; }
+  private void setColumnTitle(String columnTitle) { this.columnTitle = columnTitle; }
   public String getColumnTitle() { return columnTitle; }
 
   private String columnType;
-  public void setColumnType(String columnType) { this.columnType = columnType; }
+  private void setColumnType(String columnType) { this.columnType = columnType; }
   public String getColumnType() { return columnType; }
 
   private int length;
-  public void setLength(int length) { this.length = length; }
+  private void setLength(int length) { this.length = length; }
   public int getLength() { return length; }
 
-  public BaseColumn(String columnTitle, ColumnTypes columnType, int length, boolean isNull ){
+  private String tableName;
+  private void setTableName(String tableName) { this.tableName = tableName; }
+  public String getTableName() { return tableName; }
+
+  public GeneralColumn(String tableName, String columnTitle, ColumnTypes columnType, int length, boolean isNull ){
     setColumnTitle(columnTitle);
+    setTableName(tableName);
     setLength(length);
 
     switch (columnType){

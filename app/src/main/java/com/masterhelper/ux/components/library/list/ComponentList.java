@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.masterhelper.ux.components.core.UXElement;
 
-import java.util.ArrayList;
 
 /** class for working with RecyclerView android component
  * */
@@ -29,7 +28,7 @@ public class ComponentList<DataType> extends UXElement<RecyclerView> {
    * @param data - items data for list
    * @param template - special item control class that describe how te item should looks like onto list
    * */
-  public void setAdapter(ArrayList<DataType> data, CommonItem<DataType> template){
+  public void setAdapter(DataType[] data, CommonItem<DataType> template){
     generateAdapter(new CommonAdapter<>(data, template));
     this.getUxElement().setAdapter(adapter);
   }

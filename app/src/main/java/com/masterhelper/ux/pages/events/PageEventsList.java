@@ -18,7 +18,6 @@ import com.masterhelper.ux.pages.encounter.PageEncounterEnimiesList;
 import com.masterhelper.ux.pages.events.list.ListItemEvent;
 import com.masterhelper.ux.pages.events.list.UIEventItemData;
 import com.masterhelper.ux.pages.meetings.PageMeeting;
-import com.masterhelper.ux.pages.scenes.PageSceneList;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
@@ -43,7 +42,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         isMusicActive = !isMusicActive;
     }
 
-    ComponentUIList<UIEventItemData> initList(ArrayList<UIEventItemData> items){
+    ComponentUIList<UIEventItemData> initList(UIEventItemData[] items){
         ComponentUIList<UIEventItemData> list = ComponentUIList.cast(mn.findFragmentById(R.id.EVENTS_LIST_ID));
         list.controls.setAdapter(items, new ListItemEvent(getSupportFragmentManager(), this));
         return list;
@@ -114,7 +113,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
         items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
         items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
-        list = initList(items);
+        list = initList(items.toArray(new UIEventItemData[0]));
     }
 
     void openAddNewItemDialog(){

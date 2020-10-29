@@ -4,9 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.masterhelper.db.contracts.journeys.JourneyContract;
 
 public class DbHelpers extends SQLiteOpenHelper {
   private String SQLCreateTemplate ="DROP TABLE IF EXISTS ";
+  public JourneyContract journeyContract;
+
 
   /**
    * Имя файла базы данных
@@ -22,6 +25,7 @@ public class DbHelpers extends SQLiteOpenHelper {
 
   public DbHelpers(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    journeyContract = new JourneyContract(this);
   }
 
   /**

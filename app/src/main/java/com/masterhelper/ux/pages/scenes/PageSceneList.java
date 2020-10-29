@@ -75,7 +75,7 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
     });
   }
 
-  ComponentUIList<UISceneItemData> initList(ArrayList<UISceneItemData> items){
+  ComponentUIList<UISceneItemData> initList(UISceneItemData[] items){
     ComponentUIList<UISceneItemData> list = ComponentUIList.cast(mn.findFragmentById(R.id.SCENE_LIST));
     list.controls.setAdapter(items, new ListItemScene(getSupportFragmentManager(), this));
     return list;
@@ -108,7 +108,7 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
     items.add(item);
     items.add(item);
     items.add(item);
-    list = initList(items);
+    list = initList(items.toArray(new UISceneItemData[0]));
   }
 
   @Override

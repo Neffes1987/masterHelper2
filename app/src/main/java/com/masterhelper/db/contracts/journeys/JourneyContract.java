@@ -1,33 +1,41 @@
 package com.masterhelper.db.contracts.journeys;
 
-import com.masterhelper.db.contracts.BaseColumn;
-import com.masterhelper.db.contracts.ContractsUtilities;
-import com.masterhelper.db.contracts.GeneralContract;
-import com.masterhelper.db.contracts.IContract;
+import android.database.Cursor;
+import com.masterhelper.baseclasses.fields.DataID;
+import com.masterhelper.db.DbHelpers;
+import com.masterhelper.db.contracts.common.GeneralColumn;
+import com.masterhelper.db.contracts.common.AbstractContract;
 
-public class JourneyContract implements IContract<JourneyModel> {
+public class JourneyContract extends AbstractContract<JourneyModel> {
   private final String TABLE_NAME = "journeys";
-  private final BaseColumn JourneyId = new BaseColumn("journeyId", BaseColumn.ColumnTypes.CharType, 200, false);
-  private final BaseColumn JourneyTitle = new BaseColumn("journeyTitle", BaseColumn.ColumnTypes.CharType, 200, false);
-  private final GeneralContract contract = new GeneralContract(TABLE_NAME, new BaseColumn[]{JourneyId, JourneyTitle});
+  public final GeneralColumn JourneyId = new GeneralColumn(TABLE_NAME, "journeyId", GeneralColumn.ColumnTypes.CharType, 200, false);
+  public final GeneralColumn JourneyTitle = new GeneralColumn(TABLE_NAME,"journeyTitle", GeneralColumn.ColumnTypes.CharType, 200, false);
 
-  @Override
-  public String createTable() {
-    return ContractsUtilities.generateTableQuery(TABLE_NAME, contract.getInitialColumnsProps());
+  public JourneyContract(DbHelpers dbHelpers) {
+    super(dbHelpers);
+    initContract(TABLE_NAME, new GeneralColumn[]{JourneyId, JourneyTitle});
   }
 
   @Override
-  public String insertRecord(JourneyModel record) {
-    return ContractsUtilities.generateInsertQuery(TABLE_NAME, contract.getColumnsTitles(), new String[]{record.id.get().toString(), record.name.get()});
+  public void insertRecord(JourneyModel record) {
+    String insertQuery = getContract().insertRecord(new String[]{record.id.get().toString(), record.name.get()});
+    getDbHelpers().write(insertQuery);
   }
 
   @Override
-  public String updateRecord(JourneyModel record) {
-    return null;
+  public void updateRecord(JourneyModel record) {
+    String updateQuery = getContract().updateRecord(record.id, new String[]{record.id.get().toString(), record.name.get()});
+    getDbHelpers().write(updateQuery);
   }
 
   @Override
-  public String deleteRecord(JourneyModel record) {
-    return null;
+  public void deleteRecord(DataID recordId) {
+    String deleteQuery = getContract().deleteRecord(recordId);
+    getDbHelpers().write(deleteQuery);
+  }
+
+  @Override
+  public Cursor list(int offset, int limit) {
+    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), null));
   }
 }

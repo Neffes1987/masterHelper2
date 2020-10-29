@@ -1,7 +1,6 @@
-package com.masterhelper.db.contracts;
+package com.masterhelper.db.contracts.utils;
 
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +28,7 @@ public abstract class ContractsUtilities implements BaseColumns {
     return "INSERT INTO " + tableName + " (" + columnsResult + ") VALUES ("+ valuesResult +")";
   }
 
-  public static String generateUpdateValues(String tableName, int tableRecordId, String[] columns, String[] values){
+  public static String generateUpdateValues(String tableName, String tableRecordId, String[] columns, String[] values){
     return commonUpdateGenerator(tableName, columns, values) +" WHERE " + BaseColumns._ID + "='"+tableRecordId+"'";
   }
 
@@ -50,7 +49,6 @@ public abstract class ContractsUtilities implements BaseColumns {
   }
 
   public static String generateTableQuery(String TableName, String[] columns){
-    Log.i("TAG", "generateTableQuery: "+TableName);
     StringBuilder result = new StringBuilder();
     if(columns.length == 0){
       return "";
@@ -68,8 +66,24 @@ public abstract class ContractsUtilities implements BaseColumns {
     return "CREATE TABLE " + TableName + " (" +result.toString() + ")";
   }
 
-  public static String generateDeleteItemQuery(String tableName, int deletedItemId){
+  public static String generateDeleteItemQuery(String tableName, String deletedItemId){
     return "DELETE FROM " + tableName + " WHERE " + _ID + "='"+deletedItemId+"'";
+  }
+
+  public static String generateSelectItemQuery(String tableName, String[] columns, int offset, int limit, String order){
+    StringBuilder query = new StringBuilder();
+    query.append("SELECT ").append(Arrays.toString(columns)).append(" FROM ").append(tableName);
+    if(offset != 0){
+      query.append(" OFFSET ").append(offset);
+    }
+
+    if(limit != 0){
+      query.append(" LIMIT ").append(limit);
+    }
+
+    query.append(" ORDER ").append(order != null ? order : "DESC");
+
+    return query.toString();
   }
 
   public static String [] concat(final String[] first, final String[] second) {

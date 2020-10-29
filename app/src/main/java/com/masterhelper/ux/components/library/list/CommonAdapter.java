@@ -1,6 +1,5 @@
 package com.masterhelper.ux.components.library.list;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +39,7 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
    * @param  data - data for list items views
    * @param template - special object that described how the list item record looks like
    * */
-  public CommonAdapter(ArrayList<DataType> data, CommonItem<DataType> template) {
+  public CommonAdapter(DataType[] data, CommonItem<DataType> template) {
     mDataset = new ArrayList<>();
     for (DataType item: data ) {
       mDataset.add(new CommonHolderPayloadData<>(this.getIdsCounter(), item));

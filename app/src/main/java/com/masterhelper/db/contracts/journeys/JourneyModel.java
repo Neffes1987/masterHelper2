@@ -1,17 +1,22 @@
 package com.masterhelper.db.contracts.journeys;
 
-import com.masterhelper.baseclasses.BaseModel;
+import com.masterhelper.baseclasses.model.GeneralModel;
+import com.masterhelper.baseclasses.fields.DataID;
+import com.masterhelper.baseclasses.fields.GeneralField;
 
-public class JourneyModel implements BaseModel, JourneyRepository.IJourneyRepository {
+import java.util.UUID;
 
+public class JourneyModel extends GeneralModel<JourneyRepository> {
+  public final DataID id = new DataID();
+  public final GeneralField<String> name = new GeneralField<>();
 
-  @Override
-  public void save() {
-    repo.updateItem(this);
-  }
-
-
-  @Override
-  public void setRepo(JourneyRepository repo) {
+  public JourneyModel(JourneyRepository repository, String id, String name){
+    this.name.set(name);
+    if(id != null){
+      this.id.set(UUID.fromString(id));
+    } else {
+      this.id.generateId();
+    }
+    setRepo(repository);
   }
 }

@@ -2,6 +2,7 @@ package com.masterhelper.ux.pages.journeys.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
+import com.masterhelper.db.contracts.journeys.JourneyModel;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
@@ -10,7 +11,7 @@ import com.masterhelper.ux.pages.journeys.list.elements.JourneyEditControl;
 import com.masterhelper.ux.pages.journeys.list.elements.JourneyName;
 
 /**  */
-public class ListItemJourney extends CommonItem<UIJourneyItemData> implements SetBtnEvent {
+public class ListItemJourney extends CommonItem<JourneyModel> implements SetBtnEvent {
   private JourneyName name;
   private JourneyEditControl editButton;
   private JourneyDeleteControl deleteButton;
@@ -29,13 +30,13 @@ public class ListItemJourney extends CommonItem<UIJourneyItemData> implements Se
   }
 
   @Override
-  protected void update(UIJourneyItemData itemData, int listItemId) {
+  protected void update(JourneyModel itemData, int listItemId) {
     setListItemId(listItemId);
-    name.setElementData(itemData.getText());
+    name.setElementData(itemData.name.get());
   }
 
   @Override
-  public CommonItem<UIJourneyItemData> clone(View view) {
+  public CommonItem<JourneyModel> clone(View view) {
     return new ListItemJourney(view, getManager(), getListItemSceneEvents());
   }
 

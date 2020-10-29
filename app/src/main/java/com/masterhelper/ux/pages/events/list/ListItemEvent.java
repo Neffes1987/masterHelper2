@@ -6,10 +6,6 @@ import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.ux.pages.events.list.elements.*;
-import com.masterhelper.ux.pages.journeys.list.UIJourneyItemData;
-import com.masterhelper.ux.pages.journeys.list.elements.JourneyDeleteControl;
-import com.masterhelper.ux.pages.journeys.list.elements.JourneyEditControl;
-import com.masterhelper.ux.pages.journeys.list.elements.JourneyName;
 import com.masterhelper.ux.resources.ResourceColors;
 
 /**  */
