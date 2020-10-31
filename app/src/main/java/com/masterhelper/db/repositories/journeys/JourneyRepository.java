@@ -29,8 +29,8 @@ public class JourneyRepository extends AbstractRepository<JourneyModel> {
     ArrayList<JourneyModel> dbRecords = new ArrayList<>();
     Cursor dbList = getContract().list(offset, limit);
     while (dbList.moveToNext()){
-      int idIndex = dbList.getColumnIndex(contract.JourneyId.getColumnTitle());
-      int nameIndex = dbList.getColumnIndex(contract.JourneyTitle.getColumnTitle());
+      int idIndex = dbList.getColumnIndex(JourneyContract.id.getColumnTitle());
+      int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
 
       dbRecords.add(new JourneyModel(this, dbList.getString(idIndex), dbList.getString(nameIndex)));
     }

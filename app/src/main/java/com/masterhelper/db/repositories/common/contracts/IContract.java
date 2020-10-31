@@ -6,6 +6,7 @@ import com.masterhelper.baseclasses.fields.DataID;
 
 public interface IContract<Model extends GeneralModel> {
   void createTable();
+  void deleteTable();
   void insertRecord(Model record);
   void updateRecord(Model record);
   void deleteRecord(DataID recordId);

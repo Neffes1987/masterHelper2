@@ -1,6 +1,7 @@
 package com.masterhelper.ux.pages.journeys;
 
 import android.content.Intent;
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -122,7 +123,9 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
 
   @Override
   public void onSelect(int listItemId) {
+    JourneyModel item = list.controls.getItemByListId(listItemId);
     Intent sceneIntent = new Intent(this, PageSceneList.class);
+    sceneIntent.putExtra("journeyId", item.id.get().toString());
     startActivity(sceneIntent);
   }
 }

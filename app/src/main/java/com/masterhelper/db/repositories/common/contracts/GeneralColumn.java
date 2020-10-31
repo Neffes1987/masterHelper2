@@ -31,13 +31,21 @@ public class GeneralColumn {
       case TextTypes:
         setColumnType(ContractsUtilities.textProp(columnTitle, isNull));
         break;
+      case Integer:
+        setColumnType(ContractsUtilities.intProp(columnTitle, isNull));
+        break;
+      case Primary:
+        setColumnType(ContractsUtilities.PrimaryProp(columnTitle, length));
+        break;
       default: throw new Error("wrong content type");
     }
 
   }
 
   public enum ColumnTypes {
+    Primary,
     CharType,
-    TextTypes
+    TextTypes,
+    Integer
   }
 }

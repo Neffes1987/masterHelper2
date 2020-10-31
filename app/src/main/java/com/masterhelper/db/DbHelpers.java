@@ -5,11 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.masterhelper.db.repositories.journeys.JourneyRepository;
+import com.masterhelper.db.repositories.scenes.SceneRepository;
 
 public class DbHelpers extends SQLiteOpenHelper {
-  private String SQLCreateTemplate ="DROP TABLE IF EXISTS ";
   public JourneyRepository journeyRepository;
-
+  public SceneRepository sceneRepository;
 
   /**
    * Имя файла базы данных
@@ -18,7 +18,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   /**
    * Версия базы данных. При изменении схемы увеличить на единицу
    */
-  private static final int DATABASE_VERSION = 46;
+  private static final int DATABASE_VERSION = 48;
 
   SQLiteDatabase db;
 
@@ -26,11 +26,13 @@ public class DbHelpers extends SQLiteOpenHelper {
   public DbHelpers(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
     journeyRepository = new JourneyRepository(this);
+    sceneRepository = new SceneRepository(this);
     db = getWritableDatabase();
   }
 
-  private void initJourneyTable(){
+  private void initTables(){
     journeyRepository.createTable();
+    sceneRepository.createTable();
   }
 
   /**
@@ -39,7 +41,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     this.db = db;
-    initJourneyTable();
+    initTables();
   }
 
   @Override
@@ -57,7 +59,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     this.db = db;
-    initJourneyTable();
+    initTables();
   }
 
   public Cursor read(String query){

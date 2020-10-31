@@ -1,14 +1,11 @@
 package com.masterhelper.db.repositories.utils;
 
-import android.provider.BaseColumns;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public abstract class ContractsUtilities implements BaseColumns {
-  public final static String _ID = BaseColumns._ID;
-  public final static String INDEX_KEY = _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, ";
+public abstract class ContractsUtilities {
 
   public static String generateInsertQuery(String tableName, String[] columns, String[] values){
     StringBuilder valuesResult = new StringBuilder();
@@ -54,7 +51,6 @@ public abstract class ContractsUtilities implements BaseColumns {
     if(columns.length == 0){
       return "";
     }
-    result.append(INDEX_KEY);
     int columnsLastIndex = columns.length -1;
 
     for(int i=0; i<=columnsLastIndex; i++){
@@ -71,7 +67,7 @@ public abstract class ContractsUtilities implements BaseColumns {
     return "DELETE FROM " + tableName + " WHERE " + searchColumnName + "='"+deletedItemId+"'";
   }
 
-  public static String generateSelectItemQuery(String tableName, String[] columns, int offset, int limit, String order){
+  public static String generateSelectItemQuery(String tableName, String[] columns, int offset, int limit, String order, String where){
     StringBuilder query = new StringBuilder();
     query.append("SELECT ");
 
@@ -86,12 +82,16 @@ public abstract class ContractsUtilities implements BaseColumns {
       query.append(" OFFSET ").append(offset);
     }
 
+    if(where != null){
+      query.append(" WHERE ").append(where);
+    }
+
     if(limit != 0){
       query.append(" LIMIT ").append(limit);
     }
-
-    query.append(" ORDER BY ").append(order != null ? order : "_ID DESC");
-    Log.i("TAG", "generateSelectItemQuery: " + query.toString());
+    if(order != null){
+      query.append(" ORDER BY ").append(order);
+    }
     return query.toString();
   }
 
@@ -101,9 +101,6 @@ public abstract class ContractsUtilities implements BaseColumns {
     return resultList.toArray(new String[0]);
   }
 
-  public static String deleteRecordsByIds(String tableName, String ids){
-    return "DELETE FROM " + tableName + " WHERE " + _ID + " IN (" +ids+ ")";
-  }
 
   public static String charProp(String columnTitle, int length, boolean isNull){
     return columnTitle + " CHAR(" + length + ") " + (isNull ? " NULL" : " NOT NULL");
@@ -111,5 +108,13 @@ public abstract class ContractsUtilities implements BaseColumns {
 
   public static String textProp(String columnTitle, boolean isNull){
     return columnTitle + " TEXT " + (isNull ? " NULL" : " NOT NULL");
+  }
+
+  public static String intProp(String columnTitle, boolean isNull){
+    return columnTitle + " INTEGER " + (isNull ? " NULL" : " NOT NULL");
+  }
+
+  public static String PrimaryProp(String columnTitle, int length){
+    return columnTitle + " CHAR(" + length + ") "+ " PRIMARY KEY ";
   }
 }

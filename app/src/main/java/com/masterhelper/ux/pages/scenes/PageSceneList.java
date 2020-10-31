@@ -1,11 +1,13 @@
 package com.masterhelper.ux.pages.scenes;
 
 import android.content.Intent;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
+import com.masterhelper.db.repositories.scenes.SceneModel;
+import com.masterhelper.db.repositories.scenes.SceneRepository;
+import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
@@ -15,33 +17,33 @@ import com.masterhelper.ux.pages.events.PageEventsList;
 import com.masterhelper.ux.pages.journeys.JourneyLocale;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.ux.pages.scenes.list.ListItemScene;
-import com.masterhelper.ux.pages.scenes.list.UISceneItemData;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
-
-import java.util.ArrayList;
 
 import static com.masterhelper.ux.pages.scenes.SceneLocale.getLocalizationByKey;
 
 public class PageSceneList extends AppCompatActivity implements ListItemEvents {
 
   FragmentManager mn;
+  SceneRepository repository;
+  ComponentUIList<SceneModel> list;
 
   ComponentUIDialog dialog;
-  ComponentUIList<UISceneItemData> list;
 
-  ComponentUIDialog initDialog(){
+  ComponentUIDialog initDialog(int nameMaxLength, int descriptionMaxLength){
     ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameLabel.show();
     dialog.pNameLabel.setText(SceneLocale.getLocalizationByKey(SceneLocale.Keys.sceneName));
 
     dialog.pNameField.setText("");
+    dialog.pNameField.setMaxLength(nameMaxLength);
     dialog.pNameField.show();
 
     dialog.pDescriptionLabel.show();
     dialog.pDescriptionLabel.setText(SceneLocale.getLocalizationByKey(SceneLocale.Keys.shortDescription));
 
     dialog.pDescriptionField.setText("");
+    dialog.pDescriptionField.setMaxLength(descriptionMaxLength);
     dialog.pDescriptionField.show();
     return dialog;
   }
@@ -75,18 +77,17 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
     });
   }
 
-  ComponentUIList<UISceneItemData> initList(UISceneItemData[] items){
-    ComponentUIList<UISceneItemData> list = ComponentUIList.cast(mn.findFragmentById(R.id.SCENE_LIST));
+  void initList(SceneModel[] items){
+    list = ComponentUIList.cast(mn.findFragmentById(R.id.SCENE_LIST));
     list.controls.setAdapter(items, new ListItemScene(getSupportFragmentManager(), this));
-    return list;
   }
 
   private void onCreateItem(String text, String description) {
-
-  }
-
-  private void onUpdateItem(String text, String description) {
-
+    SceneModel newScene = repository.getDraftRecord();
+    newScene.name.set(text);
+    newScene.description.set(description);
+    newScene.save();
+    list.controls.add(newScene);
   }
 
   @Override
@@ -94,35 +95,30 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_scene_list);
     UIToolbar.setTitle(this, getLocalizationByKey(SceneLocale.Keys.listCaption), null);
+    String journeyId = getIntent().getStringExtra("journeyId");
     mn = getSupportFragmentManager();
-    dialog = initDialog();
+    repository = GlobalApplication.getAppDB().sceneRepository;
+    repository.setJourneyId(journeyId);
+    dialog = initDialog(
+      repository.getNameLength(),
+      repository.getDescriptionLength()
+    );
     initNewItemButton(dialog);
-
-    ArrayList<UISceneItemData> items = new ArrayList<>();
-    UISceneItemData item = new UISceneItemData("name", "description", 1, 5);
-
-    item.setText("test list item111111");
-    items.add(item);
-    items.add(item);
-    items.add(item);
-    items.add(item);
-    items.add(item);
-    items.add(item);
-    list = initList(items.toArray(new UISceneItemData[0]));
+    initList(repository.list(0,0));
   }
 
   @Override
   public void onUpdate(int listItemId) {
     dialog.setTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.updateJourney));
-    UISceneItemData item = list.controls.getItemByListId(listItemId);
-    dialog.pDescriptionField.setText(item.getDescription());
-    dialog.pNameField.setText(item.getText());
+    SceneModel item = list.controls.getItemByListId(listItemId);
+    dialog.pDescriptionField.setText(item.description.get());
+    dialog.pNameField.setText(item.name.get());
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
       public void onResolve() {
-        item.setText(dialog.pNameField.getText());
-        item.setDescription(dialog.pDescriptionField.getText());
-        onUpdateItem(item.getText(), item.getDescription());
+        item.name.set(dialog.pNameField.getText());
+        item.description.set(dialog.pDescriptionField.getText());
+        item.save();
         list.controls.update(item, listItemId);
       }
       @Override
@@ -135,8 +131,9 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
 
   @Override
   public void onDelete(int listItemId) {
+    SceneModel item = list.controls.getItemByListId(listItemId);
     list.controls.delete(listItemId);
-    Toast.makeText(this, "delete " + listItemId, Toast.LENGTH_SHORT).show();
+    repository.removeRecord(item.id);
   }
 
   @Override

@@ -18,7 +18,14 @@ public abstract class AbstractContract<ModelType extends GeneralModel> implement
 
   @Override
   public void createTable() {
+    deleteTable();
     getDbHelpers().write(contract.createTable());
+  }
+
+  @Override
+  public void deleteTable() {
+    String SQLCreateTemplate = "DROP TABLE IF EXISTS ";
+    getDbHelpers().write(SQLCreateTemplate + contract.getTableName());
   }
 
   @Override

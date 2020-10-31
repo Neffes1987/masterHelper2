@@ -2,6 +2,7 @@ package com.masterhelper.ux.pages.scenes.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
+import com.masterhelper.db.repositories.scenes.SceneModel;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
@@ -9,7 +10,7 @@ import com.masterhelper.ux.components.library.list.elements.ProgressControl;
 import com.masterhelper.ux.pages.scenes.list.elements.*;
 
 /**  */
-public class ListItemScene extends CommonItem<UISceneItemData> implements SetBtnEvent {
+public class ListItemScene extends CommonItem<SceneModel> implements SetBtnEvent {
 
   private SceneName name;
   private SceneName description;
@@ -53,18 +54,18 @@ public class ListItemScene extends CommonItem<UISceneItemData> implements SetBtn
   }
 
   @Override
-  protected void update(UISceneItemData itemData, int listItemId) {
+  protected void update(SceneModel itemData, int listItemId) {
     setListItemId(listItemId);
-    name.setElementData(itemData.getText());
-    description.setElementData(itemData.getDescription());
-    eventsProgress.setElementData(itemData.getFinishedEvents() + "/" + itemData.getTotalEvents());
+    name.setElementData(itemData.name.get());
+    description.setElementData(itemData.description.get());
+    eventsProgress.setElementData(itemData.finishedEvents.get() + "/" + itemData.totalEvents.get());
 
-    eventsProgressBar.setMaxValue(itemData.getTotalEvents());
-    eventsProgressBar.setElementData(itemData.getFinishedEvents());
+    eventsProgressBar.setMaxValue(itemData.totalEvents.get());
+    eventsProgressBar.setElementData(itemData.finishedEvents.get());
   }
 
   @Override
-  public CommonItem<UISceneItemData> clone(View view) {
+  public CommonItem<SceneModel> clone(View view) {
     return new ListItemScene(view, getManager(), getListItemSceneEvents());
   }
 

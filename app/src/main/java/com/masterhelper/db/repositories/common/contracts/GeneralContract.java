@@ -29,8 +29,8 @@ public class GeneralContract {
   }
 
   public void addDeleteForeignKeyColumn(GeneralColumn externalContractColumn, GeneralColumn foreignContractColumn){
-    if(updateColumns.contains(foreignContractColumn.getColumnTitle())){
-      throw new Error("doDeleteCascade: update columns set does already contain child column " + foreignContractColumn.getColumnTitle() + " please remove it from constructor columns set");
+    if(createColumns.contains(foreignContractColumn.getColumnTitle())){
+      throw new Error("doDeleteCascade: update columns set does already contain child column " + foreignContractColumn.getColumnTitle() + ", please remove it from constructor columns set");
     }
     createColumns.add(foreignContractColumn.getColumnType());
     updateColumns.add(foreignContractColumn.getColumnTitle());
@@ -61,8 +61,8 @@ public class GeneralContract {
     return ContractsUtilities.generateDeleteItemQuery(getTableName(), columnName, id.get().toString());
   }
 
-  public String selectRecords(int offset, int limit, String[] columns, String ordering) {
-    return ContractsUtilities.generateSelectItemQuery(getTableName(), columns, offset, limit, ordering);
+  public String selectRecords(int offset, int limit, String[] columns, String ordering, String where) {
+    return ContractsUtilities.generateSelectItemQuery(getTableName(), columns, offset, limit, ordering, where);
   }
 
 }

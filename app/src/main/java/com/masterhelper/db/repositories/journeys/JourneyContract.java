@@ -7,14 +7,14 @@ import com.masterhelper.db.repositories.common.contracts.GeneralColumn;
 import com.masterhelper.db.repositories.common.contracts.AbstractContract;
 
 public class JourneyContract extends AbstractContract<JourneyModel> {
-  private final String TABLE_NAME = "journeys";
+  private final static String TABLE_NAME = "journeys";
   public final static int NAME_COLUMN_LENGTH = 200;
-  public final GeneralColumn JourneyId = new GeneralColumn(TABLE_NAME, "journeyId", GeneralColumn.ColumnTypes.CharType, ID_COLUMN_LENGTH, false);
-  public final GeneralColumn JourneyTitle = new GeneralColumn(TABLE_NAME,"journeyTitle", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
+  public final static GeneralColumn id = new GeneralColumn(TABLE_NAME, "id", GeneralColumn.ColumnTypes.Primary, ID_COLUMN_LENGTH, false);
+  public final GeneralColumn title = new GeneralColumn(TABLE_NAME,"title", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
 
   public JourneyContract(DbHelpers dbHelpers) {
     super(dbHelpers);
-    initContract(TABLE_NAME, new GeneralColumn[]{JourneyId, JourneyTitle});
+    initContract(TABLE_NAME, new GeneralColumn[]{id, title});
   }
 
   @Override
@@ -25,18 +25,18 @@ public class JourneyContract extends AbstractContract<JourneyModel> {
 
   @Override
   public void updateRecord(JourneyModel record) {
-    String updateQuery = getContract().updateRecord(record.id, new String[]{record.id.get().toString(), record.name.get()}, JourneyId.getColumnTitle());
+    String updateQuery = getContract().updateRecord(record.id, new String[]{record.id.get().toString(), record.name.get()}, id.getColumnTitle());
     getDbHelpers().write(updateQuery);
   }
 
   @Override
   public void deleteRecord(DataID recordId) {
-    String deleteQuery = getContract().deleteRecord(recordId, JourneyId.getColumnTitle());
+    String deleteQuery = getContract().deleteRecord(recordId, id.getColumnTitle());
     getDbHelpers().write(deleteQuery);
   }
 
   @Override
   public Cursor list(int offset, int limit) {
-    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), null));
+    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), id.getColumnTitle() + " DESC ", null));
   }
 }
