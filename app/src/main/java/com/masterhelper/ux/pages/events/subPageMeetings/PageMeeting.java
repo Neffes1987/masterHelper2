@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.meetings;
+package com.masterhelper.ux.pages.events.subPageMeetings;
 
 import android.view.View;
 import android.widget.Toast;
@@ -15,46 +15,26 @@ import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloati
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
-import com.masterhelper.ux.pages.events.EventLocale;
+import com.masterhelper.ux.pages.events.list.EventDialog;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
-import java.util.ArrayList;
-
 import static com.masterhelper.ux.pages.events.PageEventsList.INTENT_EVENT_ID;
-import static com.masterhelper.ux.pages.meetings.MeetingLocale.getLocalizationByKey;
+import static com.masterhelper.ux.pages.events.subPageMeetings.MeetingLocale.getLocalizationByKey;
 import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.musicStarted;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.primary;
 
-public class PageMeeting extends AppCompatActivity implements SetBtnEvent {
+public class PageMeeting extends AppCompatActivity implements SetBtnEvent, ComponentUIDialog.DialogClickListener {
     private ComponentUIFloatingButton editButton;
     private ComponentUIFloatingButton musicControl;
     private ComponentUILabel description;
     private ComponentUIImage previewControl;
+    private EventDialog eventDialog;
+    private EventModel event;
 
     FragmentManager mn;
     EventRepository repository;
-
-    ComponentUIDialog initDialog(int nameMaxLength, int descriptionMaxLength){
-        ComponentUIDialog dialog = new ComponentUIDialog(this);
-        dialog.setTitle(EventLocale.getLocalizationByKey(EventLocale.Keys.createEvent));
-        dialog.pNameLabel.show();
-        dialog.pNameLabel.setText(EventLocale.getLocalizationByKey(EventLocale.Keys.eventName));
-
-        dialog.pNameField.setText("");
-        dialog.pNameField.setMaxLength(nameMaxLength);
-        dialog.pNameField.show();
-
-        dialog.pDescriptionLabel.show();
-        dialog.pDescriptionLabel.setText(EventLocale.getLocalizationByKey(EventLocale.Keys.shortDescription));
-
-        dialog.pDescriptionField.setText("");
-        dialog.pDescriptionField.setMaxLength(descriptionMaxLength);
-        dialog.pDescriptionField.show();
-
-        return dialog;
-    }
 
     private boolean isMusicActive;
 
@@ -99,7 +79,7 @@ public class PageMeeting extends AppCompatActivity implements SetBtnEvent {
         setContentView(R.layout.activity_page_meeting);
         repository = GlobalApplication.getAppDB().eventRepository;
         repository.setSceneId(getIntent().getStringExtra(INTENT_SCENE_ID));
-        EventModel event = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
+        event = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
 
         UIToolbar.setTitle(this, getLocalizationByKey(MeetingLocale.Keys.name), event.name.get());
         mn = getSupportFragmentManager();
@@ -107,15 +87,17 @@ public class PageMeeting extends AppCompatActivity implements SetBtnEvent {
         initMusicButton();
         initImageWidget();
         initDescriptionLabel();
-        initDialog(repository.getNameLength(), repository.getDescriptionLength());
-
+        eventDialog = new EventDialog(this, repository.getNameLength(), repository.getDescriptionLength());
+        eventDialog.dialog.pRadioGroup.hide();
         description.controls.setText(event.description.get());
     }
 
     @Override
     public void onClick(int btnId, String tag) {
         if(btnId == editButton.controls.getId()){
-            Toast.makeText(this, "edit", Toast.LENGTH_SHORT).show();
+            eventDialog.initUpdateState(event.name.get(), event.description.get(), event.type.get());
+            eventDialog.dialog.setListener(this);
+            eventDialog.show();
             return;
         }
         if(btnId == musicControl.controls.getId()){
@@ -136,5 +118,19 @@ public class PageMeeting extends AppCompatActivity implements SetBtnEvent {
         if(btnId == previewControl.controls.getId()){
             Toast.makeText(this, "preview upload", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onResolve() {
+        event.name.set(eventDialog.getName());
+        event.description.set(eventDialog.getDescription());
+        event.save();
+        UIToolbar.setTitle(this, getLocalizationByKey(MeetingLocale.Keys.name), event.name.get());
+        description.controls.setText(eventDialog.getDescription());
+    }
+
+    @Override
+    public void onReject() {
+
     }
 }

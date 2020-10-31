@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.meetings;
+package com.masterhelper.ux.pages.events.subPageMeetings;
 
 import android.content.Context;
 import com.masterhelper.R;

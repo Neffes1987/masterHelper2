@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.encounter.enemy;
+package com.masterhelper.ux.pages.events.subPageEncounter.enemy;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;

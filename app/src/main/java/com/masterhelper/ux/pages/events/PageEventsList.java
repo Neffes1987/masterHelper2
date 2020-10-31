@@ -15,11 +15,11 @@ import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloati
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
-import com.masterhelper.ux.pages.accidents.PageAccident;
-import com.masterhelper.ux.pages.encounter.PageEncounterEnimiesList;
+import com.masterhelper.ux.pages.events.subPageAccidents.PageAccident;
+import com.masterhelper.ux.pages.events.subPageEncounter.PageEncounterEnimiesList;
 import com.masterhelper.ux.pages.events.list.EventDialog;
 import com.masterhelper.ux.pages.events.list.ListItemEvent;
-import com.masterhelper.ux.pages.meetings.PageMeeting;
+import com.masterhelper.ux.pages.events.subPageMeetings.PageMeeting;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 

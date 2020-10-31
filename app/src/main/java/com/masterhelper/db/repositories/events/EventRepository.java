@@ -78,6 +78,7 @@ public class EventRepository extends AbstractRepository<EventModel> {
       foundedRecord.previewId.fromString(dbList.getString(previewUrlIndex));
       foundedRecord.type.set(EventModel.EventType.valueOf(dbList.getString(typeIndex)));
     }
+    setItemToCache(foundedRecord, 0);
     return foundedRecord;
   }
 

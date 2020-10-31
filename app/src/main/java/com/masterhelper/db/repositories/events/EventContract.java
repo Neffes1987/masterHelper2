@@ -1,6 +1,7 @@
 package com.masterhelper.db.repositories.events;
 
 import android.database.Cursor;
+import android.util.Log;
 import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.db.DbHelpers;
 import com.masterhelper.db.repositories.common.contracts.AbstractContract;

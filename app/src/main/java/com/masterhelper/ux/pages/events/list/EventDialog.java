@@ -58,8 +58,8 @@ public class EventDialog {
 
   public void initUpdateState(String name, String description, EventModel.EventType type){
     dialog.setTitle(EventLocale.getLocalizationByKey(EventLocale.Keys.updateEvent));
-    dialog.pDescriptionField.setText(name);
-    dialog.pNameField.setText(description);
+    dialog.pDescriptionField.setText(description);
+    dialog.pNameField.setText(name);
     dialog.pRadioGroup.setSelectedItem(getIndexBySelectedType(type));
   }
 

@@ -14,13 +14,13 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/CustomTheme">
-    <activity android:name=".ux.pages.encounter.enemy.PageEnemy">
+    <activity android:name=".ux.pages.events.subPageEncounter.enemy.PageEnemy">
     </activity>
-    <activity android:name=".ux.pages.encounter.PageEncounterEnimiesList">
+    <activity android:name=".ux.pages.events.subPageEncounter.PageEncounterEnimiesList">
     </activity>
-    <activity android:name=".ux.pages.accidents.PageAccident">
+    <activity android:name=".ux.pages.events.subPageAccidents.PageAccident">
     </activity>
-    <activity android:name=".ux.pages.meetings.PageMeeting">
+    <activity android:name=".ux.pages.events.subPageMeetings.PageMeeting">
     </activity>
     <activity android:name=".ux.pages.events.PageEventsList">
     </activity>

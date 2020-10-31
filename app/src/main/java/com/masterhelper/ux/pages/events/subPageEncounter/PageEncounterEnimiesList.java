@@ -1,14 +1,14 @@
-package com.masterhelper.ux.pages.accidents;
+package com.masterhelper.ux.pages.events.subPageEncounter;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.masterhelper.R;
 
-public class PageAccident extends AppCompatActivity {
+public class PageEncounterEnimiesList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_page_accident);
+        setContentView(R.layout.activity_page_encounter_enimies_list);
     }
 }
