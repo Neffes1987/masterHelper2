@@ -28,9 +28,10 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
   ComponentUIList<JourneyModel> list;
   JourneyRepository journeyRepository;
 
-  ComponentUIDialog initDialog(){
+  ComponentUIDialog initDialog(int maxNameLength){
     ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameField.setText("");
+    dialog.pNameField.setMaxLength(maxNameLength);
     dialog.pNameField.show();
     return dialog;
   }
@@ -87,7 +88,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
     UIToolbar.setTitle(this, getLocalizationByKey(JourneyLocale.Keys.listCaption), null);
 
     // init page components
-    dialog = initDialog();
+    dialog = initDialog(journeyRepository.getNameLength());
     list = initList(journeyRepository.list(0,0));
     initNewItemButton(dialog);
   }

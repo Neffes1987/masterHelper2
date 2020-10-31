@@ -1,5 +1,6 @@
 package com.masterhelper.ux.components.library.text.label;
 
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -23,6 +24,13 @@ public class Label extends UXTextElement<TextView> {
   @Override
   public String getText() {
     return this.getUxElement().getText().toString();
+  }
+
+  @Override
+  public void setMaxLength(int length) {
+    if(length > 0){
+      this.getUxElement().setFilters(new InputFilter[] {new InputFilter.LengthFilter(length)});
+    }
   }
 
   public Label(@NonNull View androidSystemComponent){

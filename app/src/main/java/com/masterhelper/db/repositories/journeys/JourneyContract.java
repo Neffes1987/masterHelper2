@@ -8,8 +8,9 @@ import com.masterhelper.db.repositories.common.contracts.AbstractContract;
 
 public class JourneyContract extends AbstractContract<JourneyModel> {
   private final String TABLE_NAME = "journeys";
-  public final GeneralColumn JourneyId = new GeneralColumn(TABLE_NAME, "journeyId", GeneralColumn.ColumnTypes.CharType, 200, false);
-  public final GeneralColumn JourneyTitle = new GeneralColumn(TABLE_NAME,"journeyTitle", GeneralColumn.ColumnTypes.CharType, 200, false);
+  public final static int NAME_COLUMN_LENGTH = 200;
+  public final GeneralColumn JourneyId = new GeneralColumn(TABLE_NAME, "journeyId", GeneralColumn.ColumnTypes.CharType, ID_COLUMN_LENGTH, false);
+  public final GeneralColumn JourneyTitle = new GeneralColumn(TABLE_NAME,"journeyTitle", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
 
   public JourneyContract(DbHelpers dbHelpers) {
     super(dbHelpers);

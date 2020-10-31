@@ -4,6 +4,7 @@ import com.masterhelper.db.repositories.common.model.GeneralModel;
 import com.masterhelper.db.DbHelpers;
 
 public abstract class AbstractContract<ModelType extends GeneralModel> implements IContract<ModelType> {
+  public final static int ID_COLUMN_LENGTH = 200;
   private GeneralContract contract;
   private final DbHelpers dbHelpers;
 

@@ -1,5 +1,6 @@
 package com.masterhelper.ux.components.library.text.input;
 
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 import androidx.annotation.NonNull;
@@ -28,6 +29,13 @@ public class InputTextField extends UXTextElement<EditText> {
   @Override
   public String getText() {
     return this.getUxElement().getText().toString();
+  }
+
+  @Override
+  public void setMaxLength(int length) {
+    if(length > 0){
+      this.getUxElement().setFilters(new InputFilter[] {new InputFilter.LengthFilter(length)});
+    }
   }
 
 }

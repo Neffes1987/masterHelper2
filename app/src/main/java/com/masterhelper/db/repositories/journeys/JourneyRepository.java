@@ -37,4 +37,8 @@ public class JourneyRepository extends AbstractRepository<JourneyModel> {
     setItemsToCache(dbRecords, offset);
     return dbRecords.toArray(new JourneyModel[0]);
   }
+
+  public int getNameLength(){
+    return JourneyContract.NAME_COLUMN_LENGTH;
+  }
 }

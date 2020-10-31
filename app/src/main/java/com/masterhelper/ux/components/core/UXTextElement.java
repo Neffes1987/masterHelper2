@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 
 /** base class for text elements in ui */
 public abstract class UXTextElement<TextType extends View> extends UXElement<TextType> {
-
   /** set text value in text component
    *  @param text - new value fom text element
    * */
@@ -18,5 +17,8 @@ public abstract class UXTextElement<TextType extends View> extends UXElement<Tex
   public void clear(){
     this.setText("");
   };
+
+
+  public abstract void setMaxLength(int length);
 
 }
