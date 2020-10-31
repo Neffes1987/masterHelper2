@@ -23,6 +23,7 @@ import com.masterhelper.ux.resources.ResourceIcons;
 import static com.masterhelper.ux.pages.journeys.JourneyLocale.getLocalizationByKey;
 
 public class PageJourneyList extends AppCompatActivity implements ListItemEvents {
+  public static final String INTENT_JOURNEY_ID = "journeyId";
   FragmentManager mn;
 
   ComponentUIDialog dialog;
@@ -125,7 +126,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
   public void onSelect(int listItemId) {
     JourneyModel item = list.controls.getItemByListId(listItemId);
     Intent sceneIntent = new Intent(this, PageSceneList.class);
-    sceneIntent.putExtra("journeyId", item.id.get().toString());
+    sceneIntent.putExtra(INTENT_JOURNEY_ID, item.id.get().toString());
     startActivity(sceneIntent);
   }
 }

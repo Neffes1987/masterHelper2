@@ -52,6 +52,11 @@ public class SceneRepository extends AbstractRepository<SceneModel> {
     return dbRecords.toArray(new SceneModel[0]);
   }
 
+  @Override
+  public SceneModel getRecord(String recordId) {
+    return null;
+  }
+
   public int getNameLength(){
     return SceneContract.NAME_COLUMN_LENGTH;
   }

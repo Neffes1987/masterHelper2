@@ -20,10 +20,11 @@ import com.masterhelper.ux.pages.scenes.list.ListItemScene;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
+import static com.masterhelper.ux.pages.journeys.PageJourneyList.INTENT_JOURNEY_ID;
 import static com.masterhelper.ux.pages.scenes.SceneLocale.getLocalizationByKey;
 
 public class PageSceneList extends AppCompatActivity implements ListItemEvents {
-
+  public static final String INTENT_SCENE_ID = "sceneId";
   FragmentManager mn;
   SceneRepository repository;
   ComponentUIList<SceneModel> list;
@@ -95,7 +96,7 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_scene_list);
     UIToolbar.setTitle(this, getLocalizationByKey(SceneLocale.Keys.listCaption), null);
-    String journeyId = getIntent().getStringExtra("journeyId");
+    String journeyId = getIntent().getStringExtra(INTENT_JOURNEY_ID);
     mn = getSupportFragmentManager();
     repository = GlobalApplication.getAppDB().sceneRepository;
     repository.setJourneyId(journeyId);
@@ -138,7 +139,9 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
 
   @Override
   public void onSelect(int listItemId) {
+    SceneModel item = list.controls.getItemByListId(listItemId);
     Intent eventIntent = new Intent(this, PageEventsList.class);
+    eventIntent.putExtra(INTENT_SCENE_ID, item.id.get().toString());
     startActivity(eventIntent);
   }
 }

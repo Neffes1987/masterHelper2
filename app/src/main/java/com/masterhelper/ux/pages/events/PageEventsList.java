@@ -2,11 +2,13 @@ package com.masterhelper.ux.pages.events;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
+import com.masterhelper.db.repositories.events.EventModel;
+import com.masterhelper.db.repositories.events.EventRepository;
+import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
@@ -15,69 +17,46 @@ import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.ux.pages.accidents.PageAccident;
 import com.masterhelper.ux.pages.encounter.PageEncounterEnimiesList;
+import com.masterhelper.ux.pages.events.list.EventDialog;
 import com.masterhelper.ux.pages.events.list.ListItemEvent;
-import com.masterhelper.ux.pages.events.list.UIEventItemData;
 import com.masterhelper.ux.pages.meetings.PageMeeting;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
-import java.util.*;
-
 import static com.masterhelper.ux.pages.events.EventLocale.getLocalizationByKey;
+import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.musicStarted;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.primary;
 
 
 public class PageEventsList extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
+    public static final String INTENT_EVENT_ID = "sceneId";
     FragmentManager mn;
+    EventRepository repository;
 
-    ComponentUIDialog dialog;
-    ComponentUIList<UIEventItemData> list;
+    EventDialog eventDialog;
+    ComponentUIList<EventModel> list;
     ComponentUIFloatingButton newItemButton;
     ComponentUIFloatingButton musicControlButton;
     boolean isMusicActive = false;
-    HashMap<UIEventItemData.EventType, String> eventsTypesList = new HashMap<>();
 
     void toggleMusicControl(){
         isMusicActive = !isMusicActive;
     }
 
-    ComponentUIList<UIEventItemData> initList(UIEventItemData[] items){
-        ComponentUIList<UIEventItemData> list = ComponentUIList.cast(mn.findFragmentById(R.id.EVENTS_LIST_ID));
+    ComponentUIList<EventModel> initList(EventModel[] items){
+        ComponentUIList<EventModel> list = ComponentUIList.cast(mn.findFragmentById(R.id.EVENTS_LIST_ID));
         list.controls.setAdapter(items, new ListItemEvent(getSupportFragmentManager(), this));
         return list;
     }
 
-    ComponentUIDialog initDialog(){
-        ComponentUIDialog dialog = new ComponentUIDialog(this);
-        dialog.setTitle(getLocalizationByKey(EventLocale.Keys.createEvent));
-        dialog.pNameLabel.show();
-        dialog.pNameLabel.setText(getLocalizationByKey(EventLocale.Keys.eventName));
-
-        dialog.pNameField.setText("");
-        dialog.pNameField.show();
-
-        dialog.pDescriptionLabel.show();
-        dialog.pDescriptionLabel.setText(getLocalizationByKey(EventLocale.Keys.shortDescription));
-
-        dialog.pDescriptionField.setText("");
-        dialog.pDescriptionField.show();
-
-        eventsTypesList.put(UIEventItemData.EventType.battle, getLocalizationByKey(EventLocale.Keys.eventBattle));
-        eventsTypesList.put(UIEventItemData.EventType.accident, getLocalizationByKey(EventLocale.Keys.eventAccident));
-        eventsTypesList.put(UIEventItemData.EventType.meeting, getLocalizationByKey(EventLocale.Keys.eventMeeting));
-
-        dialog.pRadioGroup.setList(new ArrayList<>(eventsTypesList.values()));
-        dialog.pRadioGroup.show();
-        return dialog;
-    }
-
-    private void onCreateItem(String text, String description) {
-
-    }
-
-    private void onUpdateItem(String text, String description) {
-
+    private void onCreateItem(String text, String description, EventModel.EventType type) {
+        EventModel newEvent = repository.getDraftRecord();
+        newEvent.name.set(text);
+        newEvent.description.set(description);
+        newEvent.type.set(type);
+        newEvent.save();
+        list.controls.add(newEvent);
     }
 
     void initNewItemButton(){
@@ -101,35 +80,32 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_events_list);
         mn = getSupportFragmentManager();
+        repository = GlobalApplication.getAppDB().eventRepository;
+        repository.setSceneId(getIntent().getStringExtra(INTENT_SCENE_ID));
         UIToolbar.setTitle(this, getLocalizationByKey(EventLocale.Keys.listCaption), null);
-        dialog = initDialog();
+        eventDialog = new EventDialog(this, repository.getNameLength(), repository.getDescriptionLength());
         initNewItemButton();
         initMusicButton();
-
-        ArrayList<UIEventItemData> items = new ArrayList<>();
-        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
-        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
-        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
-        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
-        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
-        items.add(new UIEventItemData("name", "description", UIEventItemData.EventType.battle));
-        list = initList(items.toArray(new UIEventItemData[0]));
+        list = initList(repository.list(0,0));
     }
 
     void openAddNewItemDialog(){
-        dialog.setTitle(getLocalizationByKey(EventLocale.Keys.createEvent));
-        dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+        eventDialog.initCreateState();
+        eventDialog.dialog.setListener(new ComponentUIDialog.DialogClickListener() {
             @Override
             public void onResolve() {
-                onCreateItem(dialog.pNameField.getText(), dialog.pDescriptionField.getText());
+                onCreateItem(
+                  eventDialog.getName(),
+                  eventDialog.getDescription(),
+                  eventDialog.getSelectedType()
+                );
             }
-
             @Override
             public void onReject() {
 
             }
         });
-        dialog.show();
+        eventDialog.show();
     }
 
     private void setBackgroundMusicState() {
@@ -170,23 +146,20 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
 
     @Override
     public void onUpdate(int listItemId) {
-        dialog.setTitle(EventLocale.getLocalizationByKey(EventLocale.Keys.updateEvent));
-        UIEventItemData item = list.controls.getItemByListId(listItemId);
-        Toast.makeText(this, "onUpdate " + item.getName() + " : " + listItemId, Toast.LENGTH_SHORT).show();
+        EventModel item = list.controls.getItemByListId(listItemId);
+        eventDialog.initUpdateState(
+          item.name.get(),
+          item.description.get(),
+          item.type.get()
+        );
 
-        dialog.pDescriptionField.setText(item.getDescription());
-        dialog.pNameField.setText(item.getName());
-        ArrayList<UIEventItemData.EventType> eventTypesKeys = new ArrayList<>(eventsTypesList.keySet());
-        dialog.pRadioGroup.setSelectedItem(eventTypesKeys.indexOf(item.getEventType()));
-        dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+        eventDialog.dialog.setListener(new ComponentUIDialog.DialogClickListener() {
             @Override
             public void onResolve() {
-                item.setName(dialog.pNameField.getText());
-                item.setDescription(dialog.pDescriptionField.getText());
-                int selectedIndex = dialog.pRadioGroup.getSelectedItemIndex();
-                UIEventItemData.EventType type = eventTypesKeys.get(selectedIndex);
-                item.setEventType(type);
-                onUpdateItem(item.getName(), item.getDescription());
+                item.name.set(eventDialog.getName());
+                item.description.set(eventDialog.getDescription());
+                item.type.set(eventDialog.getSelectedType());
+                item.save();
                 list.controls.update(item, listItemId);
             }
             @Override
@@ -194,20 +167,21 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
 
             }
         });
-        dialog.show();
+        eventDialog.show();
     }
 
     @Override
     public void onDelete(int listItemId) {
+        EventModel item = list.controls.getItemByListId(listItemId);
         list.controls.delete(listItemId);
-        Toast.makeText(this, "delete " + listItemId, Toast.LENGTH_SHORT).show();
+        repository.removeRecord(item.id);
     }
 
     @Override
     public void onSelect(int listItemId) {
-        UIEventItemData item = list.controls.getItemByListId(listItemId);
+        EventModel item = list.controls.getItemByListId(listItemId);
         Intent eventIntent;
-        switch (item.getEventType()){
+        switch (item.type.get()){
             case accident:
                 eventIntent = new Intent(this, PageAccident.class);
                 break;
@@ -219,6 +193,8 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
                 break;
             default: throw new Error("PageEventsList: onSelect - wrong event type");
         }
+        eventIntent.putExtra(INTENT_EVENT_ID, item.id.get().toString());
+        eventIntent.putExtra(INTENT_SCENE_ID, getIntent().getStringExtra(INTENT_SCENE_ID));
         startActivity(eventIntent);
     }
 }

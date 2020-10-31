@@ -38,6 +38,11 @@ public class JourneyRepository extends AbstractRepository<JourneyModel> {
     return dbRecords.toArray(new JourneyModel[0]);
   }
 
+  @Override
+  public JourneyModel getRecord(String recordId) {
+    return null;
+  }
+
   public int getNameLength(){
     return JourneyContract.NAME_COLUMN_LENGTH;
   }

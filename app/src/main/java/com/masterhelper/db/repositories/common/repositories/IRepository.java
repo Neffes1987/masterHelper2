@@ -10,4 +10,5 @@ public interface IRepository<RecordType> {
   void createTable();
   void saveRecord(RecordType updatedElement);
   RecordType[] list(int offset, int limit);
+  RecordType getRecord(String recordId);
 }

@@ -13,4 +13,5 @@ public interface IContract<Model extends GeneralModel> {
   void initContract(String tableName, GeneralColumn[] columns);
   GeneralContract getContract();
   Cursor list(int offset, int limit);
+  Cursor getRecord(String recordId);
 }

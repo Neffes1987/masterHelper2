@@ -2,6 +2,7 @@ package com.masterhelper.ux.pages.events.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
+import com.masterhelper.db.repositories.events.EventModel;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
@@ -9,7 +10,7 @@ import com.masterhelper.ux.pages.events.list.elements.*;
 import com.masterhelper.ux.resources.ResourceColors;
 
 /**  */
-public class ListItemEvent extends CommonItem<UIEventItemData> implements SetBtnEvent {
+public class ListItemEvent extends CommonItem<EventModel> implements SetBtnEvent {
   private EventName name;
   private EventName description;
   private EventEditControl editButton;
@@ -44,14 +45,14 @@ public class ListItemEvent extends CommonItem<UIEventItemData> implements SetBtn
   }
 
   @Override
-  protected void update(UIEventItemData itemData, int listItemId) {
+  protected void update(EventModel itemData, int listItemId) {
     setListItemId(listItemId);
-    name.setElementData(itemData.getName());
-    description.setElementData(itemData.getDescription());
-    setHeaderColorByType(itemData.getEventType());
+    name.setElementData(itemData.name.get());
+    description.setElementData(itemData.description.get());
+    setHeaderColorByType(itemData.type.get());
   }
 
-  private void setHeaderColorByType(UIEventItemData.EventType type){
+  private void setHeaderColorByType(EventModel.EventType type){
     int color;
     switch (type){
       case battle: color = ResourceColors.getColor(ResourceColors.ResourceColorType.battleEvent); break;
@@ -64,7 +65,7 @@ public class ListItemEvent extends CommonItem<UIEventItemData> implements SetBtn
   }
 
   @Override
-  public CommonItem<UIEventItemData> clone(View view) {
+  public CommonItem<EventModel> clone(View view) {
     return new ListItemEvent(view, getManager(), getListItemSceneEvents());
   }
 

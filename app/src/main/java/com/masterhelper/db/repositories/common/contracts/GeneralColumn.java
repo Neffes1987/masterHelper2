@@ -43,6 +43,7 @@ public class GeneralColumn {
   }
 
   public enum ColumnTypes {
+    Preview,
     Primary,
     CharType,
     TextTypes,
