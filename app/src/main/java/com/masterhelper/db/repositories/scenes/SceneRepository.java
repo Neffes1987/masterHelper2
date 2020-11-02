@@ -48,6 +48,7 @@ public class SceneRepository extends AbstractRepository<SceneModel> {
         )
       );
     }
+    dbList.close();
     setItemsToCache(dbRecords, offset);
     return dbRecords.toArray(new SceneModel[0]);
   }

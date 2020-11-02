@@ -50,6 +50,7 @@ public class EventRepository extends AbstractRepository<EventModel> {
         )
       );
     }
+    dbList.close();
     setItemsToCache(dbRecords, offset);
     return dbRecords.toArray(new EventModel[0]);
   }
@@ -78,6 +79,7 @@ public class EventRepository extends AbstractRepository<EventModel> {
       foundedRecord.previewId.fromString(dbList.getString(previewUrlIndex));
       foundedRecord.type.set(EventModel.EventType.valueOf(dbList.getString(typeIndex)));
     }
+    dbList.close();
     setItemToCache(foundedRecord, 0);
     return foundedRecord;
   }

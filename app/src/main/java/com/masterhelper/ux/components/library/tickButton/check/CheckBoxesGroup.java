@@ -34,6 +34,15 @@ public class CheckBoxesGroup extends UXElement<LinearLayout> {
     return selectedCheckboxes;
   }
 
+  public void setSelectedItems(List<Integer> selectedItems) {
+    LinearLayout group = this.getUxElement();
+    int childrenCount = group.getChildCount();
+    for (int checkboxIndex=0; checkboxIndex<childrenCount; checkboxIndex+=1){
+      CheckBox check = (CheckBox) group.getChildAt(checkboxIndex);
+      check.setChecked(selectedItems.contains(checkboxIndex));
+    }
+  }
+
   /**
    * create list of radio buttons by array of buttons name
    */

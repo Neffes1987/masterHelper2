@@ -15,6 +15,7 @@ import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloati
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.media.WidgetFileViewer;
 import com.masterhelper.ux.pages.events.subPageAccidents.PageAccident;
 import com.masterhelper.ux.pages.events.subPageEncounter.PageEncounterEnimiesList;
 import com.masterhelper.ux.pages.events.list.EventDialog;
@@ -23,6 +24,7 @@ import com.masterhelper.ux.pages.events.subPageMeetings.PageMeeting;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
+import static com.masterhelper.ux.media.WidgetFileViewer.WIDGET_RESULT_CODE;
 import static com.masterhelper.ux.pages.events.EventLocale.getLocalizationByKey;
 import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.musicStarted;
@@ -113,6 +115,15 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         musicControlButton.controls.setIconColor(isMusicActive ? musicStarted : primary);
     }
     private void startOpenMusicConsole() {
+        startActivityForResult(WidgetFileViewer.getWidgetIntent(
+          this,
+          WidgetFileViewer.Formats.audio,
+          WidgetFileViewer.Layout.global,
+          new String[]{}
+        ), WIDGET_RESULT_CODE);
+    }
+
+    private void startActivityForResult(Intent widgetIntent) {
     }
 
     /**

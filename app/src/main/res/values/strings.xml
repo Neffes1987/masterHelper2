@@ -68,5 +68,9 @@
   <string name="dialog_resolve">Применить</string>
   <string name="dialog_reject">Отменить</string>
 
+  <!-- files -->
+  <string name="audios_files_caption">Библиотека аудио файлов</string>
+  <string name="images_files_caption">Библиотека изображений</string>
+
   <string name="caption">Заголовок</string>
 </resources>

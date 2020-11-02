@@ -34,6 +34,7 @@ public class JourneyRepository extends AbstractRepository<JourneyModel> {
 
       dbRecords.add(new JourneyModel(this, dbList.getString(idIndex), dbList.getString(nameIndex)));
     }
+    dbList.close();
     setItemsToCache(dbRecords, offset);
     return dbRecords.toArray(new JourneyModel[0]);
   }

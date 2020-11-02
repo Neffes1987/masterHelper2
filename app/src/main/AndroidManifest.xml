@@ -14,6 +14,8 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/CustomTheme">
+    <activity android:name=".ux.media.WidgetFileViewer">
+    </activity>
     <activity android:name=".ux.pages.events.subPageEncounter.enemy.PageEnemy">
     </activity>
     <activity android:name=".ux.pages.events.subPageEncounter.PageEncounterEnimiesList">
