@@ -1,6 +1,7 @@
 package com.masterhelper.db.repositories.events;
 
 import android.database.Cursor;
+import android.util.Log;
 import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.db.DbHelpers;
 import com.masterhelper.db.repositories.common.repositories.AbstractRepository;
@@ -25,11 +26,6 @@ public class EventRepository extends AbstractRepository<EventModel> {
 
   @Override
   public EventModel[] list(int offset, int limit) {
-    List<EventModel> cacheList = getCacheList(offset, limit);
-    if(cacheList != null && cacheList.size() > 0){
-      return cacheList.toArray(new EventModel[0]);
-    }
-
     EventContract contract = (EventContract) getContract();
     ArrayList<EventModel> dbRecords = new ArrayList<>();
     Cursor dbList = getContract().list(offset, limit);

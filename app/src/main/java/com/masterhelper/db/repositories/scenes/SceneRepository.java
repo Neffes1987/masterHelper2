@@ -1,6 +1,7 @@
 package com.masterhelper.db.repositories.scenes;
 
 import android.database.Cursor;
+import android.util.Log;
 import com.masterhelper.db.DbHelpers;
 import com.masterhelper.db.repositories.common.repositories.AbstractRepository;
 
@@ -24,11 +25,6 @@ public class SceneRepository extends AbstractRepository<SceneModel> {
 
   @Override
   public SceneModel[] list(int offset, int limit) {
-    List<SceneModel> cacheList = getCacheList(offset, limit);
-    if(cacheList != null && cacheList.size() > 0){
-      return cacheList.toArray(new SceneModel[0]);
-    }
-
     SceneContract contract = (SceneContract) getContract();
     ArrayList<SceneModel> dbRecords = new ArrayList<>();
     Cursor dbList = getContract().list(offset, limit);

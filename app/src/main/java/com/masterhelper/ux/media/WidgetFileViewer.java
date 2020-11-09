@@ -16,7 +16,9 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.filesystem.AppFilesLibrary;
+import com.masterhelper.filesystem.AudioPlayer;
 import com.masterhelper.filesystem.LibraryFileData;
+import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
@@ -42,6 +44,7 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
     final String FORMAT_IMAGE_PATH = "/images";
     final String FORMAT_AUDIO_PATH = "/audio";
     AppFilesLibrary library;
+    AudioPlayer player;
 
     public static final int WIDGET_RESULT_CODE = 1000;
     public static final String FORMAT_INTENT_EXTRA_NAME = "format";
@@ -55,6 +58,16 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
     private ComponentUIFloatingButton newItemButton;
     private ComponentUIList<LibraryFileData> list;
     private FragmentManager mn;
+
+    private int currentAudioTrack = 0;
+
+    public void setCurrentAudioTrack(int currentAudioTrack) {
+        this.currentAudioTrack = currentAudioTrack;
+    }
+
+    public int getCurrentAudioTrack() {
+        return currentAudioTrack;
+    }
 
     void setFormat(String format) {
         this.format = Formats.valueOf(format);
@@ -86,10 +99,10 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
     ComponentUIList<LibraryFileData> initList(File[] items){
         ArrayList<LibraryFileData> resultList = new ArrayList<>();
         for (File file: items) {
-            resultList.add(new LibraryFileData("", file.getPath(), false));
+            resultList.add(new LibraryFileData("", file.getPath(), false, false));
         }
         ComponentUIList<LibraryFileData> list = ComponentUIList.cast(mn.findFragmentById(R.id.WIDGET_FILES_LIST_ID));
-        list.controls.setAdapter(resultList.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, true));
+        list.controls.setAdapter(resultList.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, layout == Layout.global));
         return list;
     }
 
@@ -104,7 +117,33 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
 
         UIToolbar.setTitle(this, widgetTitle, "");
         initAddButton();
+        player = GlobalApplication.getPlayer();
+        stopTrack();
         list = initList(library.getFilesLibraryList());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopTrack();
+    }
+
+    void stopTrack(){
+       if(getCurrentAudioTrack() != 0){
+           LibraryFileData currentPlayedTrack = list.controls.getItemByListId(getCurrentAudioTrack());
+           player.stopMediaRecord();
+           currentPlayedTrack.isPlayed.set(false);
+           list.controls.update(currentPlayedTrack, getCurrentAudioTrack());
+           setCurrentAudioTrack(0);
+       }
+    }
+
+    void startRecord(int listItemId){
+        LibraryFileData listRecord = list.controls.getItemByListId(listItemId);
+        player.startMediaRecord(listRecord.getFile());
+        listRecord.isPlayed.set(true);
+        setCurrentAudioTrack(listItemId);
+        list.controls.update(listRecord, listItemId);
     }
 
     /**
@@ -134,12 +173,19 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
 
     @Override
     public void onUpdate(int listItemId) {
+        if(format == Formats.audio){
+            stopTrack();
+            startRecord(listItemId);
+        }
 
     }
 
     @Override
     public void onDelete(int listItemId) {
-
+        stopTrack();
+        LibraryFileData item = list.controls.getItemByListId(listItemId);
+        library.deleteRecordFromMediaLibrary(item.getFile());
+        list.controls.delete(listItemId);
     }
 
     @Override
@@ -209,6 +255,8 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
             }
         }
         library.copyFilesBunchToMediaLibrary(selectedFilesPaths.toArray(new Uri[0]));
+        library.updateMediaLibrary();
+        list = initList(library.getFilesLibraryList());
     }
 
 }

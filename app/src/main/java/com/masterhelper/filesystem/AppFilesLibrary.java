@@ -82,8 +82,7 @@ public class AppFilesLibrary implements IAppFilesLibrary {
   }
 
   @Override
-  public void deleteRecordFromMediaLibrary(int position) {
-    File file = getFileByPosition(position);
+  public void deleteRecordFromMediaLibrary(File file) {
     if(file.delete()){
       filesList.remove(file);
     }

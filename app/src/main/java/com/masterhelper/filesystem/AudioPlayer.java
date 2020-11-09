@@ -17,14 +17,8 @@ public class AudioPlayer {
 
   private int currentAudioIndex = 0;
 
-  public AudioPlayer(boolean isSingle){
+  public AudioPlayer(){
     mediaPlayer = new MediaPlayer();
-    if(!isSingle){
-      mediaPlayer.setOnCompletionListener(v -> {
-        mediaPlayer.reset();
-        startNextMediaFile();
-      });
-    }
   }
 
   public void startMediaRecord(File file) {

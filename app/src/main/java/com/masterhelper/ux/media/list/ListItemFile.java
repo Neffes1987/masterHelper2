@@ -10,8 +10,7 @@ import com.masterhelper.ux.media.list.elements.FileDeleteControl;
 import com.masterhelper.ux.media.list.elements.FileName;
 import com.masterhelper.ux.media.list.elements.FilePlayControl;
 import com.masterhelper.ux.media.list.elements.FileSelection;
-
-import java.util.Collections;
+import com.masterhelper.ux.resources.ResourceIcons;
 
 /**  */
 public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnEvent {
@@ -19,7 +18,8 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
   private FileDeleteControl deleteButton;
   private FilePlayControl playButton;
   private FileSelection selection;
-  private boolean isGlobal;
+  private final boolean isGlobal;
+  private boolean isPlayed;
 
 
   public ListItemFile(FragmentManager manager, ListItemEvents listItemJourneyEvents, boolean isGlobal) {
@@ -42,9 +42,15 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
   @Override
   protected void update(LibraryFileData itemData, int listItemId) {
     setListItemId(listItemId);
+    isPlayed = itemData.isPlayed.get();
     name.setElementData(itemData.getFileName());
     if(!isGlobal){
       selection.setElementData(itemData.isSelected.get());
+    }
+    if(playButton.getBtn() != null){
+      playButton.getBtn().controls.setIcon(
+        ResourceIcons.getIcon( isPlayed ? ResourceIcons.ResourceColorType.pause : ResourceIcons.ResourceColorType.play )
+      );
     }
   }
 

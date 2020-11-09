@@ -9,7 +9,7 @@ public interface IAppFilesLibrary {
   void copyFilesBunchToMediaLibrary(Uri[] paths);
   void updateMediaLibrary();
 
-  void deleteRecordFromMediaLibrary(int position);
+  void deleteRecordFromMediaLibrary(File file);
 
   File getFileByPosition(int position);
   public File[] getFilesLibraryList();

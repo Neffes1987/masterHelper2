@@ -118,12 +118,9 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         startActivityForResult(WidgetFileViewer.getWidgetIntent(
           this,
           WidgetFileViewer.Formats.audio,
-          WidgetFileViewer.Layout.global,
+          WidgetFileViewer.Layout.selectable,
           new String[]{}
         ), WIDGET_RESULT_CODE);
-    }
-
-    private void startActivityForResult(Intent widgetIntent) {
     }
 
     /**
