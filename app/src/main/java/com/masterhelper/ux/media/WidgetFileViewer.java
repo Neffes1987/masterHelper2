@@ -244,7 +244,7 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
   public void onSelect(int listItemId) {
     LibraryFileData selectedListItem = list.controls.getItemByListId(listItemId);
     selectedListItem.isSelected = !selectedListItem.isSelected;
-    Log.i("TAG", "onActivityResult: " +  selectedListItem.isSelected);
+    list.controls.update(selectedListItem, listItemId);
   }
 
   public enum Formats{
