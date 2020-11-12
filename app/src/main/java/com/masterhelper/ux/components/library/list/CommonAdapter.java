@@ -35,6 +35,14 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
     return result;
   }
 
+  ArrayList<DataType> getCurrentList() {
+    ArrayList<DataType> currentList = new ArrayList<>();
+    for (CommonHolderPayloadData<DataType> item: mDataset ) {
+      currentList.add(item.getPayload());
+    }
+    return currentList;
+  }
+
   /**
    * @param  data - data for list items views
    * @param template - special object that described how the list item record looks like

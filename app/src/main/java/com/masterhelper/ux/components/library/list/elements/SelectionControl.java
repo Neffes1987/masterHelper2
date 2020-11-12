@@ -3,10 +3,7 @@ package com.masterhelper.ux.components.library.list.elements;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.library.list.CommonListItemElement;
-import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.components.library.tickButton.check.ComponentUICheckBox;
-
-import java.util.Arrays;
 import java.util.Collections;
 
 public class SelectionControl extends CommonListItemElement<Boolean> {

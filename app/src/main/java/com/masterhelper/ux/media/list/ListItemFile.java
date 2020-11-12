@@ -1,5 +1,6 @@
 package com.masterhelper.ux.media.list;
 
+import android.util.Log;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.filesystem.LibraryFileData;
@@ -10,6 +11,7 @@ import com.masterhelper.ux.media.list.elements.FileDeleteControl;
 import com.masterhelper.ux.media.list.elements.FileName;
 import com.masterhelper.ux.media.list.elements.FilePlayControl;
 import com.masterhelper.ux.media.list.elements.FileSelection;
+import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 /**  */
@@ -31,8 +33,9 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
     super(view, manager, listItemJourneyEvents);
     this.isGlobal = isGlobal;
     View pLayout = getHeader();
+
     if(!isGlobal){
-      selection = new FileSelection(pLayout, manager, "");
+      selection = new FileSelection(pLayout, manager, "", this);
     }
     name = new FileName(pLayout, manager);
     deleteButton = new FileDeleteControl(pLayout, manager, this);
@@ -42,14 +45,17 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
   @Override
   protected void update(LibraryFileData itemData, int listItemId) {
     setListItemId(listItemId);
-    isPlayed = itemData.isPlayed.get();
+    isPlayed = itemData.isPlayed;
     name.setElementData(itemData.getFileName());
     if(!isGlobal){
-      selection.setElementData(itemData.isSelected.get());
+      selection.setElementData(itemData.isSelected);
     }
     if(playButton.getBtn() != null){
       playButton.getBtn().controls.setIcon(
         ResourceIcons.getIcon( isPlayed ? ResourceIcons.ResourceColorType.pause : ResourceIcons.ResourceColorType.play )
+      );
+      playButton.getBtn().controls.setIconColor(
+        isPlayed ? ResourceColors.ResourceColorType.musicStarted : ResourceColors.ResourceColorType.common
       );
     }
   }
@@ -74,6 +80,10 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
     }
     if(playButton.getTag().equals(tag)){
       getListItemSceneEvents().onUpdate(pListItemId);
+    }
+
+    if(selection.getCheckbox().getId() == btnId){
+      getListItemSceneEvents().onSelect(pListItemId);
     }
   }
 

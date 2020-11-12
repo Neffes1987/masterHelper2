@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.masterhelper.ux.components.core.UXElement;
 
+import java.util.ArrayList;
+
 
 /** class for working with RecyclerView android component
  * */
@@ -36,6 +38,10 @@ public class ComponentList<DataType> extends UXElement<RecyclerView> {
   public DataType getItemByListId(int listItemId){
     checkAdapter();
     return adapter.getItem(listItemId);
+  }
+
+  public ArrayList<DataType> getList(){
+    return adapter.getCurrentList();
   }
 
   /**

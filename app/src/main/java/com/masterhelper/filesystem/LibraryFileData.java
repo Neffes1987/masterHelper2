@@ -1,15 +1,14 @@
 package com.masterhelper.filesystem;
 
 import com.masterhelper.baseclasses.fields.DataID;
-import com.masterhelper.baseclasses.fields.GeneralField;
 
 import java.io.File;
 
 public class LibraryFileData {
   DataID id = new DataID();
   File file;
-  public GeneralField<Boolean> isSelected = new GeneralField<>();
-  public GeneralField<Boolean> isPlayed = new GeneralField<>();
+  public Boolean isSelected;
+  public Boolean isPlayed;
 
   public LibraryFileData(String id, String filePath, boolean isSelected, boolean isPlayed){
     if(id == null){
@@ -22,8 +21,8 @@ public class LibraryFileData {
       file = new File(filePath);
     }
 
-    this.isSelected.set(isSelected);
-    this.isPlayed.set(isPlayed);
+    this.isSelected = isSelected;
+    this.isPlayed = isPlayed;
   }
 
   public String getFileName() {

@@ -3,8 +3,6 @@ package com.masterhelper.ux.components.library.tickButton.check;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import com.masterhelper.ux.components.core.UXElement;
 
@@ -13,6 +11,20 @@ import java.util.List;
 
 /** class for working with Checkbox widget */
 public class CheckBoxesGroup extends UXElement<LinearLayout> {
+  View.OnClickListener externalListener;
+
+  View.OnClickListener internalListener = new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+      if(externalListener != null){
+        externalListener.onClick(v);
+      }
+    }
+  };
+
+  public void setExternalListener(View.OnClickListener externalListener) {
+    this.externalListener = externalListener;
+  }
 
   public CheckBoxesGroup(@NonNull View androidSystemComponent){
     this.setUxElement((LinearLayout) androidSystemComponent);
@@ -53,6 +65,7 @@ public class CheckBoxesGroup extends UXElement<LinearLayout> {
       button.setText(name);
       button.setId(View.generateViewId());
       button.setTag(list.indexOf(name));
+      button.setOnClickListener(this.internalListener);
       group.addView(button);
     }
   }
