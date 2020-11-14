@@ -61,7 +61,7 @@ public class EventRepository extends AbstractRepository<EventModel> {
 
     EventContract contract = (EventContract) getContract();
     EventModel foundedRecord = getDraftRecord();
-    Cursor dbList = getContract().list(0, 0);
+    Cursor dbList = getContract().getRecord(id);
     while (dbList.moveToNext()){
       int idIndex = dbList.getColumnIndex(EventContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());

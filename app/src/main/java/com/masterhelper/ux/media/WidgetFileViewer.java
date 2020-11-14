@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -34,6 +33,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import static com.masterhelper.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
+import static com.masterhelper.filesystem.AppFilesLibrary.FORMAT_IMAGE_PATH;
+
 public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
   String[] permissions = new String[] {
     Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -42,9 +44,6 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
 
   private static final int PICK_AUDIO_FILE = 1;
   private static final String PICK_AUDIO_TYPE = "audio/*";
-
-  final String FORMAT_IMAGE_PATH = "/images";
-  final String FORMAT_AUDIO_PATH = "/audio";
   AppFilesLibrary library;
   AudioPlayer player;
 
@@ -93,25 +92,28 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
 
   ArrayList<LibraryFileData> getLibraryItems(File[] items, String[] defaultSelectedFilePaths){
     ArrayList<LibraryFileData> libraryFileDataArrayList = new ArrayList<>();
-    ArrayList<String> selectedPaths = new ArrayList<>();
+    ArrayList<String> selectedFilesByUri = new ArrayList<>();
     if(defaultSelectedFilePaths != null && defaultSelectedFilePaths.length > 0){
-      selectedPaths.addAll(Arrays.asList(defaultSelectedFilePaths));
+      selectedFilesByUri.addAll(Arrays.asList(defaultSelectedFilePaths));
     }
 
     for (File file: items) {
       String filePath = file.getPath();
-      libraryFileDataArrayList.add(new LibraryFileData("", filePath, selectedPaths.contains(filePath), false));
+      String uri = file.toURI().toString();
+      boolean isSelected = selectedFilesByUri.contains(uri);
+      LibraryFileData fileData = new LibraryFileData(uri, filePath, isSelected, false);
+      libraryFileDataArrayList.add(fileData);
     }
 
     return libraryFileDataArrayList;
   }
 
-  String[] getSelectedItemsFileNames(ArrayList<LibraryFileData> currentList){
+  String[] getSelectedItemsFileUri(ArrayList<LibraryFileData> currentList){
     ArrayList<String> selectedPaths = new ArrayList<>();
 
     for (LibraryFileData libraryRecord: currentList) {
       if(libraryRecord.isSelected){
-        selectedPaths.add(libraryRecord.getFileName());
+        selectedPaths.add(libraryRecord.uri);
       }
     }
 
@@ -200,10 +202,10 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
       return;
     }
     if(btnId == applyItemsButton.controls.getId()){
-      String[] currentSelectedFiles = getSelectedItemsFileNames(list.controls.getList());
+      String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());
       Intent returnedIntent = new Intent();
       returnedIntent.putExtra(SELECTED_IDS_INTENT_EXTRA_NAME, currentSelectedFiles);
-      setResult(WIDGET_RESULT_CODE, returnedIntent);
+      setResult(RESULT_OK, returnedIntent);
       finish();
     }
 
@@ -310,7 +312,7 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
     }
     library.copyFilesBunchToMediaLibrary(selectedFilesPaths.toArray(new Uri[0]));
     library.updateMediaLibrary();
-    String[] currentSelectedFiles = getSelectedItemsFileNames(list.controls.getList());
+    String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());
     list = initList(getLibraryItems(library.getFilesLibraryList(), currentSelectedFiles));
   }
 

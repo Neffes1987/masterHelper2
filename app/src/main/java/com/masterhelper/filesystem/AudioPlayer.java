@@ -8,6 +8,7 @@ import com.masterhelper.global.GlobalApplication;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class AudioPlayer {
 
@@ -43,8 +44,13 @@ public class AudioPlayer {
     }
   }
 
-  public void setMediaList(String[] newMediaList) {
-    mediaList = newMediaList;
+  public void setMediaListOfUri(String[] newMediaList) {
+    ArrayList<String> filePaths = new ArrayList<>();
+    for (String strUri : newMediaList) {
+      Uri fileUri = Uri.parse(Uri.decode(strUri));
+      filePaths.add(fileUri.getPath());
+    }
+    mediaList = filePaths.toArray(new String[0]);
   }
 
   private String[] getMediaList(){

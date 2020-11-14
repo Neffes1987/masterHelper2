@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class AppFilesLibrary implements IAppFilesLibrary {
+  public static final String FORMAT_IMAGE_PATH = "/images";
+  public static final String FORMAT_AUDIO_PATH = "/audio";
+
   GeneralField<File> workingDirectory = new GeneralField<>();
   ArrayList<File> filesList = new ArrayList<>();
   ContentResolver resolver;
@@ -45,7 +48,7 @@ public class AppFilesLibrary implements IAppFilesLibrary {
 
   @Override
   public void copyFileToMediaLibrary(Uri path) {
-    String fileName = getOriginalFileName(path);
+    String fileName = getOriginalFileName(path).replace("'", "");
 
     File libraryFile =  new File(workingDirectory.get().getPath() + "/" + fileName);
 

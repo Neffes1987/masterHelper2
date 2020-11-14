@@ -2,12 +2,16 @@ package com.masterhelper.ux.pages.events;
 
 import android.content.Intent;
 import android.view.View;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.db.repositories.events.EventModel;
 import com.masterhelper.db.repositories.events.EventRepository;
+import com.masterhelper.db.repositories.scenes.SceneModel;
+import com.masterhelper.db.repositories.scenes.SceneRepository;
+import com.masterhelper.filesystem.AudioPlayer;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -24,6 +28,7 @@ import com.masterhelper.ux.pages.events.subPageMeetings.PageMeeting;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
+import static com.masterhelper.ux.media.WidgetFileViewer.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.ux.media.WidgetFileViewer.WIDGET_RESULT_CODE;
 import static com.masterhelper.ux.pages.events.EventLocale.getLocalizationByKey;
 import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
@@ -34,13 +39,32 @@ import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.pri
 public class PageEventsList extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
     public static final String INTENT_EVENT_ID = "sceneId";
     FragmentManager mn;
-    EventRepository repository;
+    EventRepository eventRepository;
+    SceneRepository sceneRepository;
 
     EventDialog eventDialog;
     ComponentUIList<EventModel> list;
     ComponentUIFloatingButton newItemButton;
     ComponentUIFloatingButton musicControlButton;
     boolean isMusicActive = false;
+    SceneModel parentScene;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_page_events_list);
+        mn = getSupportFragmentManager();
+        eventRepository = GlobalApplication.getAppDB().eventRepository;
+        sceneRepository = GlobalApplication.getAppDB().sceneRepository;
+        parentScene = sceneRepository.getRecord(getIntent().getStringExtra(INTENT_SCENE_ID));
+        eventRepository.setSceneId(parentScene.id.toString());
+        UIToolbar.setTitle(this, getLocalizationByKey(EventLocale.Keys.listCaption), null);
+        eventDialog = new EventDialog(this, eventRepository.getNameLength(), eventRepository.getDescriptionLength());
+        initNewItemButton();
+        initMusicButton();
+        list = initList(eventRepository.list(0,0));
+    }
 
     void toggleMusicControl(){
         isMusicActive = !isMusicActive;
@@ -53,7 +77,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
     }
 
     private void onCreateItem(String text, String description, EventModel.EventType type) {
-        EventModel newEvent = repository.getDraftRecord();
+        EventModel newEvent = eventRepository.getDraftRecord();
         newEvent.name.set(text);
         newEvent.description.set(description);
         newEvent.type.set(type);
@@ -77,19 +101,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         musicControlButton.controls.setId(View.generateViewId());
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_page_events_list);
-        mn = getSupportFragmentManager();
-        repository = GlobalApplication.getAppDB().eventRepository;
-        repository.setSceneId(getIntent().getStringExtra(INTENT_SCENE_ID));
-        UIToolbar.setTitle(this, getLocalizationByKey(EventLocale.Keys.listCaption), null);
-        eventDialog = new EventDialog(this, repository.getNameLength(), repository.getDescriptionLength());
-        initNewItemButton();
-        initMusicButton();
-        list = initList(repository.list(0,0));
-    }
+
 
     void openAddNewItemDialog(){
         eventDialog.initCreateState();
@@ -111,15 +123,32 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
     }
 
     private void setBackgroundMusicState() {
+        AudioPlayer player = GlobalApplication.getPlayer();
         toggleMusicControl();
-        musicControlButton.controls.setIconColor(isMusicActive ? musicStarted : primary);
+
+        String[] musicList = parentScene.getMusicHashes();
+        if(musicList.length == 0){
+            isMusicActive = false;
+        }
+
+        player.setMediaListOfUri(musicList);
+
+        if(isMusicActive){
+            player.startNextMediaFile();
+            musicControlButton.controls.setIconColor(musicStarted );
+        } else {
+            player.stopMediaRecord();
+            musicControlButton.controls.setIconColor(primary);
+        }
     }
+
     private void startOpenMusicConsole() {
+        String[] currentList = parentScene.getMusicHashes();
         startActivityForResult(WidgetFileViewer.getWidgetIntent(
           this,
           WidgetFileViewer.Formats.audio,
           WidgetFileViewer.Layout.selectable,
-          new String[]{}
+          currentList
         ), WIDGET_RESULT_CODE);
     }
 
@@ -182,7 +211,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
     public void onDelete(int listItemId) {
         EventModel item = list.controls.getItemByListId(listItemId);
         list.controls.delete(listItemId);
-        repository.removeRecord(item.id);
+        eventRepository.removeRecord(item.id);
     }
 
     @Override
@@ -204,5 +233,16 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
         eventIntent.putExtra(INTENT_EVENT_ID, item.id.get().toString());
         eventIntent.putExtra(INTENT_SCENE_ID, getIntent().getStringExtra(INTENT_SCENE_ID));
         startActivity(eventIntent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == WIDGET_RESULT_CODE && data != null){
+                parentScene.setMusicPathsArray(data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
+                parentScene.save();
+            }
+        }
     }
 }
