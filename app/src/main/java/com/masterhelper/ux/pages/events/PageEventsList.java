@@ -2,6 +2,7 @@ package com.masterhelper.ux.pages.events;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import com.masterhelper.db.repositories.events.EventRepository;
 import com.masterhelper.db.repositories.scenes.SceneModel;
 import com.masterhelper.db.repositories.scenes.SceneRepository;
 import com.masterhelper.filesystem.AudioPlayer;
+import com.masterhelper.filesystem.FilesLocale;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -128,6 +130,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
 
         String[] musicList = parentScene.getMusicHashes();
         if(musicList.length == 0){
+            Toast.makeText(this, FilesLocale.getLocalizationByKey(FilesLocale.Keys.emptyAudioFile), Toast.LENGTH_SHORT).show();
             isMusicActive = false;
         }
 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class AudioPlayer {
 
-  private MediaPlayer mediaPlayer;
+  private final MediaPlayer mediaPlayer;
 
   private String[] mediaList = new String[]{};
 

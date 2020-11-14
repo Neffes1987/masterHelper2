@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.filesystem.AppFilesLibrary;
 import com.masterhelper.filesystem.AudioPlayer;
+import com.masterhelper.filesystem.FilesLocale;
 import com.masterhelper.filesystem.LibraryFileData;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
@@ -100,7 +101,7 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
     for (File file: items) {
       String filePath = file.getPath();
       String uri = file.toURI().toString();
-      boolean isSelected = selectedFilesByUri.contains(uri);
+      boolean isSelected = selectedFilesByUri.contains(Uri.encode(uri));
       LibraryFileData fileData = new LibraryFileData(uri, filePath, isSelected, false);
       libraryFileDataArrayList.add(fileData);
     }

@@ -20,7 +20,7 @@ public class SceneRepository extends AbstractRepository<SceneModel> {
 
   @Override
   public SceneModel getDraftRecord() {
-    return new SceneModel(this, null, "", "", 0, 0, null);
+    return new SceneModel(this, null, "", "", 0, 0, "");
   }
 
   @Override
@@ -41,7 +41,7 @@ public class SceneRepository extends AbstractRepository<SceneModel> {
           dbList.getString(descriptionIndex),
           0,
           0,
-          null
+          ""
         )
       );
     }

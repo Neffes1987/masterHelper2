@@ -1,7 +1,6 @@
 package com.masterhelper.db.repositories.scenes;
 
 import android.text.TextUtils;
-import android.util.Log;
 import com.masterhelper.baseclasses.fields.GeneralField;
 import com.masterhelper.db.repositories.common.model.GeneralModel;
 

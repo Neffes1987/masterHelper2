@@ -69,7 +69,8 @@
   <string name="dialog_reject">Отменить</string>
 
   <!-- files -->
-  <string name="audios_files_caption">Библиотека аудио файлов</string>
+  <string name="audio_files_caption">Библиотека аудио файлов</string>
+  <string name="audio_files_empty_list">Нет списка для воспроизведения</string>
   <string name="images_files_caption">Библиотека изображений</string>
 
   <string name="caption">Заголовок</string>

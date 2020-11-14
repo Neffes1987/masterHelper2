@@ -1,4 +1,4 @@
-package com.masterhelper.ux.media;
+package com.masterhelper.filesystem;
 
 import android.content.Context;
 import com.masterhelper.R;
@@ -13,8 +13,9 @@ public abstract class FilesLocale {
   public static String getLocalizationByKey(Keys localeKey){
     Context context = GlobalApplication.getAppContext();
     switch (localeKey){
-      case audiosListCaption: return context.getResources().getString(R.string.audios_files_caption);
+      case audiosListCaption: return context.getResources().getString(R.string.audio_files_caption);
       case imagesListCaption: return context.getResources().getString(R.string.images_files_caption);
+      case emptyAudioFile: return context.getResources().getString(R.string.audio_files_empty_list);
     }
     return "";
   }
@@ -23,5 +24,6 @@ public abstract class FilesLocale {
   public enum Keys{
     audiosListCaption,
     imagesListCaption,
+    emptyAudioFile
   }
 }
