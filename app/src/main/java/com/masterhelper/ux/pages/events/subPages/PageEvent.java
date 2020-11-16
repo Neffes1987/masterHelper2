@@ -1,5 +1,6 @@
-package com.masterhelper.ux.pages.events.subPageMeetings;
+package com.masterhelper.ux.pages.events.subPages;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,19 +16,20 @@ import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloati
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
+import com.masterhelper.ux.components.widgets.musicButton.WidgetMusicFloatingButton;
 import com.masterhelper.ux.pages.events.list.EventDialog;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 import static com.masterhelper.ux.pages.events.PageEventsList.INTENT_EVENT_ID;
-import static com.masterhelper.ux.pages.events.subPageMeetings.MeetingLocale.getLocalizationByKey;
+import static com.masterhelper.ux.pages.events.subPages.MeetingLocale.getLocalizationByKey;
 import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.musicStarted;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.primary;
 
-public class PageMeeting extends AppCompatActivity implements SetBtnEvent, ComponentUIDialog.DialogClickListener {
+public class PageEvent extends AppCompatActivity implements SetBtnEvent, ComponentUIDialog.DialogClickListener {
     private ComponentUIFloatingButton editButton;
-    private ComponentUIFloatingButton musicControl;
+    private WidgetMusicFloatingButton musicControl;
     private ComponentUILabel description;
     private ComponentUIImage previewControl;
     private EventDialog eventDialog;
@@ -57,14 +59,6 @@ public class PageMeeting extends AppCompatActivity implements SetBtnEvent, Compo
         description = ComponentUILabel.cast(mn.findFragmentById(R.id.MEETING_DESCRIPTION_VIEW_ID));
     }
 
-    void initMusicButton(){
-        musicControl = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.MEETING_MUSIC_CONTROL_ID));
-        musicControl.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.music));
-        musicControl.controls.setIconColor(primary);
-        musicControl.controls.setOnClick(this);
-        musicControl.controls.setId(View.generateViewId());
-    }
-
     void toggleMusicControl(){
         isMusicActive = !isMusicActive;
     }
@@ -76,7 +70,7 @@ public class PageMeeting extends AppCompatActivity implements SetBtnEvent, Compo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_page_meeting);
+        setContentView(R.layout.activity_page_event);
         repository = GlobalApplication.getAppDB().eventRepository;
         repository.setSceneId(getIntent().getStringExtra(INTENT_SCENE_ID));
         event = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
@@ -84,7 +78,10 @@ public class PageMeeting extends AppCompatActivity implements SetBtnEvent, Compo
         UIToolbar.setTitle(this, getLocalizationByKey(MeetingLocale.Keys.name), event.name.get());
         mn = getSupportFragmentManager();
         initEditItemButton();
-        initMusicButton();
+
+        musicControl = WidgetMusicFloatingButton.cast(mn.findFragmentById(R.id.MUSIC_CONTROL_ID));
+        musicControl.init(this);
+
         initImageWidget();
         initDescriptionLabel();
         eventDialog = new EventDialog(this, repository.getNameLength(), repository.getDescriptionLength());

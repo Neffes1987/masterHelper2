@@ -1,7 +1,6 @@
 package com.masterhelper.ux.pages.events;
 
 import android.content.Intent;
-import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,11 +19,9 @@ import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.ux.components.widgets.musicButton.WidgetMusicFloatingButton;
-import com.masterhelper.ux.pages.events.subPageAccidents.PageAccident;
-import com.masterhelper.ux.pages.events.subPageEncounter.PageEncounterEnimiesList;
 import com.masterhelper.ux.pages.events.list.EventDialog;
 import com.masterhelper.ux.pages.events.list.ListItemEvent;
-import com.masterhelper.ux.pages.events.subPageMeetings.PageMeeting;
+import com.masterhelper.ux.pages.events.subPages.PageEvent;
 
 import static com.masterhelper.ux.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
@@ -33,7 +30,7 @@ import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
 
 
 public class PageEventsList extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
-  public static final String INTENT_EVENT_ID = "sceneId";
+  public static final String INTENT_EVENT_ID = "eventId";
   FragmentManager mn;
   EventRepository eventRepository;
   SceneRepository sceneRepository;
@@ -170,18 +167,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
   public void onSelect(int listItemId) {
     EventModel item = list.controls.getItemByListId(listItemId);
     Intent eventIntent;
-    switch (item.type.get()){
-      case accident:
-        eventIntent = new Intent(this, PageAccident.class);
-        break;
-      case battle:
-        eventIntent = new Intent(this, PageEncounterEnimiesList.class);
-        break;
-      case meeting:
-        eventIntent = new Intent(this, PageMeeting.class);
-        break;
-      default: throw new Error("PageEventsList: onSelect - wrong event type");
-    }
+    eventIntent = new Intent(this, PageEvent.class);
     eventIntent.putExtra(INTENT_EVENT_ID, item.id.get().toString());
     eventIntent.putExtra(INTENT_SCENE_ID, getIntent().getStringExtra(INTENT_SCENE_ID));
     startActivity(eventIntent);

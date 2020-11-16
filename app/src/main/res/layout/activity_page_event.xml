@@ -5,43 +5,47 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".ux.pages.events.subPageAccidents.PageAccident">
+  tools:context=".ux.pages.events.subPages.PageEvent">
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
-    android:id="@+id/ACCIDENT_APP_BAR_ID"
+    android:id="@+id/MEETING_APP_BAR"
+    tools:layout="@layout/fragment_component_ui_app_bar"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:layout="@layout/fragment_component_ui_app_bar"/>
+    app:layout_constraintTop_toTopOf="parent"/>
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
-    android:id="@+id/ACCIDENT_IMAGE_PREVIEW_ID"
-    app:layout_constraintTop_toBottomOf="@+id/ACCIDENT_COUNTDOWN_TIMER_ID"
+    android:id="@+id/MEETING_PREVIEW_ID"
+    app:layout_constraintTop_toBottomOf="@+id/MEETING_APP_BAR"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_image"/>
+    tools:layout="@layout/fragment_component_ui_image"
+    />
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-    android:id="@+id/ACCIDENT_COUNTDOWN_TIMER_ID"
-    app:layout_constraintStart_toStartOf="parent"
+    android:id="@+id/MEETING_DESCRIPTION_VIEW_ID"
+    app:layout_constraintTop_toBottomOf="@+id/MEETING_PREVIEW_ID"
     app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
     tools:layout="@layout/fragment_component_ui_label"
-    app:layout_constraintTop_toBottomOf="@+id/ACCIDENT_APP_BAR_ID"/>
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"/>
 
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/ACCIDENT_TOGGLE_TIMER_ID"
+    android:id="@+id/MEETING_EDIT_BTN"
     tools:layout="@layout/fragment_component_ui_floating_button"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"/>
@@ -49,29 +53,9 @@
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/ACCIDENT_EDIT_ID"
-    tools:layout="@layout/fragment_component_ui_floating_button"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"/>
-
-  <fragment
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-    android:id="@+id/ACCIDENT_DESCRIPTION"
+    android:name="com.masterhelper.ux.components.widgets.musicButton.WidgetMusicFloatingButton"
+    android:id="@+id/MUSIC_CONTROL_ID"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_label"
-    app:layout_constraintHorizontal_bias="1.0"
-    app:layout_constraintTop_toBottomOf="@+id/ACCIDENT_IMAGE_PREVIEW_ID"/>
-
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/ACCIDENT_START_MUSIC_ID"
-    app:layout_constraintBottom_toTopOf="@+id/ACCIDENT_TOGGLE_TIMER_ID"
-    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
     tools:layout="@layout/fragment_component_ui_floating_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
