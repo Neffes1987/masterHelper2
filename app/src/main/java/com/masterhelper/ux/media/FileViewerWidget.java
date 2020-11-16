@@ -37,7 +37,7 @@ import java.util.HashSet;
 import static com.masterhelper.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 import static com.masterhelper.filesystem.AppFilesLibrary.FORMAT_IMAGE_PATH;
 
-public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
+public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
   String[] permissions = new String[] {
     Manifest.permission.READ_EXTERNAL_STORAGE,
     Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -261,7 +261,7 @@ public class WidgetFileViewer extends AppCompatActivity implements SetBtnEvent, 
   }
 
   public static Intent getWidgetIntent(Context context, Formats format, Layout layout, String[] selections){
-    Intent intent = new Intent(context, WidgetFileViewer.class);
+    Intent intent = new Intent(context, FileViewerWidget.class);
     intent.putExtra(FORMAT_INTENT_EXTRA_NAME, format.name());
     intent.putExtra(LAYOUT_INTENT_EXTRA_NAME, layout.name());
     intent.putExtra(SELECTED_IDS_INTENT_EXTRA_NAME, selections);

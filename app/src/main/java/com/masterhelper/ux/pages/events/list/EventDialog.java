@@ -1,6 +1,5 @@
 package com.masterhelper.ux.pages.events.list;
 
-import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import com.masterhelper.db.repositories.events.EventModel;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;

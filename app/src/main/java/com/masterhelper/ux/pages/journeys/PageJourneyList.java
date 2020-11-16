@@ -12,6 +12,7 @@ import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
+import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
@@ -40,8 +41,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
 
   void initNewItemButton(ComponentUIDialog itemDialog){
     ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.JOURNEY_ADD_NEW_ITEM_BUTTON));
-    floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
-    floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
+    FloatingButtonsPreset.setPreset(FloatingButtonsPreset.Presets.addNewItem, floatingButton);
     floatingButton.controls.setOnClick(new SetBtnEvent() {
       @Override
       public void onClick(int btnId, String tag) {
