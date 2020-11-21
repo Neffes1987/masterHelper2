@@ -45,7 +45,7 @@ public class ListItemScene extends CommonItem<SceneModel> implements SetBtnEvent
     expandBtn = new SceneExpandBtn(header, manager, this);
 
     eventsProgressBar= new ProgressControl(staticPart, manager);
-    eventsProgress = new SceneScriptsDescription(body, manager);
+    //eventsProgress = new SceneScriptsDescription(body, manager);
     description = new SceneName(body, manager);
 
     deleteButton = new SceneDeleteControl(buttons, manager, this);
@@ -58,7 +58,7 @@ public class ListItemScene extends CommonItem<SceneModel> implements SetBtnEvent
     setListItemId(listItemId);
     name.setElementData(itemData.name.get());
     description.setElementData(itemData.description.get());
-    eventsProgress.setElementData(itemData.finishedEvents.get() + "/" + itemData.totalEvents.get());
+    //eventsProgress.setElementData(itemData.finishedEvents.get() + "/" + itemData.totalEvents.get());
 
     eventsProgressBar.setMaxValue(itemData.totalEvents.get());
     eventsProgressBar.setElementData(itemData.finishedEvents.get());
