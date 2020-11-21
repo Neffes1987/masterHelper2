@@ -8,7 +8,7 @@
   <EditText
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:inputType="textMultiLine|textPersonName"
+    android:inputType="textMultiLine|textPersonName|textCapSentences"
     android:text="@string/ui_text"
     android:ems="10"
     android:id="@+id/COMPONENT_INPUT_TEXT_ID"/>
