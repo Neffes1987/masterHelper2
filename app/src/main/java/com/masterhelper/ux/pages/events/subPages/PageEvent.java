@@ -1,6 +1,8 @@
 package com.masterhelper.ux.pages.events.subPages;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
@@ -22,13 +24,14 @@ import com.masterhelper.ux.pages.events.list.EventDialog;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
+import java.io.File;
+
+import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.ux.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.ux.pages.events.PageEventsList.INTENT_EVENT_ID;
 import static com.masterhelper.ux.pages.events.subPages.MeetingLocale.getLocalizationByKey;
 import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
-import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.musicStarted;
-import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.primary;
 
 public class PageEvent extends AppCompatActivity implements SetBtnEvent, ComponentUIDialog.DialogClickListener {
     private ComponentUIFloatingButton editButton;
@@ -40,8 +43,6 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
 
     FragmentManager mn;
     EventRepository repository;
-
-    private boolean isMusicActive;
 
     void initEditItemButton(){
         editButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.MEETING_EDIT_BTN));
@@ -55,19 +56,11 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
         previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.MEETING_PREVIEW_ID));
         previewControl.controls.setOnClick(this);
         previewControl.controls.setId(View.generateViewId());
-        previewControl.controls.setResource(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.enemy1));
+        previewControl.controls.setFile(new File(event.previewId.get()));
     }
 
     void initDescriptionLabel(){
         description = ComponentUILabel.cast(mn.findFragmentById(R.id.MEETING_DESCRIPTION_VIEW_ID));
-    }
-
-    void toggleMusicControl(){
-        isMusicActive = !isMusicActive;
-    }
-    private void setBackgroundMusicState() {
-        toggleMusicControl();
-        musicControl.controls.setIconColor(isMusicActive ? musicStarted : primary);
     }
 
     @Override
@@ -102,10 +95,6 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
         }
         if(btnId == musicControl.controls.getId()){
             musicControl.setBackgroundMusicState(event.getMusicHashes());
-            return;
-        }
-        if(btnId == previewControl.controls.getId()){
-            Toast.makeText(this, "preview show", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -116,7 +105,7 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
             return;
         }
         if(btnId == previewControl.controls.getId()){
-            Toast.makeText(this, "preview upload", Toast.LENGTH_SHORT).show();
+            previewControl.controls.openImageSelector(this);
         }
     }
 
@@ -140,6 +129,18 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
         if(resultCode == RESULT_OK){
             if(requestCode == WIDGET_RESULT_CODE && data != null){
                 event.setMusicPathsArray(data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
+                event.save();
+            }
+            if(requestCode == IMAGE_WIDGET_INTENT_RESULT && data != null){
+                String[] selectedItems = data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME);
+                if(selectedItems !=null && selectedItems.length > 0){
+                    Uri fileUri = Uri.parse(Uri.decode(selectedItems[0]));
+                    event.previewId.set(fileUri.getPath());
+                    previewControl.controls.setFile(new File(fileUri.getPath()));
+                } else {
+                    event.previewId.set("");
+                    previewControl.controls.clearPreview();
+                }
                 event.save();
             }
         }

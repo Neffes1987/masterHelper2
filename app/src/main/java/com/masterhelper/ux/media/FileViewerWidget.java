@@ -44,7 +44,9 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, 
   };
 
   private static final int PICK_AUDIO_FILE = 1;
+  private static final int PICK_IMAGE_FILE = 2;
   private static final String PICK_AUDIO_TYPE = "audio/*";
+  private static final String PICK_IMAGE_TYPE = "image/*";
   AppFilesLibrary library;
   AudioPlayer player;
 
@@ -129,17 +131,20 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, 
     newItemButton.controls.setOnClick(this);
   }
 
-  void initApplyButton(){
+  void initApplyButton(boolean isVisible){
     applyItemsButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.WIDGET_FILES_APPLY_BTN_ID));
     applyItemsButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.done));
     applyItemsButton.controls.setIconColor(ResourceColors.ResourceColorType.primary);
     applyItemsButton.controls.setId(View.generateViewId());
     applyItemsButton.controls.setOnClick(this);
+    if(!isVisible){
+      applyItemsButton.controls.hide();
+    }
   }
 
   ComponentUIList<LibraryFileData> initList(ArrayList<LibraryFileData> items){
     ComponentUIList<LibraryFileData> list = ComponentUIList.cast(mn.findFragmentById(R.id.WIDGET_FILES_LIST_ID));
-    list.controls.setAdapter(items.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, layout == Layout.global));
+    list.controls.setAdapter(items.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, layout == Layout.global, format == Formats.imagePng));
     return list;
   }
 
@@ -155,7 +160,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, 
 
     UIToolbar.setTitle(this, widgetTitle, "");
     initAddButton();
-    initApplyButton();
+    initApplyButton(format == Formats.audio);
     player = GlobalApplication.getPlayer();
     stopTrack();
     ArrayList<LibraryFileData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
@@ -243,11 +248,28 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, 
     list.controls.delete(listItemId);
   }
 
-  @Override
-  public void onSelect(int listItemId) {
+  void checkSelectedItem(int listItemId){
     LibraryFileData selectedListItem = list.controls.getItemByListId(listItemId);
     selectedListItem.isSelected = !selectedListItem.isSelected;
     list.controls.update(selectedListItem, listItemId);
+  }
+
+  void returnSelectedItem(int listItemId){
+    LibraryFileData selectedListItem = list.controls.getItemByListId(listItemId);
+    String[] currentSelectedFiles = new String[]{selectedListItem.uri};
+    Intent returnedIntent = new Intent();
+    returnedIntent.putExtra(SELECTED_IDS_INTENT_EXTRA_NAME, currentSelectedFiles);
+    setResult(RESULT_OK, returnedIntent);
+    finish();
+  }
+
+  @Override
+  public void onSelect(int listItemId) {
+    if(layout == Layout.selectable){
+      checkSelectedItem(listItemId);
+      return;
+    }
+    returnSelectedItem(listItemId);
   }
 
   public enum Formats{
@@ -288,6 +310,10 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, 
       intent.setType(PICK_AUDIO_TYPE);
       startActivityForResult(intent, PICK_AUDIO_FILE);
     }
+    if(format == Formats.imagePng){
+      intent.setType(PICK_IMAGE_TYPE);
+      startActivityForResult(intent, PICK_IMAGE_FILE);
+    }
   }
 
   @Override
@@ -298,8 +324,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, 
       return;
     }
 
-    if(requestCode == PICK_AUDIO_FILE){
-      assert data != null;
+    if(data != null){
       ClipData clipData = data.getClipData();
       if(clipData == null){
         selectedFilesPaths.add(data.getData());
@@ -311,6 +336,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, 
         }
       }
     }
+
     library.copyFilesBunchToMediaLibrary(selectedFilesPaths.toArray(new Uri[0]));
     library.updateMediaLibrary();
     String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());

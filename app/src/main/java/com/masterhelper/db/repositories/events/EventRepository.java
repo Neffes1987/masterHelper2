@@ -74,7 +74,7 @@ public class EventRepository extends AbstractRepository<EventModel> {
       foundedRecord.id.fromString(dbList.getString(idIndex));
       foundedRecord.name.set(dbList.getString(nameIndex));
       foundedRecord.description.set(dbList.getString(descriptionIndex));
-      foundedRecord.previewId.fromString(dbList.getString(previewUrlIndex));
+      foundedRecord.previewId.set(dbList.getString(previewUrlIndex));
       foundedRecord.type.set(EventModel.EventType.valueOf(dbList.getString(typeIndex)));
       foundedRecord.musicList.set(dbList.getString(musicListIndex));
     }

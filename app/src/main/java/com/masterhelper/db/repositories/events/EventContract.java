@@ -1,7 +1,6 @@
 package com.masterhelper.db.repositories.events;
 
 import android.database.Cursor;
-import android.util.Log;
 import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.db.DbHelpers;
 import com.masterhelper.db.repositories.common.contracts.AbstractContract;
@@ -40,7 +39,7 @@ public class EventContract extends AbstractContract<EventModel> {
       record.name.get(),
       record.description.get(),
       record.type.get().name(),
-      record.previewId.toString(),
+      record.previewId.get(),
       record.musicList.get(),
       this.sceneId
     };
@@ -55,7 +54,7 @@ public class EventContract extends AbstractContract<EventModel> {
       record.name.get(),
       record.description.get(),
       record.type.get().name(),
-      record.previewId.toString(),
+      record.previewId.get(),
       record.musicList.get(),
       this.sceneId
     };

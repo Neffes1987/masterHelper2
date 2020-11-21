@@ -11,7 +11,7 @@ public class EventModel extends GeneralModel<EventRepository> {
   public final GeneralField<String> name = new GeneralField<>();
   public final GeneralField<String> description = new GeneralField<>();
   public final GeneralField<EventType> type = new GeneralField<>();
-  public final DataID previewId = new DataID();
+  public final GeneralField<String> previewId = new GeneralField<>();
   public final GeneralField<String> musicList = new GeneralField<>();
 
   public EventModel(EventRepository repository, String defaultId, String defaultName, String defaultDescription, EventType defaultType, String previewUrlId, String musicList){
@@ -19,11 +19,7 @@ public class EventModel extends GeneralModel<EventRepository> {
     name.set(defaultName);
     description.set(defaultDescription);
     type.set(defaultType);
-    if(previewUrlId != null){
-      previewId.fromString(previewUrlId);
-    } else {
-      previewId.set(null);
-    }
+    previewId.set(previewUrlId);
 
     this.musicList.set(musicList);
   }

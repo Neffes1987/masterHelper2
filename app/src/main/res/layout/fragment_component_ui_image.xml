@@ -16,7 +16,8 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:id="@+id/COMPONENT_IMAGE_ID"
-      android:layout_margin="4dp"/>
+      android:layout_margin="4dp"
+      android:minHeight="200dp"/>
   </androidx.cardview.widget.CardView>
 
 </FrameLayout>

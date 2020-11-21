@@ -16,10 +16,6 @@
     android:theme="@style/CustomTheme">
     <activity android:name=".ux.media.FileViewerWidget">
     </activity>
-    <activity android:name=".ux.pages.events.subPages.PageEnemy">
-    </activity>
-    <activity android:name=".ux.pages.events.subPages.PageEncounterEnimiesList">
-    </activity>
     <activity android:name=".ux.pages.events.subPages.PageEvent">
     </activity>
     <activity android:name=".ux.pages.events.PageEventsList">

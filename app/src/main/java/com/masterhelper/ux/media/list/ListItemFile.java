@@ -1,6 +1,5 @@
 package com.masterhelper.ux.media.list;
 
-import android.util.Log;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.filesystem.LibraryFileData;
@@ -21,17 +20,19 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
   private FilePlayControl playButton;
   private FileSelection selection;
   private final boolean isGlobal;
-  private boolean isPlayed;
+  private final boolean hidePreview;
 
 
-  public ListItemFile(FragmentManager manager, ListItemEvents listItemJourneyEvents, boolean isGlobal) {
+  public ListItemFile(FragmentManager manager, ListItemEvents listItemJourneyEvents, boolean isGlobal, boolean hidePreview) {
     super(manager, listItemJourneyEvents);
     this.isGlobal = isGlobal;
+    this.hidePreview = hidePreview;
   }
 
-  public ListItemFile(View view, FragmentManager manager, ListItemEvents listItemJourneyEvents, boolean isGlobal) {
+  public ListItemFile(View view, FragmentManager manager, ListItemEvents listItemJourneyEvents, boolean isGlobal, boolean hidePreview) {
     super(view, manager, listItemJourneyEvents);
     this.isGlobal = isGlobal;
+    this.hidePreview = hidePreview;
     View pLayout = getHeader();
 
     if(!isGlobal){
@@ -39,18 +40,21 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
     }
     name = new FileName(pLayout, manager);
     deleteButton = new FileDeleteControl(pLayout, manager, this);
-    playButton = new FilePlayControl(pLayout, manager, this);
+    if(!hidePreview){
+      playButton = new FilePlayControl(pLayout, manager, this);
+    }
   }
 
   @Override
   protected void update(LibraryFileData itemData, int listItemId) {
     setListItemId(listItemId);
-    isPlayed = itemData.isPlayed;
+    boolean isPlayed = itemData.isPlayed;
     name.setElementData(itemData.getFileName());
     if(!isGlobal){
       selection.setElementData(itemData.isSelected);
     }
-    if(playButton.getBtn() != null){
+
+    if(playButton != null && playButton.getBtn() != null){
       playButton.getBtn().controls.setIcon(
         ResourceIcons.getIcon( isPlayed ? ResourceIcons.ResourceColorType.pause : ResourceIcons.ResourceColorType.play )
       );
@@ -62,7 +66,7 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
 
   @Override
   public CommonItem<LibraryFileData> clone(View view) {
-    return new ListItemFile(view, getManager(), getListItemSceneEvents(), isGlobal);
+    return new ListItemFile(view, getManager(), getListItemSceneEvents(), isGlobal, hidePreview);
   }
 
   /**

@@ -4,11 +4,19 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import com.masterhelper.R;
 import com.masterhelper.ux.components.core.UXButton;
+import com.masterhelper.ux.media.FileViewerWidget;
+import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
 
+import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
+
 public class Image extends UXButton<ImageView> {
+  public static final int IMAGE_WIDGET_INTENT_RESULT = 2000;
+
   public Image(@NonNull View androidSystemComponent){
     this.setUxElement((ImageView) androidSystemComponent);
   }
@@ -18,7 +26,22 @@ public class Image extends UXButton<ImageView> {
   }
 
   public void setFile(File imageFile){
-    this.getUxElement().setImageURI(Uri.parse(imageFile.getPath()));
+    if(imageFile.exists()){
+      this.getUxElement().setImageURI(Uri.parse(imageFile.getPath()));
+    }
+  }
+
+  public void clearPreview(){
+    this.getUxElement().setImageResource(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.addCircle));
+  }
+
+  public void openImageSelector(AppCompatActivity currentActivity){
+    currentActivity.startActivityForResult(FileViewerWidget.getWidgetIntent(
+      currentActivity,
+      FileViewerWidget.Formats.imagePng,
+      FileViewerWidget.Layout.global,
+      null
+    ), IMAGE_WIDGET_INTENT_RESULT);
   }
 
 }

@@ -8,8 +8,6 @@ import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 public class FilePlayControl extends ButtonControl {
-
-
   public FilePlayControl(View container, FragmentManager manager, SetBtnEvent event) {
     super(container, manager, event);
   }
