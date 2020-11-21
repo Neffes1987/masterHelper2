@@ -21,7 +21,7 @@ public class EventRepository extends AbstractRepository<EventModel> {
 
   @Override
   public EventModel getDraftRecord() {
-    return new EventModel(this, null, "", "", EventModel.EventType.battle, null);
+    return new EventModel(this, null, "", "", EventModel.EventType.battle, null, "");
   }
 
   @Override
@@ -42,7 +42,8 @@ public class EventRepository extends AbstractRepository<EventModel> {
           dbList.getString(nameIndex),
           dbList.getString(descriptionIndex),
           EventModel.EventType.valueOf(dbList.getString(typeIndex)),
-          null
+          null,
+          ""
         )
       );
     }
@@ -68,12 +69,14 @@ public class EventRepository extends AbstractRepository<EventModel> {
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
       int typeIndex = dbList.getColumnIndex(contract.type.getColumnTitle());
       int previewUrlIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
+      int musicListIndex = dbList.getColumnIndex(contract.musicList.getColumnTitle());
 
       foundedRecord.id.fromString(dbList.getString(idIndex));
       foundedRecord.name.set(dbList.getString(nameIndex));
       foundedRecord.description.set(dbList.getString(descriptionIndex));
       foundedRecord.previewId.fromString(dbList.getString(previewUrlIndex));
       foundedRecord.type.set(EventModel.EventType.valueOf(dbList.getString(typeIndex)));
+      foundedRecord.musicList.set(dbList.getString(musicListIndex));
     }
     dbList.close();
     setItemToCache(foundedRecord, 0);

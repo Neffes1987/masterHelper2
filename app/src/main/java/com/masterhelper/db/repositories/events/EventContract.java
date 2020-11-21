@@ -20,12 +20,12 @@ public class EventContract extends AbstractContract<EventModel> {
   public final GeneralColumn description = new GeneralColumn(TABLE_NAME,"description", GeneralColumn.ColumnTypes.CharType, DESCRIPTION_COLUMN_LENGTH, false);
   public final GeneralColumn type = new GeneralColumn(TABLE_NAME,"type", GeneralColumn.ColumnTypes.CharType, TYPE_COLUMN_LENGTH, false);
   public final GeneralColumn previewUrlId = new GeneralColumn(TABLE_NAME,"preview", GeneralColumn.ColumnTypes.CharType, PREVIEW_COLUMN_LENGTH, true);
-
+  public final GeneralColumn musicList = new GeneralColumn(TABLE_NAME,"musicList", GeneralColumn.ColumnTypes.TextTypes, 0, false);
   String sceneId;
 
   public EventContract(DbHelpers dbHelpers) {
     super(dbHelpers);
-    initContract(TABLE_NAME, new GeneralColumn[]{id, title, description, type, previewUrlId});
+    initContract(TABLE_NAME, new GeneralColumn[]{id, title, description, type, previewUrlId, musicList});
     getContract().addDeleteForeignKeyColumn(SceneContract.id, externalId);
   }
 
@@ -41,6 +41,7 @@ public class EventContract extends AbstractContract<EventModel> {
       record.description.get(),
       record.type.get().name(),
       record.previewId.toString(),
+      record.musicList.get(),
       this.sceneId
     };
     String insertQuery = getContract().insertRecord(values);
@@ -55,6 +56,7 @@ public class EventContract extends AbstractContract<EventModel> {
       record.description.get(),
       record.type.get().name(),
       record.previewId.toString(),
+      record.musicList.get(),
       this.sceneId
     };
     String updateQuery = getContract().updateRecord(record.id, values, id.getColumnTitle());

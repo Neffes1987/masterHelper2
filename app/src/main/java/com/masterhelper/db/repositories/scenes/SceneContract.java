@@ -11,12 +11,11 @@ public class SceneContract extends AbstractContract<SceneModel> {
   private final static String TABLE_NAME = "scenes";
   public final static int NAME_COLUMN_LENGTH = 200;
   public final static int DESCRIPTION_COLUMN_LENGTH = 200;
-  public final static int MUSIC_LIST_COLUMN_LENGTH = 4048;
   public final static GeneralColumn id = new GeneralColumn(TABLE_NAME, "id", GeneralColumn.ColumnTypes.Primary, ID_COLUMN_LENGTH, false);
   public final static GeneralColumn externalId = new GeneralColumn(TABLE_NAME, "journeyId", GeneralColumn.ColumnTypes.CharType, ID_COLUMN_LENGTH, false);
   public final GeneralColumn title = new GeneralColumn(TABLE_NAME,"title", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
   public final GeneralColumn description = new GeneralColumn(TABLE_NAME,"description", GeneralColumn.ColumnTypes.CharType, DESCRIPTION_COLUMN_LENGTH, false);
-  public final GeneralColumn musicList = new GeneralColumn(TABLE_NAME,"musicList", GeneralColumn.ColumnTypes.CharType, MUSIC_LIST_COLUMN_LENGTH, false);
+  public final GeneralColumn musicList = new GeneralColumn(TABLE_NAME,"musicList", GeneralColumn.ColumnTypes.TextTypes, 0, false);
 
   String journeyId;
 

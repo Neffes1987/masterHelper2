@@ -1,8 +1,9 @@
 package com.masterhelper.ux.pages.events.subPages;
 
-import android.util.Log;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -21,6 +22,8 @@ import com.masterhelper.ux.pages.events.list.EventDialog;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
+import static com.masterhelper.ux.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
+import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.ux.pages.events.PageEventsList.INTENT_EVENT_ID;
 import static com.masterhelper.ux.pages.events.subPages.MeetingLocale.getLocalizationByKey;
 import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
@@ -98,7 +101,7 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
             return;
         }
         if(btnId == musicControl.controls.getId()){
-            setBackgroundMusicState();
+            musicControl.setBackgroundMusicState(event.getMusicHashes());
             return;
         }
         if(btnId == previewControl.controls.getId()){
@@ -109,7 +112,7 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
     @Override
     public void onLongClick(int btnId) {
         if(btnId == musicControl.controls.getId()){
-            Toast.makeText(this, "music open list", Toast.LENGTH_SHORT).show();
+            musicControl.openMusicConsole(event.getMusicHashes());
             return;
         }
         if(btnId == previewControl.controls.getId()){
@@ -129,5 +132,16 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
     @Override
     public void onReject() {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == WIDGET_RESULT_CODE && data != null){
+                event.setMusicPathsArray(data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
+                event.save();
+            }
+        }
     }
 }
