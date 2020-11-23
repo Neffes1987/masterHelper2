@@ -76,7 +76,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
   void onCreateItem(String text){
     JourneyModel newJourney = journeyRepository.getDraftRecord();
     newJourney.name.set(text);
-    list.controls.add(newJourney);
+    list.controls.add(newJourney, true);
     newJourney.save();
   }
 

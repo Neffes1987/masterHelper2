@@ -57,9 +57,9 @@ public class ComponentList<DataType> extends UXElement<RecyclerView> {
   /** will add new item into the list
    * @param newItem - data for new item
    * */
-  public void add(DataType newItem){
+  public void add(DataType newItem, boolean toFirst){
     checkAdapter();
-    adapter.addItem(newItem, true);
+    adapter.addItem(newItem, toFirst);
   }
 
   /** delete particular item in the list by the unique list item id */

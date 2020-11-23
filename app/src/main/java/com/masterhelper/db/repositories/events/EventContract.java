@@ -71,7 +71,7 @@ public class EventContract extends AbstractContract<EventModel> {
   @Override
   public Cursor list(int offset, int limit) {
     String where = externalId.getColumnTitle() + "='" + this.sceneId + "'";
-    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), id.getColumnTitle() + " DESC ", where));
+    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), id.getColumnTitle() + " ASC ", where));
   }
 
   @Override

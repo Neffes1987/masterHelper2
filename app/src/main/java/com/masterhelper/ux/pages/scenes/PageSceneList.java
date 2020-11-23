@@ -88,7 +88,7 @@ public class PageSceneList extends AppCompatActivity implements ListItemEvents {
     newScene.name.set(text);
     newScene.description.set(description);
     newScene.save();
-    list.controls.add(newScene);
+    list.controls.add(newScene, false);
   }
 
   @Override

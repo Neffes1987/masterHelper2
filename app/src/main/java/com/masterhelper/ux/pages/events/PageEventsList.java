@@ -73,7 +73,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
     newEvent.description.set(description);
     newEvent.type.set(type);
     newEvent.save();
-    list.controls.add(newEvent);
+    list.controls.add(newEvent, false);
   }
 
   void initNewItemButton(){
