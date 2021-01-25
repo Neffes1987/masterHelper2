@@ -21,6 +21,21 @@
   <string name="screen_name_scene_update">Изменить имя сцены</string>
   <string name="screen_events_progress">События сцены</string>
 
+  <string name="screen_intro">I.Вступление</string>
+  <string name="screen_intro_tip">Первое испытание, или открытие, которое предваряет само приключение </string>
+
+  <string name="screen_puzzle">II.Ролевое испытание</string>
+  <string name="screen_puzzle_intro">Возможность для игроков поиграть в социалку, разгадать тайну</string>
+
+  <string name="screen_plot_twist">III.Сюжетный поворот</string>
+  <string name="screen_plot_twist_tip">Ложный след в приключении, когда игроки понимают что та цель к которой они двигались, ошибочна и теперь они четко видят, что действительно скрывалось за событиями</string>
+
+  <string name="screen_main_challenge">IV.Главная битва, кульминация</string>
+  <string name="screen_main_challenge_tip">Главное событие к которому стремились игроки(убить главного гада, освободить принцессу и т.д)</string>
+
+  <string name="screen_call_second_deep">V.Открытый конец</string>
+  <string name="screen_call_second_deep_tip">Заключительный этам приключения, который не дает поставить в нем точку. Например что главный злодей был сдерживающим фактором над еще большим злом </string>
+
   <!-- settings -->
   <string name="app_name">Помошник настольщика</string>
   <string name="action_settings">Загрузить музыку</string>
