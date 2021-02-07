@@ -16,7 +16,7 @@ import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.journeys.list.ListItemJourney;
-import com.masterhelper.ux.pages.scenes.PageSceneList;
+import com.masterhelper.goals.PageGoalsList;
 
 import static com.masterhelper.journeys.JourneyLocale.getLocalizationByKey;
 
@@ -122,7 +122,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
   @Override
   public void onSelect(int listItemId) {
     JourneyModel item = list.controls.getItemByListId(listItemId);
-    Intent sceneIntent = new Intent(this, PageSceneList.class);
+    Intent sceneIntent = new Intent(this, PageGoalsList.class);
     sceneIntent.putExtra(INTENT_JOURNEY_ID, item.id.get().toString());
     startActivity(sceneIntent);
   }

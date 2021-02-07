@@ -8,8 +8,8 @@ import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.db.repositories.events.EventModel;
 import com.masterhelper.db.repositories.events.EventRepository;
-import com.masterhelper.db.repositories.scenes.SceneModel;
-import com.masterhelper.db.repositories.scenes.SceneRepository;
+import com.masterhelper.goals.repository.GoalModel;
+import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -23,23 +23,22 @@ import com.masterhelper.ux.pages.events.list.EventDialog;
 import com.masterhelper.ux.pages.events.list.ListItemEvent;
 import com.masterhelper.ux.pages.events.subPages.PageEvent;
 
-import static com.masterhelper.ux.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.ux.pages.events.EventLocale.getLocalizationByKey;
-import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
+import static com.masterhelper.goals.PageGoalsList.INTENT_SCENE_ID;
 
 
 public class PageEventsList extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
   public static final String INTENT_EVENT_ID = "eventId";
   FragmentManager mn;
   EventRepository eventRepository;
-  SceneRepository sceneRepository;
+  GoalRepository goalRepository;
 
   EventDialog eventDialog;
   ComponentUIList<EventModel> list;
   ComponentUIFloatingButton newItemButton;
   WidgetMusicFloatingButton musicControlButton;
-  SceneModel parentScene;
+  GoalModel parentScene;
 
 
   @Override
@@ -48,8 +47,8 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
     setContentView(R.layout.activity_page_events_list);
     mn = getSupportFragmentManager();
     eventRepository = GlobalApplication.getAppDB().eventRepository;
-    sceneRepository = GlobalApplication.getAppDB().sceneRepository;
-    parentScene = sceneRepository.getRecord(getIntent().getStringExtra(INTENT_SCENE_ID));
+    goalRepository = GlobalApplication.getAppDB().goalRepository;
+    parentScene = goalRepository.getRecord(getIntent().getStringExtra(INTENT_SCENE_ID));
     eventRepository.setSceneId(parentScene.id.toString());
     UIToolbar.setTitle(this, getLocalizationByKey(EventLocale.Keys.listCaption), null);
     eventDialog = new EventDialog(this, eventRepository.getNameLength(), eventRepository.getDescriptionLength());
@@ -114,7 +113,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
       return;
     }
     if(btnId == musicControlButton.controls.getId()){
-      musicControlButton.setBackgroundMusicState(parentScene.getMusicHashes());
+      //musicControlButton.setBackgroundMusicState(parentScene.getMusicHashes());
     }
   }
 
@@ -126,7 +125,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
   @Override
   public void onLongClick(int btnId) {
     if(btnId == musicControlButton.controls.getId()){
-      musicControlButton.openMusicConsole(parentScene.getMusicHashes());
+      //musicControlButton.openMusicConsole(parentScene.getMusicHashes());
     }
   }
 
@@ -178,7 +177,7 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
     super.onActivityResult(requestCode, resultCode, data);
     if(resultCode == RESULT_OK){
       if(requestCode == WIDGET_RESULT_CODE && data != null){
-        parentScene.setMusicPathsArray(data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
+        //parentScene.setMusicPathsArray(data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
         parentScene.save();
       }
     }

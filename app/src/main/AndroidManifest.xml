@@ -20,7 +20,7 @@
     </activity>
     <activity android:name=".ux.pages.events.PageEventsList">
     </activity>
-    <activity android:name=".ux.pages.scenes.PageSceneList">
+    <activity android:name=".goals.PageGoalsList">
     </activity>
     <activity android:name=".journeys.PageJourneyList">
       <intent-filter>

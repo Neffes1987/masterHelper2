@@ -1,15 +1,13 @@
-package com.masterhelper.ux.pages.scenes.list.elements;
+package com.masterhelper.goals.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.core.SetBtnEvent;
-import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
-import com.masterhelper.ux.components.library.list.CommonListItemElement;
 import com.masterhelper.ux.components.library.list.elements.ButtonControl;
 import com.masterhelper.ux.resources.ResourceIcons;
 
-public class SceneEditBtn extends ButtonControl {
-  public SceneEditBtn(View container, FragmentManager manager, SetBtnEvent event){
+public class GoalEditBtn extends ButtonControl {
+  public GoalEditBtn(View container, FragmentManager manager, SetBtnEvent event){
     super(container, manager, event);
   }
 

@@ -2,9 +2,7 @@ package com.masterhelper.ux.pages.events.subPages;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,7 +29,7 @@ import static com.masterhelper.ux.media.FileViewerWidget.SELECTED_IDS_INTENT_EXT
 import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.ux.pages.events.PageEventsList.INTENT_EVENT_ID;
 import static com.masterhelper.ux.pages.events.subPages.MeetingLocale.getLocalizationByKey;
-import static com.masterhelper.ux.pages.scenes.PageSceneList.INTENT_SCENE_ID;
+import static com.masterhelper.goals.PageGoalsList.INTENT_SCENE_ID;
 
 public class PageEvent extends AppCompatActivity implements SetBtnEvent, ComponentUIDialog.DialogClickListener {
     private ComponentUIFloatingButton editButton;

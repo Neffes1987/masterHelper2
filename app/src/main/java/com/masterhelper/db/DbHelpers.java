@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.masterhelper.db.repositories.events.EventRepository;
 import com.masterhelper.journeys.repository.JourneyRepository;
-import com.masterhelper.db.repositories.scenes.SceneRepository;
+import com.masterhelper.goals.repository.GoalRepository;
 
 public class DbHelpers extends SQLiteOpenHelper {
   public JourneyRepository journeyRepository;
-  public SceneRepository sceneRepository;
+  public GoalRepository goalRepository;
   public EventRepository eventRepository;
 
   /**
@@ -20,7 +20,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   /**
    * Версия базы данных. При изменении схемы увеличить на единицу
    */
-  private static final int DATABASE_VERSION = 52;
+  private static final int DATABASE_VERSION = 53;
 
   SQLiteDatabase db;
 
@@ -28,14 +28,14 @@ public class DbHelpers extends SQLiteOpenHelper {
   public DbHelpers(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
     journeyRepository = new JourneyRepository(this);
-    sceneRepository = new SceneRepository(this);
+    goalRepository = new GoalRepository(this);
     eventRepository = new EventRepository(this);
     db = getWritableDatabase();
   }
 
   private void initTables(){
     journeyRepository.createTable();
-    sceneRepository.createTable();
+    goalRepository.createTable();
     eventRepository.createTable();
   }
 

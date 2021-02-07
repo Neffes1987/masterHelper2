@@ -5,7 +5,7 @@ import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.db.DbHelpers;
 import com.masterhelper.db.repositories.common.contracts.AbstractContract;
 import com.masterhelper.db.repositories.common.contracts.GeneralColumn;
-import com.masterhelper.db.repositories.scenes.SceneContract;
+import com.masterhelper.goals.repository.GoalContract;
 
 public class EventContract extends AbstractContract<EventModel> {
   private final static String TABLE_NAME = "events";
@@ -25,7 +25,7 @@ public class EventContract extends AbstractContract<EventModel> {
   public EventContract(DbHelpers dbHelpers) {
     super(dbHelpers);
     initContract(TABLE_NAME, new GeneralColumn[]{id, title, description, type, previewUrlId, musicList});
-    getContract().addDeleteForeignKeyColumn(SceneContract.id, externalId);
+    getContract().addDeleteForeignKeyColumn(GoalContract.id, externalId);
   }
 
   public void setSceneId(String sceneId) {

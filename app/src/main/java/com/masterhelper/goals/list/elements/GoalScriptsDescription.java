@@ -1,19 +1,19 @@
-package com.masterhelper.ux.pages.scenes.list.elements;
+package com.masterhelper.goals.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.library.list.elements.LabelControl;
-import com.masterhelper.ux.pages.scenes.SceneLocale;
+import com.masterhelper.goals.GoalLocale;
 
-public class SceneScriptsDescription extends LabelControl {
+public class GoalScriptsDescription extends LabelControl {
 
-  public SceneScriptsDescription(View container, FragmentManager manager){
+  public GoalScriptsDescription(View container, FragmentManager manager){
     super(container, manager);
   }
 
   @Override
   protected void onRender(String data) {
-    getLabel().controls.setText(SceneLocale.getLocalizationByKey(SceneLocale.Keys.scriptsProgressTitle));
+    getLabel().controls.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.scriptsProgressTitle));
     getLabel().valueControls.setText(data);
   }
 

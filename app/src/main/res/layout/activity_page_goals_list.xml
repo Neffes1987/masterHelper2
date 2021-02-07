@@ -5,7 +5,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".ux.pages.scenes.PageSceneList"
+  tools:context=".goals.PageGoalsList"
   android:id="@+id/linearLayout">
 
   <fragment
@@ -35,6 +35,17 @@
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
     android:id="@+id/SCENE_ADD_NEW_ITEM"
     tools:layout="@layout/fragment_component_ui_floating_button"
-    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/fragment"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.widgets.acts.ComponentActsTabs"
+    android:id="@+id/fragment"
+    app:layout_constraintBottom_toBottomOf="@+id/SCENE_LIST"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:layout="@layout/fragment_component_acts_tabs"
     app:layout_constraintEnd_toEndOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

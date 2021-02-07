@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.scenes.list.elements;
+package com.masterhelper.goals.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
@@ -7,7 +7,7 @@ import com.masterhelper.ux.components.library.list.elements.ButtonControl;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
-public class SceneExpandBtn extends ButtonControl {
+public class GoalExpandBtn extends ButtonControl {
   private boolean isExpanded = false;
 
   public void toggleCurrentState() {
@@ -18,7 +18,7 @@ public class SceneExpandBtn extends ButtonControl {
     return isExpanded;
   }
 
-  public SceneExpandBtn(View container, FragmentManager manager, SetBtnEvent event){
+  public GoalExpandBtn(View container, FragmentManager manager, SetBtnEvent event){
     super(container, manager, event);
   }
 

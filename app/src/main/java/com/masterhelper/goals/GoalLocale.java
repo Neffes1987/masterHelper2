@@ -1,11 +1,11 @@
-package com.masterhelper.ux.pages.scenes;
+package com.masterhelper.goals;
 
 import android.content.Context;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 
 /** static facade class with localized strings of journeys */
-public abstract class SceneLocale {
+public abstract class GoalLocale {
 
   /** get localize value from vocabulary by key
    * @param localeKey - one of available keys in vocabulary

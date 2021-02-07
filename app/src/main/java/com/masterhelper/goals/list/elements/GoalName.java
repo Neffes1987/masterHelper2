@@ -1,14 +1,12 @@
-package com.masterhelper.ux.pages.scenes.list.elements;
+package com.masterhelper.goals.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
-import com.masterhelper.ux.components.library.list.CommonListItemElement;
 import com.masterhelper.ux.components.library.list.elements.LabelControl;
-import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 
-public class SceneName extends LabelControl {
+public class GoalName extends LabelControl {
 
-  public SceneName(View container, FragmentManager manager){
+  public GoalName(View container, FragmentManager manager){
     super(container, manager);
   }
 
