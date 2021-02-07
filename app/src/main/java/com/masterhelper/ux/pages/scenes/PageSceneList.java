@@ -14,13 +14,13 @@ import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloati
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.pages.events.PageEventsList;
-import com.masterhelper.ux.pages.journeys.JourneyLocale;
+import com.masterhelper.journeys.JourneyLocale;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.ux.pages.scenes.list.ListItemScene;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
-import static com.masterhelper.ux.pages.journeys.PageJourneyList.INTENT_JOURNEY_ID;
+import static com.masterhelper.journeys.PageJourneyList.INTENT_JOURNEY_ID;
 import static com.masterhelper.ux.pages.scenes.SceneLocale.getLocalizationByKey;
 
 public class PageSceneList extends AppCompatActivity implements ListItemEvents {

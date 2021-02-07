@@ -22,7 +22,7 @@
     </activity>
     <activity android:name=".ux.pages.scenes.PageSceneList">
     </activity>
-    <activity android:name=".ux.pages.journeys.PageJourneyList">
+    <activity android:name=".journeys.PageJourneyList">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 

@@ -1,4 +1,4 @@
-package com.masterhelper.db.repositories.journeys;
+package com.masterhelper.journeys.repository;
 
 import com.masterhelper.db.repositories.common.model.GeneralModel;
 import com.masterhelper.baseclasses.fields.GeneralField;

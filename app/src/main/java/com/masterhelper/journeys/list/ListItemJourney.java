@@ -1,14 +1,14 @@
-package com.masterhelper.ux.pages.journeys.list;
+package com.masterhelper.journeys.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
-import com.masterhelper.db.repositories.journeys.JourneyModel;
+import com.masterhelper.journeys.repository.JourneyModel;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
-import com.masterhelper.ux.pages.journeys.list.elements.JourneyDeleteControl;
-import com.masterhelper.ux.pages.journeys.list.elements.JourneyEditControl;
-import com.masterhelper.ux.pages.journeys.list.elements.JourneyName;
+import com.masterhelper.journeys.list.elements.JourneyDeleteControl;
+import com.masterhelper.journeys.list.elements.JourneyEditControl;
+import com.masterhelper.journeys.list.elements.JourneyName;
 
 /**  */
 public class ListItemJourney extends CommonItem<JourneyModel> implements SetBtnEvent {

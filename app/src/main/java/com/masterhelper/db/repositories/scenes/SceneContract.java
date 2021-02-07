@@ -5,7 +5,7 @@ import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.db.DbHelpers;
 import com.masterhelper.db.repositories.common.contracts.AbstractContract;
 import com.masterhelper.db.repositories.common.contracts.GeneralColumn;
-import com.masterhelper.db.repositories.journeys.JourneyContract;
+import com.masterhelper.journeys.repository.JourneyContract;
 
 public class SceneContract extends AbstractContract<SceneModel> {
   private final static String TABLE_NAME = "scenes";

@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.masterhelper.db.repositories.events.EventRepository;
-import com.masterhelper.db.repositories.journeys.JourneyRepository;
+import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.db.repositories.scenes.SceneRepository;
 
 public class DbHelpers extends SQLiteOpenHelper {

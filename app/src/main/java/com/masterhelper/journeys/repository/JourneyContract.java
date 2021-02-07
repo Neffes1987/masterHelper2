@@ -1,4 +1,4 @@
-package com.masterhelper.db.repositories.journeys;
+package com.masterhelper.journeys.repository;
 
 import android.database.Cursor;
 import com.masterhelper.baseclasses.fields.DataID;

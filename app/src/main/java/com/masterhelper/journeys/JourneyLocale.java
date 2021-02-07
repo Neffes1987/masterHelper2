@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.journeys;
+package com.masterhelper.journeys;
 
 import android.content.Context;
 import com.masterhelper.R;

@@ -1,13 +1,12 @@
-package com.masterhelper.ux.pages.journeys;
+package com.masterhelper.journeys;
 
 import android.content.Intent;
-import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
-import com.masterhelper.db.repositories.journeys.JourneyModel;
-import com.masterhelper.db.repositories.journeys.JourneyRepository;
+import com.masterhelper.journeys.repository.JourneyModel;
+import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -16,12 +15,10 @@ import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPr
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
-import com.masterhelper.ux.pages.journeys.list.ListItemJourney;
+import com.masterhelper.journeys.list.ListItemJourney;
 import com.masterhelper.ux.pages.scenes.PageSceneList;
-import com.masterhelper.ux.resources.ResourceColors;
-import com.masterhelper.ux.resources.ResourceIcons;
 
-import static com.masterhelper.ux.pages.journeys.JourneyLocale.getLocalizationByKey;
+import static com.masterhelper.journeys.JourneyLocale.getLocalizationByKey;
 
 public class PageJourneyList extends AppCompatActivity implements ListItemEvents {
   public static final String INTENT_JOURNEY_ID = "journeyId";
