@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.events.list;
+package com.masterhelper.locations.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
@@ -6,7 +6,7 @@ import com.masterhelper.db.repositories.events.EventModel;
 import com.masterhelper.ux.components.core.SetBtnEvent;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
-import com.masterhelper.ux.pages.events.list.elements.*;
+import com.masterhelper.locations.list.elements.*;
 import com.masterhelper.ux.resources.ResourceColors;
 
 /**  */

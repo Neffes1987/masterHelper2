@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.events.list.elements;
+package com.masterhelper.locations.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;

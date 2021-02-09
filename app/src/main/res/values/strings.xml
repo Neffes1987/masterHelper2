@@ -9,17 +9,13 @@
   <string name="journey_create_title">Создать приключение</string>
   <string name="journey_update_title">Изменить имя приключения</string>
 
-  <!-- scene -->
-  <string name="scene">Сцена</string>
-  <string name="scene_list">Список сцен</string>
-  <string name="scene_name">Имя сцены</string>
-  <string name="scene_description">Описание сцены</string>
-  <string name="screen_steps">События сцены</string>
-  <string name="scene_create_title">Создать сцену</string>
-  <string name="screen_name_scene">Сцена</string>
-  <string name="screen_name_scene_create">Создать сцену</string>
-  <string name="screen_name_scene_update">Изменить имя сцены</string>
-  <string name="screen_events_progress">События сцены</string>
+  <!-- goal -->
+  <string name="goal_list">Список целей</string>
+  <string name="goal_name">Имя цели</string>
+  <string name="goal_description">Описание цели</string>
+  <string name="goal_create_popup_title">Создать цель</string>
+  <string name="goal_popup_update_title">Изменить имя цели</string>
+  <string name="goal_title">Сцена</string>
 
   <string name="screen_intro">I</string>
   <string name="screen_intro_tip">Вступление. Первое испытание, или открытие, которое предваряет само приключение </string>
@@ -35,6 +31,12 @@
 
   <string name="screen_call_second_deep">V</string>
   <string name="screen_call_second_deep_tip">Открытый конец. Заключительный этам приключения, который не дает поставить в нем точку. Например что главный злодей был сдерживающим фактором над еще большим злом </string>
+
+
+  <string name="screen_steps">События сцены</string>
+  <string name="scene_create_title">Создать сцену</string>
+  <string name="screen_events_progress">События сцены</string>
+
 
   <!-- settings -->
   <string name="app_name">Помошник настольщика</string>

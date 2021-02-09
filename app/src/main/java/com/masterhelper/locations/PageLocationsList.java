@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.events;
+package com.masterhelper.locations;
 
 import android.content.Intent;
 import androidx.annotation.Nullable;
@@ -19,16 +19,15 @@ import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.ux.components.widgets.musicButton.WidgetMusicFloatingButton;
-import com.masterhelper.ux.pages.events.list.EventDialog;
-import com.masterhelper.ux.pages.events.list.ListItemEvent;
-import com.masterhelper.ux.pages.events.subPages.PageEvent;
+import com.masterhelper.locations.list.EventDialog;
+import com.masterhelper.locations.list.ListItemEvent;
 
 import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
-import static com.masterhelper.ux.pages.events.EventLocale.getLocalizationByKey;
-import static com.masterhelper.goals.PageGoalsList.INTENT_SCENE_ID;
+import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
+import static com.masterhelper.goals.PageGoalsList.INTENT_GOAL_ID;
 
 
-public class PageEventsList extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
+public class PageLocationsList extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
   public static final String INTENT_EVENT_ID = "eventId";
   FragmentManager mn;
   EventRepository eventRepository;
@@ -48,9 +47,9 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
     mn = getSupportFragmentManager();
     eventRepository = GlobalApplication.getAppDB().eventRepository;
     goalRepository = GlobalApplication.getAppDB().goalRepository;
-    parentScene = goalRepository.getRecord(getIntent().getStringExtra(INTENT_SCENE_ID));
+    parentScene = goalRepository.getRecord(getIntent().getStringExtra(INTENT_GOAL_ID));
     eventRepository.setSceneId(parentScene.id.toString());
-    UIToolbar.setTitle(this, getLocalizationByKey(EventLocale.Keys.listCaption), null);
+    UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.listCaption), null);
     eventDialog = new EventDialog(this, eventRepository.getNameLength(), eventRepository.getDescriptionLength());
     initNewItemButton();
 
@@ -166,9 +165,9 @@ public class PageEventsList extends AppCompatActivity implements SetBtnEvent, Li
   public void onSelect(int listItemId) {
     EventModel item = list.controls.getItemByListId(listItemId);
     Intent eventIntent;
-    eventIntent = new Intent(this, PageEvent.class);
+    eventIntent = new Intent(this, PageLocation.class);
     eventIntent.putExtra(INTENT_EVENT_ID, item.id.get().toString());
-    eventIntent.putExtra(INTENT_SCENE_ID, getIntent().getStringExtra(INTENT_SCENE_ID));
+    eventIntent.putExtra(INTENT_GOAL_ID, getIntent().getStringExtra(INTENT_GOAL_ID));
     startActivity(eventIntent);
   }
 

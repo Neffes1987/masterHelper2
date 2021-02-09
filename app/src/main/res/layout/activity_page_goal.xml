@@ -5,57 +5,44 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".locations.PageLocation">
+  tools:context=".goals.PageGoal">
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
-    android:id="@+id/MEETING_APP_BAR"
-    tools:layout="@layout/fragment_component_ui_app_bar"
+    android:id="@+id/fragment5"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toTopOf="parent"
+    tools:layout="@layout/fragment_component_ui_app_bar"
+    app:layout_constraintEnd_toEndOf="parent"/>
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
-    android:id="@+id/MEETING_PREVIEW_ID"
-    app:layout_constraintTop_toBottomOf="@+id/MEETING_APP_BAR"
-    app:layout_constraintEnd_toEndOf="parent"
+    android:name="com.masterhelper.ux.components.library.tickButton.radio.ComponentUIRadioGroup"
+    android:id="@+id/GOAL_PROGRESS_ID"
     app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_image"
-    />
+    tools:layout="@layout/fragment_component_ui_radio_group"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/fragment5"/>
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-    android:id="@+id/MEETING_DESCRIPTION_VIEW_ID"
-    app:layout_constraintTop_toBottomOf="@+id/MEETING_PREVIEW_ID"
+    android:id="@+id/GOAL_DESCRIPTION_ID"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_label"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"/>
+    app:layout_constraintTop_toBottomOf="@id/GOAL_PROGRESS_ID"
+    tools:layout="@layout/fragment_component_ui_label"/>
 
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/MEETING_EDIT_BTN"
-    tools:layout="@layout/fragment_component_ui_floating_button"
+    android:id="@+id/GOAL_EDIT_ID"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
-
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.widgets.musicButton.WidgetMusicFloatingButton"
-    android:id="@+id/MUSIC_CONTROL_ID"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
     tools:layout="@layout/fragment_component_ui_floating_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

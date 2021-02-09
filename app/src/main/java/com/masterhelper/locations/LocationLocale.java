@@ -1,11 +1,11 @@
-package com.masterhelper.ux.pages.events;
+package com.masterhelper.locations;
 
 import android.content.Context;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 
 /** static facade class with localized strings of journeys */
-public abstract class EventLocale {
+public abstract class LocationLocale {
 
   /** get localize value from vocabulary by key
    * @param localeKey - one of available keys in vocabulary
@@ -21,6 +21,9 @@ public abstract class EventLocale {
       case eventAccident: return context.getResources().getString(R.string.event_is_accident);
       case eventBattle: return context.getResources().getString(R.string.event_is_battle);
       case eventMeeting: return context.getResources().getString(R.string.event_is_meeting);
+      case name: return context.getResources().getString(R.string.meeting_name);
+      case update:return context.getResources().getString(R.string.meeting_update);
+      case description: return context.getResources().getString(R.string.meeting_description);
     }
     return "";
   }
@@ -35,5 +38,8 @@ public abstract class EventLocale {
     eventAccident,
     eventMeeting,
     eventBattle,
+    name,
+    description,
+    update
   }
 }

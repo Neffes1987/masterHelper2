@@ -1,6 +1,7 @@
 package com.masterhelper.goals;
 
 import android.content.Intent;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -14,7 +15,7 @@ import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloati
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.widgets.acts.IActsTabs;
-import com.masterhelper.ux.pages.events.PageEventsList;
+import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.journeys.JourneyLocale;
 import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.goals.list.ListItemGoal;
@@ -25,7 +26,7 @@ import static com.masterhelper.journeys.PageJourneyList.INTENT_JOURNEY_ID;
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
 
 public class PageGoalsList extends AppCompatActivity implements ListItemEvents, IActsTabs {
-  public static final String INTENT_SCENE_ID = "goalId";
+  public static final String INTENT_GOAL_ID = "goalId";
   FragmentManager mn;
   GoalRepository repository;
   ComponentUIList<GoalModel> list;
@@ -52,7 +53,7 @@ public class PageGoalsList extends AppCompatActivity implements ListItemEvents, 
   }
 
   void initNewItemButton(ComponentUIDialog itemDialog){
-    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.SCENE_ADD_NEW_ITEM));
+    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.GOAL_ADD_NEW_ITEM));
     floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
     floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
     floatingButton.controls.setOnClick(new SetBtnEvent() {
@@ -81,7 +82,7 @@ public class PageGoalsList extends AppCompatActivity implements ListItemEvents, 
   }
 
   void initList(GoalModel[] items){
-    list = ComponentUIList.cast(mn.findFragmentById(R.id.SCENE_LIST));
+    list = ComponentUIList.cast(mn.findFragmentById(R.id.GOAL_LIST));
     list.controls.setAdapter(items, new ListItemGoal(getSupportFragmentManager(), this));
   }
 
@@ -94,11 +95,25 @@ public class PageGoalsList extends AppCompatActivity implements ListItemEvents, 
     list.controls.add(newGoal, false);
   }
 
+  void showHintByAct(int actNumber){
+    String actHint;
+    switch (actNumber){
+      case 1: actHint = getLocalizationByKey(GoalLocale.Keys.actIHint);  break;
+      case 2: actHint = getLocalizationByKey(GoalLocale.Keys.actIIHint);  break;
+      case 3: actHint = getLocalizationByKey(GoalLocale.Keys.actIIIHint);  break;
+      case 4: actHint = getLocalizationByKey(GoalLocale.Keys.actIVHint);  break;
+      case 5: actHint = getLocalizationByKey(GoalLocale.Keys.actVHint);  break;
+      default: actHint = null;
+    }
+    TextView hint = findViewById(R.id.GOAL_ACT_HINT_ID);
+    hint.setText(actHint);
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_goals_list);
-    UIToolbar.setTitle(this, getLocalizationByKey(GoalLocale.Keys.listCaption), null);
+    UIToolbar.setTitle(this, getLocalizationByKey(GoalLocale.Keys.listCaption), "");
     String journeyId = getIntent().getStringExtra(INTENT_JOURNEY_ID);
     mn = getSupportFragmentManager();
     repository = GlobalApplication.getAppDB().goalRepository;
@@ -109,6 +124,7 @@ public class PageGoalsList extends AppCompatActivity implements ListItemEvents, 
     );
     initNewItemButton(dialog);
     initList(repository.listByAct(selectedTab));
+    showHintByAct(selectedTab);
   }
 
   @Override
@@ -143,8 +159,8 @@ public class PageGoalsList extends AppCompatActivity implements ListItemEvents, 
   @Override
   public void onSelect(int listItemId) {
     GoalModel item = list.controls.getItemByListId(listItemId);
-    Intent eventIntent = new Intent(this, PageEventsList.class);
-    eventIntent.putExtra(INTENT_SCENE_ID, item.id.get().toString());
+    Intent eventIntent = new Intent(this, PageGoal.class);
+    eventIntent.putExtra(INTENT_GOAL_ID, item.id.get().toString());
     startActivity(eventIntent);
   }
 
@@ -152,5 +168,6 @@ public class PageGoalsList extends AppCompatActivity implements ListItemEvents, 
   public void updateSelectedTab(int newCurrentTab) {
     selectedTab = newCurrentTab;
     initList(repository.listByAct(newCurrentTab));
+    showHintByAct(newCurrentTab);
   }
 }

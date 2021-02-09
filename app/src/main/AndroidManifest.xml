@@ -14,11 +14,13 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/CustomTheme">
+    <activity android:name=".goals.PageGoal">
+    </activity>
     <activity android:name=".ux.media.FileViewerWidget">
     </activity>
-    <activity android:name=".ux.pages.events.subPages.PageEvent">
+    <activity android:name=".locations.PageLocation">
     </activity>
-    <activity android:name=".ux.pages.events.PageEventsList">
+    <activity android:name=".locations.PageLocationsList">
     </activity>
     <activity android:name=".goals.PageGoalsList">
     </activity>

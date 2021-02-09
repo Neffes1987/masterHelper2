@@ -1,4 +1,4 @@
-package com.masterhelper.ux.pages.events.subPages;
+package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -18,20 +18,20 @@ import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.components.widgets.musicButton.WidgetMusicFloatingButton;
-import com.masterhelper.ux.pages.events.list.EventDialog;
+import com.masterhelper.locations.list.EventDialog;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
 
+import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.ux.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
-import static com.masterhelper.ux.pages.events.PageEventsList.INTENT_EVENT_ID;
-import static com.masterhelper.ux.pages.events.subPages.MeetingLocale.getLocalizationByKey;
-import static com.masterhelper.goals.PageGoalsList.INTENT_SCENE_ID;
+import static com.masterhelper.locations.PageLocationsList.INTENT_EVENT_ID;
+import static com.masterhelper.goals.PageGoalsList.INTENT_GOAL_ID;
 
-public class PageEvent extends AppCompatActivity implements SetBtnEvent, ComponentUIDialog.DialogClickListener {
+public class PageLocation extends AppCompatActivity implements SetBtnEvent, ComponentUIDialog.DialogClickListener {
     private ComponentUIFloatingButton editButton;
     private WidgetMusicFloatingButton musicControl;
     private ComponentUILabel description;
@@ -66,10 +66,10 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_event);
         repository = GlobalApplication.getAppDB().eventRepository;
-        repository.setSceneId(getIntent().getStringExtra(INTENT_SCENE_ID));
+        repository.setSceneId(getIntent().getStringExtra(INTENT_GOAL_ID));
         event = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
 
-        UIToolbar.setTitle(this, getLocalizationByKey(MeetingLocale.Keys.name), event.name.get());
+        UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), event.name.get());
         mn = getSupportFragmentManager();
         initEditItemButton();
 
@@ -112,7 +112,7 @@ public class PageEvent extends AppCompatActivity implements SetBtnEvent, Compone
         event.name.set(eventDialog.getName());
         event.description.set(eventDialog.getDescription());
         event.save();
-        UIToolbar.setTitle(this, getLocalizationByKey(MeetingLocale.Keys.name), event.name.get());
+        UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), event.name.get());
         description.controls.setText(eventDialog.getDescription());
     }
 

@@ -12,38 +12,51 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
-    android:id="@+id/SCENE_MAIN_BAR_ID"
+    android:id="@+id/GOAL_MAIN_BAR_ID"
     tools:layout="@layout/fragment_component_ui_app_bar"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"/>
 
+  <TextView
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/GOAL_ACT_HINT_ID"
+    app:layout_constraintTop_toBottomOf="@+id/GOAL_MAIN_BAR_ID"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    style="@style/rowStyled"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:textSize="14sp"/>
+
   <fragment
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
-    android:id="@+id/SCENE_LIST"
+    android:id="@+id/GOAL_LIST"
     tools:layout="@layout/fragment_component_ui_list"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/SCENE_MAIN_BAR_ID"/>
+    app:layout_constraintTop_toBottomOf="@+id/GOAL_ACT_HINT_ID"
+    android:layout_marginTop="8dp"/>
 
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/SCENE_ADD_NEW_ITEM"
+    android:id="@+id/GOAL_ADD_NEW_ITEM"
     tools:layout="@layout/fragment_component_ui_floating_button"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/fragment"/>
+    app:layout_constraintBottom_toTopOf="@+id/GOAL_ACTS_TABS"/>
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.widgets.acts.ComponentActsTabs"
-    android:id="@+id/fragment"
-    app:layout_constraintBottom_toBottomOf="@+id/SCENE_LIST"
+    android:id="@+id/GOAL_ACTS_TABS"
+    app:layout_constraintBottom_toBottomOf="@+id/GOAL_LIST"
     app:layout_constraintStart_toStartOf="parent"
     tools:layout="@layout/fragment_component_acts_tabs"
     app:layout_constraintEnd_toEndOf="parent"/>
