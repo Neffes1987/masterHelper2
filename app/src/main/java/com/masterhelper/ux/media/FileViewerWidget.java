@@ -20,11 +20,11 @@ import com.masterhelper.filesystem.AudioPlayer;
 import com.masterhelper.filesystem.FilesLocale;
 import com.masterhelper.filesystem.LibraryFileData;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.components.library.list.ListItemLocation;
 import com.masterhelper.ux.media.list.ListItemFile;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
@@ -37,7 +37,7 @@ import java.util.HashSet;
 import static com.masterhelper.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 import static com.masterhelper.filesystem.AppFilesLibrary.FORMAT_IMAGE_PATH;
 
-public class FileViewerWidget extends AppCompatActivity implements SetBtnEvent, ListItemEvents {
+public class FileViewerWidget extends AppCompatActivity implements SetBtnLocation, ListItemLocation {
   String[] permissions = new String[] {
     Manifest.permission.READ_EXTERNAL_STORAGE,
     Manifest.permission.WRITE_EXTERNAL_STORAGE

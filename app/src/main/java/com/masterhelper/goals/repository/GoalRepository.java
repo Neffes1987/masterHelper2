@@ -19,7 +19,7 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
 
   @Override
   public GoalModel getDraftRecord() {
-    return new GoalModel(this, null, "", "", 0, null);
+    return new GoalModel(this, null, "", "", 0, null, GoalModel.GoalProgress.inProgress);
   }
 
   @Override
@@ -31,7 +31,9 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
       int idIndex = dbList.getColumnIndex(GoalContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
+      int progressIndex = dbList.getColumnIndex(contract.progress.getColumnTitle());
 
+      String progress = dbList.getString(progressIndex);
       dbRecords.add(
         new GoalModel(
           this,
@@ -39,7 +41,8 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
           dbList.getString(nameIndex),
           dbList.getString(descriptionIndex),
           0,
-          null
+          null,
+          progress != null ? GoalModel.GoalProgress.valueOf(dbList.getString(progressIndex)) : null
         )
       );
     }
@@ -56,7 +59,9 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
       int idIndex = dbList.getColumnIndex(GoalContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
+      int progressIndex = dbList.getColumnIndex(contract.progress.getColumnTitle());
 
+      String progress = dbList.getString(progressIndex);
       dbRecords.add(
         new GoalModel(
           this,
@@ -64,7 +69,8 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
           dbList.getString(nameIndex),
           dbList.getString(descriptionIndex),
           0,
-          null
+          null,
+          progress != null ? GoalModel.GoalProgress.valueOf(dbList.getString(progressIndex)) : null
         )
       );
     }

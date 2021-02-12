@@ -3,13 +3,13 @@ package com.masterhelper.goals.list;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.goals.repository.GoalModel;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.components.library.list.ListItemLocation;
 import com.masterhelper.goals.list.elements.*;
 
 /**  */
-public class ListItemGoal extends CommonItem<GoalModel> implements SetBtnEvent {
+public class ListItemGoal extends CommonItem<GoalModel> implements SetBtnLocation {
 
   private GoalName name;
   private GoalName description;
@@ -18,11 +18,11 @@ public class ListItemGoal extends CommonItem<GoalModel> implements SetBtnEvent {
   private GoalDeleteControl deleteButton;
   private GoalExpandBtn expandBtn;
 
-  public ListItemGoal(FragmentManager manager, ListItemEvents listItemScenesEvents) {
+  public ListItemGoal(FragmentManager manager, ListItemLocation listItemScenesEvents) {
     super(manager, listItemScenesEvents);
   }
 
-  public ListItemGoal(View view, FragmentManager manager, ListItemEvents listItemScenesEvents) {
+  public ListItemGoal(View view, FragmentManager manager, ListItemLocation listItemScenesEvents) {
     super(view, manager, listItemScenesEvents);
     View header = getHeader();
     View body = getBody();

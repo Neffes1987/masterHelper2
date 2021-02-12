@@ -13,7 +13,7 @@ public abstract class GoalLocale {
   public static String getLocalizationByKey(Keys localeKey){
     Context context = GlobalApplication.getAppContext();
     switch (localeKey){
-      case sceneName: return context.getResources().getString(R.string.goal_name);
+      case goalName: return context.getResources().getString(R.string.goal_name);
       case listCaption: return context.getResources().getString(R.string.goal_list);
       case createScene: return context.getResources().getString(R.string.scene_create_title);
       case updateScene:return context.getResources().getString(R.string.goal_popup_update_title);
@@ -24,6 +24,9 @@ public abstract class GoalLocale {
       case actIIIHint: return context.getResources().getString(R.string.screen_plot_twist_tip);
       case actIVHint: return context.getResources().getString(R.string.screen_main_challenge_tip);
       case actVHint: return context.getResources().getString(R.string.screen_call_second_deep_tip);
+      case goalInProgress: return context.getResources().getString(R.string.goal_in_progress);
+      case goalFailed: return context.getResources().getString(R.string.goal_failed);
+      case goalComplete: return context.getResources().getString(R.string.goal_complete);
     }
     return "";
   }
@@ -31,7 +34,7 @@ public abstract class GoalLocale {
   /** available vocabulary keys */
   public enum Keys{
     listCaption,
-    sceneName,
+    goalName,
     shortDescription,
     createScene,
     updateScene,
@@ -41,5 +44,8 @@ public abstract class GoalLocale {
     actIIIHint,
     actIVHint,
     actVHint,
+    goalInProgress,
+    goalFailed,
+    goalComplete
   }
 }

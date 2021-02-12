@@ -1,4 +1,4 @@
-package com.masterhelper.db.repositories.events;
+package com.masterhelper.locations.repository;
 
 import android.database.Cursor;
 import com.masterhelper.baseclasses.fields.DataID;
@@ -7,8 +7,8 @@ import com.masterhelper.db.repositories.common.contracts.AbstractContract;
 import com.masterhelper.db.repositories.common.contracts.GeneralColumn;
 import com.masterhelper.goals.repository.GoalContract;
 
-public class EventContract extends AbstractContract<EventModel> {
-  private final static String TABLE_NAME = "events";
+public class LocationContract extends AbstractContract<LocationModel> {
+  private final static String TABLE_NAME = "locations";
   public final static int NAME_COLUMN_LENGTH = 200;
   public final static int DESCRIPTION_COLUMN_LENGTH = 200;
   public final static int TYPE_COLUMN_LENGTH = 40;
@@ -22,7 +22,7 @@ public class EventContract extends AbstractContract<EventModel> {
   public final GeneralColumn musicList = new GeneralColumn(TABLE_NAME,"musicList", GeneralColumn.ColumnTypes.TextTypes, 0, false);
   String sceneId;
 
-  public EventContract(DbHelpers dbHelpers) {
+  public LocationContract(DbHelpers dbHelpers) {
     super(dbHelpers);
     initContract(TABLE_NAME, new GeneralColumn[]{id, title, description, type, previewUrlId, musicList});
     getContract().addDeleteForeignKeyColumn(GoalContract.id, externalId);
@@ -33,7 +33,7 @@ public class EventContract extends AbstractContract<EventModel> {
   }
 
   @Override
-  public void insertRecord(EventModel record) {
+  public void insertRecord(LocationModel record) {
     String[] values = new String[]{
       record.id.toString(),
       record.name.get(),
@@ -48,7 +48,7 @@ public class EventContract extends AbstractContract<EventModel> {
   }
 
   @Override
-  public void updateRecord(EventModel record) {
+  public void updateRecord(LocationModel record) {
     String[] values = new String[]{
       record.id.toString(),
       record.name.get(),

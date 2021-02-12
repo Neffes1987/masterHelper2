@@ -4,8 +4,8 @@ import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.library.list.elements.LabelControl;
 
-public class EventName extends LabelControl {
-  public EventName(View container, FragmentManager manager){
+public class LocationtName extends LabelControl {
+  public LocationtName(View container, FragmentManager manager){
     super(container, manager);
   }
 

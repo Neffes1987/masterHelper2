@@ -1,20 +1,17 @@
-package com.masterhelper.db.repositories.events;
+package com.masterhelper.locations.repository;
 
 import android.text.TextUtils;
-import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.baseclasses.fields.GeneralField;
 import com.masterhelper.db.repositories.common.model.GeneralModel;
 
-import java.io.File;
-
-public class EventModel extends GeneralModel<EventRepository> {
+public class LocationModel extends GeneralModel<LocationRepository> {
   public final GeneralField<String> name = new GeneralField<>();
   public final GeneralField<String> description = new GeneralField<>();
   public final GeneralField<EventType> type = new GeneralField<>();
   public final GeneralField<String> previewId = new GeneralField<>();
   public final GeneralField<String> musicList = new GeneralField<>();
 
-  public EventModel(EventRepository repository, String defaultId, String defaultName, String defaultDescription, EventType defaultType, String previewUrlId, String musicList){
+  public LocationModel(LocationRepository repository, String defaultId, String defaultName, String defaultDescription, EventType defaultType, String previewUrlId, String musicList){
     super(repository, defaultId);
     name.set(defaultName);
     description.set(defaultDescription);

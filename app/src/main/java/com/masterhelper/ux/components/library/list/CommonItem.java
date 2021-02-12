@@ -7,7 +7,7 @@ import com.masterhelper.R;
 /** list view control class where db data mapped into ui components */
 public class CommonItem<DataModel>{
   private FragmentManager pManager;
-  private ListItemEvents listItemSceneEvents;
+  private ListItemLocation listItemSceneEvents;
   private View header;
   private View body;
   private View buttons;
@@ -25,7 +25,7 @@ public class CommonItem<DataModel>{
     this.pListItemId = pListItemId;
   }
 
-  public CommonItem(FragmentManager manager, ListItemEvents listItemEvents) {
+  public CommonItem(FragmentManager manager, ListItemLocation listItemEvents) {
     setListItemSceneEvents(listItemEvents);
     setManager(manager);
   }
@@ -51,7 +51,7 @@ public class CommonItem<DataModel>{
     return buttons;
   }
 
-  public CommonItem(View view, FragmentManager manager, ListItemEvents listItemEvents) {
+  public CommonItem(View view, FragmentManager manager, ListItemLocation listItemEvents) {
     header = view.findViewById(CommonItem.TEMPLATE_HEADER_ID);
     header.setId(View.generateViewId());
     header.setOnClickListener(v -> listItemEvents.onSelect(pListItemId));
@@ -83,11 +83,11 @@ public class CommonItem<DataModel>{
     return pManager;
   }
 
-  public void setListItemSceneEvents(ListItemEvents listItemSceneEvents) {
+  public void setListItemSceneEvents(ListItemLocation listItemSceneEvents) {
     this.listItemSceneEvents = listItemSceneEvents;
   }
 
-  public ListItemEvents getListItemSceneEvents() {
+  public ListItemLocation getListItemSceneEvents() {
     return listItemSceneEvents;
   }
 

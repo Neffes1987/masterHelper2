@@ -9,24 +9,24 @@ import com.masterhelper.R;
 import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.widgets.acts.IActsTabs;
-import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.journeys.JourneyLocale;
-import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.components.library.list.ListItemLocation;
 import com.masterhelper.goals.list.ListItemGoal;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
+import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.journeys.PageJourneyList.INTENT_JOURNEY_ID;
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
 
-public class PageGoalsList extends AppCompatActivity implements ListItemEvents, IActsTabs {
-  public static final String INTENT_GOAL_ID = "goalId";
+public class PageGoalsList extends AppCompatActivity implements ListItemLocation, IActsTabs {
+
   FragmentManager mn;
   GoalRepository repository;
   ComponentUIList<GoalModel> list;
@@ -37,7 +37,7 @@ public class PageGoalsList extends AppCompatActivity implements ListItemEvents, 
   ComponentUIDialog initDialog(int nameMaxLength, int descriptionMaxLength){
     ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameLabel.show();
-    dialog.pNameLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.sceneName));
+    dialog.pNameLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.goalName));
 
     dialog.pNameField.setText("");
     dialog.pNameField.setMaxLength(nameMaxLength);
@@ -56,7 +56,7 @@ public class PageGoalsList extends AppCompatActivity implements ListItemEvents, 
     ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.GOAL_ADD_NEW_ITEM));
     floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
     floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
-    floatingButton.controls.setOnClick(new SetBtnEvent() {
+    floatingButton.controls.setOnClick(new SetBtnLocation() {
       @Override
       public void onClick(int btnId, String tag) {
         itemDialog.setTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.createJourney));

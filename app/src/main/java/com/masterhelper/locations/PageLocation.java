@@ -8,39 +8,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
-import com.masterhelper.db.repositories.events.EventModel;
-import com.masterhelper.db.repositories.events.EventRepository;
+import com.masterhelper.locations.repository.LocationModel;
+import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.components.widgets.musicButton.WidgetMusicFloatingButton;
-import com.masterhelper.locations.list.EventDialog;
+import com.masterhelper.locations.list.LocationDialog;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
 
+import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.ux.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.locations.PageLocationsList.INTENT_EVENT_ID;
-import static com.masterhelper.goals.PageGoalsList.INTENT_GOAL_ID;
 
-public class PageLocation extends AppCompatActivity implements SetBtnEvent, ComponentUIDialog.DialogClickListener {
+public class PageLocation extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener {
     private ComponentUIFloatingButton editButton;
     private WidgetMusicFloatingButton musicControl;
     private ComponentUILabel description;
     private ComponentUIImage previewControl;
-    private EventDialog eventDialog;
-    private EventModel event;
+    private LocationDialog locationDialog;
+    private LocationModel event;
 
     FragmentManager mn;
-    EventRepository repository;
+    LocationRepository repository;
 
     void initEditItemButton(){
         editButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.MEETING_EDIT_BTN));
@@ -64,8 +64,8 @@ public class PageLocation extends AppCompatActivity implements SetBtnEvent, Comp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_page_event);
-        repository = GlobalApplication.getAppDB().eventRepository;
+        setContentView(R.layout.activity_page_location);
+        repository = GlobalApplication.getAppDB().locationRepository;
         repository.setSceneId(getIntent().getStringExtra(INTENT_GOAL_ID));
         event = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
 
@@ -78,17 +78,17 @@ public class PageLocation extends AppCompatActivity implements SetBtnEvent, Comp
 
         initImageWidget();
         initDescriptionLabel();
-        eventDialog = new EventDialog(this, repository.getNameLength(), repository.getDescriptionLength());
-        eventDialog.dialog.pRadioGroup.hide();
+        locationDialog = new LocationDialog(this, repository.getNameLength(), repository.getDescriptionLength());
+        locationDialog.dialog.pRadioGroup.hide();
         description.controls.setText(event.description.get());
     }
 
     @Override
     public void onClick(int btnId, String tag) {
         if(btnId == editButton.controls.getId()){
-            eventDialog.initUpdateState(event.name.get(), event.description.get(), event.type.get());
-            eventDialog.dialog.setListener(this);
-            eventDialog.show();
+            locationDialog.initUpdateState(event.name.get(), event.description.get(), event.type.get());
+            locationDialog.dialog.setListener(this);
+            locationDialog.show();
             return;
         }
         if(btnId == musicControl.controls.getId()){
@@ -109,11 +109,11 @@ public class PageLocation extends AppCompatActivity implements SetBtnEvent, Comp
 
     @Override
     public void onResolve() {
-        event.name.set(eventDialog.getName());
-        event.description.set(eventDialog.getDescription());
+        event.name.set(locationDialog.getName());
+        event.description.set(locationDialog.getDescription());
         event.save();
         UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), event.name.get());
-        description.controls.setText(eventDialog.getDescription());
+        description.controls.setText(locationDialog.getDescription());
     }
 
     @Override

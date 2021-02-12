@@ -1,7 +1,7 @@
 package com.masterhelper.locations.list;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.masterhelper.db.repositories.events.EventModel;
+import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.locations.LocationLocale;
 
@@ -10,21 +10,21 @@ import java.util.HashMap;
 
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 
-public class EventDialog {
+public class LocationDialog {
   public ComponentUIDialog dialog;
 
-  HashMap<EventModel.EventType, String> eventsTypesList = new HashMap<>();
+  HashMap<LocationModel.EventType, String> eventsTypesList = new HashMap<>();
 
-  public EventDialog(AppCompatActivity context, int nameMaxLength, int descriptionMaxLength){
-    eventsTypesList.put(EventModel.EventType.battle, getLocalizationByKey(LocationLocale.Keys.eventBattle));
-    eventsTypesList.put(EventModel.EventType.accident, getLocalizationByKey(LocationLocale.Keys.eventAccident));
-    eventsTypesList.put(EventModel.EventType.meeting, getLocalizationByKey(LocationLocale.Keys.eventMeeting));
+  public LocationDialog(AppCompatActivity context, int nameMaxLength, int descriptionMaxLength){
+    eventsTypesList.put(LocationModel.EventType.battle, getLocalizationByKey(LocationLocale.Keys.eventBattle));
+    eventsTypesList.put(LocationModel.EventType.accident, getLocalizationByKey(LocationLocale.Keys.eventAccident));
+    eventsTypesList.put(LocationModel.EventType.meeting, getLocalizationByKey(LocationLocale.Keys.eventMeeting));
     dialog = initDialog(context, nameMaxLength, descriptionMaxLength);
   }
 
   public ComponentUIDialog initDialog(AppCompatActivity context, int nameMaxLength, int descriptionMaxLength){
     ComponentUIDialog dialog = new ComponentUIDialog(context);
-    dialog.setTitle(getLocalizationByKey(LocationLocale.Keys.createEvent));
+    dialog.setTitle(getLocalizationByKey(LocationLocale.Keys.createLocation));
     dialog.pNameLabel.show();
     dialog.pNameLabel.setText(getLocalizationByKey(LocationLocale.Keys.eventName));
 
@@ -44,26 +44,26 @@ public class EventDialog {
     return dialog;
   }
 
-  public EventModel.EventType getSelectedType(){
+  public LocationModel.EventType getSelectedType(){
     int selectedIndex = dialog.pRadioGroup.getSelectedItemIndex();
-    ArrayList<EventModel.EventType> eventTypesKeys = new ArrayList<>(eventsTypesList.keySet());
+    ArrayList<LocationModel.EventType> eventTypesKeys = new ArrayList<>(eventsTypesList.keySet());
     return eventTypesKeys.get(selectedIndex);
   }
 
-  public int getIndexBySelectedType(EventModel.EventType type){
-    ArrayList<EventModel.EventType> eventTypesKeys = new ArrayList<>(eventsTypesList.keySet());
+  public int getIndexBySelectedType(LocationModel.EventType type){
+    ArrayList<LocationModel.EventType> eventTypesKeys = new ArrayList<>(eventsTypesList.keySet());
     return eventTypesKeys.indexOf(type);
   }
 
-  public void initUpdateState(String name, String description, EventModel.EventType type){
-    dialog.setTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.updateEvent));
+  public void initUpdateState(String name, String description, LocationModel.EventType type){
+    dialog.setTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.updateLocation));
     dialog.pDescriptionField.setText(description);
     dialog.pNameField.setText(name);
     dialog.pRadioGroup.setSelectedItem(getIndexBySelectedType(type));
   }
 
   public void initCreateState(){
-    dialog.setTitle(getLocalizationByKey(LocationLocale.Keys.createEvent));
+    dialog.setTitle(getLocalizationByKey(LocationLocale.Keys.createLocation));
     dialog.pRadioGroup.setSelectedItem(0);
   }
 

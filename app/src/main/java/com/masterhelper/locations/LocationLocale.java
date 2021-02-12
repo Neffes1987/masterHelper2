@@ -15,8 +15,8 @@ public abstract class LocationLocale {
     switch (localeKey){
       case eventName: return context.getResources().getString(R.string.event_name);
       case listCaption: return context.getResources().getString(R.string.events_list);
-      case createEvent: return context.getResources().getString(R.string.event_create_title);
-      case updateEvent:return context.getResources().getString(R.string.event_update_title);
+      case createLocation: return context.getResources().getString(R.string.event_create_title);
+      case updateLocation:return context.getResources().getString(R.string.event_update_title);
       case shortDescription: return context.getResources().getString(R.string.event_description);
       case eventAccident: return context.getResources().getString(R.string.event_is_accident);
       case eventBattle: return context.getResources().getString(R.string.event_is_battle);
@@ -33,8 +33,8 @@ public abstract class LocationLocale {
     listCaption,
     eventName,
     shortDescription,
-    createEvent,
-    updateEvent,
+    createLocation,
+    updateLocation,
     eventAccident,
     eventMeeting,
     eventBattle,

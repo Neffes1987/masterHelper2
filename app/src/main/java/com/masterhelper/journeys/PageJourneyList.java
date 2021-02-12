@@ -8,19 +8,19 @@ import com.masterhelper.R;
 import com.masterhelper.journeys.repository.JourneyModel;
 import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.components.library.list.ListItemLocation;
 import com.masterhelper.journeys.list.ListItemJourney;
 import com.masterhelper.goals.PageGoalsList;
 
 import static com.masterhelper.journeys.JourneyLocale.getLocalizationByKey;
 
-public class PageJourneyList extends AppCompatActivity implements ListItemEvents {
+public class PageJourneyList extends AppCompatActivity implements ListItemLocation {
   public static final String INTENT_JOURNEY_ID = "journeyId";
   FragmentManager mn;
 
@@ -39,7 +39,7 @@ public class PageJourneyList extends AppCompatActivity implements ListItemEvents
   void initNewItemButton(ComponentUIDialog itemDialog){
     ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.JOURNEY_ADD_NEW_ITEM_BUTTON));
     FloatingButtonsPreset.setPreset(FloatingButtonsPreset.Presets.addNewItem, floatingButton);
-    floatingButton.controls.setOnClick(new SetBtnEvent() {
+    floatingButton.controls.setOnClick(new SetBtnLocation() {
       @Override
       public void onClick(int btnId, String tag) {
         itemDialog.setTitle(getLocalizationByKey(JourneyLocale.Keys.createJourney));

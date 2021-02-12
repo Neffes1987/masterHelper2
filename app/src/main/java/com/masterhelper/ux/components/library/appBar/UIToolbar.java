@@ -14,4 +14,8 @@ public class UIToolbar {
     }
     context.setSupportActionBar(toolbar);
   }
+  public static void setSubTitle(AppCompatActivity context, String subString){
+    Toolbar toolbar = context.findViewById(UIToolbar.toolbarId);
+    toolbar.setSubtitle(subString);
+  }
 }

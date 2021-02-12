@@ -3,25 +3,25 @@ package com.masterhelper.journeys.list;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.journeys.repository.JourneyModel;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.components.library.list.ListItemLocation;
 import com.masterhelper.journeys.list.elements.JourneyDeleteControl;
 import com.masterhelper.journeys.list.elements.JourneyEditControl;
 import com.masterhelper.journeys.list.elements.JourneyName;
 
 /**  */
-public class ListItemJourney extends CommonItem<JourneyModel> implements SetBtnEvent {
+public class ListItemJourney extends CommonItem<JourneyModel> implements SetBtnLocation {
   private JourneyName name;
   private JourneyEditControl editButton;
   private JourneyDeleteControl deleteButton;
 
 
-  public ListItemJourney(FragmentManager manager, ListItemEvents listItemJourneyEvents) {
+  public ListItemJourney(FragmentManager manager, ListItemLocation listItemJourneyEvents) {
     super(manager, listItemJourneyEvents);
   }
 
-  public ListItemJourney(View view, FragmentManager manager, ListItemEvents listItemJourneyEvents) {
+  public ListItemJourney(View view, FragmentManager manager, ListItemLocation listItemJourneyEvents) {
     super(view, manager, listItemJourneyEvents);
     View pLayout = getHeader();
     name = new JourneyName(pLayout, manager);

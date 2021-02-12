@@ -37,12 +37,4 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="@+id/EVENTS_LIST_ID"/>
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.widgets.musicButton.WidgetMusicFloatingButton"
-    android:id="@+id/MUSIC_CONTROL_BUTTON"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_floating_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

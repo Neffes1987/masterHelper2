@@ -2,11 +2,11 @@ package com.masterhelper.ux.components.library.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.list.CommonListItemElement;
 
-public class ButtonControl extends CommonListItemElement<SetBtnEvent> {
+public class ButtonControl extends CommonListItemElement<SetBtnLocation> {
 
   private ComponentUIImageButton btn;
 
@@ -14,7 +14,7 @@ public class ButtonControl extends CommonListItemElement<SetBtnEvent> {
     return btn;
   }
 
-  public ButtonControl(View container, FragmentManager manager, SetBtnEvent event){
+  public ButtonControl(View container, FragmentManager manager, SetBtnLocation event){
     init(container, manager);
     setElementData(event);
   }
@@ -26,7 +26,7 @@ public class ButtonControl extends CommonListItemElement<SetBtnEvent> {
   }
 
   @Override
-  protected void onRender(SetBtnEvent event) {
+  protected void onRender(SetBtnLocation event) {
     btn.controls.setOnClick(event);
   }
 

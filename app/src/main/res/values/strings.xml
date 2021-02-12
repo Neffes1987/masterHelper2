@@ -52,6 +52,9 @@
   <string name="advantages">Преимущества</string>
   <string name="disadvantages">Слабости</string>
   <string name="goals">Цели</string>
+  <string name="goal_in_progress">Цель активна</string>
+  <string name="goal_failed">Цель провалена</string>
+  <string name="goal_complete">Цель достигнута</string>
 
 
   <!-- abilities -->

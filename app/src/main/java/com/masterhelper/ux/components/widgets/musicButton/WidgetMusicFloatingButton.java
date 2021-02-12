@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment;
 import com.masterhelper.filesystem.AudioPlayer;
 import com.masterhelper.filesystem.FilesLocale;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
 import com.masterhelper.ux.media.FileViewerWidget;
@@ -38,7 +38,7 @@ public class WidgetMusicFloatingButton extends ComponentUIFloatingButton impleme
   public void init(AppCompatActivity currentActivity) {
     this.currentActivity = currentActivity;
     FloatingButtonsPreset.setPreset(FloatingButtonsPreset.Presets.music, this);
-    this.controls.setOnClick((SetBtnEvent) currentActivity);
+    this.controls.setOnClick((SetBtnLocation) currentActivity);
   }
 
   @Override

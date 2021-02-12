@@ -4,14 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.masterhelper.db.repositories.events.EventRepository;
+import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.goals.repository.GoalRepository;
 
 public class DbHelpers extends SQLiteOpenHelper {
   public JourneyRepository journeyRepository;
   public GoalRepository goalRepository;
-  public EventRepository eventRepository;
+  public LocationRepository locationRepository;
 
   /**
    * Имя файла базы данных
@@ -20,7 +20,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   /**
    * Версия базы данных. При изменении схемы увеличить на единицу
    */
-  private static final int DATABASE_VERSION = 53;
+  private static final int DATABASE_VERSION = 55;
 
   SQLiteDatabase db;
 
@@ -29,14 +29,14 @@ public class DbHelpers extends SQLiteOpenHelper {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
     journeyRepository = new JourneyRepository(this);
     goalRepository = new GoalRepository(this);
-    eventRepository = new EventRepository(this);
+    locationRepository = new LocationRepository(this);
     db = getWritableDatabase();
   }
 
   private void initTables(){
     journeyRepository.createTable();
     goalRepository.createTable();
-    eventRepository.createTable();
+    locationRepository.createTable();
   }
 
   /**

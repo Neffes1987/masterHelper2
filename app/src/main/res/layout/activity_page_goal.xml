@@ -11,7 +11,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
-    android:id="@+id/fragment5"
+    android:id="@+id/GOAL_APP_BAR"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:layout="@layout/fragment_component_ui_app_bar"
@@ -20,22 +20,15 @@
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.tickButton.radio.ComponentUIRadioGroup"
-    android:id="@+id/GOAL_PROGRESS_ID"
-    app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_radio_group"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/fragment5"/>
-
-  <fragment
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
     android:id="@+id/GOAL_DESCRIPTION_ID"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/GOAL_PROGRESS_ID"
-    tools:layout="@layout/fragment_component_ui_label"/>
+    tools:layout="@layout/fragment_component_ui_label"
+    app:layout_constraintTop_toBottomOf="@+id/GOAL_APP_BAR"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"/>
 
   <fragment
     android:layout_width="wrap_content"

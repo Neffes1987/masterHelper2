@@ -11,7 +11,7 @@ public abstract class UXButton<ButtonType extends View> extends UXElement<Button
   /** ux button click setter for click events
    *  @param eventHandler - callback class for button click events
    * */
-  public void setOnClick(final @NonNull SetBtnEvent eventHandler){
+  public void setOnClick(final @NonNull SetBtnLocation eventHandler){
     this.getUxElement().setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

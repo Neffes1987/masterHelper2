@@ -2,40 +2,39 @@ package com.masterhelper.locations.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
-import com.masterhelper.db.repositories.events.EventModel;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.locations.repository.LocationModel;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.components.library.list.ListItemEvents;
 import com.masterhelper.locations.list.elements.*;
 import com.masterhelper.ux.resources.ResourceColors;
 
 /**  */
-public class ListItemEvent extends CommonItem<EventModel> implements SetBtnEvent {
-  private EventName name;
-  private EventName description;
-  private EventEditControl editButton;
-  private EventDeleteControl deleteButton;
-  private EventPlayBtn playButton;
-  private EventExpandBtn expandBtn;
+public class ListItemLocation extends CommonItem<LocationModel> implements SetBtnLocation {
+  private LocationtName name;
+  private LocationtName description;
+  private LocationEditControl editButton;
+  private LocationDeleteControl deleteButton;
+  private LocationPlayBtn playButton;
+  private LocationExpandBtn expandBtn;
 
 
-  public ListItemEvent(FragmentManager manager, ListItemEvents listItemJourneyEvents) {
+  public ListItemLocation(FragmentManager manager, com.masterhelper.ux.components.library.list.ListItemLocation listItemJourneyEvents) {
     super(manager, listItemJourneyEvents);
   }
 
-  public ListItemEvent(View view, FragmentManager manager, ListItemEvents listItemJourneyEvents) {
+  public ListItemLocation(View view, FragmentManager manager, com.masterhelper.ux.components.library.list.ListItemLocation listItemJourneyEvents) {
     super(view, manager, listItemJourneyEvents);
     View header = getHeader();
     View body = getBody();
     View controls = getButtons();
     setBodyVisibility(false);
 
-    name = new EventName(header, manager);
-    expandBtn = new EventExpandBtn(header, manager, this);
-    description = new EventName(body, manager);
-    deleteButton = new EventDeleteControl(controls, manager, this);
-    editButton = new EventEditControl(controls, manager, this);
-    playButton = new EventPlayBtn(controls, manager, this);
+    name = new LocationtName(header, manager);
+    expandBtn = new LocationExpandBtn(header, manager, this);
+    description = new LocationtName(body, manager);
+    deleteButton = new LocationDeleteControl(controls, manager, this);
+    editButton = new LocationEditControl(controls, manager, this);
+    playButton = new LocationPlayBtn(controls, manager, this);
 
     header.setOnClickListener(v -> {
       expandBtn.toggleCurrentState();
@@ -45,14 +44,14 @@ public class ListItemEvent extends CommonItem<EventModel> implements SetBtnEvent
   }
 
   @Override
-  protected void update(EventModel itemData, int listItemId) {
+  protected void update(LocationModel itemData, int listItemId) {
     setListItemId(listItemId);
     name.setElementData(itemData.name.get());
     description.setElementData(itemData.description.get());
     setHeaderColorByType(itemData.type.get());
   }
 
-  private void setHeaderColorByType(EventModel.EventType type){
+  private void setHeaderColorByType(LocationModel.EventType type){
     int color;
     switch (type){
       case battle: color = ResourceColors.getColor(ResourceColors.ResourceColorType.battleEvent); break;
@@ -65,8 +64,8 @@ public class ListItemEvent extends CommonItem<EventModel> implements SetBtnEvent
   }
 
   @Override
-  public CommonItem<EventModel> clone(View view) {
-    return new ListItemEvent(view, getManager(), getListItemSceneEvents());
+  public CommonItem<LocationModel> clone(View view) {
+    return new ListItemLocation(view, getManager(), getListItemSceneEvents());
   }
 
   /**

@@ -3,9 +3,9 @@ package com.masterhelper.ux.media.list;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.filesystem.LibraryFileData;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.components.library.list.ListItemEvents;
+import com.masterhelper.ux.components.library.list.ListItemLocation;
 import com.masterhelper.ux.media.list.elements.FileDeleteControl;
 import com.masterhelper.ux.media.list.elements.FileName;
 import com.masterhelper.ux.media.list.elements.FilePlayControl;
@@ -14,7 +14,7 @@ import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 /**  */
-public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnEvent {
+public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnLocation {
   private FileName name;
   private FileDeleteControl deleteButton;
   private FilePlayControl playButton;
@@ -23,13 +23,13 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnE
   private final boolean hidePreview;
 
 
-  public ListItemFile(FragmentManager manager, ListItemEvents listItemJourneyEvents, boolean isGlobal, boolean hidePreview) {
+  public ListItemFile(FragmentManager manager, ListItemLocation listItemJourneyEvents, boolean isGlobal, boolean hidePreview) {
     super(manager, listItemJourneyEvents);
     this.isGlobal = isGlobal;
     this.hidePreview = hidePreview;
   }
 
-  public ListItemFile(View view, FragmentManager manager, ListItemEvents listItemJourneyEvents, boolean isGlobal, boolean hidePreview) {
+  public ListItemFile(View view, FragmentManager manager, ListItemLocation listItemJourneyEvents, boolean isGlobal, boolean hidePreview) {
     super(view, manager, listItemJourneyEvents);
     this.isGlobal = isGlobal;
     this.hidePreview = hidePreview;

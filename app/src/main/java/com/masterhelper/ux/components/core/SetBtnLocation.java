@@ -1,6 +1,6 @@
 package com.masterhelper.ux.components.core;
 
-public interface SetBtnEvent {
+public interface SetBtnLocation {
   /** click callback for short click event
    * @param btnId - element unique id that fired event
    * @param tag - element unique tag for searching in list

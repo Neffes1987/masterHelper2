@@ -1,47 +1,45 @@
-package com.masterhelper.db.repositories.events;
+package com.masterhelper.locations.repository;
 
 import android.database.Cursor;
-import android.util.Log;
 import com.masterhelper.baseclasses.fields.DataID;
 import com.masterhelper.db.DbHelpers;
 import com.masterhelper.db.repositories.common.repositories.AbstractRepository;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class EventRepository extends AbstractRepository<EventModel> {
+public class LocationRepository extends AbstractRepository<LocationModel> {
 
-  public EventRepository(DbHelpers helper) {
-    super(new EventContract(helper), "scene");
+  public LocationRepository(DbHelpers helper) {
+    super(new LocationContract(helper), "scene");
   }
 
   public void setSceneId(String id){
-    ((EventContract) getContract()).setSceneId(id);
+    ((LocationContract) getContract()).setSceneId(id);
   }
 
   @Override
-  public EventModel getDraftRecord() {
-    return new EventModel(this, null, "", "", EventModel.EventType.battle, null, "");
+  public LocationModel getDraftRecord() {
+    return new LocationModel(this, null, "", "", LocationModel.EventType.battle, null, "");
   }
 
   @Override
-  public EventModel[] list(int offset, int limit) {
-    EventContract contract = (EventContract) getContract();
-    ArrayList<EventModel> dbRecords = new ArrayList<>();
+  public LocationModel[] list(int offset, int limit) {
+    LocationContract contract = (LocationContract) getContract();
+    ArrayList<LocationModel> dbRecords = new ArrayList<>();
     Cursor dbList = getContract().list(offset, limit);
     while (dbList.moveToNext()){
-      int idIndex = dbList.getColumnIndex(EventContract.id.getColumnTitle());
+      int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
       int typeIndex = dbList.getColumnIndex(contract.type.getColumnTitle());
 
       dbRecords.add(
-        new EventModel(
+        new LocationModel(
           this,
           dbList.getString(idIndex),
           dbList.getString(nameIndex),
           dbList.getString(descriptionIndex),
-          EventModel.EventType.valueOf(dbList.getString(typeIndex)),
+          LocationModel.EventType.valueOf(dbList.getString(typeIndex)),
           null,
           ""
         )
@@ -49,22 +47,22 @@ public class EventRepository extends AbstractRepository<EventModel> {
     }
     dbList.close();
     setItemsToCache(dbRecords, offset);
-    return dbRecords.toArray(new EventModel[0]);
+    return dbRecords.toArray(new LocationModel[0]);
   }
 
-  public EventModel getRecord(String id){
+  public LocationModel getRecord(String id){
     DataID dataID = new DataID();
     dataID.fromString(id);
-    EventModel event = findRecordById(dataID);
+    LocationModel event = findRecordById(dataID);
     if(event != null){
       return event;
     }
 
-    EventContract contract = (EventContract) getContract();
-    EventModel foundedRecord = getDraftRecord();
+    LocationContract contract = (LocationContract) getContract();
+    LocationModel foundedRecord = getDraftRecord();
     Cursor dbList = getContract().getRecord(id);
     while (dbList.moveToNext()){
-      int idIndex = dbList.getColumnIndex(EventContract.id.getColumnTitle());
+      int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
       int typeIndex = dbList.getColumnIndex(contract.type.getColumnTitle());
@@ -75,7 +73,7 @@ public class EventRepository extends AbstractRepository<EventModel> {
       foundedRecord.name.set(dbList.getString(nameIndex));
       foundedRecord.description.set(dbList.getString(descriptionIndex));
       foundedRecord.previewId.set(dbList.getString(previewUrlIndex));
-      foundedRecord.type.set(EventModel.EventType.valueOf(dbList.getString(typeIndex)));
+      foundedRecord.type.set(LocationModel.EventType.valueOf(dbList.getString(typeIndex)));
       foundedRecord.musicList.set(dbList.getString(musicListIndex));
     }
     dbList.close();
@@ -84,9 +82,9 @@ public class EventRepository extends AbstractRepository<EventModel> {
   }
 
   public int getNameLength(){
-    return EventContract.NAME_COLUMN_LENGTH;
+    return LocationContract.NAME_COLUMN_LENGTH;
   }
   public int getDescriptionLength(){
-    return EventContract.DESCRIPTION_COLUMN_LENGTH;
+    return LocationContract.DESCRIPTION_COLUMN_LENGTH;
   }
 }

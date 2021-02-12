@@ -3,10 +3,10 @@ package com.masterhelper.ux.components.library.list;
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.ux.components.core.ComponentUIFragment;
-import com.masterhelper.ux.components.core.SetBtnEvent;
+import com.masterhelper.ux.components.core.SetBtnLocation;
 
 public abstract class CommonListItemElement<DataModel> {
-  private SetBtnEvent pListener;
+  private SetBtnLocation pListener;
   private boolean attached = false;
   private DataModel pElementData;
   private ComponentUIFragment newFragment;
@@ -48,7 +48,7 @@ public abstract class CommonListItemElement<DataModel> {
 
   }
 
-  public SetBtnEvent getListener() {
+  public SetBtnLocation getListener() {
     return pListener;
   }
 
