@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.masterhelper.R;
 import com.masterhelper.locations.PageLocationsList;
+import com.masterhelper.media.FileViewerWidget;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AppMenuActivity extends AppCompatActivity {
@@ -22,6 +23,15 @@ public abstract class AppMenuActivity extends AppCompatActivity {
     switch (item.getItemId()){
       case R.id.MENU_LOCATIONS_ID:
         openSettingsScreen = new Intent(this, PageLocationsList.class);
+        startActivity(openSettingsScreen);
+        break;
+      case R.id.MENU_ADD_SOUNDS_ID:
+        openSettingsScreen = FileViewerWidget.getWidgetIntent(
+          this,
+          FileViewerWidget.Formats.audio,
+          FileViewerWidget.Layout.global,
+          null
+        );
         startActivity(openSettingsScreen);
         break;
     }

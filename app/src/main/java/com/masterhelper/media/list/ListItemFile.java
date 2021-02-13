@@ -1,4 +1,4 @@
-package com.masterhelper.ux.media.list;
+package com.masterhelper.media.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
@@ -6,10 +6,10 @@ import com.masterhelper.filesystem.LibraryFileData;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemLocation;
-import com.masterhelper.ux.media.list.elements.FileDeleteControl;
-import com.masterhelper.ux.media.list.elements.FileName;
-import com.masterhelper.ux.media.list.elements.FilePlayControl;
-import com.masterhelper.ux.media.list.elements.FileSelection;
+import com.masterhelper.media.list.elements.FileDeleteControl;
+import com.masterhelper.media.list.elements.FileName;
+import com.masterhelper.media.list.elements.FilePlayControl;
+import com.masterhelper.media.list.elements.FileSelection;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
@@ -86,7 +86,7 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnL
       getListItemSceneEvents().onUpdate(pListItemId);
     }
 
-    if(selection.getCheckbox().getId() == btnId){
+    if(selection != null && selection.getCheckbox().getId() == btnId){
       getListItemSceneEvents().onSelect(pListItemId);
     }
   }

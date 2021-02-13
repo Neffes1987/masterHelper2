@@ -16,7 +16,7 @@
     android:theme="@style/CustomTheme">
     <activity android:name=".goals.PageGoal">
     </activity>
-    <activity android:name=".ux.media.FileViewerWidget">
+    <activity android:name=".media.FileViewerWidget">
     </activity>
     <activity android:name=".locations.PageLocation">
     </activity>

@@ -21,7 +21,7 @@ import com.masterhelper.locations.list.LocationDialog;
 import com.masterhelper.locations.list.ListItemLocation;
 
 import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
-import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
+import static com.masterhelper.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 
 

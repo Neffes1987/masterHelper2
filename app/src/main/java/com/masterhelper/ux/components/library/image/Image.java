@@ -5,14 +5,11 @@ import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.masterhelper.R;
 import com.masterhelper.ux.components.core.UXButton;
-import com.masterhelper.ux.media.FileViewerWidget;
+import com.masterhelper.media.FileViewerWidget;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
-
-import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
 
 public class Image extends UXButton<ImageView> {
   public static final int IMAGE_WIDGET_INTENT_RESULT = 2000;

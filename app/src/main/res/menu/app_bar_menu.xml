@@ -4,4 +4,7 @@
   <item
     android:title="@string/location_popup_setting"
     android:id="@+id/MENU_LOCATIONS_ID"/>
+  <item
+    android:title="@string/sounds_popup_setting"
+    android:id="@+id/MENU_ADD_SOUNDS_ID"/>
 </menu>

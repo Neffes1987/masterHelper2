@@ -1,4 +1,4 @@
-package com.masterhelper.ux.media.list.elements;
+package com.masterhelper.media.list.elements;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;

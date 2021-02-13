@@ -9,9 +9,9 @@ import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
-import com.masterhelper.ux.media.FileViewerWidget;
+import com.masterhelper.media.FileViewerWidget;
 
-import static com.masterhelper.ux.media.FileViewerWidget.WIDGET_RESULT_CODE;
+import static com.masterhelper.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.musicStarted;
 import static com.masterhelper.ux.resources.ResourceColors.ResourceColorType.primary;
 

@@ -1,4 +1,4 @@
-package com.masterhelper.ux.media;
+package com.masterhelper.media;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -25,7 +25,7 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemLocation;
-import com.masterhelper.ux.media.list.ListItemFile;
+import com.masterhelper.media.list.ListItemFile;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
@@ -160,7 +160,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
     UIToolbar.setTitle(this, widgetTitle, "");
     initAddButton();
-    initApplyButton(format == Formats.audio);
+    initApplyButton(format == Formats.audio && layout != Layout.global);
     player = GlobalApplication.getPlayer();
     stopTrack();
     ArrayList<LibraryFileData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
