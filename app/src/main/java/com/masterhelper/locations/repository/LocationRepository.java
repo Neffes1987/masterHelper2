@@ -13,13 +13,10 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
     super(new LocationContract(helper), "scene");
   }
 
-  public void setSceneId(String id){
-    ((LocationContract) getContract()).setSceneId(id);
-  }
 
   @Override
   public LocationModel getDraftRecord() {
-    return new LocationModel(this, null, "", "", LocationModel.EventType.battle, null, "");
+    return new LocationModel(this, null, "", "", null, "");
   }
 
   @Override
@@ -31,7 +28,6 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
-      int typeIndex = dbList.getColumnIndex(contract.type.getColumnTitle());
 
       dbRecords.add(
         new LocationModel(
@@ -39,7 +35,6 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
           dbList.getString(idIndex),
           dbList.getString(nameIndex),
           dbList.getString(descriptionIndex),
-          LocationModel.EventType.valueOf(dbList.getString(typeIndex)),
           null,
           ""
         )
@@ -65,7 +60,6 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
-      int typeIndex = dbList.getColumnIndex(contract.type.getColumnTitle());
       int previewUrlIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
       int musicListIndex = dbList.getColumnIndex(contract.musicList.getColumnTitle());
 
@@ -73,7 +67,6 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       foundedRecord.name.set(dbList.getString(nameIndex));
       foundedRecord.description.set(dbList.getString(descriptionIndex));
       foundedRecord.previewId.set(dbList.getString(previewUrlIndex));
-      foundedRecord.type.set(LocationModel.EventType.valueOf(dbList.getString(typeIndex)));
       foundedRecord.musicList.set(dbList.getString(musicListIndex));
     }
     dbList.close();
@@ -83,8 +76,5 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
 
   public int getNameLength(){
     return LocationContract.NAME_COLUMN_LENGTH;
-  }
-  public int getDescriptionLength(){
-    return LocationContract.DESCRIPTION_COLUMN_LENGTH;
   }
 }

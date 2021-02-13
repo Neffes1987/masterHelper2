@@ -7,15 +7,13 @@ import com.masterhelper.db.repositories.common.model.GeneralModel;
 public class LocationModel extends GeneralModel<LocationRepository> {
   public final GeneralField<String> name = new GeneralField<>();
   public final GeneralField<String> description = new GeneralField<>();
-  public final GeneralField<EventType> type = new GeneralField<>();
   public final GeneralField<String> previewId = new GeneralField<>();
   public final GeneralField<String> musicList = new GeneralField<>();
 
-  public LocationModel(LocationRepository repository, String defaultId, String defaultName, String defaultDescription, EventType defaultType, String previewUrlId, String musicList){
+  public LocationModel(LocationRepository repository, String defaultId, String defaultName, String defaultDescription, String previewUrlId, String musicList){
     super(repository, defaultId);
     name.set(defaultName);
     description.set(defaultDescription);
-    type.set(defaultType);
     previewId.set(previewUrlId);
 
     this.musicList.set(musicList);
@@ -30,11 +28,5 @@ public class LocationModel extends GeneralModel<LocationRepository> {
       return new String[]{};
     }
     return musicList.get().split(",");
-  }
-
-  public enum EventType {
-    battle,
-    meeting,
-    accident
   }
 }

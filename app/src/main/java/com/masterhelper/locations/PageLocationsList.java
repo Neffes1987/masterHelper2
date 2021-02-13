@@ -45,9 +45,8 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     locationRepository = GlobalApplication.getAppDB().locationRepository;
     goalRepository = GlobalApplication.getAppDB().goalRepository;
     parentScene = goalRepository.getRecord(getIntent().getStringExtra(INTENT_GOAL_ID));
-    locationRepository.setSceneId(parentScene.id.toString());
     UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.listCaption), null);
-    locationDialog = new LocationDialog(this, locationRepository.getNameLength(), locationRepository.getDescriptionLength());
+    locationDialog = new LocationDialog(this, locationRepository.getNameLength());
     initNewItemButton();
 
     list = initList(locationRepository.list(0,0));
@@ -59,11 +58,9 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     return list;
   }
 
-  private void onCreateItem(String text, String description, LocationModel.EventType type) {
+  private void onCreateItem(String text) {
     LocationModel newEvent = locationRepository.getDraftRecord();
     newEvent.name.set(text);
-    newEvent.description.set(description);
-    newEvent.type.set(type);
     newEvent.save();
     list.controls.add(newEvent, false);
   }
@@ -80,9 +77,7 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
       @Override
       public void onResolve() {
         onCreateItem(
-          locationDialog.getName(),
-          locationDialog.getDescription(),
-          locationDialog.getSelectedType()
+          locationDialog.getName()
         );
       }
       @Override
@@ -121,8 +116,7 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     LocationModel item = list.controls.getItemByListId(listItemId);
     locationDialog.initUpdateState(
       item.name.get(),
-      item.description.get(),
-      item.type.get()
+      item.description.get()
     );
 
     locationDialog.dialog.setListener(new ComponentUIDialog.DialogClickListener() {
@@ -130,7 +124,6 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
       public void onResolve() {
         item.name.set(locationDialog.getName());
         item.description.set(locationDialog.getDescription());
-        item.type.set(locationDialog.getSelectedType());
         item.save();
         list.controls.update(item, listItemId);
       }
@@ -164,7 +157,6 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     super.onActivityResult(requestCode, resultCode, data);
     if(resultCode == RESULT_OK){
       if(requestCode == WIDGET_RESULT_CODE && data != null){
-        //parentScene.setMusicPathsArray(data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
         parentScene.save();
       }
     }

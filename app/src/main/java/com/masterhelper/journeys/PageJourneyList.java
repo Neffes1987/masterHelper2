@@ -9,6 +9,7 @@ import com.masterhelper.journeys.repository.JourneyModel;
 import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnLocation;
+import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
@@ -20,7 +21,7 @@ import com.masterhelper.goals.PageGoalsList;
 
 import static com.masterhelper.journeys.JourneyLocale.getLocalizationByKey;
 
-public class PageJourneyList extends AppCompatActivity implements ListItemLocation {
+public class PageJourneyList extends AppMenuActivity implements ListItemLocation {
   public static final String INTENT_JOURNEY_ID = "journeyId";
   FragmentManager mn;
 

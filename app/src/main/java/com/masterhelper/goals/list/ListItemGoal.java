@@ -14,9 +14,7 @@ public class ListItemGoal extends CommonItem<GoalModel> implements SetBtnLocatio
   private GoalName name;
   private GoalName description;
   private GoalEditBtn editButton;
-  private GoalPlayBtn playButton;
   private GoalDeleteControl deleteButton;
-  private GoalExpandBtn expandBtn;
 
   public ListItemGoal(FragmentManager manager, ListItemLocation listItemScenesEvents) {
     super(manager, listItemScenesEvents);
@@ -26,23 +24,14 @@ public class ListItemGoal extends CommonItem<GoalModel> implements SetBtnLocatio
     super(view, manager, listItemScenesEvents);
     View header = getHeader();
     View body = getBody();
-    View buttons = getButtons();
 
-    header.setOnClickListener(v -> {
-      expandBtn.toggleCurrentState();
-      expandBtn.setOrientation(expandBtn.getExpanded());
-      setBodyVisibility(expandBtn.getExpanded());
-    });
-
-    setBodyVisibility(false);
+    setBodyVisibility(true);
 
     name = new GoalName(header, manager);
-    expandBtn = new GoalExpandBtn(header, manager, this);
     description = new GoalName(body, manager);
 
-    deleteButton = new GoalDeleteControl(buttons, manager, this);
-    editButton = new GoalEditBtn(buttons, manager, this);
-    playButton = new GoalPlayBtn(buttons, manager, this);
+    deleteButton = new GoalDeleteControl(header, manager, this);
+    editButton = new GoalEditBtn(header, manager, this);
   }
 
   @Override
@@ -63,22 +52,15 @@ public class ListItemGoal extends CommonItem<GoalModel> implements SetBtnLocatio
    */
   @Override
   public void onClick(int btnId, String tag) {
-    if(expandBtn.getTag().equals(tag)){
-      setBodyVisibility(expandBtn.getExpanded());
-      return;
-    }
-
     if(getListItemSceneEvents() == null){
       return;
     }
+
     if(deleteButton.getTag().equals(tag)){
       getListItemSceneEvents().onDelete(pListItemId);
       return;
     }
-    if(playButton.getTag().equals(tag)){
-      getListItemSceneEvents().onSelect(pListItemId);
-      return;
-    }
+
     if(editButton.getTag().equals(tag)){
       getListItemSceneEvents().onUpdate(pListItemId);
     }

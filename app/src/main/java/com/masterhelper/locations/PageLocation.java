@@ -24,7 +24,6 @@ import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
 
-import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.ux.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
@@ -37,7 +36,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
     private ComponentUILabel description;
     private ComponentUIImage previewControl;
     private LocationDialog locationDialog;
-    private LocationModel event;
+    private LocationModel location;
 
     FragmentManager mn;
     LocationRepository repository;
@@ -54,7 +53,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.MEETING_PREVIEW_ID));
         previewControl.controls.setOnClick(this);
         previewControl.controls.setId(View.generateViewId());
-        previewControl.controls.setFile(new File(event.previewId.get()));
+        previewControl.controls.setFile(new File(location.previewId.get()));
     }
 
     void initDescriptionLabel(){
@@ -66,10 +65,9 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_location);
         repository = GlobalApplication.getAppDB().locationRepository;
-        repository.setSceneId(getIntent().getStringExtra(INTENT_GOAL_ID));
-        event = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
+        location = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
 
-        UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), event.name.get());
+        UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), location.name.get());
         mn = getSupportFragmentManager();
         initEditItemButton();
 
@@ -78,28 +76,28 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
         initImageWidget();
         initDescriptionLabel();
-        locationDialog = new LocationDialog(this, repository.getNameLength(), repository.getDescriptionLength());
+        locationDialog = new LocationDialog(this, repository.getNameLength());
         locationDialog.dialog.pRadioGroup.hide();
-        description.controls.setText(event.description.get());
+        description.controls.setText(location.description.get());
     }
 
     @Override
     public void onClick(int btnId, String tag) {
         if(btnId == editButton.controls.getId()){
-            locationDialog.initUpdateState(event.name.get(), event.description.get(), event.type.get());
+            locationDialog.initUpdateState(location.name.get(), location.description.get());
             locationDialog.dialog.setListener(this);
             locationDialog.show();
             return;
         }
         if(btnId == musicControl.controls.getId()){
-            musicControl.setBackgroundMusicState(event.getMusicHashes());
+            musicControl.setBackgroundMusicState(location.getMusicHashes());
         }
     }
 
     @Override
     public void onLongClick(int btnId) {
         if(btnId == musicControl.controls.getId()){
-            musicControl.openMusicConsole(event.getMusicHashes());
+            musicControl.openMusicConsole(location.getMusicHashes());
             return;
         }
         if(btnId == previewControl.controls.getId()){
@@ -109,10 +107,10 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
     @Override
     public void onResolve() {
-        event.name.set(locationDialog.getName());
-        event.description.set(locationDialog.getDescription());
-        event.save();
-        UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), event.name.get());
+        location.name.set(locationDialog.getName());
+        location.description.set(locationDialog.getDescription());
+        location.save();
+        UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), location.name.get());
         description.controls.setText(locationDialog.getDescription());
     }
 
@@ -126,20 +124,20 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == WIDGET_RESULT_CODE && data != null){
-                event.setMusicPathsArray(data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
-                event.save();
+                location.setMusicPathsArray(data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
+                location.save();
             }
             if(requestCode == IMAGE_WIDGET_INTENT_RESULT && data != null){
                 String[] selectedItems = data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME);
                 if(selectedItems !=null && selectedItems.length > 0){
                     Uri fileUri = Uri.parse(Uri.decode(selectedItems[0]));
-                    event.previewId.set(fileUri.getPath());
+                    location.previewId.set(fileUri.getPath());
                     previewControl.controls.setFile(new File(fileUri.getPath()));
                 } else {
-                    event.previewId.set("");
+                    location.previewId.set("");
                     previewControl.controls.clearPreview();
                 }
-                event.save();
+                location.save();
             }
         }
     }

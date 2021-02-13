@@ -68,11 +68,11 @@
   <string name="empty_value">0</string>
 
 
-  <!-- events -->
-  <string name="event">Событие сцены</string>
-  <string name="events_list">События сцены</string>
-  <string name="event_name">Имя события</string>
-  <string name="event_description">Описание события</string>
+  <!-- location -->
+  <string name="location">Локация</string>
+  <string name="locations_list">Список локаций</string>
+  <string name="location_name">Имя локации</string>
+  <string name="location_description">Описание локации</string>
   <string name="event_is_battle">Схватка</string>
   <string name="event_is_meeting">Встреча</string>
   <string name="event_is_accident">Происшествие</string>
@@ -96,4 +96,8 @@
   <string name="caption">Заголовок</string>
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+  <string name="location_popup_setting">Список локаций</string>
+
 </resources>
