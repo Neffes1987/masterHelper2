@@ -63,13 +63,16 @@ public class LocationContract extends AbstractContract<LocationModel> {
 
   @Override
   public Cursor getRecord(String recordId) {
-    String locationFields = TABLE_NAME + "." + id.getColumnTitle() + "," + TABLE_NAME + "." + title.getColumnTitle() + "," + TABLE_NAME + "." + description.getColumnTitle();
-    String previewFields = MediaContract.TABLE_NAME + "." + MediaContract.filePath.getColumnTitle() + " as " + previewUrlId.getColumnTitle();
+    String locationFields = TABLE_NAME + "." + id.getColumnTitle()
+      + "," + TABLE_NAME + "." + title.getColumnTitle()
+      + "," + TABLE_NAME + "." + previewUrlId.getColumnTitle()
+      + "," + TABLE_NAME + "." + description.getColumnTitle();
+    String previewFields = MediaContract.TABLE_NAME + "." + MediaContract.filePath.getColumnTitle() + " as previewUrl";
 
     String query = "SELECT " + locationFields + "," + previewFields
       + " FROM " + TABLE_NAME + " LEFT OUTER JOIN " + MediaContract.TABLE_NAME
-      + " ON " + TABLE_NAME + "."+ previewUrlId.getColumnTitle() + "=" + MediaContract.TABLE_NAME + "." + MediaContract.id.getColumnTitle()
-      + " WHERE " + TABLE_NAME +"." + id.getColumnTitle() + "='" + recordId + "'";
+      + " ON " + TABLE_NAME + "." + previewUrlId.getColumnTitle() + "=" + MediaContract.TABLE_NAME + "." + MediaContract.id.getColumnTitle()
+      + " WHERE " + TABLE_NAME + "." + id.getColumnTitle() + "='" + recordId + "'";
 
     Log.i("TAG", "getRecord: " + query);
     return getDbHelpers().read(query);

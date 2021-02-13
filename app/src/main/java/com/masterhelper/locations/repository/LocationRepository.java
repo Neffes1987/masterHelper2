@@ -61,16 +61,16 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
-      int previewUrlIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
+      int previewIdIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
+      int previewUrlIndex = dbList.getColumnIndex("previewUrl");
       int musicListIndex = dbList.getColumnIndex(contract.musicList.getColumnTitle());
-
-      Log.i("TAG", "getRecord: " + previewUrlIndex);
 
       foundedRecord.id.fromString(dbList.getString(idIndex));
       foundedRecord.name.set(dbList.getString(nameIndex));
       foundedRecord.description.set(dbList.getString(descriptionIndex));
 
-      foundedRecord.previewId.set(previewUrlIndex != -1 ? dbList.getString(previewUrlIndex) : null);
+      foundedRecord.previewId.set(dbList.getString(previewIdIndex));
+      foundedRecord.previewUrl.set(previewUrlIndex != -1 ? dbList.getString(previewUrlIndex) : null);
       foundedRecord.musicList.set(null);
     }
     dbList.close();
@@ -78,7 +78,11 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
     return foundedRecord;
   }
 
-  public int getNameLength(){
+  public int getNameLength() {
     return LocationContract.NAME_COLUMN_LENGTH;
+  }
+
+  public int getDescriptionLength() {
+    return LocationContract.DESCRIPTION_COLUMN_LENGTH;
   }
 }

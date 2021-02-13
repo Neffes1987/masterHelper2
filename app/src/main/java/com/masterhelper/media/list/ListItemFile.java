@@ -35,12 +35,16 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnL
     this.hidePreview = hidePreview;
     View pLayout = getHeader();
 
-    if(!isGlobal){
+    if (!isGlobal) {
       selection = new FileSelection(pLayout, manager, "", this);
     }
     name = new FileName(pLayout, manager);
-    deleteButton = new FileDeleteControl(pLayout, manager, this);
-    if(!hidePreview){
+
+    if (isGlobal) {
+      deleteButton = new FileDeleteControl(pLayout, manager, this);
+    }
+
+    if (!hidePreview) {
       playButton = new FilePlayControl(pLayout, manager, this);
     }
   }
@@ -75,14 +79,14 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnL
    */
   @Override
   public void onClick(int btnId, String tag) {
-    if(getListItemSceneEvents() == null){
+    if (getListItemSceneEvents() == null) {
       return;
     }
-    if(deleteButton.getTag().equals(tag)){
+    if (deleteButton != null && deleteButton.getTag().equals(tag)) {
       getListItemSceneEvents().onDelete(pListItemId);
       return;
     }
-    if(playButton.getTag().equals(tag)){
+    if (playButton.getTag().equals(tag)) {
       getListItemSceneEvents().onUpdate(pListItemId);
     }
 

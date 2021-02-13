@@ -8,6 +8,7 @@ public class LocationModel extends GeneralModel<LocationRepository> {
   public final GeneralField<String> name = new GeneralField<>();
   public final GeneralField<String> description = new GeneralField<>();
   public final GeneralField<String> previewId = new GeneralField<>();
+  public final GeneralField<String> previewUrl = new GeneralField<>();
   public final GeneralField<String> musicList = new GeneralField<>();
 
   public LocationModel(LocationRepository repository, String defaultId, String defaultName, String defaultDescription, String previewUrlId, String musicList){
@@ -19,12 +20,12 @@ public class LocationModel extends GeneralModel<LocationRepository> {
     this.musicList.set(musicList);
   }
 
-  public void setMusicPathsArray(String[] MusicPaths){
+  public void setMusicIdsArray(String[] MusicPaths) {
     musicList.set(TextUtils.join(",", MusicPaths));
   }
 
-  public String[] getMusicHashes(){
-    if(musicList.get() == null || musicList.get().length() == 0){
+  public String[] getMusicIds() {
+    if (musicList.get() == null || musicList.get().length() == 0) {
       return new String[]{};
     }
     return musicList.get().split(",");
