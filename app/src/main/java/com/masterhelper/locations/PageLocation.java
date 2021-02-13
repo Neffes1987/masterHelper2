@@ -11,6 +11,8 @@ import com.masterhelper.R;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.media.repository.MediaModel;
+import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
@@ -40,6 +42,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
     FragmentManager mn;
     LocationRepository repository;
+    MediaRepository mediaRepository;
 
     void initEditItemButton(){
         editButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.MEETING_EDIT_BTN));
@@ -53,7 +56,9 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.MEETING_PREVIEW_ID));
         previewControl.controls.setOnClick(this);
         previewControl.controls.setId(View.generateViewId());
-        previewControl.controls.setFile(new File(location.previewId.get()));
+        if(location.previewId.get() != null){
+            previewControl.controls.setFile(new File(location.previewId.get()));
+        }
     }
 
     void initDescriptionLabel(){
@@ -65,6 +70,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_location);
         repository = GlobalApplication.getAppDB().locationRepository;
+        mediaRepository = GlobalApplication.getAppDB().mediaRepository;
         location = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
 
         UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), location.name.get());
@@ -130,7 +136,8 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
             if(requestCode == IMAGE_WIDGET_INTENT_RESULT && data != null){
                 String[] selectedItems = data.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME);
                 if(selectedItems !=null && selectedItems.length > 0){
-                    Uri fileUri = Uri.parse(Uri.decode(selectedItems[0]));
+                    MediaModel media = mediaRepository.getRecord(selectedItems[0]);
+                    Uri fileUri = Uri.parse(media.filePath.get());
                     location.previewId.set(fileUri.getPath());
                     previewControl.controls.setFile(new File(fileUri.getPath()));
                 } else {

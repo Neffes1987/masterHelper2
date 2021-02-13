@@ -7,11 +7,11 @@ import com.masterhelper.global.db.repositories.common.contracts.AbstractContract
 import com.masterhelper.global.db.repositories.common.contracts.GeneralColumn;
 
 public class MediaContract extends AbstractContract<MediaModel> {
-  private final static String TABLE_NAME = "media";
+  public final static String TABLE_NAME = "media";
   public final static int NAME_COLUMN_LENGTH = 200;
   public final static int TYPE_COLUMN_LENGTH = 100;
   public final static GeneralColumn id = new GeneralColumn(TABLE_NAME, "id", GeneralColumn.ColumnTypes.Primary, ID_COLUMN_LENGTH, false);
-  public final GeneralColumn filePath = new GeneralColumn(TABLE_NAME,"filePath", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
+  public final static GeneralColumn filePath = new GeneralColumn(TABLE_NAME,"filePath", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
   public final GeneralColumn fileName = new GeneralColumn(TABLE_NAME,"fileName", GeneralColumn.ColumnTypes.TextTypes, 0, false);
   public final GeneralColumn fileType = new GeneralColumn(TABLE_NAME,"fileType", GeneralColumn.ColumnTypes.CharType, TYPE_COLUMN_LENGTH, false);
 

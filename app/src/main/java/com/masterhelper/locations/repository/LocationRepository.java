@@ -1,6 +1,7 @@
 package com.masterhelper.locations.repository;
 
 import android.database.Cursor;
+import android.util.Log;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
@@ -63,11 +64,14 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       int previewUrlIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
       int musicListIndex = dbList.getColumnIndex(contract.musicList.getColumnTitle());
 
+      Log.i("TAG", "getRecord: " + previewUrlIndex);
+
       foundedRecord.id.fromString(dbList.getString(idIndex));
       foundedRecord.name.set(dbList.getString(nameIndex));
       foundedRecord.description.set(dbList.getString(descriptionIndex));
-      foundedRecord.previewId.set(dbList.getString(previewUrlIndex));
-      foundedRecord.musicList.set(dbList.getString(musicListIndex));
+
+      foundedRecord.previewId.set(previewUrlIndex != -1 ? dbList.getString(previewUrlIndex) : null);
+      foundedRecord.musicList.set(null);
     }
     dbList.close();
     setItemToCache(foundedRecord, 0);

@@ -1,10 +1,12 @@
 package com.masterhelper.locations.repository;
 
 import android.database.Cursor;
+import android.util.Log;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.contracts.AbstractContract;
 import com.masterhelper.global.db.repositories.common.contracts.GeneralColumn;
+import com.masterhelper.media.repository.MediaContract;
 
 public class LocationContract extends AbstractContract<LocationModel> {
   private final static String TABLE_NAME = "locations";
@@ -61,7 +63,15 @@ public class LocationContract extends AbstractContract<LocationModel> {
 
   @Override
   public Cursor getRecord(String recordId) {
-    String where = id.getColumnTitle() + "='" + recordId + "'";
-    return getDbHelpers().read(getContract().selectRecords(0, 0, getContract().getColumnsTitles(), id.getColumnTitle() + " DESC ", where));
+    String locationFields = TABLE_NAME + "." + id.getColumnTitle() + "," + TABLE_NAME + "." + title.getColumnTitle() + "," + TABLE_NAME + "." + description.getColumnTitle();
+    String previewFields = MediaContract.TABLE_NAME + "." + MediaContract.filePath.getColumnTitle() + " as " + previewUrlId.getColumnTitle();
+
+    String query = "SELECT " + locationFields + "," + previewFields
+      + " FROM " + TABLE_NAME + " LEFT OUTER JOIN " + MediaContract.TABLE_NAME
+      + " ON " + TABLE_NAME + "."+ previewUrlId.getColumnTitle() + "=" + MediaContract.TABLE_NAME + "." + MediaContract.id.getColumnTitle()
+      + " WHERE " + TABLE_NAME +"." + id.getColumnTitle() + "='" + recordId + "'";
+
+    Log.i("TAG", "getRecord: " + query);
+    return getDbHelpers().read(query);
   }
 }
