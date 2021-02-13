@@ -3,6 +3,7 @@ package com.masterhelper.ux.components.widgets.musicButton;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import com.masterhelper.media.Formats;
 import com.masterhelper.media.filesystem.AudioPlayer;
 import com.masterhelper.media.filesystem.FilesLocale;
 import com.masterhelper.global.GlobalApplication;
@@ -66,7 +67,7 @@ public class WidgetMusicFloatingButton extends ComponentUIFloatingButton impleme
   public void openMusicConsole(String[] currentList) {
     currentActivity.startActivityForResult(FileViewerWidget.getWidgetIntent(
       currentActivity,
-      FileViewerWidget.Formats.audio,
+      Formats.audio,
       FileViewerWidget.Layout.selectable,
       currentList
     ), WIDGET_RESULT_CODE);

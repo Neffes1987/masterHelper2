@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import com.masterhelper.media.Formats;
 import com.masterhelper.ux.components.core.UXButton;
 import com.masterhelper.media.FileViewerWidget;
 import com.masterhelper.ux.resources.ResourceIcons;
@@ -35,7 +36,7 @@ public class Image extends UXButton<ImageView> {
   public void openImageSelector(AppCompatActivity currentActivity){
     currentActivity.startActivityForResult(FileViewerWidget.getWidgetIntent(
       currentActivity,
-      FileViewerWidget.Formats.imagePng,
+      Formats.imagePng,
       FileViewerWidget.Layout.global,
       null
     ), IMAGE_WIDGET_INTENT_RESULT);

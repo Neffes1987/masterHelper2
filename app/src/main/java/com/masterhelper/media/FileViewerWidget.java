@@ -20,6 +20,7 @@ import com.masterhelper.media.filesystem.AudioPlayer;
 import com.masterhelper.media.filesystem.FilesLocale;
 import com.masterhelper.media.filesystem.LibraryFileData;
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
@@ -29,7 +30,6 @@ import com.masterhelper.media.list.ListItemFile;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -93,18 +93,16 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     this.layout = Layout.valueOf(layout);
   }
 
-  ArrayList<LibraryFileData> getLibraryItems(File[] items, String[] defaultSelectedFilePaths){
+  ArrayList<LibraryFileData> getLibraryItems(MediaModel[] items, String[] defaultSelectedFilePaths){
     ArrayList<LibraryFileData> libraryFileDataArrayList = new ArrayList<>();
     ArrayList<String> selectedFilesByUri = new ArrayList<>();
     if(defaultSelectedFilePaths != null && defaultSelectedFilePaths.length > 0){
       selectedFilesByUri.addAll(Arrays.asList(defaultSelectedFilePaths));
     }
 
-    for (File file: items) {
-      String filePath = file.getPath();
-      String uri = file.toURI().toString();
-      boolean isSelected = selectedFilesByUri.contains(Uri.encode(uri));
-      LibraryFileData fileData = new LibraryFileData(uri, filePath, isSelected, false);
+    for (MediaModel model: items) {
+      boolean isSelected = selectedFilesByUri.contains(model.id.get().toString());
+      LibraryFileData fileData = new LibraryFileData(model.id, model.filePath.get(), isSelected, false);
       libraryFileDataArrayList.add(fileData);
     }
 
@@ -116,7 +114,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
     for (LibraryFileData libraryRecord: currentList) {
       if(libraryRecord.isSelected){
-        selectedPaths.add(libraryRecord.uri);
+        selectedPaths.add(libraryRecord.id.toString());
       }
     }
 
@@ -156,7 +154,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     setFormat(inputIntent.getStringExtra(FORMAT_INTENT_EXTRA_NAME));
     setLayout(inputIntent.getStringExtra(LAYOUT_INTENT_EXTRA_NAME));
     mn = getSupportFragmentManager();
-    library = new AppFilesLibrary(widgetWorkingDir);
+    library = new AppFilesLibrary(widgetWorkingDir, format);
 
     UIToolbar.setTitle(this, widgetTitle, "");
     initAddButton();
@@ -244,7 +242,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
   public void onDelete(int listItemId) {
     stopTrack();
     LibraryFileData item = list.controls.getItemByListId(listItemId);
-    library.deleteRecordFromMediaLibrary(item.getFile());
+    library.deleteRecordFromMediaLibrary(item.id);
     list.controls.delete(listItemId);
   }
 
@@ -256,7 +254,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
   void returnSelectedItem(int listItemId){
     LibraryFileData selectedListItem = list.controls.getItemByListId(listItemId);
-    String[] currentSelectedFiles = new String[]{selectedListItem.uri};
+    String[] currentSelectedFiles = new String[]{selectedListItem.id.toString()};
     Intent returnedIntent = new Intent();
     returnedIntent.putExtra(SELECTED_IDS_INTENT_EXTRA_NAME, currentSelectedFiles);
     setResult(RESULT_OK, returnedIntent);
@@ -270,11 +268,6 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
       return;
     }
     returnSelectedItem(listItemId);
-  }
-
-  public enum Formats{
-    imagePng,
-    audio
   }
 
   public enum Layout{
@@ -338,7 +331,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     }
 
     library.copyFilesBunchToMediaLibrary(selectedFilesPaths.toArray(new Uri[0]));
-    library.updateMediaLibrary();
+    library.updateMediaLibrary(format);
     String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());
     list = initList(getLibraryItems(library.getFilesLibraryList(), currentSelectedFiles));
   }

@@ -65,6 +65,11 @@ public abstract class AbstractRepository<Model extends GeneralModel> implements 
   public void setItemsToCache(ArrayList<Model> records, int offset) {
     mRecordsList.addAll(offset, records);
   }
+
+  public int getCacheSize() {
+    return mRecordsList.size();
+  }
+
   public void setItemToCache(Model record, int offset) {
     mRecordsList.add(offset, record);
   }

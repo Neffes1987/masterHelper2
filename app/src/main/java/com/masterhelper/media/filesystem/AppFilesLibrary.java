@@ -4,8 +4,12 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.fields.GeneralField;
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.media.Formats;
+import com.masterhelper.media.repository.MediaModel;
+import com.masterhelper.media.repository.MediaRepository;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -16,18 +20,22 @@ public class AppFilesLibrary implements IAppFilesLibrary {
   public static final String FORMAT_AUDIO_PATH = "/audio";
 
   GeneralField<File> workingDirectory = new GeneralField<>();
-  ArrayList<File> filesList = new ArrayList<>();
+  MediaRepository repository;
+  ArrayList<MediaModel> filesList = new ArrayList<>();
   ContentResolver resolver;
+  Formats format;
 
-  public AppFilesLibrary(String workingDirectory){
+  public AppFilesLibrary(String workingDirectory, Formats format ){
     File rootAppDir = GlobalApplication.getAppContext().getFilesDir();
     File libDirectory = new File(rootAppDir.getPath()+"/"+ workingDirectory);
     if(!libDirectory.exists()){
       libDirectory.mkdirs();
     }
+    this.format = format;
     this.workingDirectory.set(libDirectory);
     resolver = GlobalApplication.getAppContext().getContentResolver();
-    updateMediaLibrary();
+    repository = GlobalApplication.getAppDB().mediaRepository;
+    updateMediaLibrary(format);
   }
 
   private String getOriginalFileName(Uri path){
@@ -63,21 +71,26 @@ public class AppFilesLibrary implements IAppFilesLibrary {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    filesList.add(libraryFile);
+
+    MediaModel mediaRecord =  repository.getDraftRecord();
+    mediaRecord.filePath.set(libraryFile.getPath());
+    mediaRecord.fileName.set(fileName);
+    mediaRecord.fileType.set(format);
+    mediaRecord.save();
+    filesList.add(mediaRecord);
   }
 
   @Override
   public void copyFilesBunchToMediaLibrary(Uri[] files) {
     if(files == null){ return; }
-
     for (Uri path : files) {
       copyFileToMediaLibrary(path);
     }
   }
 
   @Override
-  public void updateMediaLibrary() {
-    File[] list = workingDirectory.get().listFiles();
+  public void updateMediaLibrary(Formats type) {
+    MediaModel[] list = repository.list(type.name());
     this.filesList.clear();
     if(list != null){
       this.filesList.addAll(Arrays.asList(list));
@@ -85,19 +98,23 @@ public class AppFilesLibrary implements IAppFilesLibrary {
   }
 
   @Override
-  public void deleteRecordFromMediaLibrary(File file) {
+  public void deleteRecordFromMediaLibrary(DataID id) {
+    MediaModel model = repository.getRecord(id);
+    File file = new File(model.filePath.get());
     if(file.delete()){
-      filesList.remove(file);
+      filesList.remove(model);
+      repository.delete(model.id);
     }
   }
 
   @Override
   public File getFileByPosition(int position) {
-    return filesList.toArray(new File[0])[position];
+    MediaModel model = filesList.get(position);
+    return new File(model.filePath.get());
   }
 
   @Override
-  public File[] getFilesLibraryList() {
-    return filesList.toArray(new File[0]);
+  public MediaModel[] getFilesLibraryList() {
+    return filesList.toArray(new MediaModel[0]);
   }
 }

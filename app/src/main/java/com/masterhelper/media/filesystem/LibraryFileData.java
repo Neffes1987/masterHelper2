@@ -1,17 +1,17 @@
 package com.masterhelper.media.filesystem;
 
-import android.net.Uri;
+import com.masterhelper.global.fields.DataID;
 
 import java.io.File;
 
 public class LibraryFileData {
-  public String uri;
+  public DataID id;
   File file;
   public Boolean isSelected;
   public Boolean isPlayed;
 
-  public LibraryFileData(String uri, String filePath, boolean isSelected, boolean isPlayed){
-    this.uri = Uri.encode(uri);
+  public LibraryFileData(DataID id, String filePath, boolean isSelected, boolean isPlayed){
+    this.id = id;
 
     if(filePath != null){
       file = new File(filePath);

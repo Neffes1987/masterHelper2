@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.masterhelper.R;
 import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.media.FileViewerWidget;
+import com.masterhelper.media.Formats;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AppMenuActivity extends AppCompatActivity {
@@ -28,7 +29,7 @@ public abstract class AppMenuActivity extends AppCompatActivity {
       case R.id.MENU_ADD_SOUNDS_ID:
         openSettingsScreen = FileViewerWidget.getWidgetIntent(
           this,
-          FileViewerWidget.Formats.audio,
+          Formats.audio,
           FileViewerWidget.Layout.global,
           null
         );
