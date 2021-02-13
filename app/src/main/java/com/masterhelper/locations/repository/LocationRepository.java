@@ -71,7 +71,7 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
 
       foundedRecord.previewId.set(dbList.getString(previewIdIndex));
       foundedRecord.previewUrl.set(previewUrlIndex != -1 ? dbList.getString(previewUrlIndex) : null);
-      foundedRecord.musicList.set(null);
+      foundedRecord.musicList.set(dbList.getString(musicListIndex));
     }
     dbList.close();
     setItemToCache(foundedRecord, 0);

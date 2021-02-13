@@ -26,22 +26,22 @@
     app:layout_constraintTop_toBottomOf="@+id/LOCATION_TABS_ID"
     android:id="@+id/LOCATION_CONTENT_ID"
     android:visibility="visible"
-    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/LOCATION_MUSIC_PLAYER_WIDGET_ID"
     app:layout_constraintVertical_bias="0.0">
 
     <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:id="@+id/LOCATION_GOALS_CONTAINER_ID"
-      tools:visibility="gone">
+      android:id="@+id/LOCATION_MUSIC_CONTAINER_ID"
+      android:visibility="gone">
 
       <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
-        android:id="@+id/LOCATION_GOALS_LIST_ID"
-        tools:layout="@layout/fragment_component_ui_list"/>
+        tools:layout="@layout/fragment_component_ui_list"
+        android:id="@+id/LOCATION_MUSIC_LIST_ID"/>
     </LinearLayout>
 
     <LinearLayout
@@ -84,15 +84,15 @@
       android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:id="@+id/LOCATION_MUSIC_CONTAINER_ID"
-      android:visibility="gone">
+      android:id="@+id/LOCATION_GOALS_CONTAINER_ID"
+      tools:visibility="gone">
 
       <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
-        tools:layout="@layout/fragment_component_ui_list"
-        android:id="@+id/LOCATION_MUSIC_LIST_ID"/>
+        android:id="@+id/LOCATION_GOALS_LIST_ID"
+        tools:layout="@layout/fragment_component_ui_list"/>
     </LinearLayout>
 
   </LinearLayout>
@@ -103,7 +103,17 @@
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
     android:id="@+id/LOCATION_EDIT_BTN"
     tools:layout="@layout/fragment_component_ui_floating_button"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toTopOf="@+id/LOCATION_MUSIC_PLAYER_WIDGET_ID"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.media.music_player.ComponentUiMusicWidget"
+    android:id="@+id/LOCATION_MUSIC_PLAYER_WIDGET_ID"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"/>
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:layout="@layout/fragment_component_ui_music_widget"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.filesystem.AudioPlayer;
 import com.masterhelper.media.filesystem.LibraryFileData;
 import com.masterhelper.media.list.ListItemFile;
+import com.masterhelper.media.music_player.IMusicPlayerWidget;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
@@ -41,7 +43,7 @@ import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_IN
 import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.locations.PageLocationsList.INTENT_EVENT_ID;
 
-public class PageLocation extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemLocation {
+public class PageLocation extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemLocation, IMusicPlayerWidget {
     private int currentSelectedTab = 1;
     private ComponentUIFloatingButton editButton;
     private ComponentUILabel description;
@@ -136,6 +138,8 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
         ArrayList<LibraryFileData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), location.getMusicIds());
         mediaFilesList = initList(libraryFileDataArrayList);
+
+        reInitMusicPlayer();
     }
 
     void stopTrack() {
@@ -167,6 +171,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
         if (btnId == editButton.controls.getId() && currentSelectedTab == 2) {
             location.save();
+            reInitMusicPlayer();
         }
     }
 
@@ -284,6 +289,19 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
     }
 
+    void reInitMusicPlayer() {
+        MediaModel[] mediaModels = library.getFilesLibraryList();
+        Collection<String> currentSelectedUris = new ArrayList<>();
+        Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(location.getMusicIds()));
+        for (MediaModel model : mediaModels) {
+            if (currentSelectedList.contains(model.id.toString())) {
+                currentSelectedUris.add(model.filePath.get());
+            }
+        }
+        Log.i("TAG", "reInitMusicPlayer: " + currentSelectedUris.toString());
+        player.setMediaListOfUri(currentSelectedUris.toArray(new String[0]));
+    }
+
     @Override
     public void onSelect(int listItemId) {
         if (currentSelectedTab == 2) {
@@ -297,5 +315,30 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
             }
             location.setMusicIdsArray(currentSelectedList.toArray(new String[0]));
         }
+    }
+
+    @Override
+    public void next() {
+        player.startNextMediaFile();
+    }
+
+    @Override
+    public void play() {
+        player.startNextMediaFile();
+    }
+
+    @Override
+    public void stop() {
+        player.stopMediaRecord();
+    }
+
+    @Override
+    public String getCurrentTrackName() {
+        return library.getFileByPosition(player.getCurrentAudioIndex()).getName();
+    }
+
+    @Override
+    public boolean checkIsPlaying() {
+        return player.isPlayed();
     }
 }

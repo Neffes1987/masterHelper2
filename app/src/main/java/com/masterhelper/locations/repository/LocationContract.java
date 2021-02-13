@@ -66,6 +66,7 @@ public class LocationContract extends AbstractContract<LocationModel> {
     String locationFields = TABLE_NAME + "." + id.getColumnTitle()
       + "," + TABLE_NAME + "." + title.getColumnTitle()
       + "," + TABLE_NAME + "." + previewUrlId.getColumnTitle()
+      + "," + TABLE_NAME + "." + musicList.getColumnTitle()
       + "," + TABLE_NAME + "." + description.getColumnTitle();
     String previewFields = MediaContract.TABLE_NAME + "." + MediaContract.filePath.getColumnTitle() + " as previewUrl";
 

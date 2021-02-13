@@ -69,17 +69,20 @@ public class AudioPlayer {
   }
 
   private void setCurrentAudioIndex(int currentAudioIndex) {
-    if(currentAudioIndex > mediaList.length - 1){
+    if (currentAudioIndex > mediaList.length - 1) {
       this.currentAudioIndex = 0;
       return;
     }
     this.currentAudioIndex = currentAudioIndex;
   }
 
-  private int getCurrentAudioIndex() {
+  public int getCurrentAudioIndex() {
     return currentAudioIndex;
   }
 
+  public boolean isPlayed() {
+    return mediaPlayer.isPlaying();
+  }
 
 
 }
