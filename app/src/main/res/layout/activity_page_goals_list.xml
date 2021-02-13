@@ -54,7 +54,7 @@
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.widgets.acts.ComponentActsTabs"
+    android:name="com.masterhelper.goals.acts.ComponentActsTabs"
     android:id="@+id/GOAL_ACTS_TABS"
     app:layout_constraintBottom_toBottomOf="@+id/GOAL_LIST"
     app:layout_constraintStart_toStartOf="parent"

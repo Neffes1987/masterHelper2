@@ -10,42 +10,98 @@
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
-    android:id="@+id/MEETING_APP_BAR"
-    tools:layout="@layout/fragment_component_ui_app_bar"
+    android:name="com.masterhelper.locations.tabs.LocationTabs"
+    android:id="@+id/LOCATION_TABS_ID"
+    tools:layout="@layout/fragment_part_location_tabs"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
 
-  <fragment
-    android:layout_width="0dp"
+  <LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
-    android:id="@+id/MEETING_PREVIEW_ID"
-    app:layout_constraintTop_toBottomOf="@+id/MEETING_APP_BAR"
-    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_image"
-    />
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/LOCATION_TABS_ID"
+    android:id="@+id/LOCATION_CONTENT_ID"
+    android:visibility="visible"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintVertical_bias="0.0">
 
-  <fragment
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-    android:id="@+id/MEETING_DESCRIPTION_VIEW_ID"
-    app:layout_constraintTop_toBottomOf="@+id/MEETING_PREVIEW_ID"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_label"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"/>
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/LOCATION_GOALS_CONTAINER_ID"
+      tools:visibility="gone">
+
+      <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
+        android:id="@+id/LOCATION_GOALS_LIST_ID"
+        tools:layout="@layout/fragment_component_ui_list"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/LOCATION_META_CONTAINER_ID"
+      android:visibility="visible">
+
+      <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
+        android:id="@+id/LOCATION_PREVIEW_ID"
+        tools:layout="@layout/fragment_component_ui_image"
+        />
+
+      <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+        android:id="@+id/LOCATION_NAME_VIEW_ID"
+        tools:layout="@layout/fragment_component_ui_label"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"/>
+
+      <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+        android:id="@+id/LOCATION_DESCRIPTION_VIEW_ID"
+        tools:layout="@layout/fragment_component_ui_label"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:id="@+id/LOCATION_MUSIC_CONTAINER_ID"
+      android:visibility="gone">
+
+      <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
+        tools:layout="@layout/fragment_component_ui_list"
+        android:id="@+id/LOCATION_MUSIC_LIST_ID"/>
+    </LinearLayout>
+
+  </LinearLayout>
 
   <fragment
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/MEETING_EDIT_BTN"
+    android:id="@+id/LOCATION_EDIT_BTN"
     tools:layout="@layout/fragment_component_ui_floating_button"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"/>

@@ -2,6 +2,7 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import com.masterhelper.R;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.locations.tabs.ITabs;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
@@ -32,10 +34,11 @@ import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_
 import static com.masterhelper.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.locations.PageLocationsList.INTENT_EVENT_ID;
 
-public class PageLocation extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener {
+public class PageLocation extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs {
     private ComponentUIFloatingButton editButton;
     private WidgetMusicFloatingButton musicControl;
     private ComponentUILabel description;
+    private ComponentUILabel name;
     private ComponentUIImage previewControl;
     private LocationDialog locationDialog;
     private LocationModel location;
@@ -45,7 +48,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
     MediaRepository mediaRepository;
 
     void initEditItemButton(){
-        editButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.MEETING_EDIT_BTN));
+        editButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.LOCATION_EDIT_BTN));
         editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
         editButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
         editButton.controls.setOnClick(this);
@@ -53,16 +56,21 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
     }
 
     void initImageWidget(){
-        previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.MEETING_PREVIEW_ID));
+        previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.LOCATION_PREVIEW_ID));
         previewControl.controls.setOnClick(this);
         previewControl.controls.setId(View.generateViewId());
-        if(location.previewId.get() != null){
+        if (location.previewId.get() != null) {
+            Log.i("TAG", "initImageWidget: ");
             previewControl.controls.setFile(new File(location.previewId.get()));
         }
     }
 
-    void initDescriptionLabel(){
-        description = ComponentUILabel.cast(mn.findFragmentById(R.id.MEETING_DESCRIPTION_VIEW_ID));
+    void initDescriptionLabel() {
+        description = ComponentUILabel.cast(mn.findFragmentById(R.id.LOCATION_DESCRIPTION_VIEW_ID));
+    }
+
+    void initNameLabel() {
+        name = ComponentUILabel.cast(mn.findFragmentById(R.id.LOCATION_NAME_VIEW_ID));
     }
 
     @Override
@@ -72,8 +80,6 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         repository = GlobalApplication.getAppDB().locationRepository;
         mediaRepository = GlobalApplication.getAppDB().mediaRepository;
         location = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
-
-        UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.name), location.name.get());
         mn = getSupportFragmentManager();
         initEditItemButton();
 
@@ -82,9 +88,11 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
         initImageWidget();
         initDescriptionLabel();
+        initNameLabel();
         locationDialog = new LocationDialog(this, repository.getNameLength());
         locationDialog.dialog.pRadioGroup.hide();
         description.controls.setText(location.description.get());
+        name.controls.setText(location.name.get());
     }
 
     @Override
@@ -138,7 +146,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
                 if(selectedItems !=null && selectedItems.length > 0){
                     MediaModel media = mediaRepository.getRecord(selectedItems[0]);
                     Uri fileUri = Uri.parse(media.filePath.get());
-                    location.previewId.set(fileUri.getPath());
+                    location.previewId.set(selectedItems[0]);
                     previewControl.controls.setFile(new File(fileUri.getPath()));
                 } else {
                     location.previewId.set("");
@@ -147,5 +155,34 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
                 location.save();
             }
         }
+    }
+
+    void setVisibility(View view, boolean isVisible) {
+        view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void updateSelectedTab(int newCurrentTab) {
+        View meta = findViewById(R.id.LOCATION_META_CONTAINER_ID);
+        View music = findViewById(R.id.LOCATION_MUSIC_CONTAINER_ID);
+        View goals = findViewById(R.id.LOCATION_MUSIC_CONTAINER_ID);
+        switch (newCurrentTab) {
+            case 1:
+                setVisibility(meta, true);
+                setVisibility(music, false);
+                setVisibility(goals, false);
+                break;
+            case 2:
+                setVisibility(meta, false);
+                setVisibility(music, true);
+                setVisibility(goals, false);
+                break;
+            case 3:
+                setVisibility(meta, false);
+                setVisibility(music, false);
+                setVisibility(goals, true);
+                break;
+        }
+
     }
 }

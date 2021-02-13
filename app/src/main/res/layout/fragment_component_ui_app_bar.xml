@@ -12,4 +12,5 @@
       android:theme="?attr/actionBarTheme"
       android:minHeight="?attr/actionBarSize"
       android:id="@+id/COMPONENT_TOOLBAR"/>
+
 </FrameLayout>

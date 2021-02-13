@@ -4,7 +4,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             tools:context=".ux.components.widgets.acts.ComponentActsTabs">
+             tools:context=".goals.acts.ComponentActsTabs">
 
     <com.google.android.material.tabs.TabLayout
       android:layout_width="match_parent"

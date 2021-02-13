@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.widgets.acts;
+package com.masterhelper.goals.acts;
 
 import android.app.Activity;
 import android.os.Bundle;

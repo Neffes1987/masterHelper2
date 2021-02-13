@@ -14,7 +14,7 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.widgets.acts.IActsTabs;
+import com.masterhelper.goals.acts.IActsTabs;
 import com.masterhelper.journeys.JourneyLocale;
 import com.masterhelper.ux.components.library.list.ListItemLocation;
 import com.masterhelper.goals.list.ListItemGoal;
