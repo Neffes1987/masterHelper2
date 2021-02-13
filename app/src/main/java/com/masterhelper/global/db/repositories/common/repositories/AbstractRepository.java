@@ -1,9 +1,9 @@
-package com.masterhelper.db.repositories.common.repositories;
+package com.masterhelper.global.db.repositories.common.repositories;
 
-import com.masterhelper.baseclasses.fields.DataID;
-import com.masterhelper.baseclasses.fields.GeneralField;
-import com.masterhelper.db.repositories.common.model.GeneralModel;
-import com.masterhelper.db.repositories.common.contracts.AbstractContract;
+import com.masterhelper.global.fields.DataID;
+import com.masterhelper.global.fields.GeneralField;
+import com.masterhelper.global.db.repositories.common.model.GeneralModel;
+import com.masterhelper.global.db.repositories.common.contracts.AbstractContract;
 
 import java.util.ArrayList;
 import java.util.List;

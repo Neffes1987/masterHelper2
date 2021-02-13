@@ -1,7 +1,7 @@
-package com.masterhelper.db.repositories.common.model;
+package com.masterhelper.global.db.repositories.common.model;
 
-import com.masterhelper.baseclasses.fields.DataID;
-import com.masterhelper.baseclasses.fields.GeneralField;
+import com.masterhelper.global.fields.DataID;
+import com.masterhelper.global.fields.GeneralField;
 
 public interface IModel<Repository> {
   DataID id = new DataID();

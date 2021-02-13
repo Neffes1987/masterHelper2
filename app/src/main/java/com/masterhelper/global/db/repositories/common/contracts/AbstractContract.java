@@ -1,7 +1,7 @@
-package com.masterhelper.db.repositories.common.contracts;
+package com.masterhelper.global.db.repositories.common.contracts;
 
-import com.masterhelper.db.repositories.common.model.GeneralModel;
-import com.masterhelper.db.DbHelpers;
+import com.masterhelper.global.db.repositories.common.model.GeneralModel;
+import com.masterhelper.global.db.DbHelpers;
 
 public abstract class AbstractContract<ModelType extends GeneralModel> implements IContract<ModelType> {
   public final static int ID_COLUMN_LENGTH = 200;

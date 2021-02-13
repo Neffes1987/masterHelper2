@@ -1,4 +1,4 @@
-package com.masterhelper.db;
+package com.masterhelper.global.db;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -7,11 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.goals.repository.GoalRepository;
+import com.masterhelper.media.repository.MediaRepository;
 
 public class DbHelpers extends SQLiteOpenHelper {
   public JourneyRepository journeyRepository;
   public GoalRepository goalRepository;
   public LocationRepository locationRepository;
+  public MediaRepository mediaRepository;
 
   /**
    * Имя файла базы данных
@@ -20,7 +22,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   /**
    * Версия базы данных. При изменении схемы увеличить на единицу
    */
-  private static final int DATABASE_VERSION = 56;
+  private static final int DATABASE_VERSION = 57;
 
   SQLiteDatabase db;
 
@@ -30,6 +32,7 @@ public class DbHelpers extends SQLiteOpenHelper {
     journeyRepository = new JourneyRepository(this);
     goalRepository = new GoalRepository(this);
     locationRepository = new LocationRepository(this);
+    mediaRepository = new MediaRepository(this);
     db = getWritableDatabase();
   }
 
@@ -37,6 +40,7 @@ public class DbHelpers extends SQLiteOpenHelper {
     journeyRepository.createTable();
     goalRepository.createTable();
     locationRepository.createTable();
+    mediaRepository.createTable();
   }
 
   /**

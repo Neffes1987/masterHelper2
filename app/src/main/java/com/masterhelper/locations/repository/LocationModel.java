@@ -1,8 +1,8 @@
 package com.masterhelper.locations.repository;
 
 import android.text.TextUtils;
-import com.masterhelper.baseclasses.fields.GeneralField;
-import com.masterhelper.db.repositories.common.model.GeneralModel;
+import com.masterhelper.global.fields.GeneralField;
+import com.masterhelper.global.db.repositories.common.model.GeneralModel;
 
 public class LocationModel extends GeneralModel<LocationRepository> {
   public final GeneralField<String> name = new GeneralField<>();

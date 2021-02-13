@@ -1,11 +1,9 @@
 package com.masterhelper.goals.repository;
-import com.masterhelper.baseclasses.fields.DataID;
-import com.masterhelper.baseclasses.fields.GeneralField;
-import com.masterhelper.db.repositories.common.model.GeneralModel;
+import com.masterhelper.global.fields.DataID;
+import com.masterhelper.global.fields.GeneralField;
+import com.masterhelper.global.db.repositories.common.model.GeneralModel;
 import com.masterhelper.goals.GoalLocale;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class GoalModel extends GeneralModel<GoalRepository> {

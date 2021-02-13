@@ -2,7 +2,7 @@ package com.masterhelper.media.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
-import com.masterhelper.filesystem.LibraryFileData;
+import com.masterhelper.media.filesystem.LibraryFileData;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemLocation;

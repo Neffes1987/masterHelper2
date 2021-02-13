@@ -1,9 +1,9 @@
 package com.masterhelper.goals.repository;
 
 import android.database.Cursor;
-import com.masterhelper.baseclasses.fields.DataID;
-import com.masterhelper.db.DbHelpers;
-import com.masterhelper.db.repositories.common.repositories.AbstractRepository;
+import com.masterhelper.global.fields.DataID;
+import com.masterhelper.global.db.DbHelpers;
+import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
 
 import java.util.ArrayList;
 

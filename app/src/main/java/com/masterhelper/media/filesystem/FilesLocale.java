@@ -1,4 +1,4 @@
-package com.masterhelper.filesystem;
+package com.masterhelper.media.filesystem;
 
 import android.content.Context;
 import com.masterhelper.R;

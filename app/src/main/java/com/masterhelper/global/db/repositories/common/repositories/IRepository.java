@@ -1,6 +1,6 @@
-package com.masterhelper.db.repositories.common.repositories;
+package com.masterhelper.global.db.repositories.common.repositories;
 
-import com.masterhelper.baseclasses.fields.DataID;
+import com.masterhelper.global.fields.DataID;
 
 public interface IRepository<RecordType> {
   RecordType getRecord(DataID elementId);

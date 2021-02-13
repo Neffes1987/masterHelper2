@@ -1,4 +1,4 @@
-package com.masterhelper.db.repositories.utils;
+package com.masterhelper.global.db.repositories.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

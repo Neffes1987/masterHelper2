@@ -15,10 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
-import com.masterhelper.filesystem.AppFilesLibrary;
-import com.masterhelper.filesystem.AudioPlayer;
-import com.masterhelper.filesystem.FilesLocale;
-import com.masterhelper.filesystem.LibraryFileData;
+import com.masterhelper.media.filesystem.AppFilesLibrary;
+import com.masterhelper.media.filesystem.AudioPlayer;
+import com.masterhelper.media.filesystem.FilesLocale;
+import com.masterhelper.media.filesystem.LibraryFileData;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -34,8 +34,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static com.masterhelper.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
-import static com.masterhelper.filesystem.AppFilesLibrary.FORMAT_IMAGE_PATH;
+import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
+import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_IMAGE_PATH;
 
 public class FileViewerWidget extends AppCompatActivity implements SetBtnLocation, ListItemLocation {
   String[] permissions = new String[] {

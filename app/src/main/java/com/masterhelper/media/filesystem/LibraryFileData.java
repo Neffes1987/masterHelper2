@@ -1,4 +1,4 @@
-package com.masterhelper.filesystem;
+package com.masterhelper.media.filesystem;
 
 import android.net.Uri;
 

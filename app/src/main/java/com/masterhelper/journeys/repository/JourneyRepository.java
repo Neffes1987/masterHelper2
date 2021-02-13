@@ -1,8 +1,8 @@
 package com.masterhelper.journeys.repository;
 
 import android.database.Cursor;
-import com.masterhelper.db.repositories.common.repositories.AbstractRepository;
-import com.masterhelper.db.DbHelpers;
+import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
+import com.masterhelper.global.db.DbHelpers;
 
 import java.util.ArrayList;
 import java.util.List;

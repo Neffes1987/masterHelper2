@@ -1,10 +1,10 @@
 package com.masterhelper.goals.repository;
 
 import android.database.Cursor;
-import com.masterhelper.baseclasses.fields.DataID;
-import com.masterhelper.db.DbHelpers;
-import com.masterhelper.db.repositories.common.contracts.AbstractContract;
-import com.masterhelper.db.repositories.common.contracts.GeneralColumn;
+import com.masterhelper.global.fields.DataID;
+import com.masterhelper.global.db.DbHelpers;
+import com.masterhelper.global.db.repositories.common.contracts.AbstractContract;
+import com.masterhelper.global.db.repositories.common.contracts.GeneralColumn;
 import com.masterhelper.journeys.repository.JourneyContract;
 
 import java.util.UUID;

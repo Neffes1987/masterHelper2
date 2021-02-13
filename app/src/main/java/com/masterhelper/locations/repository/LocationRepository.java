@@ -1,16 +1,16 @@
 package com.masterhelper.locations.repository;
 
 import android.database.Cursor;
-import com.masterhelper.baseclasses.fields.DataID;
-import com.masterhelper.db.DbHelpers;
-import com.masterhelper.db.repositories.common.repositories.AbstractRepository;
+import com.masterhelper.global.fields.DataID;
+import com.masterhelper.global.db.DbHelpers;
+import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
 
 import java.util.ArrayList;
 
 public class LocationRepository extends AbstractRepository<LocationModel> {
 
   public LocationRepository(DbHelpers helper) {
-    super(new LocationContract(helper), "scene");
+    super(new LocationContract(helper), "location");
   }
 
 

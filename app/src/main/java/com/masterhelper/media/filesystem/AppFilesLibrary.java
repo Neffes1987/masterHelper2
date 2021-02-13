@@ -1,10 +1,10 @@
-package com.masterhelper.filesystem;
+package com.masterhelper.media.filesystem;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
-import com.masterhelper.baseclasses.fields.GeneralField;
+import com.masterhelper.global.fields.GeneralField;
 import com.masterhelper.global.GlobalApplication;
 
 import java.io.*;

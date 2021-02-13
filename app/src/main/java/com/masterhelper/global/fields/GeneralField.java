@@ -1,4 +1,4 @@
-package com.masterhelper.baseclasses.fields;
+package com.masterhelper.global.fields;
 
 public class GeneralField<DataType> {
   private DataType value;

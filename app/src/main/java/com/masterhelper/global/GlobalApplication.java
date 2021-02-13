@@ -2,8 +2,8 @@ package com.masterhelper.global;
 
 import android.app.Application;
 import android.content.Context;
-import com.masterhelper.db.DbHelpers;
-import com.masterhelper.filesystem.AudioPlayer;
+import com.masterhelper.global.db.DbHelpers;
+import com.masterhelper.media.filesystem.AudioPlayer;
 
 /** static method for getting application context */
 public class GlobalApplication extends Application {
