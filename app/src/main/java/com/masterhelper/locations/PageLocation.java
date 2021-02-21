@@ -52,7 +52,6 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
     private ComponentUIDialog locationDialog;
     private LocationModel location;
     private ComponentUIList<LibraryFileData> mediaFilesList;
-    private ComponentUIList<GoalModel> goalsList;
     AudioPlayer player;
 
     FragmentManager mn;
@@ -298,7 +297,6 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
                 currentSelectedUris.add(model.filePath.get());
             }
         }
-        Log.i("TAG", "reInitMusicPlayer: " + currentSelectedUris.toString());
         player.setMediaListOfUri(currentSelectedUris.toArray(new String[0]));
     }
 

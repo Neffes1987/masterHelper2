@@ -1,7 +1,7 @@
 package com.masterhelper.goals;
 
 import android.content.Intent;
-import android.util.Log;
+import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.goals.repository.GoalRepository;
+import com.masterhelper.locations.PageLocation;
 import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -111,6 +112,11 @@ public class PageGoal extends AppCompatActivity {
     }
     ComponentUILabel locationTitle = ComponentUILabel.cast(mn.findFragmentById(R.id.GOAL_ASSIGNED_LOCATION_ID));
     locationTitle.controls.setText(title);
+    locationTitle.controls.setOnClickListener(v -> {
+      Intent locationListIntent = new Intent(PageGoal.this, PageLocation.class);
+      locationListIntent.putExtra(PageLocationsList.INTENT_LOCATION_ID, currentGoal.assignedLocation.get().toString());
+      startActivity(locationListIntent);
+    });
   }
 
   ComponentUIDialog initDialog(int nameMaxLength, int descriptionLength) {

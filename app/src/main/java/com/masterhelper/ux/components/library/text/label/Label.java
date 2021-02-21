@@ -18,6 +18,10 @@ public class Label extends UXTextElement<TextView> {
     this.getUxElement().setText(text);
   }
 
+  public void setOnClickListener(@NonNull View.OnClickListener listener) {
+    this.getUxElement().setOnClickListener(listener);
+  }
+
   /**
    * read text from text component
    */
