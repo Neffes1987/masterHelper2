@@ -81,7 +81,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.LOCATION_PREVIEW_ID));
         previewControl.controls.setOnClick(this);
         previewControl.controls.setId(View.generateViewId());
-        if (location.previewId.get() != null) {
+        if (location.previewUrl != null && location.previewUrl.get() != null && location.previewUrl.get().length() > 0) {
             previewControl.controls.setFile(new File(location.previewUrl.get()));
         }
     }

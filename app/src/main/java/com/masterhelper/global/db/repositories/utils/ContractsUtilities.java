@@ -14,7 +14,7 @@ public abstract class ContractsUtilities {
       String value = values[i];
 
       columnsResult.append(columnName);
-      valuesResult.append("'").append(value.replaceAll("'", "`")).append("'");
+      valuesResult.append("'").append(value != null ? value.replaceAll("'", "`") : "").append("'");
       if(i <  columnsLastIndex){
         columnsResult.append(",");
         valuesResult.append(",");
