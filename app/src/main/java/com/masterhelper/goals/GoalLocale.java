@@ -17,16 +17,28 @@ public abstract class GoalLocale {
       case listCaption: return context.getResources().getString(R.string.goal_list);
       case createScene: return context.getResources().getString(R.string.scene_create_title);
       case updateScene:return context.getResources().getString(R.string.goal_popup_update_title);
-      case shortDescription: return context.getResources().getString(R.string.goal_description);
-      case scriptsProgressTitle: return context.getResources().getString(R.string.screen_events_progress);
-      case actIHint: return context.getResources().getString(R.string.screen_intro_tip);
-      case actIIHint: return context.getResources().getString(R.string.screen_puzzle_intro);
-      case actIIIHint: return context.getResources().getString(R.string.screen_plot_twist_tip);
-      case actIVHint: return context.getResources().getString(R.string.screen_main_challenge_tip);
-      case actVHint: return context.getResources().getString(R.string.screen_call_second_deep_tip);
-      case goalInProgress: return context.getResources().getString(R.string.goal_in_progress);
-      case goalFailed: return context.getResources().getString(R.string.goal_failed);
-      case goalComplete: return context.getResources().getString(R.string.goal_complete);
+      case shortDescription:
+        return context.getResources().getString(R.string.goal_description);
+      case scriptsProgressTitle:
+        return context.getResources().getString(R.string.screen_events_progress);
+      case actIHint:
+        return context.getResources().getString(R.string.screen_intro_tip);
+      case actIIHint:
+        return context.getResources().getString(R.string.screen_puzzle_intro);
+      case actIIIHint:
+        return context.getResources().getString(R.string.screen_plot_twist_tip);
+      case actIVHint:
+        return context.getResources().getString(R.string.screen_main_challenge_tip);
+      case actVHint:
+        return context.getResources().getString(R.string.screen_call_second_deep_tip);
+      case goalInProgress:
+        return context.getResources().getString(R.string.goal_in_progress);
+      case goalFailed:
+        return context.getResources().getString(R.string.goal_failed);
+      case goalComplete:
+        return context.getResources().getString(R.string.goal_complete);
+      case goalLocationPlaceholder:
+        return context.getResources().getString(R.string.goal_assigned_location_placeholder);
     }
     return "";
   }
@@ -46,6 +58,7 @@ public abstract class GoalLocale {
     actVHint,
     goalInProgress,
     goalFailed,
-    goalComplete
+    goalComplete,
+    goalLocationPlaceholder
   }
 }

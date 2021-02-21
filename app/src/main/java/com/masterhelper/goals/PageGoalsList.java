@@ -10,6 +10,7 @@ import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnLocation;
+import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
@@ -25,7 +26,7 @@ import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.journeys.PageJourneyList.INTENT_JOURNEY_ID;
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
 
-public class PageGoalsList extends AppCompatActivity implements ListItemLocation, IActsTabs {
+public class PageGoalsList extends AppMenuActivity implements ListItemLocation, IActsTabs {
 
   FragmentManager mn;
   GoalRepository repository;
@@ -34,7 +35,7 @@ public class PageGoalsList extends AppCompatActivity implements ListItemLocation
 
   ComponentUIDialog dialog;
 
-  ComponentUIDialog initDialog(int nameMaxLength, int descriptionMaxLength){
+  ComponentUIDialog initDialog(int nameMaxLength, int descriptionMaxLength) {
     ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameLabel.show();
     dialog.pNameLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.goalName));

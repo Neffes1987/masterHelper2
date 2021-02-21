@@ -17,6 +17,33 @@
     tools:layout="@layout/fragment_component_ui_app_bar"
     app:layout_constraintEnd_toEndOf="parent"/>
 
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/GOAL_APP_BAR"
+    android:id="@+id/linearLayout2"
+    style="@style/row_layout">
+
+    <fragment
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+      android:id="@+id/GOAL_ASSIGNED_LOCATION_ID"
+      android:layout_weight="1"
+      tools:layout="@layout/fragment_component_ui_label"/>
+
+    <fragment
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton"
+      android:id="@+id/GOAL_ASSIGN_LOCATION_BTN_ID"
+      android:layout_weight="0"
+      tools:layout="@layout/fragment_component_ui_image_button"/>
+  </LinearLayout>
+
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
@@ -25,8 +52,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     tools:layout="@layout/fragment_component_ui_label"
-    app:layout_constraintTop_toBottomOf="@+id/GOAL_APP_BAR"
-    android:layout_marginTop="8dp"
+    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"/>
 

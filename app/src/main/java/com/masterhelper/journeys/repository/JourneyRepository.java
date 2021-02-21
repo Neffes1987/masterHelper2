@@ -27,7 +27,7 @@ public class JourneyRepository extends AbstractRepository<JourneyModel> {
 
     JourneyContract contract = (JourneyContract) getContract();
     ArrayList<JourneyModel> dbRecords = new ArrayList<>();
-    Cursor dbList = getContract().list(offset, limit);
+    Cursor dbList = contract.list(offset, limit);
     while (dbList.moveToNext()){
       int idIndex = dbList.getColumnIndex(JourneyContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());

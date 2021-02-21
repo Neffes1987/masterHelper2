@@ -19,7 +19,7 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
 
   @Override
   public GoalModel getDraftRecord() {
-    return new GoalModel(this, null, "", "", 0, null, GoalModel.GoalProgress.inProgress);
+    return new GoalModel(this, null, "", "", 1, null, GoalModel.GoalProgress.inProgress);
   }
 
   @Override
@@ -40,7 +40,7 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
           dbList.getString(idIndex),
           dbList.getString(nameIndex),
           dbList.getString(descriptionIndex),
-          0,
+          1,
           null,
           progress != null ? GoalModel.GoalProgress.valueOf(dbList.getString(progressIndex)) : null
         )
@@ -60,6 +60,7 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
       int progressIndex = dbList.getColumnIndex(contract.progress.getColumnTitle());
+      int actIndex = dbList.getColumnIndex(contract.actNumber.getColumnTitle());
 
       String progress = dbList.getString(progressIndex);
       dbRecords.add(
@@ -68,7 +69,7 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
           dbList.getString(idIndex),
           dbList.getString(nameIndex),
           dbList.getString(descriptionIndex),
-          0,
+          dbList.getInt(actIndex),
           null,
           progress != null ? GoalModel.GoalProgress.valueOf(dbList.getString(progressIndex)) : null
         )

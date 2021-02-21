@@ -52,13 +52,18 @@
     <item name="android:textColor">@color/colorAttention</item>
   </style>
 
-  <style name="float_alert_button"  parent="float_button_styles">
+  <style name="float_alert_button" parent="float_button_styles">
     <item name="android:tint">@color/colorDelete</item>
     <item name="android:textColor">@color/colorDelete</item>
   </style>
 
   <style name="page_layout">
     <item name="android:layout_margin">8dp</item>
+  </style>
+
+  <style name="row_layout">
+    <item name="android:layout_marginLeft">8dp</item>
+    <item name="android:layout_marginRight">8dp</item>
   </style>
 
 </resources>
