@@ -13,13 +13,15 @@ public class ListItemLocation extends CommonItem<LocationModel> implements SetBt
   private LocationtName description;
   private LocationEditControl editButton;
   private LocationDeleteControl deleteButton;
+  private boolean isSelectionMode;
 
 
-  public ListItemLocation(FragmentManager manager, com.masterhelper.ux.components.library.list.ListItemLocation listItemJourneyEvents) {
+  public ListItemLocation(FragmentManager manager, com.masterhelper.ux.components.library.list.ListItemLocation listItemJourneyEvents, Boolean isSelectionMode) {
     super(manager, listItemJourneyEvents);
+    this.isSelectionMode = isSelectionMode;
   }
 
-  public ListItemLocation(View view, FragmentManager manager, com.masterhelper.ux.components.library.list.ListItemLocation listItemJourneyEvents) {
+  public ListItemLocation(View view, FragmentManager manager, com.masterhelper.ux.components.library.list.ListItemLocation listItemJourneyEvents, boolean isSelectionMode) {
     super(view, manager, listItemJourneyEvents);
     View header = getHeader();
     View body = getBody();
@@ -27,8 +29,10 @@ public class ListItemLocation extends CommonItem<LocationModel> implements SetBt
 
     name = new LocationtName(header, manager);
     description = new LocationtName(body, manager);
-    deleteButton = new LocationDeleteControl(header, manager, this);
-    editButton = new LocationEditControl(header, manager, this);
+    if (!isSelectionMode) {
+      deleteButton = new LocationDeleteControl(header, manager, this);
+      editButton = new LocationEditControl(header, manager, this);
+    }
 
   }
 
@@ -41,7 +45,7 @@ public class ListItemLocation extends CommonItem<LocationModel> implements SetBt
 
   @Override
   public CommonItem<LocationModel> clone(View view) {
-    return new ListItemLocation(view, getManager(), getListItemSceneEvents());
+    return new ListItemLocation(view, getManager(), getListItemSceneEvents(), isSelectionMode);
   }
 
   /**

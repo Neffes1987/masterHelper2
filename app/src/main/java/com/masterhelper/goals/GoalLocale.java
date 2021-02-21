@@ -13,10 +13,14 @@ public abstract class GoalLocale {
   public static String getLocalizationByKey(Keys localeKey){
     Context context = GlobalApplication.getAppContext();
     switch (localeKey){
-      case goalName: return context.getResources().getString(R.string.goal_name);
-      case listCaption: return context.getResources().getString(R.string.goal_list);
-      case createScene: return context.getResources().getString(R.string.scene_create_title);
-      case updateScene:return context.getResources().getString(R.string.goal_popup_update_title);
+      case goalName:
+        return context.getResources().getString(R.string.goal_name);
+      case listCaption:
+        return context.getResources().getString(R.string.goal_list);
+      case createScene:
+        return context.getResources().getString(R.string.scene_create_title);
+      case updateScene:
+        return context.getResources().getString(R.string.goal_popup_update_title);
       case shortDescription:
         return context.getResources().getString(R.string.goal_description);
       case scriptsProgressTitle:

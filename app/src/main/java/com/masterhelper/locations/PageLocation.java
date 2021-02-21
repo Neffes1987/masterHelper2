@@ -41,7 +41,7 @@ import java.util.Collection;
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
-import static com.masterhelper.locations.PageLocationsList.INTENT_EVENT_ID;
+import static com.masterhelper.locations.PageLocationsList.INTENT_LOCATION_ID;
 
 public class PageLocation extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemLocation, IMusicPlayerWidget {
     private int currentSelectedTab = 1;
@@ -121,7 +121,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         setContentView(R.layout.activity_page_location);
         repository = GlobalApplication.getAppDB().locationRepository;
         mediaRepository = GlobalApplication.getAppDB().mediaRepository;
-        location = repository.getRecord(getIntent().getStringExtra(INTENT_EVENT_ID));
+        location = repository.getRecord(getIntent().getStringExtra(INTENT_LOCATION_ID));
         player = GlobalApplication.getPlayer();
 
         mn = getSupportFragmentManager();

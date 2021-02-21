@@ -1,15 +1,12 @@
 package com.masterhelper.locations;
 
 import android.content.Intent;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
-import com.masterhelper.goals.repository.GoalModel;
-import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -21,20 +18,20 @@ import com.masterhelper.locations.list.LocationDialog;
 import com.masterhelper.locations.list.ListItemLocation;
 
 import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
-import static com.masterhelper.media.FileViewerWidget.WIDGET_RESULT_CODE;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 
 
 public class PageLocationsList extends AppCompatActivity implements SetBtnLocation, com.masterhelper.ux.components.library.list.ListItemLocation {
-  public static final String INTENT_EVENT_ID = "eventId";
+  public static final String INTENT_LOCATION_ID = "locationId";
+  public static final String INTENT_LOCATION_SELECTION_MODE = "isLocationsSelectionMode";
+  public static final int INTENT_LOCATION_RESULT_ID = 10000;
   FragmentManager mn;
   LocationRepository locationRepository;
-  GoalRepository goalRepository;
 
   LocationDialog locationDialog;
   ComponentUIList<LocationModel> list;
   ComponentUIFloatingButton newItemButton;
-  GoalModel parentScene;
+  boolean isSelectionMode;
 
 
   @Override
@@ -43,18 +40,20 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     setContentView(R.layout.activity_page_locations_list);
     mn = getSupportFragmentManager();
     locationRepository = GlobalApplication.getAppDB().locationRepository;
-    goalRepository = GlobalApplication.getAppDB().goalRepository;
-    parentScene = goalRepository.getRecord(getIntent().getStringExtra(INTENT_GOAL_ID));
+
+    isSelectionMode = getIntent().getIntExtra(INTENT_LOCATION_SELECTION_MODE, 0) == 1;
+
     UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.listCaption), null);
     locationDialog = new LocationDialog(this, locationRepository.getNameLength());
-    initNewItemButton();
 
-    list = initList(locationRepository.list(0,0));
+    initNewItemButton(isSelectionMode);
+
+    list = initList(locationRepository.list(0, 0), isSelectionMode);
   }
 
-  ComponentUIList<LocationModel> initList(LocationModel[] items){
+  ComponentUIList<LocationModel> initList(LocationModel[] items, boolean isSelectionMode) {
     ComponentUIList<LocationModel> list = ComponentUIList.cast(mn.findFragmentById(R.id.EVENTS_LIST_ID));
-    list.controls.setAdapter(items, new ListItemLocation(getSupportFragmentManager(), this));
+    list.controls.setAdapter(items, new ListItemLocation(getSupportFragmentManager(), this, isSelectionMode));
     return list;
   }
 
@@ -65,8 +64,12 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     list.controls.add(newEvent, false);
   }
 
-  void initNewItemButton(){
+  void initNewItemButton(boolean isHide) {
     newItemButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.EVENTS_ADD_NEW_ITEM_ID));
+    if (isHide) {
+      newItemButton.controls.hide();
+      return;
+    }
     FloatingButtonsPreset.setPreset(FloatingButtonsPreset.Presets.addNewItem, newItemButton);
     newItemButton.controls.setOnClick(this);
   }
@@ -147,18 +150,15 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     LocationModel item = list.controls.getItemByListId(listItemId);
     Intent eventIntent;
     eventIntent = new Intent(this, PageLocation.class);
-    eventIntent.putExtra(INTENT_EVENT_ID, item.id.get().toString());
+    eventIntent.putExtra(INTENT_LOCATION_ID, item.id.get().toString());
+
+    if (isSelectionMode) {
+      setResult(RESULT_OK, eventIntent);
+      finish();
+      return;
+    }
+
     eventIntent.putExtra(INTENT_GOAL_ID, getIntent().getStringExtra(INTENT_GOAL_ID));
     startActivity(eventIntent);
-  }
-
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if(resultCode == RESULT_OK){
-      if(requestCode == WIDGET_RESULT_CODE && data != null){
-        parentScene.save();
-      }
-    }
   }
 }

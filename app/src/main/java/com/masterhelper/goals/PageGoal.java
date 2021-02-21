@@ -1,5 +1,8 @@
 package com.masterhelper.goals;
 
+import android.content.Intent;
+import android.util.Log;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -7,8 +10,7 @@ import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.goals.repository.GoalRepository;
-import com.masterhelper.locations.repository.LocationModel;
-import com.masterhelper.locations.repository.LocationRepository;
+import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
@@ -17,28 +19,30 @@ import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
 
 public class PageGoal extends AppCompatActivity {
-    public static final String INTENT_GOAL_ID = "goalId";
+  public static final String INTENT_GOAL_ID = "goalId";
+  public static final int INTENT_RESULT_ID = 10000;
 
-    GoalModel currentGoal;
+  GoalModel currentGoal;
 
-    FragmentManager mn;
-    GoalRepository repository;
-    private ComponentUILabel description;
+  FragmentManager mn;
+  GoalRepository repository;
 
-    void setAppBarLabel(String newName, String newProgress ){
-        UIToolbar.setTitle(this, newName, newProgress);
-    }
+  ComponentUIDialog dialog;
 
-    void setDescriptionLabel(String newDescription){
-        if(description == null){
-            description = ComponentUILabel.cast(mn.findFragmentById(R.id.GOAL_DESCRIPTION_ID));
+  private ComponentUILabel description;
+
+  void setAppBarLabel(String newName, String newProgress) {
+    UIToolbar.setTitle(this, newName, newProgress);
+  }
+
+  void setDescriptionLabel(String newDescription) {
+    if (description == null) {
+      description = ComponentUILabel.cast(mn.findFragmentById(R.id.GOAL_DESCRIPTION_ID));
         }
         description.controls.setText(newDescription);
     }
@@ -50,10 +54,6 @@ public class PageGoal extends AppCompatActivity {
       floatingButton.controls.setOnClick(new SetBtnLocation() {
         @Override
         public void onClick(int btnId, String tag) {
-          ComponentUIDialog dialog = initDialog(
-            repository.getNameLength(),
-            repository.getDescriptionLength()
-          );
           dialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateScene));
           dialog.pNameField.setText(currentGoal.name.get());
           dialog.pDescriptionField.setText(currentGoal.description.get());
@@ -70,12 +70,11 @@ public class PageGoal extends AppCompatActivity {
 
               setDescriptionLabel(currentGoal.description.get());
               setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
-              dialog.removeDialog();
             }
 
             @Override
             public void onReject() {
-              dialog.removeDialog();
+
             }
           });
           dialog.show();
@@ -88,36 +87,14 @@ public class PageGoal extends AppCompatActivity {
       });
     }
 
-  void initLocationButton() {
-    ComponentUIImageButton addNewLocationBtn = ComponentUIImageButton.cast(mn.findFragmentById(R.id.GOAL_ASSIGN_LOCATION_BTN_ID));
-    addNewLocationBtn.controls.setOnClick(new SetBtnLocation() {
+  void initSelectLocationBtn() {
+    ComponentUIImageButton selectLocationBtn = ComponentUIImageButton.cast(mn.findFragmentById(R.id.GOAL_ASSIGN_LOCATION_BTN_ID));
+    selectLocationBtn.controls.setOnClick(new SetBtnLocation() {
       @Override
       public void onClick(int btnId, String tag) {
-        LocationRepository locationRepo = GlobalApplication.getAppDB().locationRepository;
-        LocationModel[] locations = locationRepo.list(0, 0);
-        ArrayList<String> locationsNames = new ArrayList<>();
-        ArrayList<String> locationsIds = new ArrayList<>();
-        for (LocationModel location : locations) {
-          locationsNames.add(location.name.get());
-          locationsIds.add(location.id.get().toString());
-        }
-        ComponentUIDialog locationsDialog = initLocationsDialog(locationsNames);
-        locationsDialog.setListener(new ComponentUIDialog.DialogClickListener() {
-          @Override
-          public void onResolve() {
-            int selectedItemIndex = locationsDialog.pRadioGroup.getSelectedItemIndex();
-            String locationId = locationsIds.get(selectedItemIndex);
-            String locationName = locationsNames.get(selectedItemIndex);
-            initLocationTitle(locationName);
-            currentGoal.assignedLocation.fromString(locationId);
-            locationsDialog.removeDialog();
-          }
-
-          @Override
-          public void onReject() {
-            locationsDialog.removeDialog();
-          }
-        });
+        Intent locationListIntent = new Intent(PageGoal.this, PageLocationsList.class);
+        locationListIntent.putExtra(PageLocationsList.INTENT_LOCATION_SELECTION_MODE, 1);
+        startActivityForResult(locationListIntent, INTENT_RESULT_ID);
       }
 
       @Override
@@ -127,11 +104,11 @@ public class PageGoal extends AppCompatActivity {
     });
   }
 
-  void initLocationTitle(String title) {
-    if (title.length() == 0) {
-      title = getLocalizationByKey(GoalLocale.Keys.goalLocationPlaceholder);
+  void initLocationTitle(String locationId) {
+    String title = getLocalizationByKey(GoalLocale.Keys.goalLocationPlaceholder);
+    if (locationId != null && locationId.length() != 0) {
+      title = GlobalApplication.getAppDB().locationRepository.getRecord(locationId).name.get();
     }
-
     ComponentUILabel locationTitle = ComponentUILabel.cast(mn.findFragmentById(R.id.GOAL_ASSIGNED_LOCATION_ID));
     locationTitle.controls.setText(title);
   }
@@ -145,29 +122,14 @@ public class PageGoal extends AppCompatActivity {
     dialog.pNameField.setMaxLength(nameMaxLength);
     dialog.pNameField.show();
 
-        dialog.pDescriptionLabel.show();
-        dialog.pDescriptionLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.shortDescription));
+    dialog.pDescriptionLabel.show();
+    dialog.pDescriptionLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.shortDescription));
 
     dialog.pDescriptionField.setText("");
     dialog.pDescriptionLabel.setMaxLength(descriptionLength);
     dialog.pDescriptionField.show();
 
     dialog.pRadioGroup.setList(Arrays.asList(GoalModel.dialogProgressOptionsTitles));
-    dialog.pRadioGroup.show();
-
-    return dialog;
-  }
-
-  ComponentUIDialog initLocationsDialog(ArrayList<String> locationsNames) {
-    ComponentUIDialog dialog = new ComponentUIDialog(this);
-    dialog.pNameLabel.show();
-    dialog.pNameLabel.setText(getLocalizationByKey(GoalLocale.Keys.goalLocationPlaceholder));
-    dialog.pNameField.hide();
-
-    dialog.pDescriptionLabel.hide();
-    dialog.pDescriptionField.hide();
-
-    dialog.pRadioGroup.setList(locationsNames);
     dialog.pRadioGroup.show();
 
     return dialog;
@@ -181,11 +143,30 @@ public class PageGoal extends AppCompatActivity {
     mn = getSupportFragmentManager();
     repository = GlobalApplication.getAppDB().goalRepository;
     currentGoal = repository.getRecord(goalId);
+    dialog = initDialog(
+      repository.getNameLength(),
+      repository.getDescriptionLength()
+    );
 
     setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
     setDescriptionLabel(currentGoal.description.get());
     initUpdateButton();
-    initLocationTitle("");
-    initLocationButton();
+    initLocationTitle(currentGoal.assignedLocation.toString());
+    initSelectLocationBtn();
+  }
+
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode != RESULT_OK || data == null) {
+      return;
+    }
+    String locationId = data.getStringExtra(PageLocationsList.INTENT_LOCATION_ID);
+
+    if (locationId != null) {
+      initLocationTitle(locationId);
+      currentGoal.assignedLocation.fromString(locationId);
+      currentGoal.save();
+    }
   }
 }
