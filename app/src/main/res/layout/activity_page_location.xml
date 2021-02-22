@@ -17,85 +17,90 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"/>
 
-  <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintStart_toStartOf="parent"
+  <ScrollView
+    android:layout_width="0dp"
+    android:layout_height="0dp"
     app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/LOCATION_TABS_ID"
-    android:id="@+id/LOCATION_CONTENT_ID"
-    android:visibility="visible"
-    app:layout_constraintBottom_toTopOf="@+id/LOCATION_MUSIC_PLAYER_WIDGET_ID"
-    app:layout_constraintVertical_bias="0.0">
+    app:layout_constraintBottom_toTopOf="@+id/LOCATION_MUSIC_PLAYER_WIDGET_ID">
 
     <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/LOCATION_MUSIC_CONTAINER_ID"
-      android:visibility="gone">
+      android:layout_height="wrap_content"
+      android:id="@+id/LOCATION_CONTENT_ID"
+      android:visibility="visible"
+      >
 
-      <fragment
+      <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
-        tools:layout="@layout/fragment_component_ui_list"
-        android:id="@+id/LOCATION_MUSIC_LIST_ID"/>
-    </LinearLayout>
+        android:id="@+id/LOCATION_MUSIC_CONTAINER_ID"
+        android:visibility="gone">
 
-    <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/LOCATION_META_CONTAINER_ID"
-      android:visibility="visible">
+        <fragment
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
+          tools:layout="@layout/fragment_component_ui_list"
+          android:id="@+id/LOCATION_MUSIC_LIST_ID"/>
+      </LinearLayout>
 
-      <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
-        android:id="@+id/LOCATION_PREVIEW_ID"
-        tools:layout="@layout/fragment_component_ui_image"
-        />
-
-      <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-        android:id="@+id/LOCATION_NAME_VIEW_ID"
-        tools:layout="@layout/fragment_component_ui_label"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"/>
-
-      <fragment
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-        android:id="@+id/LOCATION_DESCRIPTION_VIEW_ID"
-        tools:layout="@layout/fragment_component_ui_label"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-      android:orientation="vertical"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/LOCATION_GOALS_CONTAINER_ID"
-      tools:visibility="gone">
-
-      <fragment
+      <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
-        android:id="@+id/LOCATION_GOALS_LIST_ID"
-        tools:layout="@layout/fragment_component_ui_list"/>
-    </LinearLayout>
+        android:id="@+id/LOCATION_META_CONTAINER_ID"
+        android:visibility="visible">
 
-  </LinearLayout>
+        <fragment
+          android:layout_width="match_parent"
+          android:layout_height="200dp"
+          android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
+          android:id="@+id/LOCATION_PREVIEW_ID"
+          tools:layout="@layout/fragment_component_ui_image"
+          />
+
+        <fragment
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+          android:id="@+id/LOCATION_NAME_VIEW_ID"
+          tools:layout="@layout/fragment_component_ui_label"
+          android:layout_marginTop="8dp"
+          android:layout_marginRight="8dp"
+          android:layout_marginLeft="8dp"/>
+
+        <fragment
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+          android:id="@+id/LOCATION_DESCRIPTION_VIEW_ID"
+          tools:layout="@layout/fragment_component_ui_label"
+          android:layout_marginTop="8dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginEnd="8dp"/>
+      </LinearLayout>
+
+      <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/LOCATION_GOALS_CONTAINER_ID"
+        tools:visibility="gone">
+
+        <fragment
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
+          android:id="@+id/LOCATION_GOALS_LIST_ID"
+          tools:layout="@layout/fragment_component_ui_list"/>
+      </LinearLayout>
+
+    </LinearLayout>
+  </ScrollView>
 
   <fragment
     android:layout_width="wrap_content"

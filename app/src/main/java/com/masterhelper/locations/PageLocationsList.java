@@ -24,7 +24,6 @@ import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 public class PageLocationsList extends AppCompatActivity implements SetBtnLocation, com.masterhelper.ux.components.library.list.ListItemLocation {
   public static final String INTENT_LOCATION_ID = "locationId";
   public static final String INTENT_LOCATION_SELECTION_MODE = "isLocationsSelectionMode";
-  public static final int INTENT_LOCATION_RESULT_ID = 10000;
   FragmentManager mn;
   LocationRepository locationRepository;
 

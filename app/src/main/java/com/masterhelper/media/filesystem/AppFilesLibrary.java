@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.fields.GeneralField;
 import com.masterhelper.global.GlobalApplication;
@@ -14,6 +15,7 @@ import com.masterhelper.media.repository.MediaRepository;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class AppFilesLibrary implements IAppFilesLibrary {
   public static final String FORMAT_IMAGE_PATH = "/images";
@@ -56,9 +58,10 @@ public class AppFilesLibrary implements IAppFilesLibrary {
 
   @Override
   public void copyFileToMediaLibrary(Uri path) {
-    String fileName = getOriginalFileName(path).replace("'", "");
+    Date currentDate = new Date();
+    String fileName = getOriginalFileName(path).replace("'", "") + "_" + currentDate.toString();
 
-    File libraryFile =  new File(workingDirectory.get().getPath() + "/" + fileName);
+    File libraryFile = new File(workingDirectory.get().getPath() + "/" + fileName);
 
     try (InputStream in = resolver.openInputStream(path)) {
       try (OutputStream out = new FileOutputStream(libraryFile)) {
@@ -109,6 +112,9 @@ public class AppFilesLibrary implements IAppFilesLibrary {
 
   @Override
   public File getFileByPosition(int position) {
+    if (filesList.size() == 0) {
+      return null;
+    }
     MediaModel model = filesList.get(position);
     return new File(model.filePath.get());
   }

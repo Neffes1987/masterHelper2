@@ -1,6 +1,7 @@
 package com.masterhelper.media.repository;
 
 import android.database.Cursor;
+import android.util.Log;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.contracts.AbstractContract;

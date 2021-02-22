@@ -3,21 +3,24 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
-             android:layout_height="match_parent"
+             android:layout_height="wrap_content"
              tools:context=".ux.components.library.image.ComponentUIImage"
-             android:layout_margin="4dp">
+             android:layout_margin="4dp"
+             android:maxHeight="200dp">
 
   <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
       android:src="@drawable/ic_launcher_background"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="wrap_content"
       android:id="@+id/COMPONENT_IMAGE_ID"
       android:layout_margin="4dp"
-      android:minHeight="200dp"/>
+      android:minHeight="200dp"
+      android:maxHeight="200dp"
+      android:scaleType="fitCenter"/>
   </androidx.cardview.widget.CardView>
 
 </FrameLayout>

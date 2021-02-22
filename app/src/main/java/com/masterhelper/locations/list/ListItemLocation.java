@@ -10,7 +10,6 @@ import com.masterhelper.locations.list.elements.*;
 /**  */
 public class ListItemLocation extends CommonItem<LocationModel> implements SetBtnLocation {
   private LocationtName name;
-  private LocationtName description;
   private LocationEditControl editButton;
   private LocationDeleteControl deleteButton;
   private boolean isSelectionMode;
@@ -24,11 +23,9 @@ public class ListItemLocation extends CommonItem<LocationModel> implements SetBt
   public ListItemLocation(View view, FragmentManager manager, com.masterhelper.ux.components.library.list.ListItemLocation listItemJourneyEvents, boolean isSelectionMode) {
     super(view, manager, listItemJourneyEvents);
     View header = getHeader();
-    View body = getBody();
     setBodyVisibility(true);
 
     name = new LocationtName(header, manager);
-    description = new LocationtName(body, manager);
     if (!isSelectionMode) {
       deleteButton = new LocationDeleteControl(header, manager, this);
       editButton = new LocationEditControl(header, manager, this);
@@ -40,7 +37,6 @@ public class ListItemLocation extends CommonItem<LocationModel> implements SetBt
   protected void update(LocationModel itemData, int listItemId) {
     setListItemId(listItemId);
     name.setElementData(itemData.name.get());
-    description.setElementData(itemData.description.get());
   }
 
   @Override

@@ -1,6 +1,7 @@
 package com.masterhelper.media.repository;
 
 import android.database.Cursor;
+import android.util.Log;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
@@ -27,10 +28,10 @@ public class MediaRepository extends AbstractRepository<MediaModel> {
   public MediaModel[] list(String type) {
     MediaContract contract = (MediaContract) getContract();
     ArrayList<MediaModel> dbRecords = new ArrayList<>();
-    Cursor dbList = ((MediaContract) getContract()).listByType(type);
+    Cursor dbList = contract.listByType(type);
     while (dbList.moveToNext()){
       int idIndex = dbList.getColumnIndex(com.masterhelper.locations.repository.LocationContract.id.getColumnTitle());
-      int pathIndex = dbList.getColumnIndex(contract.filePath.getColumnTitle());
+      int pathIndex = dbList.getColumnIndex(MediaContract.filePath.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.fileName.getColumnTitle());
       int fileTypeIndex = dbList.getColumnIndex(contract.fileType.getColumnTitle());
 
@@ -62,7 +63,7 @@ public class MediaRepository extends AbstractRepository<MediaModel> {
     Cursor dbList = getContract().getRecord(id);
     while (dbList.moveToNext()){
       int idIndex = dbList.getColumnIndex(com.masterhelper.locations.repository.LocationContract.id.getColumnTitle());
-      int filePath = dbList.getColumnIndex(contract.filePath.getColumnTitle());
+      int filePath = dbList.getColumnIndex(MediaContract.filePath.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.fileName.getColumnTitle());
       int fileTypeIndex = dbList.getColumnIndex(contract.fileType.getColumnTitle());
 

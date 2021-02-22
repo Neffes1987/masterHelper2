@@ -91,6 +91,7 @@
   <!-- dialogs -->
   <string name="dialog_resolve">Применить</string>
   <string name="dialog_reject">Отменить</string>
+  <string name="dialog_remove_source_files">Копирование завершено. Удалить выбранные файлы источника?</string>
 
   <!-- files -->
   <string name="audio_files_caption">Библиотека аудио файлов</string>

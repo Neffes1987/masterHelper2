@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
+import com.masterhelper.goals.GoalLocale;
 import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.filesystem.AudioPlayer;
 import com.masterhelper.media.filesystem.FilesLocale;
@@ -24,6 +25,7 @@ import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
+import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemLocation;
 import com.masterhelper.media.list.ListItemFile;
@@ -50,7 +52,6 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
   AppFilesLibrary library;
   AudioPlayer player;
 
-  public static final int WIDGET_RESULT_CODE = 1000;
   public static final String FORMAT_INTENT_EXTRA_NAME = "format";
   public static final String LAYOUT_INTENT_EXTRA_NAME = "layout";
   public static final String SELECTED_IDS_INTENT_EXTRA_NAME = "selectedPaths";
@@ -63,6 +64,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
   private ComponentUIFloatingButton applyItemsButton;
   private ComponentUIList<LibraryFileData> list;
   private FragmentManager mn;
+  ComponentUIDialog dialog;
 
   private int currentAudioTrack = 0;
 
@@ -74,9 +76,19 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     return currentAudioTrack;
   }
 
+  ComponentUIDialog initDialog() {
+    ComponentUIDialog dialog = new ComponentUIDialog(this);
+    dialog.pNameLabel.hide();
+    dialog.pNameField.hide();
+    dialog.pDescriptionLabel.hide();
+    dialog.pDescriptionField.hide();
+    dialog.setTitle(FilesLocale.getLocalizationByKey(FilesLocale.Keys.removeSourceFiles));
+    return dialog;
+  }
+
   void setFormat(String format) {
     this.format = Formats.valueOf(format);
-    switch (this.format){
+    switch (this.format) {
       case audio:
         widgetWorkingDir = FORMAT_AUDIO_PATH;
         widgetTitle = FilesLocale.getLocalizationByKey(FilesLocale.Keys.audiosListCaption);
@@ -163,6 +175,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     stopTrack();
     ArrayList<LibraryFileData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
     list = initList(libraryFileDataArrayList);
+    dialog = initDialog();
   }
 
   @Override
@@ -331,9 +344,23 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     }
 
     library.copyFilesBunchToMediaLibrary(selectedFilesPaths.toArray(new Uri[0]));
+
     library.updateMediaLibrary(format);
     String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());
     list = initList(getLibraryItems(library.getFilesLibraryList(), currentSelectedFiles));
+
+    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+      @Override
+      public void onResolve() {
+
+      }
+
+      @Override
+      public void onReject() {
+
+      }
+    });
+    dialog.show();
   }
 
 }

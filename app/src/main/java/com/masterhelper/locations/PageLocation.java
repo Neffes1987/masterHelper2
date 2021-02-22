@@ -2,7 +2,6 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.goals.GoalLocale;
-import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
@@ -332,7 +330,11 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
     @Override
     public String getCurrentTrackName() {
-        return library.getFileByPosition(player.getCurrentAudioIndex()).getName();
+        File currentTrack = library.getFileByPosition(player.getCurrentAudioIndex());
+        if (currentTrack == null) {
+            return "";
+        }
+        return currentTrack.getName();
     }
 
     @Override

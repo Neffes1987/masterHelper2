@@ -13,17 +13,25 @@ public abstract class FilesLocale {
   public static String getLocalizationByKey(Keys localeKey){
     Context context = GlobalApplication.getAppContext();
     switch (localeKey){
-      case audiosListCaption: return context.getResources().getString(R.string.audio_files_caption);
-      case imagesListCaption: return context.getResources().getString(R.string.images_files_caption);
-      case emptyAudioFile: return context.getResources().getString(R.string.audio_files_empty_list);
+      case audiosListCaption:
+        return context.getResources().getString(R.string.audio_files_caption);
+      case imagesListCaption:
+        return context.getResources().getString(R.string.images_files_caption);
+      case emptyAudioFile:
+        return context.getResources().getString(R.string.audio_files_empty_list);
+      case removeSourceFiles:
+        return context.getResources().getString(R.string.dialog_remove_source_files);
     }
     return "";
   }
 
-  /** available vocabulary keys */
-  public enum Keys{
+  /**
+   * available vocabulary keys
+   */
+  public enum Keys {
     audiosListCaption,
     imagesListCaption,
+    removeSourceFiles,
     emptyAudioFile
   }
 }
