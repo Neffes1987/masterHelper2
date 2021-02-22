@@ -3,8 +3,10 @@ package com.masterhelper.media.filesystem;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import androidx.documentfile.provider.DocumentFile;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.fields.GeneralField;
 import com.masterhelper.global.GlobalApplication;
@@ -59,9 +61,9 @@ public class AppFilesLibrary implements IAppFilesLibrary {
   @Override
   public void copyFileToMediaLibrary(Uri path) {
     Date currentDate = new Date();
-    String fileName = getOriginalFileName(path).replace("'", "") + "_" + currentDate.toString();
-
-    File libraryFile = new File(workingDirectory.get().getPath() + "/" + fileName);
+    String fileName = getOriginalFileName(path).replace("'", "");
+    String libFilName = currentDate.getTime() + "_" + fileName;
+    File libraryFile = new File(workingDirectory.get().getPath() + "/" + libFilName);
 
     try (InputStream in = resolver.openInputStream(path)) {
       try (OutputStream out = new FileOutputStream(libraryFile)) {
@@ -77,7 +79,7 @@ public class AppFilesLibrary implements IAppFilesLibrary {
 
     MediaModel mediaRecord =  repository.getDraftRecord();
     mediaRecord.filePath.set(libraryFile.getPath());
-    mediaRecord.fileName.set(fileName);
+    mediaRecord.fileName.set(libFilName);
     mediaRecord.fileType.set(format);
     mediaRecord.save();
     filesList.add(mediaRecord);
@@ -85,9 +87,21 @@ public class AppFilesLibrary implements IAppFilesLibrary {
 
   @Override
   public void copyFilesBunchToMediaLibrary(Uri[] files) {
-    if(files == null){ return; }
+    if (files == null) {
+      return;
+    }
     for (Uri path : files) {
       copyFileToMediaLibrary(path);
+    }
+  }
+
+  public void removeSourceFilesBunch(Uri[] files) {
+    if (files == null) {
+      return;
+    }
+    for (Uri path : files) {
+      DocumentFile file = DocumentFile.fromSingleUri(GlobalApplication.getAppContext(), path);
+      file.delete();
     }
   }
 
@@ -95,7 +109,7 @@ public class AppFilesLibrary implements IAppFilesLibrary {
   public void updateMediaLibrary(Formats type) {
     MediaModel[] list = repository.list(type.name());
     this.filesList.clear();
-    if(list != null){
+    if (list != null) {
       this.filesList.addAll(Arrays.asList(list));
     }
   }

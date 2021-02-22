@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -15,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
-import com.masterhelper.goals.GoalLocale;
 import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.filesystem.AudioPlayer;
 import com.masterhelper.media.filesystem.FilesLocale;
@@ -352,7 +352,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
       public void onResolve() {
-
+        library.removeSourceFilesBunch(selectedFilesPaths.toArray(new Uri[0]));
       }
 
       @Override
