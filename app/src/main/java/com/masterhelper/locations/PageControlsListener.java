@@ -16,8 +16,6 @@ import com.masterhelper.locations.tabs.ITabs;
 import com.masterhelper.media.Formats;
 import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.filesystem.AudioPlayer;
-import com.masterhelper.media.filesystem.LibraryFileData;
-import com.masterhelper.media.list.ListItemFile;
 import com.masterhelper.media.music_player.IMusicPlayerWidget;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.media.repository.MediaRepository;
@@ -25,8 +23,10 @@ import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
+import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
+import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemLocation;
+import com.masterhelper.ux.components.library.list.ListItemControlsListener;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
@@ -40,8 +40,10 @@ import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PAT
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.locations.PageLocationsList.INTENT_LOCATION_ID;
+import static com.masterhelper.ux.components.library.list.CommonItem.Flags.*;
+import static com.masterhelper.ux.components.library.list.CommonItem.Flags.showPlay;
 
-public class PageLocation extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemLocation, IMusicPlayerWidget {
+public class PageControlsListener extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemControlsListener, IMusicPlayerWidget {
     private int currentSelectedTab = 1;
     private ComponentUIFloatingButton editButton;
     private ComponentUILabel description;
@@ -49,7 +51,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
     private ComponentUIImage previewControl;
     private ComponentUIDialog locationDialog;
     private LocationModel location;
-    private ComponentUIList<LibraryFileData> mediaFilesList;
+    private ComponentUIList mediaFilesList;
     AudioPlayer player;
 
     FragmentManager mn;
@@ -96,14 +98,14 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
     ComponentUIDialog initDialog(int nameMaxLength, int descriptionLength) {
         ComponentUIDialog dialog = new ComponentUIDialog(this);
         dialog.pNameLabel.show();
-        dialog.pNameLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.goalName));
+        dialog.pNameLabel.setText(LocationLocale.getLocalizationByKey(LocationLocale.Keys.name));
 
         dialog.pNameField.setText("");
         dialog.pNameField.setMaxLength(nameMaxLength);
         dialog.pNameField.show();
 
         dialog.pDescriptionLabel.show();
-        dialog.pDescriptionLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.shortDescription));
+        dialog.pDescriptionLabel.setText(LocationLocale.getLocalizationByKey(LocationLocale.Keys.shortDescription));
 
         dialog.pDescriptionField.setText("");
         dialog.pDescriptionLabel.setMaxLength(descriptionLength);
@@ -133,7 +135,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         name.controls.setText(location.name.get());
 
         library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
-        ArrayList<LibraryFileData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), location.getMusicIds());
+        ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), location.getMusicIds());
         mediaFilesList = initList(libraryFileDataArrayList);
 
         reInitMusicPlayer();
@@ -141,7 +143,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
     void stopTrack() {
         if (getCurrentAudioTrack() != 0) {
-            LibraryFileData currentPlayedTrack = mediaFilesList.controls.getItemByListId(getCurrentAudioTrack());
+            CommonHolderPayloadData currentPlayedTrack = mediaFilesList.controls.getItemByListId(getCurrentAudioTrack());
             player.stopMediaRecord();
             currentPlayedTrack.isPlayed = false;
             mediaFilesList.controls.update(currentPlayedTrack, getCurrentAudioTrack());
@@ -150,8 +152,8 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
     }
 
     void startRecord(int listItemId) {
-        LibraryFileData listRecord = mediaFilesList.controls.getItemByListId(listItemId);
-        player.startMediaRecord(listRecord.getFile());
+        CommonHolderPayloadData listRecord = mediaFilesList.controls.getItemByListId(listItemId);
+        player.startMediaRecord(new File(listRecord.getPreviewUrl()));
         listRecord.isPlayed = true;
         setCurrentAudioTrack(listItemId);
         mediaFilesList.controls.update(listRecord, listItemId);
@@ -214,8 +216,8 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
         }
     }
 
-    ArrayList<LibraryFileData> getLibraryItems(MediaModel[] items, String[] defaultSelectedFilePaths) {
-        ArrayList<LibraryFileData> libraryFileDataArrayList = new ArrayList<>();
+    ArrayList<CommonHolderPayloadData> getLibraryItems(MediaModel[] items, String[] defaultSelectedFilePaths) {
+        ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = new ArrayList<>();
         ArrayList<String> selectedFilesByUri = new ArrayList<>();
         if (defaultSelectedFilePaths != null && defaultSelectedFilePaths.length > 0) {
             selectedFilesByUri.addAll(Arrays.asList(defaultSelectedFilePaths));
@@ -223,16 +225,19 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
         for (MediaModel model : items) {
             boolean isSelected = selectedFilesByUri.contains(model.id.get().toString());
-            LibraryFileData fileData = new LibraryFileData(model.id, model.filePath.get(), isSelected, false);
+            CommonHolderPayloadData fileData = new CommonHolderPayloadData(model.id, model.fileName.get(), model.filePath.get(), isSelected, false);
             libraryFileDataArrayList.add(fileData);
         }
 
         return libraryFileDataArrayList;
     }
 
-    ComponentUIList<LibraryFileData> initList(ArrayList<LibraryFileData> items) {
-        ComponentUIList<LibraryFileData> list = ComponentUIList.cast(mn.findFragmentById(R.id.LOCATION_MUSIC_LIST_ID));
-        list.controls.setAdapter(items.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, false, false, Formats.audio));
+    ComponentUIList initList(ArrayList<CommonHolderPayloadData> items) {
+        ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.LOCATION_MUSIC_LIST_ID));
+        final ArrayList<CommonItem.Flags> flags = new ArrayList<>();
+        flags.add(showPlay);
+        flags.add(showSelection);
+        list.controls.setAdapter(items, this, flags);
         return list;
     }
 
@@ -244,27 +249,23 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
     public void updateSelectedTab(int newCurrentTab) {
         View meta = findViewById(R.id.LOCATION_META_CONTAINER_ID);
         View music = findViewById(R.id.LOCATION_MUSIC_CONTAINER_ID);
-        View goals = findViewById(R.id.LOCATION_GOALS_CONTAINER_ID);
         currentSelectedTab = newCurrentTab;
         switch (newCurrentTab) {
             case 1:
                 setVisibility(meta, true);
                 setVisibility(music, false);
-                setVisibility(goals, false);
                 editButton.controls.show();
                 editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
                 break;
             case 2:
                 setVisibility(meta, false);
                 setVisibility(music, true);
-                setVisibility(goals, false);
                 editButton.controls.show();
                 editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.done));
                 break;
             case 3:
                 setVisibility(meta, false);
                 setVisibility(music, false);
-                setVisibility(goals, true);
                 editButton.controls.hide();
                 break;
         }

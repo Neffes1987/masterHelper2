@@ -2,7 +2,6 @@ package com.masterhelper.goals;
 
 import android.content.Intent;
 import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
@@ -14,28 +13,32 @@ import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
+import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.goals.acts.IActsTabs;
 import com.masterhelper.journeys.JourneyLocale;
-import com.masterhelper.ux.components.library.list.ListItemLocation;
-import com.masterhelper.goals.list.ListItemGoal;
+import com.masterhelper.ux.components.library.list.ListItemControlsListener;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
+
+import java.util.ArrayList;
 
 import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.journeys.PageJourneyList.INTENT_JOURNEY_ID;
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
+import static com.masterhelper.ux.components.library.list.CommonHolderPayloadData.convertFromModels;
 
-public class PageGoalsList extends AppMenuActivity implements ListItemLocation, IActsTabs {
+public class PageGoalsList extends AppMenuActivity implements ListItemControlsListener, IActsTabs {
 
   FragmentManager mn;
   GoalRepository repository;
-  ComponentUIList<GoalModel> list;
+  ComponentUIList list;
   int selectedTab = 1;
 
   ComponentUIDialog dialog;
 
-  ComponentUIDialog initDialog(int nameMaxLength, int descriptionMaxLength) {
+  ComponentUIDialog initDialog(int nameMaxLength) {
     ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameLabel.show();
     dialog.pNameLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.goalName));
@@ -43,13 +46,6 @@ public class PageGoalsList extends AppMenuActivity implements ListItemLocation, 
     dialog.pNameField.setText("");
     dialog.pNameField.setMaxLength(nameMaxLength);
     dialog.pNameField.show();
-
-    dialog.pDescriptionLabel.show();
-    dialog.pDescriptionLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.shortDescription));
-
-    dialog.pDescriptionField.setText("");
-    dialog.pDescriptionField.setMaxLength(descriptionMaxLength);
-    dialog.pDescriptionField.show();
     return dialog;
   }
 
@@ -64,7 +60,7 @@ public class PageGoalsList extends AppMenuActivity implements ListItemLocation, 
         itemDialog.setListener(new ComponentUIDialog.DialogClickListener() {
           @Override
           public void onResolve() {
-            onCreateItem(itemDialog.pNameField.getText(), itemDialog.pDescriptionField.getText());
+            onCreateItem(itemDialog.pNameField.getText());
           }
 
           @Override
@@ -82,18 +78,22 @@ public class PageGoalsList extends AppMenuActivity implements ListItemLocation, 
     });
   }
 
-  void initList(GoalModel[] items){
+  void initList(GoalModel[] items) {
     list = ComponentUIList.cast(mn.findFragmentById(R.id.GOAL_LIST));
-    list.controls.setAdapter(items, new ListItemGoal(getSupportFragmentManager(), this));
+    ArrayList<CommonItem.Flags> flags = new ArrayList<>();
+    flags.add(CommonItem.Flags.showDelete);
+    flags.add(CommonItem.Flags.showEdit);
+    list.controls.setAdapter(convertFromModels(items), this, flags);
   }
 
-  private void onCreateItem(String text, String description) {
+  private void onCreateItem(String text) {
     GoalModel newGoal = repository.getDraftRecord();
     newGoal.name.set(text);
-    newGoal.description.set(description);
+    newGoal.description.set("");
     newGoal.actNumber.set(selectedTab);
     newGoal.save();
-    list.controls.add(newGoal, false);
+    CommonHolderPayloadData newItem = new CommonHolderPayloadData(newGoal.id, text, "");
+    list.controls.add(newItem, false);
   }
 
   void showHintByAct(int actNumber){
@@ -120,8 +120,7 @@ public class PageGoalsList extends AppMenuActivity implements ListItemLocation, 
     repository = GlobalApplication.getAppDB().goalRepository;
     repository.setJourneyId(journeyId);
     dialog = initDialog(
-      repository.getNameLength(),
-      repository.getDescriptionLength()
+      repository.getNameLength()
     );
     initNewItemButton(dialog);
     initList(repository.listByAct(selectedTab));
@@ -131,16 +130,16 @@ public class PageGoalsList extends AppMenuActivity implements ListItemLocation, 
   @Override
   public void onUpdate(int listItemId) {
     dialog.setTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.updateJourney));
-    GoalModel item = list.controls.getItemByListId(listItemId);
-    dialog.pDescriptionField.setText(item.description.get());
+    CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
+    GoalModel item = repository.getRecord(listItem.getId());
     dialog.pNameField.setText(item.name.get());
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
       public void onResolve() {
         item.name.set(dialog.pNameField.getText());
-        item.description.set(dialog.pDescriptionField.getText());
         item.save();
-        list.controls.update(item, listItemId);
+        listItem.setTitle(dialog.pNameField.getText());
+        list.controls.update(listItem, listItemId);
       }
       @Override
       public void onReject() {
@@ -152,16 +151,16 @@ public class PageGoalsList extends AppMenuActivity implements ListItemLocation, 
 
   @Override
   public void onDelete(int listItemId) {
-    GoalModel item = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     list.controls.delete(listItemId);
-    repository.removeRecord(item.id);
+    repository.removeRecord(item.getId());
   }
 
   @Override
   public void onSelect(int listItemId) {
-    GoalModel item = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     Intent eventIntent = new Intent(this, PageGoal.class);
-    eventIntent.putExtra(INTENT_GOAL_ID, item.id.get().toString());
+    eventIntent.putExtra(INTENT_GOAL_ID, item.getId().toString());
     startActivity(eventIntent);
   }
 

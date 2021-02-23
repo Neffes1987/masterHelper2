@@ -5,15 +5,13 @@ import com.masterhelper.global.fields.GeneralField;
 import com.masterhelper.global.db.repositories.common.model.GeneralModel;
 
 public class LocationModel extends GeneralModel<LocationRepository> {
-  public final GeneralField<String> name = new GeneralField<>();
   public final GeneralField<String> description = new GeneralField<>();
   public final GeneralField<String> previewId = new GeneralField<>();
   public final GeneralField<String> previewUrl = new GeneralField<>();
   public final GeneralField<String> musicList = new GeneralField<>();
 
   public LocationModel(LocationRepository repository, String defaultId, String defaultName, String defaultDescription, String previewUrlId, String musicList){
-    super(repository, defaultId);
-    name.set(defaultName);
+    super(repository, defaultId, defaultName);
     description.set(defaultDescription);
     previewId.set(previewUrlId);
 

@@ -13,22 +13,26 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
+import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.locations.list.LocationDialog;
-import com.masterhelper.locations.list.ListItemLocation;
+import com.masterhelper.ux.components.library.list.ListItemControlsListener;
+
+import java.util.ArrayList;
 
 import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
+import static com.masterhelper.ux.components.library.list.CommonHolderPayloadData.convertFromModels;
 
 
-public class PageLocationsList extends AppCompatActivity implements SetBtnLocation, com.masterhelper.ux.components.library.list.ListItemLocation {
+public class PageLocationsList extends AppCompatActivity implements SetBtnLocation, ListItemControlsListener {
   public static final String INTENT_LOCATION_ID = "locationId";
   public static final String INTENT_LOCATION_SELECTION_MODE = "isLocationsSelectionMode";
   FragmentManager mn;
   LocationRepository locationRepository;
 
   LocationDialog locationDialog;
-  ComponentUIList<LocationModel> list;
+  ComponentUIList list;
   ComponentUIFloatingButton newItemButton;
   boolean isSelectionMode;
 
@@ -50,17 +54,24 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     list = initList(locationRepository.list(0, 0), isSelectionMode);
   }
 
-  ComponentUIList<LocationModel> initList(LocationModel[] items, boolean isSelectionMode) {
-    ComponentUIList<LocationModel> list = ComponentUIList.cast(mn.findFragmentById(R.id.EVENTS_LIST_ID));
-    list.controls.setAdapter(items, new ListItemLocation(getSupportFragmentManager(), this, isSelectionMode));
+  ComponentUIList initList(LocationModel[] items, boolean isSelectionMode) {
+    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.EVENTS_LIST_ID));
+    ArrayList<CommonItem.Flags> flags = new ArrayList<>();
+    if (!isSelectionMode) {
+      flags.add(CommonItem.Flags.showDelete);
+    }
+
+    list.controls.setAdapter(convertFromModels(items), this, flags);
     return list;
   }
 
   private void onCreateItem(String text) {
     LocationModel newEvent = locationRepository.getDraftRecord();
     newEvent.name.set(text);
+    newEvent.description.set("");
     newEvent.save();
-    list.controls.add(newEvent, false);
+    CommonHolderPayloadData newItem = new CommonHolderPayloadData(newEvent.id, text, "");
+    list.controls.add(newItem, false);
   }
 
   void initNewItemButton(boolean isHide) {
@@ -115,18 +126,18 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
 
   @Override
   public void onUpdate(int listItemId) {
-    LocationModel item = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
+    LocationModel selectedLocation = locationRepository.getRecord(item.getId());
     locationDialog.initUpdateState(
-      item.name.get(),
-      item.description.get()
+      item.getTitle()
     );
 
     locationDialog.dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
       public void onResolve() {
-        item.name.set(locationDialog.getName());
-        item.description.set(locationDialog.getDescription());
-        item.save();
+        selectedLocation.name.set(locationDialog.getName());
+        item.setTitle(locationDialog.getName());
+        selectedLocation.save();
         list.controls.update(item, listItemId);
       }
       @Override
@@ -139,17 +150,17 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
 
   @Override
   public void onDelete(int listItemId) {
-    LocationModel item = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     list.controls.delete(listItemId);
-    locationRepository.removeRecord(item.id);
+    locationRepository.removeRecord(item.getId());
   }
 
   @Override
   public void onSelect(int listItemId) {
-    LocationModel item = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     Intent eventIntent;
-    eventIntent = new Intent(this, PageLocation.class);
-    eventIntent.putExtra(INTENT_LOCATION_ID, item.id.get().toString());
+    eventIntent = new Intent(this, PageControlsListener.class);
+    eventIntent.putExtra(INTENT_LOCATION_ID, item.getId().get().toString());
 
     if (isSelectionMode) {
       setResult(RESULT_OK, eventIntent);

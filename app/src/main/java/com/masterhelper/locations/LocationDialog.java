@@ -1,4 +1,4 @@
-package com.masterhelper.locations.list;
+package com.masterhelper.locations;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
@@ -26,9 +26,8 @@ public class LocationDialog {
   }
 
 
-  public void initUpdateState(String name, String description){
+  public void initUpdateState(String name) {
     dialog.setTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.updateLocation));
-    dialog.pDescriptionField.setText(description);
     dialog.pNameField.setText(name);
   }
 

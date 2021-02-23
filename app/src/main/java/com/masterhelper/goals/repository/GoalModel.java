@@ -7,7 +7,6 @@ import com.masterhelper.goals.GoalLocale;
 import java.util.UUID;
 
 public class GoalModel extends GeneralModel<GoalRepository> {
-  public final GeneralField<String> name = new GeneralField<>();
   public final GeneralField<String> description = new GeneralField<>();
   public final GeneralField<GoalProgress> progress = new GeneralField<>();
   public final GeneralField<Integer> actNumber = new GeneralField<>();
@@ -24,9 +23,8 @@ public class GoalModel extends GeneralModel<GoalRepository> {
     UUID defaultLocation,
     GoalProgress goalProgress
   ){
-    super(repository, defaultId);
+    super(repository, defaultId, defaultName);
     assignedLocation.set(defaultLocation);
-    name.set(defaultName);
     description.set(defaultDescription);
     actNumber.set(defaultActNumber);
     progress.set(goalProgress != null ? goalProgress : GoalProgress.inProgress);

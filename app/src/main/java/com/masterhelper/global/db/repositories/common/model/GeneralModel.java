@@ -9,13 +9,17 @@ import java.util.UUID;
 public class GeneralModel<Repository extends AbstractRepository> implements IModel<Repository> {
   Repository repo;
   public final DataID id = new DataID();
+  public final GeneralField<String> name = new GeneralField<>();
   public final GeneralField<String> type = new GeneralField<>();
 
-  public GeneralModel(Repository repository, String defaultId){
+  public GeneralModel(Repository repository, String defaultId, String name) {
     repo = repository;
+
+    this.name.set(name);
+
     type.set(repository.repositoryName.get().toString());
-    if(defaultId != null){
-      if(defaultId.length() > 0){
+    if (defaultId != null) {
+      if (defaultId.length() > 0) {
         this.id.set(UUID.fromString(defaultId));
         return;
       }

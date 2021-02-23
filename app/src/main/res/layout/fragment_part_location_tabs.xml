@@ -23,10 +23,5 @@
       android:text="@string/location_tab_media"
       android:id="@+id/LOCATION_PLAYLIST_TAB_ID"/>
 
-    <com.google.android.material.tabs.TabItem
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/location_tab_goals"
-      android:id="@+id/LOCATION_GOALS_TAB_ID"/>
   </com.google.android.material.tabs.TabLayout>
 </LinearLayout>

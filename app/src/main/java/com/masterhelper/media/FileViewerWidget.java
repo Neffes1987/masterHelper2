@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -19,28 +19,30 @@ import com.masterhelper.R;
 import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.filesystem.AudioPlayer;
 import com.masterhelper.media.filesystem.FilesLocale;
-import com.masterhelper.media.filesystem.LibraryFileData;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
+import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemLocation;
-import com.masterhelper.media.list.ListItemFile;
+import com.masterhelper.ux.components.library.list.ListItemControlsListener;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_IMAGE_PATH;
+import static com.masterhelper.ux.components.library.list.CommonItem.Flags.*;
 
-public class FileViewerWidget extends AppCompatActivity implements SetBtnLocation, ListItemLocation {
-  String[] permissions = new String[] {
+public class FileViewerWidget extends AppCompatActivity implements SetBtnLocation, ListItemControlsListener {
+  String[] permissions = new String[]{
     Manifest.permission.READ_EXTERNAL_STORAGE,
     Manifest.permission.WRITE_EXTERNAL_STORAGE
   };
@@ -62,7 +64,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
   private Layout layout;
   private ComponentUIFloatingButton newItemButton;
   private ComponentUIFloatingButton applyItemsButton;
-  private ComponentUIList<LibraryFileData> list;
+  private ComponentUIList list;
   private FragmentManager mn;
   ComponentUIDialog dialog;
 
@@ -97,36 +99,37 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
         widgetWorkingDir = FORMAT_IMAGE_PATH;
         widgetTitle = FilesLocale.getLocalizationByKey(FilesLocale.Keys.imagesListCaption);
         break;
-      default: throw new Error("WidgetFileViewer: wrong type");
+      default:
+        throw new Error("WidgetFileViewer: wrong type");
     }
   }
 
-  void setLayout(String layout){
+  void setLayout(String layout) {
     this.layout = Layout.valueOf(layout);
   }
 
-  ArrayList<LibraryFileData> getLibraryItems(MediaModel[] items, String[] defaultSelectedFilePaths){
-    ArrayList<LibraryFileData> libraryFileDataArrayList = new ArrayList<>();
+  ArrayList<CommonHolderPayloadData> getLibraryItems(MediaModel[] items, String[] defaultSelectedFilePaths) {
+    ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = new ArrayList<>();
     ArrayList<String> selectedFilesByUri = new ArrayList<>();
-    if(defaultSelectedFilePaths != null && defaultSelectedFilePaths.length > 0){
+    if (defaultSelectedFilePaths != null && defaultSelectedFilePaths.length > 0) {
       selectedFilesByUri.addAll(Arrays.asList(defaultSelectedFilePaths));
     }
 
-    for (MediaModel model: items) {
+    for (MediaModel model : items) {
       boolean isSelected = selectedFilesByUri.contains(model.id.get().toString());
-      LibraryFileData fileData = new LibraryFileData(model.id, model.filePath.get(), isSelected, false);
+      CommonHolderPayloadData fileData = new CommonHolderPayloadData(model.id, model.fileName.get(), model.filePath.get(), isSelected, false);
       libraryFileDataArrayList.add(fileData);
     }
 
     return libraryFileDataArrayList;
   }
 
-  String[] getSelectedItemsFileUri(ArrayList<LibraryFileData> currentList){
+  String[] getSelectedItemsFileUri(ArrayList<CommonHolderPayloadData> currentList) {
     ArrayList<String> selectedPaths = new ArrayList<>();
 
-    for (LibraryFileData libraryRecord: currentList) {
-      if(libraryRecord.isSelected){
-        selectedPaths.add(libraryRecord.id.toString());
+    for (CommonHolderPayloadData libraryRecord : currentList) {
+      if (libraryRecord.isSelected) {
+        selectedPaths.add(libraryRecord.getId().toString());
       }
     }
 
@@ -147,14 +150,29 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     applyItemsButton.controls.setIconColor(ResourceColors.ResourceColorType.primary);
     applyItemsButton.controls.setId(View.generateViewId());
     applyItemsButton.controls.setOnClick(this);
-    if(!isVisible){
+    if (!isVisible) {
       applyItemsButton.controls.hide();
     }
   }
 
-  ComponentUIList<LibraryFileData> initList(ArrayList<LibraryFileData> items){
-    ComponentUIList<LibraryFileData> list = ComponentUIList.cast(mn.findFragmentById(R.id.WIDGET_FILES_LIST_ID));
-    list.controls.setAdapter(items.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, layout == Layout.global, format == Formats.imagePng, format));
+  ComponentUIList initList(ArrayList<CommonHolderPayloadData> items) {
+    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.WIDGET_FILES_LIST_ID));
+    final ArrayList<CommonItem.Flags> flags = new ArrayList<>();
+
+    if (layout == Layout.global) {
+      flags.add(showDelete);
+    } else {
+      flags.add(showSelection);
+    }
+
+    if (format == Formats.imagePng) {
+      flags.add(showPreview);
+    } else {
+      flags.add(showPlay);
+    }
+
+
+    list.controls.setAdapter(items, this, flags);
     return list;
   }
 
@@ -173,7 +191,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     initApplyButton(format == Formats.audio && layout != Layout.global);
     player = GlobalApplication.getPlayer();
     stopTrack();
-    ArrayList<LibraryFileData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
+    ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
     list = initList(libraryFileDataArrayList);
     dialog = initDialog();
   }
@@ -186,7 +204,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
   void stopTrack(){
     if(getCurrentAudioTrack() != 0){
-      LibraryFileData currentPlayedTrack = list.controls.getItemByListId(getCurrentAudioTrack());
+      CommonHolderPayloadData currentPlayedTrack = list.controls.getItemByListId(getCurrentAudioTrack());
       player.stopMediaRecord();
       currentPlayedTrack.isPlayed = false;
       list.controls.update(currentPlayedTrack, getCurrentAudioTrack());
@@ -194,9 +212,10 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     }
   }
 
-  void startRecord(int listItemId){
-    LibraryFileData listRecord = list.controls.getItemByListId(listItemId);
-    player.startMediaRecord(listRecord.getFile());
+  void startRecord(int listItemId) {
+    CommonHolderPayloadData listRecord = list.controls.getItemByListId(listItemId);
+    Log.i("TAG", "startRecord: " + listRecord.getPreviewUrl());
+    player.startMediaRecord(new File(listRecord.getPreviewUrl()));
     listRecord.isPlayed = true;
     setCurrentAudioTrack(listItemId);
     list.controls.update(listRecord, listItemId);
@@ -240,6 +259,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
   @Override
   public void onUpdate(int listItemId) {
+    Log.i("TAG", "onUpdate: " + listItemId);
     if(format == Formats.audio){
       if(listItemId == currentAudioTrack){
         stopTrack();
@@ -254,20 +274,20 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
   @Override
   public void onDelete(int listItemId) {
     stopTrack();
-    LibraryFileData item = list.controls.getItemByListId(listItemId);
-    library.deleteRecordFromMediaLibrary(item.id);
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
+    library.deleteRecordFromMediaLibrary(item.getId());
     list.controls.delete(listItemId);
   }
 
   void checkSelectedItem(int listItemId){
-    LibraryFileData selectedListItem = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData selectedListItem = list.controls.getItemByListId(listItemId);
     selectedListItem.isSelected = !selectedListItem.isSelected;
     list.controls.update(selectedListItem, listItemId);
   }
 
-  void returnSelectedItem(int listItemId){
-    LibraryFileData selectedListItem = list.controls.getItemByListId(listItemId);
-    String[] currentSelectedFiles = new String[]{selectedListItem.id.toString()};
+  void returnSelectedItem(int listItemId) {
+    CommonHolderPayloadData selectedListItem = list.controls.getItemByListId(listItemId);
+    String[] currentSelectedFiles = new String[]{selectedListItem.getId().toString()};
     Intent returnedIntent = new Intent();
     returnedIntent.putExtra(SELECTED_IDS_INTENT_EXTRA_NAME, currentSelectedFiles);
     setResult(RESULT_OK, returnedIntent);

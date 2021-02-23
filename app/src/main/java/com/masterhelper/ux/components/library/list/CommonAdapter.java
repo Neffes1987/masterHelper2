@@ -8,15 +8,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-/** class for working with TextView as readonly label */
-public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<DataType>> {
-  private final ArrayList<CommonHolderPayloadData<DataType>> mDataset;
-  private final CommonItem<DataType> pCommonItem;
+/**
+ * class for working with TextView as readonly label
+ */
+public class CommonAdapter extends RecyclerView.Adapter<CommonHolder> {
+  private final ArrayList<CommonHolderPayloadData> mDataset;
+  ListItemControlsListener listener;
+  ArrayList<CommonItem.Flags> flags;
+
   int idsCounter = 0;
 
   /** counter that assign local unique id for list items */
   private int getIdsCounter() {
-    idsCounter +=1;
+    idsCounter += 1;
     return idsCounter;
   }
 
@@ -27,45 +31,37 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
   private int getListPositionByListId(int listId){
     int result = -1;
     for(int listIndexCounter = 0; listIndexCounter < mDataset.size(); listIndexCounter+=1){
-      if(mDataset.get(listIndexCounter).getId() == listId){
-        result=listIndexCounter;
+      if (mDataset.get(listIndexCounter).getListId() == listId) {
+        result = listIndexCounter;
         break;
       }
     }
     return result;
   }
 
-  ArrayList<DataType> getCurrentList() {
-    ArrayList<DataType> currentList = new ArrayList<>();
-    for (CommonHolderPayloadData<DataType> item: mDataset ) {
-      currentList.add(item.getPayload());
-    }
-    return currentList;
-  }
-
   /**
-   * @param  data - data for list items views
-   * @param template - special object that described how the list item record looks like
-   * */
-  public CommonAdapter(DataType[] data, CommonItem<DataType> template) {
-    mDataset = new ArrayList<>();
-    for (DataType item: data ) {
-      mDataset.add(new CommonHolderPayloadData<>(this.getIdsCounter(), item));
+   * @param data - data for list items views
+   */
+  public CommonAdapter(ArrayList<CommonHolderPayloadData> data, ListItemControlsListener listener, ArrayList<CommonItem.Flags> flags) {
+    for (CommonHolderPayloadData item : data) {
+      item.setListId(getIdsCounter());
     }
-    pCommonItem = template;
+    mDataset = data;
+    this.listener = listener;
+    this.flags = flags;
     setHasStableIds(true);
   }
 
   @NonNull
   @Override
-  public CommonHolder<DataType> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+  public CommonHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     View v = LayoutInflater.from(parent.getContext()).inflate(CommonItem.TEMPLATE_ID, parent, false);
-    return new CommonHolder<>(v, this.pCommonItem);
+    return new CommonHolder(v, listener, flags);
   }
 
   @Override
-  public void onBindViewHolder(@NonNull CommonHolder<DataType> holder, int position) {
-    CommonHolderPayloadData<DataType> data = mDataset.get(position);
+  public void onBindViewHolder(@NonNull CommonHolder holder, int position) {
+    CommonHolderPayloadData data = mDataset.get(position);
     holder.update(data);
   }
 
@@ -79,37 +75,47 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
     return mDataset.size();
   }
 
+  public ArrayList<CommonHolderPayloadData> getCurrentList() {
+    return mDataset;
+  }
 
   /**
    * delete particular item from the list
+   *
    * @param listItemId - unique id from CommonHolderPayloadData wrapper
-   * */
-  public void deleteItem(int listItemId){
+   */
+  public void deleteItem(int listItemId) {
     int position = getListPositionByListId(listItemId);
     mDataset.remove(position);
     notifyItemRemoved(position);
   }
 
-  /** update particular item into list
+  /**
+   * update particular item into list
+   *
    * @param updatedData - payload of updatetd data
-   * @param listItemId - unique id from CommonHolderPayloadData wrapper
-   * */
-  public void updateItem(DataType updatedData, int listItemId){
+   * @param listItemId  - unique id from CommonHolderPayloadData wrapper
+   */
+  public void updateItem(CommonHolderPayloadData updatedData, int listItemId) {
     int position = getListPositionByListId(listItemId);
-    mDataset.get(position).setPayload(updatedData);
+    updatedData.setListId(listItemId);
+    mDataset.set(position, updatedData);
     notifyItemChanged(position, updatedData);
   }
 
-  /** add new item into list
+  /**
+   * add new item into list
+   *
    * @param newData - data for new item in list
    * @param toFirst - add new record as first
-   * */
-  public void addItem(DataType newData, boolean toFirst){
+   */
+  public void addItem(CommonHolderPayloadData newData, boolean toFirst) {
     int listItemId = this.getIdsCounter();
-    if(toFirst){
-      mDataset.add(0, new CommonHolderPayloadData<>(listItemId, newData));
+    newData.setListId(listItemId);
+    if (toFirst) {
+      mDataset.add(0, newData);
     } else {
-      mDataset.add(new CommonHolderPayloadData<>(listItemId, newData));
+      mDataset.add(newData);
     }
     int position = getListPositionByListId(listItemId);
     notifyItemInserted(position);
@@ -117,11 +123,11 @@ public class CommonAdapter<DataType> extends RecyclerView.Adapter<CommonHolder<D
 
   @Override
   public long getItemId(int position) {
-    return mDataset.get(position).getId();
+    return mDataset.get(position).getListId();
   }
 
-  public DataType getItem(int listItemId) {
+  public CommonHolderPayloadData getItem(int listItemId) {
     int position = getListPositionByListId(listItemId);
-    return mDataset.get(position).getPayload();
+    return mDataset.get(position);
   }
 }

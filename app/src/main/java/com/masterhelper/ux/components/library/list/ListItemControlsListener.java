@@ -1,6 +1,6 @@
 package com.masterhelper.ux.components.library.list;
 
-public interface ListItemLocation {
+public interface ListItemControlsListener {
   void onUpdate(int listItemId);
 
   void onDelete(int listItemId);

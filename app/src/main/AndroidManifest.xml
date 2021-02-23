@@ -18,7 +18,7 @@
     </activity>
     <activity android:name=".media.FileViewerWidget">
     </activity>
-    <activity android:name=".locations.PageLocation">
+    <activity android:name=".locations.PageControlsListener">
     </activity>
     <activity android:name=".locations.PageLocationsList">
     </activity>

@@ -1,7 +1,6 @@
 package com.masterhelper.journeys;
 
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
@@ -14,22 +13,26 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
+import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemLocation;
-import com.masterhelper.journeys.list.ListItemJourney;
+import com.masterhelper.ux.components.library.list.ListItemControlsListener;
 import com.masterhelper.goals.PageGoalsList;
 
-import static com.masterhelper.journeys.JourneyLocale.getLocalizationByKey;
+import java.util.ArrayList;
 
-public class PageJourneyList extends AppMenuActivity implements ListItemLocation {
+import static com.masterhelper.journeys.JourneyLocale.getLocalizationByKey;
+import static com.masterhelper.ux.components.library.list.CommonHolderPayloadData.convertFromModels;
+
+public class PageJourneyList extends AppMenuActivity implements ListItemControlsListener {
   public static final String INTENT_JOURNEY_ID = "journeyId";
   FragmentManager mn;
 
   ComponentUIDialog dialog;
-  ComponentUIList<JourneyModel> list;
+  ComponentUIList list;
   JourneyRepository journeyRepository;
 
-  ComponentUIDialog initDialog(int maxNameLength){
+  ComponentUIDialog initDialog(int maxNameLength) {
     ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameField.setText("");
     dialog.pNameField.setMaxLength(maxNameLength);
@@ -65,16 +68,20 @@ public class PageJourneyList extends AppMenuActivity implements ListItemLocation
     });
   }
 
-  ComponentUIList<JourneyModel> initList(JourneyModel[] items){
-    ComponentUIList<JourneyModel> list = ComponentUIList.cast(mn.findFragmentById(R.id.JOURMEY_ITEMS_LIST));
-    list.controls.setAdapter(items, new ListItemJourney(getSupportFragmentManager(), this));
+  ComponentUIList initList(JourneyModel[] items) {
+    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.JOURMEY_ITEMS_LIST));
+    ArrayList<CommonItem.Flags> flags = new ArrayList<>();
+    flags.add(CommonItem.Flags.showDelete);
+    flags.add(CommonItem.Flags.showEdit);
+    list.controls.setAdapter(convertFromModels(items), this, flags);
     return list;
   }
 
-  void onCreateItem(String text){
+  void onCreateItem(String text) {
     JourneyModel newJourney = journeyRepository.getDraftRecord();
     newJourney.name.set(text);
-    list.controls.add(newJourney, true);
+    CommonHolderPayloadData newItem = new CommonHolderPayloadData(newJourney.id, text, "");
+    list.controls.add(newItem, true);
     newJourney.save();
   }
 
@@ -96,15 +103,18 @@ public class PageJourneyList extends AppMenuActivity implements ListItemLocation
   @Override
   public void onUpdate(int listItemId) {
     dialog.setTitle(getLocalizationByKey(JourneyLocale.Keys.updateJourney));
-    JourneyModel item = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
+    JourneyModel item = journeyRepository.getRecord(listItem.getId());
     dialog.pNameField.setText(item.name.get());
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
       public void onResolve() {
         item.name.set(dialog.pNameField.getText());
+        listItem.setTitle(dialog.pNameField.getText());
         item.save();
-        list.controls.update(item, listItemId);
+        list.controls.update(listItem, listItemId);
       }
+
       @Override
       public void onReject() {
 
@@ -115,16 +125,16 @@ public class PageJourneyList extends AppMenuActivity implements ListItemLocation
 
   @Override
   public void onDelete(int listItemId) {
-    JourneyModel item = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     list.controls.delete(listItemId);
-    journeyRepository.removeRecord(item.id);
+    journeyRepository.removeRecord(item.getId());
   }
 
   @Override
   public void onSelect(int listItemId) {
-    JourneyModel item = list.controls.getItemByListId(listItemId);
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     Intent sceneIntent = new Intent(this, PageGoalsList.class);
-    sceneIntent.putExtra(INTENT_JOURNEY_ID, item.id.get().toString());
+    sceneIntent.putExtra(INTENT_JOURNEY_ID, item.getId().get().toString());
     startActivity(sceneIntent);
   }
 }
