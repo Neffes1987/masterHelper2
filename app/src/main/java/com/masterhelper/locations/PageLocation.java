@@ -232,7 +232,7 @@ public class PageLocation extends AppCompatActivity implements SetBtnLocation, C
 
     ComponentUIList<LibraryFileData> initList(ArrayList<LibraryFileData> items) {
         ComponentUIList<LibraryFileData> list = ComponentUIList.cast(mn.findFragmentById(R.id.LOCATION_MUSIC_LIST_ID));
-        list.controls.setAdapter(items.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, false, false));
+        list.controls.setAdapter(items.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, false, false, Formats.audio));
         return list;
     }
 

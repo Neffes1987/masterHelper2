@@ -22,14 +22,26 @@ public abstract class ComponentUIFragment extends Fragment {
 
   protected <Type extends View> void initControls(UXElement<Type> controls){
     controls.setTag(this.getTag());
-    if(pListener != null){
+    if (pListener != null) {
       pListener.onFragmentAttached();
     }
   }
 
-  public void setLayoutWeight(int weight){
+  public void setLayoutWeight(int weight) {
     LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
     params.weight = weight;
+    fragmentView.setLayoutParams(params);
+  }
+
+  public void setLayoutHeight(int height) {
+    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
+    params.height = height;
+    fragmentView.setLayoutParams(params);
+  }
+
+  public void setLayoutWidth(int width) {
+    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) fragmentView.getLayoutParams();
+    params.width = width;
     fragmentView.setLayoutParams(params);
   }
 }

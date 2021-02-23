@@ -154,7 +154,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
   ComponentUIList<LibraryFileData> initList(ArrayList<LibraryFileData> items){
     ComponentUIList<LibraryFileData> list = ComponentUIList.cast(mn.findFragmentById(R.id.WIDGET_FILES_LIST_ID));
-    list.controls.setAdapter(items.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, layout == Layout.global, format == Formats.imagePng));
+    list.controls.setAdapter(items.toArray(new LibraryFileData[0]), new ListItemFile(getSupportFragmentManager(), this, layout == Layout.global, format == Formats.imagePng, format));
     return list;
   }
 

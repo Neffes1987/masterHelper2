@@ -2,14 +2,13 @@ package com.masterhelper.media.list;
 
 import android.view.View;
 import androidx.fragment.app.FragmentManager;
+import com.masterhelper.media.Formats;
 import com.masterhelper.media.filesystem.LibraryFileData;
+import com.masterhelper.media.list.elements.*;
 import com.masterhelper.ux.components.core.SetBtnLocation;
+import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ListItemLocation;
-import com.masterhelper.media.list.elements.FileDeleteControl;
-import com.masterhelper.media.list.elements.FileName;
-import com.masterhelper.media.list.elements.FilePlayControl;
-import com.masterhelper.media.list.elements.FileSelection;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
@@ -19,24 +18,31 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnL
   private FileDeleteControl deleteButton;
   private FilePlayControl playButton;
   private FileSelection selection;
+  private FilePreview preview;
   private final boolean isGlobal;
+  private Formats format;
   private final boolean hidePreview;
 
 
-  public ListItemFile(FragmentManager manager, ListItemLocation listItemJourneyEvents, boolean isGlobal, boolean hidePreview) {
+  public ListItemFile(FragmentManager manager, ListItemLocation listItemJourneyEvents, boolean isGlobal, boolean hidePreview, Formats format) {
     super(manager, listItemJourneyEvents);
     this.isGlobal = isGlobal;
     this.hidePreview = hidePreview;
+    this.format = format;
   }
 
-  public ListItemFile(View view, FragmentManager manager, ListItemLocation listItemJourneyEvents, boolean isGlobal, boolean hidePreview) {
+  public ListItemFile(View view, FragmentManager manager, ListItemLocation listItemJourneyEvents, boolean isGlobal, boolean hidePreview, Formats format) {
     super(view, manager, listItemJourneyEvents);
     this.isGlobal = isGlobal;
     this.hidePreview = hidePreview;
+    this.format = format;
     View pLayout = getHeader();
 
     if (!isGlobal) {
       selection = new FileSelection(pLayout, manager, "", this);
+    }
+    if (format == Formats.imagePng) {
+      preview = new FilePreview(pLayout, manager);
     }
     name = new FileName(pLayout, manager);
 
@@ -54,13 +60,17 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnL
     setListItemId(listItemId);
     boolean isPlayed = itemData.isPlayed;
     name.setElementData(itemData.getFileName());
-    if(!isGlobal){
+    if (!isGlobal) {
       selection.setElementData(itemData.isSelected);
     }
 
-    if(playButton != null && playButton.getBtn() != null){
+    if (format == Formats.imagePng) {
+      preview.setElementData(itemData.getFile().getPath());
+    }
+
+    if (playButton != null && playButton.getBtn() != null) {
       playButton.getBtn().controls.setIcon(
-        ResourceIcons.getIcon( isPlayed ? ResourceIcons.ResourceColorType.pause : ResourceIcons.ResourceColorType.play )
+        ResourceIcons.getIcon(isPlayed ? ResourceIcons.ResourceColorType.pause : ResourceIcons.ResourceColorType.play)
       );
       playButton.getBtn().controls.setIconColor(
         isPlayed ? ResourceColors.ResourceColorType.musicStarted : ResourceColors.ResourceColorType.common
@@ -70,7 +80,7 @@ public class ListItemFile extends CommonItem<LibraryFileData> implements SetBtnL
 
   @Override
   public CommonItem<LibraryFileData> clone(View view) {
-    return new ListItemFile(view, getManager(), getListItemSceneEvents(), isGlobal, hidePreview);
+    return new ListItemFile(view, getManager(), getListItemSceneEvents(), isGlobal, hidePreview, format);
   }
 
   /**
