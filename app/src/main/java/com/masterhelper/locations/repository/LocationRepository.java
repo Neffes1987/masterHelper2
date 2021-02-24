@@ -29,17 +29,19 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
+      int previewIdIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
+      int previewUrlIndex = dbList.getColumnIndex("previewUrl");
+      int musicListIndex = dbList.getColumnIndex(contract.musicList.getColumnTitle());
+      LocationModel foundedRecord = getDraftRecord();
+      foundedRecord.id.fromString(dbList.getString(idIndex));
+      foundedRecord.name.set(dbList.getString(nameIndex));
+      foundedRecord.description.set(dbList.getString(descriptionIndex));
 
-      dbRecords.add(
-        new LocationModel(
-          this,
-          dbList.getString(idIndex),
-          dbList.getString(nameIndex),
-          dbList.getString(descriptionIndex),
-          null,
-          ""
-        )
-      );
+      foundedRecord.previewId.set(dbList.getString(previewIdIndex));
+      foundedRecord.previewUrl.set(previewUrlIndex != -1 ? dbList.getString(previewUrlIndex) : null);
+      foundedRecord.musicList.set(dbList.getString(musicListIndex));
+
+      dbRecords.add(foundedRecord);
     }
     dbList.close();
     setItemsToCache(dbRecords, offset);

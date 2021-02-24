@@ -11,14 +11,18 @@ import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.locations.PageControlsListener;
 import com.masterhelper.locations.PageLocationsList;
+import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
+
+import java.io.File;
 import java.util.Arrays;
 
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
@@ -104,10 +108,13 @@ public class PageGoal extends AppCompatActivity {
     });
   }
 
-  void initLocationTitle(String locationId) {
+  void initLocationMeta(String locationId) {
     String title = getLocalizationByKey(GoalLocale.Keys.goalLocationPlaceholder);
+    String locationUrl = "";
     if (locationId != null && locationId.length() != 0) {
-      title = GlobalApplication.getAppDB().locationRepository.getRecord(locationId).name.get();
+      LocationModel attachedLocation = GlobalApplication.getAppDB().locationRepository.getRecord(locationId);
+      title = attachedLocation.name.get();
+      locationUrl = attachedLocation.previewUrl.get();
     }
     ComponentUILabel locationTitle = ComponentUILabel.cast(mn.findFragmentById(R.id.GOAL_ASSIGNED_LOCATION_ID));
     locationTitle.controls.setText(title);
@@ -118,6 +125,15 @@ public class PageGoal extends AppCompatActivity {
         startActivity(locationListIntent);
       }
     });
+
+    ComponentUIImage locationPreview = ComponentUIImage.cast(mn.findFragmentById(R.id.GOAL_ATTACHED_LOCATION_PREVIEW_ID));
+    if (locationUrl != null && locationUrl.length() > 0) {
+      locationPreview.controls.setFile(new File(locationUrl));
+      locationPreview.controls.show();
+    } else {
+      locationPreview.controls.hide();
+    }
+
   }
 
   ComponentUIDialog initDialog(int nameMaxLength, int descriptionLength) {
@@ -158,7 +174,7 @@ public class PageGoal extends AppCompatActivity {
     setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
     setDescriptionLabel(currentGoal.description.get());
     initUpdateButton();
-    initLocationTitle(currentGoal.assignedLocation.toString());
+    initLocationMeta(currentGoal.assignedLocation.toString());
     initSelectLocationBtn();
   }
 
@@ -171,7 +187,7 @@ public class PageGoal extends AppCompatActivity {
     String locationId = data.getStringExtra(PageLocationsList.INTENT_LOCATION_ID);
 
     if (locationId != null) {
-      initLocationTitle(locationId);
+      initLocationMeta(locationId);
       currentGoal.assignedLocation.fromString(locationId);
       currentGoal.save();
     }

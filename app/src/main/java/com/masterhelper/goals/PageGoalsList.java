@@ -56,7 +56,7 @@ public class PageGoalsList extends AppMenuActivity implements ListItemControlsLi
     floatingButton.controls.setOnClick(new SetBtnLocation() {
       @Override
       public void onClick(int btnId, String tag) {
-        itemDialog.setTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.createJourney));
+        itemDialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.createGoal));
         itemDialog.setListener(new ComponentUIDialog.DialogClickListener() {
           @Override
           public void onResolve() {

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
+import com.masterhelper.global.db.repositories.common.model.GeneralModel;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
@@ -22,7 +23,6 @@ import java.util.ArrayList;
 
 import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
-import static com.masterhelper.ux.components.library.list.CommonHolderPayloadData.convertFromModels;
 
 
 public class PageLocationsList extends AppCompatActivity implements SetBtnLocation, ListItemControlsListener {
@@ -57,11 +57,18 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
   ComponentUIList initList(LocationModel[] items, boolean isSelectionMode) {
     ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.EVENTS_LIST_ID));
     ArrayList<CommonItem.Flags> flags = new ArrayList<>();
+    flags.add(CommonItem.Flags.showPreview);
     if (!isSelectionMode) {
       flags.add(CommonItem.Flags.showDelete);
     }
 
-    list.controls.setAdapter(convertFromModels(items), this, flags);
+    ArrayList<CommonHolderPayloadData> itemsList = new ArrayList<>();
+    for (LocationModel model : items) {
+      String preview = model.previewUrl.get();
+      itemsList.add(new CommonHolderPayloadData(model.id, model.name.get(), preview != null ? preview : ""));
+    }
+
+    list.controls.setAdapter(itemsList, this, flags);
     return list;
   }
 

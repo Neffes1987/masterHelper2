@@ -17,8 +17,8 @@ public abstract class GoalLocale {
         return context.getResources().getString(R.string.goal_name);
       case listCaption:
         return context.getResources().getString(R.string.goal_list);
-      case createScene:
-        return context.getResources().getString(R.string.scene_create_title);
+      case createGoal:
+        return context.getResources().getString(R.string.goal_create_title);
       case updateScene:
         return context.getResources().getString(R.string.goal_popup_update_title);
       case shortDescription:
@@ -47,12 +47,14 @@ public abstract class GoalLocale {
     return "";
   }
 
-  /** available vocabulary keys */
-  public enum Keys{
+  /**
+   * available vocabulary keys
+   */
+  public enum Keys {
     listCaption,
     goalName,
     shortDescription,
-    createScene,
+    createGoal,
     updateScene,
     scriptsProgressTitle,
     actIHint,

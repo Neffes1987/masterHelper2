@@ -23,9 +23,9 @@
     android:layout_height="0dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/GOAL_APP_BAR"
     android:id="@+id/linearLayout2"
-    style="@style/row_layout">
+    style="@style/row_layout"
+    app:layout_constraintTop_toBottomOf="@+id/GOAL_APP_BAR">
 
     <fragment
       android:layout_width="wrap_content"
@@ -44,17 +44,38 @@
       tools:layout="@layout/fragment_component_ui_image_button"/>
   </LinearLayout>
 
-  <fragment
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-    android:id="@+id/GOAL_DESCRIPTION_ID"
-    app:layout_constraintEnd_toEndOf="parent"
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_label"
-    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"/>
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+      <fragment
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
+        android:id="@+id/GOAL_ATTACHED_LOCATION_PREVIEW_ID"
+        tools:layout="@layout/fragment_component_ui_image"
+        />
+
+      <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
+        android:id="@+id/GOAL_DESCRIPTION_ID"
+        tools:layout="@layout/fragment_component_ui_label"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        />
+    </LinearLayout>
+  </ScrollView>
 
   <fragment
     android:layout_width="wrap_content"
@@ -64,4 +85,5 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     tools:layout="@layout/fragment_component_ui_floating_button"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

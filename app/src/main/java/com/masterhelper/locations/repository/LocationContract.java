@@ -58,7 +58,17 @@ public class LocationContract extends AbstractContract<LocationModel> {
 
   @Override
   public Cursor list(int offset, int limit) {
-    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), id.getColumnTitle() + " ASC ", null));
+    String locationFields = TABLE_NAME + "." + id.getColumnTitle()
+      + "," + TABLE_NAME + "." + title.getColumnTitle()
+      + "," + TABLE_NAME + "." + previewUrlId.getColumnTitle()
+      + "," + TABLE_NAME + "." + musicList.getColumnTitle()
+      + "," + TABLE_NAME + "." + description.getColumnTitle();
+    String previewFields = MediaContract.TABLE_NAME + "." + MediaContract.filePath.getColumnTitle() + " as previewUrl";
+
+    String query = "SELECT " + locationFields + "," + previewFields
+      + " FROM " + TABLE_NAME + " LEFT OUTER JOIN " + MediaContract.TABLE_NAME
+      + " ON " + TABLE_NAME + "." + previewUrlId.getColumnTitle() + "=" + MediaContract.TABLE_NAME + "." + MediaContract.id.getColumnTitle();
+    return getDbHelpers().read(query);
   }
 
   @Override
@@ -74,8 +84,6 @@ public class LocationContract extends AbstractContract<LocationModel> {
       + " FROM " + TABLE_NAME + " LEFT OUTER JOIN " + MediaContract.TABLE_NAME
       + " ON " + TABLE_NAME + "." + previewUrlId.getColumnTitle() + "=" + MediaContract.TABLE_NAME + "." + MediaContract.id.getColumnTitle()
       + " WHERE " + TABLE_NAME + "." + id.getColumnTitle() + "='" + recordId + "'";
-
-    Log.i("TAG", "getRecord: " + query);
     return getDbHelpers().read(query);
   }
 }
