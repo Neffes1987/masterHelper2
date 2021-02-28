@@ -6,15 +6,16 @@ import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GoalRepository extends AbstractRepository<GoalModel> {
 
   public GoalRepository(DbHelpers helper) {
-    super(new GoalContract(helper), "scene");
+    super(new GoalContract(helper), "goal");
   }
 
-  public void setJourneyId(String id){
-    ((GoalContract) getContract()).setJourneyId(id);
+  public void setPlotId(String id) {
+    ((GoalContract) getContract()).setPlotId(id);
   }
 
   @Override
@@ -51,11 +52,14 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
     return dbRecords.toArray(new GoalModel[0]);
   }
 
-  public GoalModel[] listByAct(int currentAct) {
+  public HashMap<String, GoalModel> listByIds(String listByIds) {
     GoalContract contract = (GoalContract) getContract();
-    ArrayList<GoalModel> dbRecords = new ArrayList<>();
-    Cursor dbList = contract.listByAct(currentAct);
-    while (dbList.moveToNext()){
+    HashMap<String, GoalModel> dbRecords = new HashMap<>();
+    if (listByIds.length() == 0) {
+      return dbRecords;
+    }
+    Cursor dbList = contract.listByIds(listByIds);
+    while (dbList.moveToNext()) {
       int idIndex = dbList.getColumnIndex(GoalContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
@@ -63,7 +67,8 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
       int actIndex = dbList.getColumnIndex(contract.actNumber.getColumnTitle());
 
       String progress = dbList.getString(progressIndex);
-      dbRecords.add(
+      dbRecords.put(
+        dbList.getString(idIndex),
         new GoalModel(
           this,
           dbList.getString(idIndex),
@@ -76,8 +81,7 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
       );
     }
     dbList.close();
-    setItemsToCache(dbRecords, 0);
-    return dbRecords.toArray(new GoalModel[0]);
+    return dbRecords;
   }
 
 
@@ -108,7 +112,6 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
     dbList.close();
     setItemToCache(foundedRecord, 0);
     return foundedRecord;
-
   }
 
   public int getNameLength(){

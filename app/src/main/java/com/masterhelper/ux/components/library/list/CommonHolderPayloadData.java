@@ -12,6 +12,7 @@ public class CommonHolderPayloadData {
   private int position;
   private final DataID id;
   private String title;
+  private String description;
   private final String previewUrl;
   public Boolean isSelected;
   public Boolean isPlayed;
@@ -33,6 +34,14 @@ public class CommonHolderPayloadData {
     this.previewUrl = previewUrl;
     this.isSelected = false;
     this.isPlayed = false;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getDescription() {
+    return description;
   }
 
   public static ArrayList<CommonHolderPayloadData> convertFromModels(GeneralModel[] models) {

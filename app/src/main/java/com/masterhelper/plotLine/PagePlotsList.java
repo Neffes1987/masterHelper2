@@ -1,47 +1,45 @@
-package com.masterhelper.goals;
+package com.masterhelper.plotLine;
 
 import android.content.Intent;
-import android.widget.TextView;
+import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
-import com.masterhelper.goals.repository.GoalModel;
-import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.goals.GoalLocale;
+import com.masterhelper.goals.repository.GoalRepository;
+import com.masterhelper.plotLine.repository.PlotLineModel;
+import com.masterhelper.plotLine.repository.PlotLineRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
-import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.goals.acts.IActsTabs;
-import com.masterhelper.journeys.JourneyLocale;
 import com.masterhelper.ux.components.library.list.ListItemControlsListener;
 import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.util.ArrayList;
 
-import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.journeys.PageJourneyList.INTENT_JOURNEY_ID;
-import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
-import static com.masterhelper.ux.components.library.list.CommonHolderPayloadData.convertFromModels;
+import static com.masterhelper.plotLine.PlotLinePage.INTENT_PLOT_ID;
 
-public class PageGoalsList extends AppMenuActivity implements ListItemControlsListener, IActsTabs {
+public class PagePlotsList extends AppCompatActivity implements ListItemControlsListener {
 
   FragmentManager mn;
-  GoalRepository repository;
+  GoalRepository goalRepository;
+  PlotLineRepository plotLineRepository;
   ComponentUIList list;
-  int selectedTab = 1;
 
   ComponentUIDialog dialog;
 
   ComponentUIDialog initDialog(int nameMaxLength) {
     ComponentUIDialog dialog = new ComponentUIDialog(this);
     dialog.pNameLabel.show();
-    dialog.pNameLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.goalName));
+    dialog.pNameLabel.setText(PlotLocale.getLocalizationByKey(PlotLocale.Keys.name));
 
     dialog.pNameField.setText("");
     dialog.pNameField.setMaxLength(nameMaxLength);
@@ -49,14 +47,15 @@ public class PageGoalsList extends AppMenuActivity implements ListItemControlsLi
     return dialog;
   }
 
-  void initNewItemButton(ComponentUIDialog itemDialog){
-    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.GOAL_ADD_NEW_ITEM));
+
+  void initNewItemButton(ComponentUIDialog itemDialog) {
+    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.PLOT_CREATE_BTN_ID));
     floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
     floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
     floatingButton.controls.setOnClick(new SetBtnLocation() {
       @Override
       public void onClick(int btnId, String tag) {
-        itemDialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.createGoal));
+        itemDialog.setTitle(PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
         itemDialog.setListener(new ComponentUIDialog.DialogClickListener() {
           @Override
           public void onResolve() {
@@ -78,60 +77,54 @@ public class PageGoalsList extends AppMenuActivity implements ListItemControlsLi
     });
   }
 
-  void initList(GoalModel[] items) {
-    list = ComponentUIList.cast(mn.findFragmentById(R.id.GOAL_LIST));
+  void initList(PlotLineModel[] items) {
+    list = ComponentUIList.cast(mn.findFragmentById(R.id.PLOT_LIST_ID));
     ArrayList<CommonItem.Flags> flags = new ArrayList<>();
     flags.add(CommonItem.Flags.showDelete);
     flags.add(CommonItem.Flags.showEdit);
-    list.controls.setAdapter(convertFromModels(items), this, flags);
+    flags.add(CommonItem.Flags.showDescription);
+    ArrayList<CommonHolderPayloadData> listItems = new ArrayList<>();
+    for (PlotLineModel model : items) {
+      CommonHolderPayloadData listItem = new CommonHolderPayloadData(model.id, model.name.get(), "");
+      listItem.setDescription(GoalLocale.getLocalizationByKey(GoalLocale.Keys.goalName) + ": " + model.getCurrentPlotPointName());
+      listItems.add(listItem);
+    }
+    list.controls.setAdapter(listItems, this, flags);
   }
 
   private void onCreateItem(String text) {
-    GoalModel newGoal = repository.getDraftRecord();
-    newGoal.name.set(text);
-    newGoal.description.set("");
-    newGoal.actNumber.set(selectedTab);
-    newGoal.save();
-    CommonHolderPayloadData newItem = new CommonHolderPayloadData(newGoal.id, text, "");
+    PlotLineModel newPlot = plotLineRepository.getDraftRecord();
+    newPlot.name.set(text);
+    newPlot.save();
+    CommonHolderPayloadData newItem = new CommonHolderPayloadData(newPlot.id, text, "");
     list.controls.add(newItem, false);
-  }
-
-  void showHintByAct(int actNumber){
-    String actHint;
-    switch (actNumber){
-      case 1: actHint = getLocalizationByKey(GoalLocale.Keys.actIHint);  break;
-      case 2: actHint = getLocalizationByKey(GoalLocale.Keys.actIIHint);  break;
-      case 3: actHint = getLocalizationByKey(GoalLocale.Keys.actIIIHint);  break;
-      case 4: actHint = getLocalizationByKey(GoalLocale.Keys.actIVHint);  break;
-      case 5: actHint = getLocalizationByKey(GoalLocale.Keys.actVHint);  break;
-      default: actHint = null;
-    }
-    TextView hint = findViewById(R.id.GOAL_ACT_HINT_ID);
-    hint.setText(actHint);
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_page_goals_list);
-    UIToolbar.setTitle(this, getLocalizationByKey(GoalLocale.Keys.listCaption), "");
+    setContentView(R.layout.activity_page_plots_list);
+    UIToolbar.setTitle(this, PlotLocale.getLocalizationByKey(PlotLocale.Keys.caption), "");
     String journeyId = getIntent().getStringExtra(INTENT_JOURNEY_ID);
     mn = getSupportFragmentManager();
-    repository = GlobalApplication.getAppDB().goalRepository;
-    repository.setJourneyId(journeyId);
+    goalRepository = GlobalApplication.getAppDB().goalRepository;
+    plotLineRepository = GlobalApplication.getAppDB().plotLineRepository;
+
+    goalRepository.setPlotId(journeyId);
+    plotLineRepository.setJourneyId(journeyId);
+
     dialog = initDialog(
-      repository.getNameLength()
+      goalRepository.getNameLength()
     );
     initNewItemButton(dialog);
-    initList(repository.listByAct(selectedTab));
-    showHintByAct(selectedTab);
+    initList(plotLineRepository.list());
   }
 
   @Override
   public void onUpdate(int listItemId) {
-    dialog.setTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.updateJourney));
+    dialog.setTitle("");
     CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
-    GoalModel item = repository.getRecord(listItem.getId());
+    PlotLineModel item = plotLineRepository.getRecord(listItem.getId());
     dialog.pNameField.setText(item.name.get());
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
@@ -141,6 +134,7 @@ public class PageGoalsList extends AppMenuActivity implements ListItemControlsLi
         listItem.setTitle(dialog.pNameField.getText());
         list.controls.update(listItem, listItemId);
       }
+
       @Override
       public void onReject() {
 
@@ -153,21 +147,14 @@ public class PageGoalsList extends AppMenuActivity implements ListItemControlsLi
   public void onDelete(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     list.controls.delete(listItemId);
-    repository.removeRecord(item.getId());
+    plotLineRepository.removeRecord(item.getId());
   }
 
   @Override
   public void onSelect(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
-    Intent eventIntent = new Intent(this, PageGoal.class);
-    eventIntent.putExtra(INTENT_GOAL_ID, item.getId().toString());
+    Intent eventIntent = new Intent(this, PlotLinePage.class);
+    eventIntent.putExtra(INTENT_PLOT_ID, item.getId().toString());
     startActivity(eventIntent);
-  }
-
-  @Override
-  public void updateSelectedTab(int newCurrentTab) {
-    selectedTab = newCurrentTab;
-    initList(repository.listByAct(newCurrentTab));
-    showHintByAct(newCurrentTab);
   }
 }

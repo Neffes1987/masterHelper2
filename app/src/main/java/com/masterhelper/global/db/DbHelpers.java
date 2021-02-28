@@ -8,12 +8,14 @@ import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.media.repository.MediaRepository;
+import com.masterhelper.plotLine.repository.PlotLineRepository;
 
 public class DbHelpers extends SQLiteOpenHelper {
   public JourneyRepository journeyRepository;
   public GoalRepository goalRepository;
   public LocationRepository locationRepository;
   public MediaRepository mediaRepository;
+  public PlotLineRepository plotLineRepository;
 
   /**
    * Имя файла базы данных
@@ -22,7 +24,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   /**
    * Версия базы данных. При изменении схемы увеличить на единицу
    */
-  private static final int DATABASE_VERSION = 59;
+  private static final int DATABASE_VERSION = 62;
 
   SQLiteDatabase db;
 
@@ -33,6 +35,7 @@ public class DbHelpers extends SQLiteOpenHelper {
     goalRepository = new GoalRepository(this);
     locationRepository = new LocationRepository(this);
     mediaRepository = new MediaRepository(this);
+    plotLineRepository = new PlotLineRepository(this);
     db = getWritableDatabase();
   }
 
@@ -41,6 +44,7 @@ public class DbHelpers extends SQLiteOpenHelper {
     goalRepository.createTable();
     locationRepository.createTable();
     mediaRepository.createTable();
+    plotLineRepository.createTable();
   }
 
   /**
@@ -67,7 +71,9 @@ public class DbHelpers extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     this.db = db;
-    initTables();
+    goalRepository.createTable();
+    plotLineRepository.createTable();
+    //initTables();
   }
 
   public Cursor read(String query){

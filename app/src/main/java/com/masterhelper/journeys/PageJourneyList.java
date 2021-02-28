@@ -7,6 +7,7 @@ import com.masterhelper.R;
 import com.masterhelper.journeys.repository.JourneyModel;
 import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.plotLine.PagePlotsList;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -17,7 +18,6 @@ import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemControlsListener;
-import com.masterhelper.goals.PageGoalsList;
 
 import java.util.ArrayList;
 
@@ -133,7 +133,7 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
   @Override
   public void onSelect(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
-    Intent sceneIntent = new Intent(this, PageGoalsList.class);
+    Intent sceneIntent = new Intent(this, PagePlotsList.class);
     sceneIntent.putExtra(INTENT_JOURNEY_ID, item.getId().get().toString());
     startActivity(sceneIntent);
   }

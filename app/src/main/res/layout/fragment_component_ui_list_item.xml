@@ -16,56 +16,68 @@
     >
 
     <LinearLayout
+      android:orientation="vertical"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      >
+      android:layout_height="match_parent">
 
-      <CheckBox
-        android:layout_width="wrap_content"
+      <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/LIST_ITEM_CHECKBOX_ID"
-        android:layout_weight="0"/>
+        >
 
-      <ImageView
-        android:src="@drawable/ic_launcher_background"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/LIST_ITEM_PREVIEW_ID"
-        android:layout_weight="0"
-        />
+        <CheckBox
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:id="@+id/LIST_ITEM_CHECKBOX_ID"
+          android:layout_weight="0"/>
+
+        <ImageView
+          android:src="@drawable/ic_launcher_background"
+          android:layout_width="60dp"
+          android:layout_height="60dp"
+          android:id="@+id/LIST_ITEM_PREVIEW_ID"
+          android:layout_weight="0"
+          />
+
+        <TextView
+          android:text="TextView"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:id="@+id/LIST_ITEM_TITLE_ID"
+          android:layout_weight="4"
+          android:gravity="center_vertical"
+          android:paddingStart="4dp"/>
+
+        <ImageButton
+          android:src="@mipmap/clear_black_18dp"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:id="@+id/LIST_ITEM_DELETE_BTN_ID"
+          android:layout_weight="0"
+          style="@style/delete_action_button"/>
+
+        <ImageButton
+          android:src="@mipmap/pencil"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:id="@+id/LIST_ITEM_EDIT_BTN_ID"
+          android:layout_weight="0"
+          style="@style/common_action_button"/>
+
+        <ImageButton
+          android:src="@mipmap/play"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:id="@+id/LIST_ITEM_PLAY_BTN_ID"
+          android:layout_weight="0"
+          style="@style/secondary_action_button"/>
+
+      </LinearLayout>
 
       <TextView
-        android:text="TextView"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/LIST_ITEM_TITLE_ID"
-        android:layout_weight="4"
-        android:gravity="center_vertical"
-        android:paddingStart="4dp"/>
-
-      <ImageButton
-        android:src="@mipmap/clear_black_18dp"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/LIST_ITEM_DELETE_BTN_ID"
-        android:layout_weight="0"
-        style="@style/delete_action_button"/>
-
-      <ImageButton
-        android:src="@mipmap/pencil"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/LIST_ITEM_EDIT_BTN_ID"
-        android:layout_weight="0"
-        style="@style/common_action_button"/>
-
-      <ImageButton
-        android:src="@mipmap/play"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/LIST_ITEM_PLAY_BTN_ID"
-        android:layout_weight="0"
-        style="@style/secondary_action_button"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/LIST_ITEM_DESCRIPTION_ID"/>
 
     </LinearLayout>
 

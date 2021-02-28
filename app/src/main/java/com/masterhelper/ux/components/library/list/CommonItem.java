@@ -1,6 +1,7 @@
 package com.masterhelper.ux.components.library.list;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.cardview.widget.CardView;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class CommonItem {
   private final ImageView preview;
   private final TextView title;
+  private final TextView description;
   private final CheckBox selection;
   private final ImageButton play;
 
@@ -25,11 +27,13 @@ public class CommonItem {
   public static final int TEMPLATE_EDIT_BTN_ID = R.id.LIST_ITEM_EDIT_BTN_ID;
   public static final int TEMPLATE_PLAY_BTN_ID = R.id.LIST_ITEM_PLAY_BTN_ID;
   public static final int TEMPLATE_CHECK_BTN_ID = R.id.LIST_ITEM_CHECKBOX_ID;
+  public static final int TEMPLATE_DESCRIPTION_ID = R.id.LIST_ITEM_DESCRIPTION_ID;
 
   protected int pListItemId = -1;
 
   protected void update(CommonHolderPayloadData itemData) {
     title.setText(itemData.getTitle());
+    description.setText(itemData.getDescription());
     preview.setImageURI(Uri.parse(itemData.getPreviewUrl()));
     selection.setChecked(itemData.isSelected);
     play.setImageResource(itemData.isPlayed ? R.mipmap.pause : R.mipmap.play);
@@ -39,6 +43,11 @@ public class CommonItem {
   public CommonItem(View view, ListItemControlsListener listItemEvents, ArrayList<Flags> flags) {
     title = view.findViewById(CommonItem.TEMPLATE_TITLE_ID);
     CardView body = view.findViewById(CommonItem.TEMPLATE_BODY_ID);
+
+    description = view.findViewById(CommonItem.TEMPLATE_DESCRIPTION_ID);
+    if (!flags.contains(Flags.showDescription)) {
+      description.setVisibility(View.GONE);
+    }
 
     preview = view.findViewById(CommonItem.TEMPLATE_PREVIEW_ID);
     if (!flags.contains(Flags.showPreview)) {
@@ -80,6 +89,7 @@ public class CommonItem {
     showSelection,
     showEdit,
     showDelete,
-    showPlay
+    showPlay,
+    showDescription
   }
 }

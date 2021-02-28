@@ -9,6 +9,13 @@
   <string name="journey_create_title">Создать приключение</string>
   <string name="journey_update_title">Изменить имя приключения</string>
 
+  <!-- PlotLine -->
+  <string name="plots_list_name">Список сюжетных линий</string>
+  <string name="plots_name">Название сюжетной линии</string>
+  <string name="plots_description">Краткое описания сюжетной линии</string>
+  <string name="plots_create_title">Создать сюжетную линию</string>
+  <string name="plots_update_title">Изменить сюжетную линию</string>
+
   <!-- goal -->
   <string name="goal_list">Список целей</string>
   <string name="goal_name">Имя цели</string>
@@ -20,19 +27,19 @@
   <string name="goal_assigned_location_placeholder">Укажите локацию…</string>
 
   <string name="screen_intro">I</string>
-  <string name="screen_intro_tip">Вступление. Первое испытание, или открытие, которое предваряет само приключение </string>
+  <string name="screen_intro_tip">I. Вступление. Первое испытание, или открытие, которое предваряет само приключение </string>
 
   <string name="screen_puzzle">II</string>
-  <string name="screen_puzzle_intro">Ролевое испытание. Возможность для игроков поиграть в социалку, разгадать тайну</string>
+  <string name="screen_puzzle_intro">II. Ролевое испытание. Возможность для игроков поиграть в социалку, разгадать тайну</string>
 
   <string name="screen_plot_twist">III</string>
-  <string name="screen_plot_twist_tip">Сюжетный поворот. Ложный след в приключении, когда игроки понимают что та цель к которой они двигались, ошибочна и теперь они четко видят, что действительно скрывалось за событиями</string>
+  <string name="screen_plot_twist_tip">III. Сюжетный поворот. Ложный след в приключении, когда игроки понимают что та цель к которой они двигались, ошибочна и теперь они четко видят, что действительно скрывалось за событиями</string>
 
   <string name="screen_main_challenge">IV</string>
-  <string name="screen_main_challenge_tip">Главная битва, кульминация. Главное событие к которому стремились игроки(убить главного гада, освободить принцессу и т.д)</string>
+  <string name="screen_main_challenge_tip">IV. Главная битва, кульминация. Главное событие к которому стремились игроки(убить главного гада, освободить принцессу и т.д)</string>
 
   <string name="screen_call_second_deep">V</string>
-  <string name="screen_call_second_deep_tip">Открытый конец. Заключительный этап приключения, который не дает поставить в нем точку. Например что главный злодей был сдерживающим фактором над еще большим злом </string>
+  <string name="screen_call_second_deep_tip">V. Открытый конец. Заключительный этап приключения, который не дает поставить в нем точку. Например что главный злодей был сдерживающим фактором над еще большим злом </string>
 
 
   <string name="screen_steps">События сцены</string>
