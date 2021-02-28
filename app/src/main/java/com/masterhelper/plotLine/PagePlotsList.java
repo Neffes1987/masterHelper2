@@ -1,8 +1,6 @@
 package com.masterhelper.plotLine;
 
 import android.content.Intent;
-import android.util.Log;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
@@ -12,6 +10,7 @@ import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.plotLine.repository.PlotLineModel;
 import com.masterhelper.plotLine.repository.PlotLineRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
+import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
@@ -27,7 +26,7 @@ import java.util.ArrayList;
 import static com.masterhelper.journeys.PageJourneyList.INTENT_JOURNEY_ID;
 import static com.masterhelper.plotLine.PlotLinePage.INTENT_PLOT_ID;
 
-public class PagePlotsList extends AppCompatActivity implements ListItemControlsListener {
+public class PagePlotsList extends AppMenuActivity implements ListItemControlsListener {
 
   FragmentManager mn;
   GoalRepository goalRepository;

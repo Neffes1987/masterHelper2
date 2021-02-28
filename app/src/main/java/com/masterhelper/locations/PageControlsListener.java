@@ -2,7 +2,6 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
