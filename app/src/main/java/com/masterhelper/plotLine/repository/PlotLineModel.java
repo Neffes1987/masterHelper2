@@ -119,6 +119,6 @@ public class PlotLineModel extends GeneralModel<PlotLineRepository> {
   }
 
   public String getCurrentPlotPointName() {
-    return currentPlotPointName;
+    return currentPlotPointName != null ? currentPlotPointName : "";
   }
 }

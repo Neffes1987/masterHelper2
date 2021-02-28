@@ -50,7 +50,8 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+    android:id="@+id/scrollView2">
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -82,8 +83,18 @@
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
     android:id="@+id/GOAL_EDIT_ID"
-    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_floating_button"/>
+    tools:layout="@layout/fragment_component_ui_floating_button"
+    app:layout_constraintBottom_toTopOf="@+id/GOAL_MUSIC_PLAYER_ID"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.media.music_player.ComponentUiMusicWidget"
+    android:id="@+id/GOAL_MUSIC_PLAYER_ID"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:layout="@layout/fragment_component_ui_music_widget"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

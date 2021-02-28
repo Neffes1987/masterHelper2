@@ -19,7 +19,7 @@ public abstract class GoalLocale {
         return context.getResources().getString(R.string.goal_list);
       case createGoal:
         return context.getResources().getString(R.string.goal_create_title);
-      case updateScene:
+      case updateGoal:
         return context.getResources().getString(R.string.goal_popup_update_title);
       case shortDescription:
         return context.getResources().getString(R.string.goal_description);
@@ -55,7 +55,7 @@ public abstract class GoalLocale {
     goalName,
     shortDescription,
     createGoal,
-    updateScene,
+    updateGoal,
     scriptsProgressTitle,
     actIHint,
     actIIHint,

@@ -117,6 +117,11 @@ public class PagePlotsList extends AppCompatActivity implements ListItemControls
       goalRepository.getNameLength()
     );
     initNewItemButton(dialog);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
     initList(plotLineRepository.list());
   }
 

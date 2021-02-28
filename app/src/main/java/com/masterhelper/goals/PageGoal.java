@@ -1,6 +1,7 @@
 package com.masterhelper.goals;
 
 import android.content.Intent;
+import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,11 @@ import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.locations.PageControlsListener;
 import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.locations.repository.LocationModel;
+import com.masterhelper.media.Formats;
+import com.masterhelper.media.filesystem.AppFilesLibrary;
+import com.masterhelper.media.filesystem.AudioPlayer;
+import com.masterhelper.media.music_player.IMusicPlayerWidget;
+import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
@@ -23,20 +29,29 @@ import com.masterhelper.ux.resources.ResourceColors;
 import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
+import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 
-public class PageGoal extends AppCompatActivity {
+public class PageGoal extends AppCompatActivity implements IMusicPlayerWidget {
   public static final String INTENT_GOAL_ID = "goalId";
   public static final int INTENT_RESULT_ID = 10000;
+  public static final int GOAL_LOCATION_PLAYER_ID = R.id.GOAL_MUSIC_PLAYER_ID;
 
   GoalModel currentGoal;
+  LocationModel attachedLocation;
 
   FragmentManager mn;
   GoalRepository repository;
 
+  View locationPlayerWidget;
+
   ComponentUIDialog dialog;
+  AudioPlayer player;
+  AppFilesLibrary library;
 
   private ComponentUILabel description;
 
@@ -51,45 +66,45 @@ public class PageGoal extends AppCompatActivity {
     description.controls.setText(newDescription);
   }
 
-    void initUpdateButton(){
-      ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.GOAL_EDIT_ID));
-      floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
-      floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
-      floatingButton.controls.setOnClick(new SetBtnLocation() {
-        @Override
-        public void onClick(int btnId, String tag) {
-          dialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateScene));
-          dialog.pNameField.setText(currentGoal.name.get());
-          dialog.pDescriptionField.setText(currentGoal.description.get());
-          int selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).indexOf(currentGoal.progress.get());
-          dialog.pRadioGroup.setSelectedItem(selectedProgressOption);
-          dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-            @Override
-            public void onResolve() {
-              GoalModel.GoalProgress selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).get(dialog.pRadioGroup.getSelectedItemIndex());
-              currentGoal.name.set(dialog.pNameField.getText());
-              currentGoal.description.set(dialog.pDescriptionField.getText());
-              currentGoal.progress.set(selectedProgressOption);
-              currentGoal.save();
+  void initUpdateButton() {
+    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.GOAL_EDIT_ID));
+    floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
+    floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
+    floatingButton.controls.setOnClick(new SetBtnLocation() {
+      @Override
+      public void onClick(int btnId, String tag) {
+        dialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
+        dialog.pNameField.setText(currentGoal.name.get());
+        dialog.pDescriptionField.setText(currentGoal.description.get());
+        int selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).indexOf(currentGoal.progress.get());
+        dialog.pRadioGroup.setSelectedItem(selectedProgressOption);
+        dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+          @Override
+          public void onResolve() {
+            GoalModel.GoalProgress selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).get(dialog.pRadioGroup.getSelectedItemIndex());
+            currentGoal.name.set(dialog.pNameField.getText());
+            currentGoal.description.set(dialog.pDescriptionField.getText());
+            currentGoal.progress.set(selectedProgressOption);
+            currentGoal.save();
 
-              setDescriptionLabel(currentGoal.description.get());
-              setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
-            }
+            setDescriptionLabel(currentGoal.description.get());
+            setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
+          }
 
-            @Override
-            public void onReject() {
+          @Override
+          public void onReject() {
 
-            }
-          });
-          dialog.show();
-        }
+          }
+        });
+        dialog.show();
+      }
 
-        @Override
-        public void onLongClick(int btnId) {
+      @Override
+      public void onLongClick(int btnId) {
 
-        }
-      });
-    }
+      }
+    });
+  }
 
   void initSelectLocationBtn() {
     ComponentUIImageButton selectLocationBtn = ComponentUIImageButton.cast(mn.findFragmentById(R.id.GOAL_ASSIGN_LOCATION_BTN_ID));
@@ -112,7 +127,7 @@ public class PageGoal extends AppCompatActivity {
     String title = getLocalizationByKey(GoalLocale.Keys.goalLocationPlaceholder);
     String locationUrl = "";
     if (locationId != null && locationId.length() != 0) {
-      LocationModel attachedLocation = GlobalApplication.getAppDB().locationRepository.getRecord(locationId);
+      attachedLocation = GlobalApplication.getAppDB().locationRepository.getRecord(locationId);
       title = attachedLocation.name.get();
       locationUrl = attachedLocation.previewUrl.get();
     }
@@ -158,10 +173,29 @@ public class PageGoal extends AppCompatActivity {
     return dialog;
   }
 
+  void reInitMusicPlayer() {
+    if (attachedLocation == null || attachedLocation.getMusicIds().length == 0) {
+      locationPlayerWidget.setVisibility(View.GONE);
+      return;
+    }
+
+    locationPlayerWidget.setVisibility(View.VISIBLE);
+    MediaModel[] mediaModels = library.getFilesLibraryList();
+    Collection<String> currentSelectedUris = new ArrayList<>();
+    Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(attachedLocation.getMusicIds()));
+    for (MediaModel model : mediaModels) {
+      if (currentSelectedList.contains(model.id.toString())) {
+        currentSelectedUris.add(model.filePath.get());
+      }
+    }
+    player.setMediaListOfUri(currentSelectedUris.toArray(new String[0]));
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_goal);
+    player = GlobalApplication.getPlayer();
     String goalId = getIntent().getStringExtra(INTENT_GOAL_ID);
     mn = getSupportFragmentManager();
     repository = GlobalApplication.getAppDB().goalRepository;
@@ -171,11 +205,22 @@ public class PageGoal extends AppCompatActivity {
       repository.getDescriptionLength()
     );
 
+    locationPlayerWidget = findViewById(GOAL_LOCATION_PLAYER_ID);
+
     setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
     setDescriptionLabel(currentGoal.description.get());
     initUpdateButton();
-    initLocationMeta(currentGoal.assignedLocation.toString());
+
     initSelectLocationBtn();
+
+    library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    initLocationMeta(currentGoal.assignedLocation.toString());
+    reInitMusicPlayer();
   }
 
   @Override
@@ -191,5 +236,34 @@ public class PageGoal extends AppCompatActivity {
       currentGoal.assignedLocation.fromString(locationId);
       currentGoal.save();
     }
+  }
+
+  @Override
+  public void next() {
+    player.startNextMediaFile();
+  }
+
+  @Override
+  public void play() {
+    player.startNextMediaFile();
+  }
+
+  @Override
+  public void stop() {
+    player.stopMediaRecord();
+  }
+
+  @Override
+  public String getCurrentTrackName() {
+    File currentTrack = library.getFileByPosition(player.getCurrentAudioIndex());
+    if (currentTrack == null) {
+      return "";
+    }
+    return currentTrack.getName();
+  }
+
+  @Override
+  public boolean checkIsPlaying() {
+    return player.isPlayed();
   }
 }

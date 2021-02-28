@@ -2,13 +2,13 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
-import com.masterhelper.goals.GoalLocale;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
@@ -288,6 +288,12 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
     }
 
     void reInitMusicPlayer() {
+        View locationPlayerWidget = findViewById(R.id.LOCATION_MUSIC_PLAYER_WIDGET_ID);
+        if (location.getMusicIds().length == 0) {
+            locationPlayerWidget.setVisibility(View.GONE);
+            return;
+        }
+        locationPlayerWidget.setVisibility(View.VISIBLE);
         MediaModel[] mediaModels = library.getFilesLibraryList();
         Collection<String> currentSelectedUris = new ArrayList<>();
         Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(location.getMusicIds()));

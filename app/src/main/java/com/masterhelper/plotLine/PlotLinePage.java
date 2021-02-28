@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.goals.GoalLocale;
 import com.masterhelper.goals.PageGoal;
 import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.goals.repository.GoalRepository;
@@ -237,12 +238,12 @@ public class PlotLinePage extends AppCompatActivity {
 
   void createNewGoal(int goalViewId) {
     GoalModel newModel = goalRepository.getDraftRecord();
-    showDialog(newModel, goalViewId, PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
+    showDialog(newModel, goalViewId, GoalLocale.getLocalizationByKey(GoalLocale.Keys.createGoal));
   }
 
   void updateGoal(String selectedGoal, int goalViewId) {
     GoalModel model = goalRepository.getRecord(selectedGoal);
-    showDialog(model, goalViewId, PlotLocale.getLocalizationByKey(PlotLocale.Keys.update));
+    showDialog(model, goalViewId, GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
   }
 
   void showDialog(GoalModel model, int goalViewId, String title) {
