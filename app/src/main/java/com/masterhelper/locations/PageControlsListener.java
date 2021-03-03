@@ -264,7 +264,7 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
                 break;
             case 3:
                 setVisibility(meta, false);
-                setVisibility(music, false);
+                setVisibility(music, true);
                 editButton.controls.hide();
                 break;
         }
@@ -273,12 +273,7 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
 
     @Override
     public void onUpdate(int listItemId) {
-        if (listItemId == currentAudioTrack) {
-            stopTrack();
-            return;
-        }
-        stopTrack();
-        startRecord(listItemId);
+
     }
 
     @Override
@@ -317,6 +312,16 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
             }
             location.setMusicIdsArray(currentSelectedList.toArray(new String[0]));
         }
+    }
+
+    @Override
+    public void onPlay(int listItemId) {
+        if (listItemId == currentAudioTrack) {
+            stopTrack();
+            return;
+        }
+        stopTrack();
+        startRecord(listItemId);
     }
 
     @Override

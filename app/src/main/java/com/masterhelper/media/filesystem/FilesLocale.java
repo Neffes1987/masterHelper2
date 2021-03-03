@@ -21,6 +21,8 @@ public abstract class FilesLocale {
         return context.getResources().getString(R.string.audio_files_empty_list);
       case removeSourceFiles:
         return context.getResources().getString(R.string.dialog_remove_source_files);
+      case editFileName:
+        return context.getResources().getString(R.string.dialog_edit_source_file);
     }
     return "";
   }
@@ -32,6 +34,7 @@ public abstract class FilesLocale {
     audiosListCaption,
     imagesListCaption,
     removeSourceFiles,
+    editFileName,
     emptyAudioFile
   }
 }

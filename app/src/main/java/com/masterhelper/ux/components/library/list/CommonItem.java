@@ -80,7 +80,7 @@ public class CommonItem {
     if (!flags.contains(Flags.showPlay)) {
       play.setVisibility(View.GONE);
     } else {
-      play.setOnClickListener(v -> listItemEvents.onUpdate(pListItemId));
+      play.setOnClickListener(v -> listItemEvents.onPlay(pListItemId));
     }
   }
 

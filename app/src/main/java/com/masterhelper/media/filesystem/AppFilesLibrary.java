@@ -4,8 +4,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.util.Log;
+import android.webkit.MimeTypeMap;
 import androidx.documentfile.provider.DocumentFile;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.fields.GeneralField;
@@ -43,12 +42,13 @@ public class AppFilesLibrary implements IAppFilesLibrary {
   }
 
   private String getOriginalFileName(Uri path){
+    String[] projection = {MediaStore.MediaColumns.DISPLAY_NAME};
     Cursor cursor = resolver
-      .query(path, null, null, null, null, null);
+      .query(path, projection, null, null, null, null);
     String displayName = "file";
     try {
       if (cursor != null && cursor.moveToFirst()) {
-        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+        displayName = cursor.getString(0);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -58,12 +58,18 @@ public class AppFilesLibrary implements IAppFilesLibrary {
     return displayName;
   }
 
+  private String getFileExtension(Uri uri) {
+    String extension;
+    MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+    extension = mimeTypeMap.getExtensionFromMimeType(resolver.getType(uri));
+    return extension;
+  }
+
   @Override
   public void copyFileToMediaLibrary(Uri path) {
     Date currentDate = new Date();
-    String fileName = getOriginalFileName(path).replace("'", "");
-    String libFilName = currentDate.getTime() + "_" + fileName;
-    File libraryFile = new File(workingDirectory.get().getPath() + "/" + libFilName);
+    String libFilName = this.format + "_" + currentDate.getTime();
+    File libraryFile = new File(workingDirectory.get().getPath() + "/" + libFilName + getFileExtension(path));
 
     try (InputStream in = resolver.openInputStream(path)) {
       try (OutputStream out = new FileOutputStream(libraryFile)) {
@@ -79,8 +85,9 @@ public class AppFilesLibrary implements IAppFilesLibrary {
 
     MediaModel mediaRecord =  repository.getDraftRecord();
     mediaRecord.filePath.set(libraryFile.getPath());
-    mediaRecord.fileName.set(libFilName);
+    mediaRecord.fileName.set(getOriginalFileName(path));
     mediaRecord.fileType.set(format);
+
     mediaRecord.save();
     filesList.add(mediaRecord);
   }
@@ -137,4 +144,15 @@ public class AppFilesLibrary implements IAppFilesLibrary {
   public MediaModel[] getFilesLibraryList() {
     return filesList.toArray(new MediaModel[0]);
   }
+
+
+  public void updateFileName(String id, String newName) {
+    if (newName.length() == 0) {
+      return;
+    }
+    MediaModel model = repository.getRecord(id);
+    model.fileName.set(newName);
+    model.save();
+  }
+
 }

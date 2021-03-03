@@ -6,4 +6,6 @@ public interface ListItemControlsListener {
   void onDelete(int listItemId);
 
   void onSelect(int listItemId);
+
+  void onPlay(int listItemId);
 }

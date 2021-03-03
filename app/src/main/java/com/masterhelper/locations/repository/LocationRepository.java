@@ -1,7 +1,6 @@
 package com.masterhelper.locations.repository;
 
 import android.database.Cursor;
-import android.util.Log;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
@@ -17,7 +16,7 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
 
   @Override
   public LocationModel getDraftRecord() {
-    return new LocationModel(this, null, "", "", null, "");
+    return new LocationModel(this, null, "", "", null, "", "");
   }
 
   @Override
@@ -66,6 +65,7 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       int previewIdIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
       int previewUrlIndex = dbList.getColumnIndex("previewUrl");
       int musicListIndex = dbList.getColumnIndex(contract.musicList.getColumnTitle());
+      int musicEffectsListIndex = dbList.getColumnIndex(contract.musicEffects.getColumnTitle());
 
       foundedRecord.id.fromString(dbList.getString(idIndex));
       foundedRecord.name.set(dbList.getString(nameIndex));
@@ -74,6 +74,7 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       foundedRecord.previewId.set(dbList.getString(previewIdIndex));
       foundedRecord.previewUrl.set(previewUrlIndex != -1 ? dbList.getString(previewUrlIndex) : null);
       foundedRecord.musicList.set(dbList.getString(musicListIndex));
+      foundedRecord.musicEffects.set(dbList.getString(musicEffectsListIndex));
     }
     dbList.close();
     setItemToCache(foundedRecord, 0);

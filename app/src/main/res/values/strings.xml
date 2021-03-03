@@ -83,6 +83,7 @@
   <string name="location_description">Описание локации</string>
   <string name="location_tab_meta">Описание</string>
   <string name="location_tab_media">Музыка</string>
+  <string name="location_tab_effects">Эффекты</string>
   <string name="location_tab_goals">Цели</string>
   <string name="event_is_battle">Схватка</string>
   <string name="event_is_meeting">Встреча</string>
@@ -99,6 +100,7 @@
   <string name="dialog_resolve">Применить</string>
   <string name="dialog_reject">Отменить</string>
   <string name="dialog_remove_source_files">Копирование завершено. Удалить выбранные файлы источника?</string>
+  <string name="dialog_edit_source_file">Редактировать имя файла</string>
 
   <!-- files -->
   <string name="audio_files_caption">Библиотека аудио файлов</string>

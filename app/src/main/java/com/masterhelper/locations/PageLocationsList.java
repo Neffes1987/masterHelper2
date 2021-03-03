@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
-import com.masterhelper.global.db.repositories.common.model.GeneralModel;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
@@ -100,6 +99,7 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
           locationDialog.getName()
         );
       }
+
       @Override
       public void onReject() {
 
@@ -108,15 +108,21 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
     locationDialog.show();
   }
 
+  @Override
+  protected void onStart() {
+    super.onStart();
+    list = initList(locationRepository.list(0, 0), isSelectionMode);
+  }
+
   /**
    * click callback for short click event
    *
    * @param btnId - element unique id that fired event
-   * @param tag -
+   * @param tag   -
    */
   @Override
   public void onClick(int btnId, String tag) {
-    if(btnId == newItemButton.controls.getId()){
+    if (btnId == newItemButton.controls.getId()) {
       openAddNewItemDialog();
     }
   }
@@ -177,5 +183,10 @@ public class PageLocationsList extends AppCompatActivity implements SetBtnLocati
 
     eventIntent.putExtra(INTENT_GOAL_ID, getIntent().getStringExtra(INTENT_GOAL_ID));
     startActivity(eventIntent);
+  }
+
+  @Override
+  public void onPlay(int listItemId) {
+
   }
 }

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -78,14 +77,19 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     return currentAudioTrack;
   }
 
-  ComponentUIDialog initDialog() {
-    ComponentUIDialog dialog = new ComponentUIDialog(this);
+  void initAlertDialog() {
     dialog.pNameLabel.hide();
     dialog.pNameField.hide();
     dialog.pDescriptionLabel.hide();
     dialog.pDescriptionField.hide();
     dialog.setTitle(FilesLocale.getLocalizationByKey(FilesLocale.Keys.removeSourceFiles));
-    return dialog;
+  }
+
+  void initEditDialog() {
+    dialog.pNameField.show();
+    dialog.pNameField.setText("");
+    dialog.pNameLabel.show();
+    dialog.setTitle(FilesLocale.getLocalizationByKey(FilesLocale.Keys.editFileName));
   }
 
   void setFormat(String format) {
@@ -161,6 +165,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
     if (layout == Layout.global) {
       flags.add(showDelete);
+      flags.add(showEdit);
     } else {
       flags.add(showSelection);
     }
@@ -193,7 +198,8 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     stopTrack();
     ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
     list = initList(libraryFileDataArrayList);
-    dialog = initDialog();
+    dialog = new ComponentUIDialog(this);
+    ;
   }
 
   @Override
@@ -214,7 +220,6 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
   void startRecord(int listItemId) {
     CommonHolderPayloadData listRecord = list.controls.getItemByListId(listItemId);
-    Log.i("TAG", "startRecord: " + listRecord.getPreviewUrl());
     player.startMediaRecord(new File(listRecord.getPreviewUrl()));
     listRecord.isPlayed = true;
     setCurrentAudioTrack(listItemId);
@@ -259,16 +264,23 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
   @Override
   public void onUpdate(int listItemId) {
-    Log.i("TAG", "onUpdate: " + listItemId);
-    if(format == Formats.audio){
-      if(listItemId == currentAudioTrack){
-        stopTrack();
-        return;
+    initEditDialog();
+    CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
+    dialog.pNameLabel.setText(item.getTitle());
+    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+      @Override
+      public void onResolve() {
+        library.updateFileName(item.getId().toString(), dialog.pNameField.getText());
+        item.setTitle(dialog.pNameField.getText());
+        list.controls.update(item, listItemId);
       }
-      stopTrack();
-      startRecord(listItemId);
-    }
 
+      @Override
+      public void onReject() {
+
+      }
+    });
+    dialog.show();
   }
 
   @Override
@@ -296,19 +308,31 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
 
   @Override
   public void onSelect(int listItemId) {
-    if(layout == Layout.selectable){
+    if (layout == Layout.selectable) {
       checkSelectedItem(listItemId);
       return;
     }
     returnSelectedItem(listItemId);
   }
 
-  public enum Layout{
+  @Override
+  public void onPlay(int listItemId) {
+    if (format == Formats.audio) {
+      if (listItemId == currentAudioTrack) {
+        stopTrack();
+        return;
+      }
+      stopTrack();
+      startRecord(listItemId);
+    }
+  }
+
+  public enum Layout {
     selectable,
     global
   }
 
-  public static Intent getWidgetIntent(Context context, Formats format, Layout layout, String[] selections){
+  public static Intent getWidgetIntent(Context context, Formats format, Layout layout, String[] selections) {
     Intent intent = new Intent(context, FileViewerWidget.class);
     intent.putExtra(FORMAT_INTENT_EXTRA_NAME, format.name());
     intent.putExtra(LAYOUT_INTENT_EXTRA_NAME, layout.name());
@@ -368,7 +392,7 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     library.updateMediaLibrary(format);
     String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());
     list = initList(getLibraryItems(library.getFilesLibraryList(), currentSelectedFiles));
-
+    initAlertDialog();
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
       public void onResolve() {

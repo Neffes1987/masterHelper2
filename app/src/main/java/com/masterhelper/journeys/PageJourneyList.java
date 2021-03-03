@@ -137,4 +137,9 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
     sceneIntent.putExtra(INTENT_JOURNEY_ID, item.getId().get().toString());
     startActivity(sceneIntent);
   }
+
+  @Override
+  public void onPlay(int listItemId) {
+
+  }
 }

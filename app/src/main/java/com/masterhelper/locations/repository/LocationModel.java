@@ -9,13 +9,14 @@ public class LocationModel extends GeneralModel<LocationRepository> {
   public final GeneralField<String> previewId = new GeneralField<>();
   public final GeneralField<String> previewUrl = new GeneralField<>();
   public final GeneralField<String> musicList = new GeneralField<>();
+  public final GeneralField<String> musicEffects = new GeneralField<>();
 
-  public LocationModel(LocationRepository repository, String defaultId, String defaultName, String defaultDescription, String previewUrlId, String musicList){
+  public LocationModel(LocationRepository repository, String defaultId, String defaultName, String defaultDescription, String previewUrlId, String musicList, String musicEffects) {
     super(repository, defaultId, defaultName);
     description.set(defaultDescription);
     previewId.set(previewUrlId);
-
     this.musicList.set(musicList);
+    this.musicEffects.set(musicEffects);
   }
 
   public void setMusicIdsArray(String[] MusicPaths) {

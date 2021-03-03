@@ -24,7 +24,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   /**
    * Версия базы данных. При изменении схемы увеличить на единицу
    */
-  private static final int DATABASE_VERSION = 62;
+  private static final int DATABASE_VERSION = 66;
 
   SQLiteDatabase db;
 
@@ -71,9 +71,10 @@ public class DbHelpers extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     this.db = db;
-    goalRepository.createTable();
-    plotLineRepository.createTable();
+    //goalRepository.createTable();
+    locationRepository.createTable();
     //initTables();
+    //this.db.execSQL("DELETE FROM media WHERE fileType='imagePng'");
   }
 
   public Cursor read(String query){

@@ -1,7 +1,6 @@
 package com.masterhelper.locations.repository;
 
 import android.database.Cursor;
-import android.util.Log;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.contracts.AbstractContract;
@@ -17,11 +16,12 @@ public class LocationContract extends AbstractContract<LocationModel> {
   public final GeneralColumn title = new GeneralColumn(TABLE_NAME,"title", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
   public final GeneralColumn description = new GeneralColumn(TABLE_NAME,"description", GeneralColumn.ColumnTypes.CharType, DESCRIPTION_COLUMN_LENGTH, false);
   public final GeneralColumn previewUrlId = new GeneralColumn(TABLE_NAME,"preview", GeneralColumn.ColumnTypes.CharType, PREVIEW_COLUMN_LENGTH, true);
-  public final GeneralColumn musicList = new GeneralColumn(TABLE_NAME,"musicList", GeneralColumn.ColumnTypes.TextTypes, 0, false);
+  public final GeneralColumn musicList = new GeneralColumn(TABLE_NAME, "musicList", GeneralColumn.ColumnTypes.TextTypes, 0, false);
+  public final GeneralColumn musicEffects = new GeneralColumn(TABLE_NAME, "musicEffects", GeneralColumn.ColumnTypes.TextTypes, 0, false);
 
   public LocationContract(DbHelpers dbHelpers) {
     super(dbHelpers);
-    initContract(TABLE_NAME, new GeneralColumn[]{id, title, description, previewUrlId, musicList});
+    initContract(TABLE_NAME, new GeneralColumn[]{id, title, description, previewUrlId, musicList, musicEffects});
   }
 
   @Override
@@ -31,7 +31,8 @@ public class LocationContract extends AbstractContract<LocationModel> {
       record.name.get(),
       record.description.get(),
       record.previewId.get(),
-      record.musicList.get()
+      record.musicList.get(),
+      record.musicEffects.get()
     };
     String insertQuery = getContract().insertRecord(values);
     getDbHelpers().write(insertQuery);
@@ -44,7 +45,8 @@ public class LocationContract extends AbstractContract<LocationModel> {
       record.name.get(),
       record.description.get(),
       record.previewId.get(),
-      record.musicList.get()
+      record.musicList.get(),
+      record.musicEffects.get()
     };
     String updateQuery = getContract().updateRecord(record.id, values, id.getColumnTitle());
     getDbHelpers().write(updateQuery);
@@ -77,6 +79,7 @@ public class LocationContract extends AbstractContract<LocationModel> {
       + "," + TABLE_NAME + "." + title.getColumnTitle()
       + "," + TABLE_NAME + "." + previewUrlId.getColumnTitle()
       + "," + TABLE_NAME + "." + musicList.getColumnTitle()
+      + "," + TABLE_NAME + "." + musicEffects.getColumnTitle()
       + "," + TABLE_NAME + "." + description.getColumnTitle();
     String previewFields = MediaContract.TABLE_NAME + "." + MediaContract.filePath.getColumnTitle() + " as previewUrl";
 

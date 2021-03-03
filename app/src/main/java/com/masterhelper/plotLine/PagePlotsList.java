@@ -161,4 +161,9 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
     eventIntent.putExtra(INTENT_PLOT_ID, item.getId().toString());
     startActivity(eventIntent);
   }
+
+  @Override
+  public void onPlay(int listItemId) {
+
+  }
 }
