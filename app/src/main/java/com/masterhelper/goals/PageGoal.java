@@ -16,6 +16,7 @@ import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.media.Formats;
 import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.filesystem.AudioPlayer;
+import com.masterhelper.media.filesystem.EffectsPlayer;
 import com.masterhelper.media.music_player.IMusicPlayerWidget;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
@@ -51,6 +52,7 @@ public class PageGoal extends AppCompatActivity implements IMusicPlayerWidget {
 
   ComponentUIDialog dialog;
   AudioPlayer player;
+  EffectsPlayer effectsPlayer;
   AppFilesLibrary library;
 
   private ComponentUILabel description;
@@ -189,6 +191,16 @@ public class PageGoal extends AppCompatActivity implements IMusicPlayerWidget {
       }
     }
     player.setMediaListOfUri(currentSelectedUris.toArray(new String[0]));
+
+    Collection<String> currentEffectsUris = new ArrayList<>();
+    Collection<String> currentEffectsSelectedList = new ArrayList<>(Arrays.asList(attachedLocation.getMusicEffectsIds()));
+    for (MediaModel model : mediaModels) {
+      if (currentEffectsSelectedList.contains(model.id.toString())) {
+        currentEffectsUris.add(model.filePath.get());
+      }
+    }
+
+    effectsPlayer.setMediaListOfUri(currentEffectsUris.toArray(new String[0]));
   }
 
   @Override
@@ -196,6 +208,7 @@ public class PageGoal extends AppCompatActivity implements IMusicPlayerWidget {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_goal);
     player = GlobalApplication.getPlayer();
+    effectsPlayer = GlobalApplication.getEffectsPlayer();
     String goalId = getIntent().getStringExtra(INTENT_GOAL_ID);
     mn = getSupportFragmentManager();
     repository = GlobalApplication.getAppDB().goalRepository;
@@ -241,16 +254,19 @@ public class PageGoal extends AppCompatActivity implements IMusicPlayerWidget {
   @Override
   public void next() {
     player.startNextMediaFile();
+    effectsPlayer.next();
   }
 
   @Override
   public void play() {
     player.startNextMediaFile();
+    effectsPlayer.start();
   }
 
   @Override
   public void stop() {
     player.stopMediaRecord();
+    effectsPlayer.stop();
   }
 
   @Override

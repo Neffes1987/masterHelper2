@@ -15,6 +15,7 @@ import com.masterhelper.locations.tabs.ITabs;
 import com.masterhelper.media.Formats;
 import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.filesystem.AudioPlayer;
+import com.masterhelper.media.filesystem.EffectsPlayer;
 import com.masterhelper.media.music_player.IMusicPlayerWidget;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.media.repository.MediaRepository;
@@ -52,6 +53,7 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
     private LocationModel location;
     private ComponentUIList mediaFilesList;
     AudioPlayer player;
+    EffectsPlayer effectsPlayer;
 
     FragmentManager mn;
     private int currentAudioTrack = 0;
@@ -97,7 +99,7 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
     ComponentUIDialog initDialog(int nameMaxLength, int descriptionLength) {
         ComponentUIDialog dialog = new ComponentUIDialog(this);
         dialog.pNameLabel.show();
-        dialog.pNameLabel.setText(LocationLocale.getLocalizationByKey(LocationLocale.Keys.name));
+        dialog.pNameLabel.setText(LocationLocale.getLocalizationByKey(LocationLocale.Keys.locationName));
 
         dialog.pNameField.setText("");
         dialog.pNameField.setMaxLength(nameMaxLength);
@@ -121,6 +123,7 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
         mediaRepository = GlobalApplication.getAppDB().mediaRepository;
         location = repository.getRecord(getIntent().getStringExtra(INTENT_LOCATION_ID));
         player = GlobalApplication.getPlayer();
+        effectsPlayer = GlobalApplication.getEffectsPlayer();
 
         mn = getSupportFragmentManager();
         initEditItemButton();
@@ -134,9 +137,12 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
         name.controls.setText(location.name.get());
 
         library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
-        ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), location.getMusicIds());
-        mediaFilesList = initList(libraryFileDataArrayList);
+        setSoundsMusicList(true);
+    }
 
+    void setSoundsMusicList(Boolean isBackground) {
+        ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), isBackground ? location.getMusicIds() : location.getMusicEffectsIds());
+        mediaFilesList = initList(libraryFileDataArrayList);
         reInitMusicPlayer();
     }
 
@@ -170,6 +176,9 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
         if (btnId == editButton.controls.getId() && currentSelectedTab == 2) {
             location.save();
             reInitMusicPlayer();
+        }
+        if (btnId == editButton.controls.getId() && currentSelectedTab == 3) {
+            location.save();
         }
     }
 
@@ -253,19 +262,19 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
             case 1:
                 setVisibility(meta, true);
                 setVisibility(music, false);
-                editButton.controls.show();
                 editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
                 break;
             case 2:
                 setVisibility(meta, false);
                 setVisibility(music, true);
-                editButton.controls.show();
                 editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.done));
+                setSoundsMusicList(true);
                 break;
             case 3:
                 setVisibility(meta, false);
                 setVisibility(music, true);
-                editButton.controls.hide();
+                editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.done));
+                setSoundsMusicList(false);
                 break;
         }
 
@@ -283,35 +292,65 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
 
     void reInitMusicPlayer() {
         View locationPlayerWidget = findViewById(R.id.LOCATION_MUSIC_PLAYER_WIDGET_ID);
+
         if (location.getMusicIds().length == 0) {
             locationPlayerWidget.setVisibility(View.GONE);
             return;
         }
         locationPlayerWidget.setVisibility(View.VISIBLE);
+
+
         MediaModel[] mediaModels = library.getFilesLibraryList();
-        Collection<String> currentSelectedUris = new ArrayList<>();
-        Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(location.getMusicIds()));
+
+        Collection<String> currentBackgroundUris = new ArrayList<>();
+        Collection<String> currentBackgroundSelectedList = new ArrayList<>(Arrays.asList(location.getMusicIds()));
         for (MediaModel model : mediaModels) {
-            if (currentSelectedList.contains(model.id.toString())) {
-                currentSelectedUris.add(model.filePath.get());
+            if (currentBackgroundSelectedList.contains(model.id.toString())) {
+                currentBackgroundUris.add(model.filePath.get());
             }
         }
-        player.setMediaListOfUri(currentSelectedUris.toArray(new String[0]));
+
+        player.setMediaListOfUri(currentBackgroundUris.toArray(new String[0]));
+
+        Collection<String> currentEffectsUris = new ArrayList<>();
+        Collection<String> currentEffectsSelectedList = new ArrayList<>(Arrays.asList(location.getMusicEffectsIds()));
+        for (MediaModel model : mediaModels) {
+            if (currentEffectsSelectedList.contains(model.id.toString())) {
+                currentEffectsUris.add(model.filePath.get());
+            }
+        }
+
+        effectsPlayer.setMediaListOfUri(currentEffectsUris.toArray(new String[0]));
     }
 
     @Override
     public void onSelect(int listItemId) {
+        Collection<String> currentSelectedList = new ArrayList<>();
+
         if (currentSelectedTab == 2) {
-            Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(location.getMusicIds()));
-            MediaModel selectedModel = library.getFilesLibraryList()[listItemId - 1];
-            String selectedId = selectedModel.id.toString();
-            if (!currentSelectedList.contains(selectedId)) {
-                currentSelectedList.add(selectedId);
-            } else {
-                currentSelectedList.remove(selectedId);
-            }
+            currentSelectedList = new ArrayList<>(Arrays.asList(location.getMusicIds()));
+        }
+
+        if (currentSelectedTab == 3) {
+            currentSelectedList = new ArrayList<>(Arrays.asList(location.getMusicEffectsIds()));
+        }
+
+        MediaModel selectedModel = library.getFilesLibraryList()[listItemId - 1];
+        String selectedId = selectedModel.id.toString();
+        if (!currentSelectedList.contains(selectedId)) {
+            currentSelectedList.add(selectedId);
+        } else {
+            currentSelectedList.remove(selectedId);
+        }
+
+        if (currentSelectedTab == 2) {
             location.setMusicIdsArray(currentSelectedList.toArray(new String[0]));
         }
+
+        if (currentSelectedTab == 3) {
+            location.setMusicEffectsIdsArray(currentSelectedList.toArray(new String[0]));
+        }
+
     }
 
     @Override
@@ -327,16 +366,19 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
     @Override
     public void next() {
         player.startNextMediaFile();
+        effectsPlayer.next();
     }
 
     @Override
     public void play() {
         player.startNextMediaFile();
+        effectsPlayer.start();
     }
 
     @Override
     public void stop() {
         player.stopMediaRecord();
+        effectsPlayer.stop();
     }
 
     @Override

@@ -199,7 +199,6 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
     list = initList(libraryFileDataArrayList);
     dialog = new ComponentUIDialog(this);
-    ;
   }
 
   @Override

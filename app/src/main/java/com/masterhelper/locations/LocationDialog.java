@@ -2,7 +2,6 @@ package com.masterhelper.locations;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
-import com.masterhelper.locations.LocationLocale;
 
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 
@@ -17,7 +16,7 @@ public class LocationDialog {
     ComponentUIDialog dialog = new ComponentUIDialog(context);
     dialog.setTitle(getLocalizationByKey(LocationLocale.Keys.createLocation));
     dialog.pNameLabel.show();
-    dialog.pNameLabel.setText(getLocalizationByKey(LocationLocale.Keys.eventName));
+    dialog.pNameLabel.setText(getLocalizationByKey(LocationLocale.Keys.locationName));
 
     dialog.pNameField.setText("");
     dialog.pNameField.setMaxLength(nameMaxLength);

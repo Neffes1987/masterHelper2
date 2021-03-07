@@ -23,10 +23,21 @@ public class LocationModel extends GeneralModel<LocationRepository> {
     musicList.set(TextUtils.join(",", MusicPaths));
   }
 
+  public void setMusicEffectsIdsArray(String[] MusicPaths) {
+    musicEffects.set(TextUtils.join(",", MusicPaths));
+  }
+
   public String[] getMusicIds() {
     if (musicList.get() == null || musicList.get().length() == 0) {
       return new String[]{};
     }
     return musicList.get().split(",");
+  }
+
+  public String[] getMusicEffectsIds() {
+    if (musicEffects.get() == null || musicEffects.get().length() == 0) {
+      return new String[]{};
+    }
+    return musicEffects.get().split(",");
   }
 }

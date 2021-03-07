@@ -16,14 +16,14 @@
   <string name="plots_create_title">Создать сюжетную линию</string>
   <string name="plots_update_title">Изменить сюжетную линию</string>
 
-  <!-- goal -->
-  <string name="goal_list">Список целей</string>
-  <string name="goal_name">Имя цели</string>
-  <string name="goal_description">Описание цели</string>
-  <string name="goal_create_popup_title">Создать цель</string>
-  <string name="goal_popup_update_title">Изменить имя цели</string>
-  <string name="goal_title">Цель</string>
-  <string name="goal_create_title">Создать цель</string>
+  <!-- keyPoint -->
+  <string name="goal_list">Список ключевых точек</string>
+  <string name="goal_name">Имя ключевой точки</string>
+  <string name="goal_description">Описание ключевой точки</string>
+  <string name="goal_create_popup_title">Создать ключевую точку</string>
+  <string name="goal_popup_update_title">Изменить имя ключевой точки</string>
+  <string name="goal_title">Ключевая точка</string>
+  <string name="goal_create_title">Создать ключевую точку</string>
   <string name="goal_assigned_location_placeholder">Укажите локацию…</string>
 
   <string name="screen_intro">I</string>
@@ -59,21 +59,10 @@
   <string name="screen_settings_default_caption">Настройки</string>
   <string name="advantages">Преимущества</string>
   <string name="disadvantages">Слабости</string>
-  <string name="goals">Цели</string>
-  <string name="goal_in_progress">Цель активна</string>
-  <string name="goal_failed">Цель провалена</string>
-  <string name="goal_complete">Цель достигнута</string>
-
-
-  <!-- abilities -->
-  <string name="property_description">Описание</string>
-  <string name="property_name">Имя</string>
-  <string name="property_value">Значение</string>
-  <string name="enemy_max_health_title">Максимальное здоровье</string>
-  <string name="enemy_health_title">Здоровье</string>
-  <string name="enemy_damage_title">Повреждение</string>
-  <string name="enemy_ordering_title">Инициатива</string>
-  <string name="empty_value">0</string>
+  <string name="goals">Ключевая точка</string>
+  <string name="goal_in_progress">Ключевая точка активна</string>
+  <string name="goal_failed">Ключевая точка провалена</string>
+  <string name="goal_complete">Ключевая точка достигнута</string>
 
 
   <!-- location -->
@@ -85,16 +74,8 @@
   <string name="location_tab_media">Музыка</string>
   <string name="location_tab_effects">Эффекты</string>
   <string name="location_tab_goals">Цели</string>
-  <string name="event_is_battle">Схватка</string>
-  <string name="event_is_meeting">Встреча</string>
-  <string name="event_is_accident">Происшествие</string>
-  <string name="event_create_title">Создать событие сцены</string>
-  <string name="event_update_title">Изменить событие сцены</string>
-
-  <!-- meeting -->
-  <string name="meeting_name">Название встречи</string>
-  <string name="meeting_description">Описание встречи</string>
-  <string name="meeting_update">Редактировать встречу</string>
+  <string name="event_create_title">Создать локацию</string>
+  <string name="event_update_title">Изменить локацию</string>
 
   <!-- dialogs -->
   <string name="dialog_resolve">Применить</string>

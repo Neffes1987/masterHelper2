@@ -62,7 +62,7 @@ public class AppFilesLibrary implements IAppFilesLibrary {
     String extension;
     MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
     extension = mimeTypeMap.getExtensionFromMimeType(resolver.getType(uri));
-    return extension;
+    return '.' + extension;
   }
 
   @Override
