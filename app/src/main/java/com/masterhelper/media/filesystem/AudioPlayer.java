@@ -23,11 +23,8 @@ public class AudioPlayer {
   }
 
   public void startMediaRecord(File file) {
-    if(mediaPlayer.isPlaying()){
-      stopMediaRecord();
-    }
-
     try {
+      mediaPlayer.reset();
       mediaPlayer.setDataSource(GlobalApplication.getAppContext(), Uri.fromFile(file));
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
       mediaPlayer.prepare();
@@ -51,6 +48,7 @@ public class AudioPlayer {
       filePaths.add(fileUri.getPath());
     }
     mediaList = filePaths.toArray(new String[0]);
+    mediaPlayer.setOnCompletionListener(mp -> startNextMediaFile());
   }
 
   private String[] getMediaList(){
@@ -83,6 +81,5 @@ public class AudioPlayer {
   public boolean isPlayed() {
     return mediaPlayer.isPlaying();
   }
-
 
 }

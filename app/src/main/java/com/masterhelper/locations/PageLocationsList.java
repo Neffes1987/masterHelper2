@@ -1,7 +1,6 @@
 package com.masterhelper.locations;
 
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
@@ -9,6 +8,7 @@ import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.core.SetBtnLocation;
+import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
@@ -24,7 +24,7 @@ import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 
 
-public class PageLocationsList extends AppCompatActivity implements SetBtnLocation, ListItemControlsListener {
+public class PageLocationsList extends AppMenuActivity implements SetBtnLocation, ListItemControlsListener {
   public static final String INTENT_LOCATION_ID = "locationId";
   public static final String INTENT_LOCATION_SELECTION_MODE = "isLocationsSelectionMode";
   FragmentManager mn;

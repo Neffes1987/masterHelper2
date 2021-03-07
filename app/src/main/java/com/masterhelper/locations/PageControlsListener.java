@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
@@ -20,6 +19,7 @@ import com.masterhelper.media.music_player.IMusicPlayerWidget;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
+import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
@@ -43,7 +43,7 @@ import static com.masterhelper.locations.PageLocationsList.INTENT_LOCATION_ID;
 import static com.masterhelper.ux.components.library.list.CommonItem.Flags.*;
 import static com.masterhelper.ux.components.library.list.CommonItem.Flags.showPlay;
 
-public class PageControlsListener extends AppCompatActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemControlsListener, IMusicPlayerWidget {
+public class PageControlsListener extends AppMenuActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemControlsListener, IMusicPlayerWidget {
     private int currentSelectedTab = 1;
     private ComponentUIFloatingButton editButton;
     private ComponentUILabel description;
@@ -138,12 +138,12 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
 
         library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
         setSoundsMusicList(true);
+        reInitMusicPlayer();
     }
 
     void setSoundsMusicList(Boolean isBackground) {
         ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), isBackground ? location.getMusicIds() : location.getMusicEffectsIds());
         mediaFilesList = initList(libraryFileDataArrayList);
-        reInitMusicPlayer();
     }
 
     void stopTrack() {
@@ -309,7 +309,7 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
                 currentBackgroundUris.add(model.filePath.get());
             }
         }
-
+        player.stopMediaRecord();
         player.setMediaListOfUri(currentBackgroundUris.toArray(new String[0]));
 
         Collection<String> currentEffectsUris = new ArrayList<>();
@@ -383,11 +383,7 @@ public class PageControlsListener extends AppCompatActivity implements SetBtnLoc
 
     @Override
     public String getCurrentTrackName() {
-        File currentTrack = library.getFileByPosition(player.getCurrentAudioIndex());
-        if (currentTrack == null) {
-            return "";
-        }
-        return currentTrack.getName();
+        return library.getFileNameByPosition(player.getCurrentAudioIndex());
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
@@ -14,6 +13,7 @@ import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.plotLine.repository.PlotLineModel;
 import com.masterhelper.plotLine.repository.PlotLineRepository;
+import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 
@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 
-public class PlotLinePage extends AppCompatActivity {
+public class PlotLinePage extends AppMenuActivity {
   public static final String INTENT_PLOT_ID = "plotId";
   final int actICheckboxID = R.id.ACT_I_PLOT_POINT_CHECK_ID;
   int actIBtnID = R.id.ACT_I_PLOT_POINT_BTN_ID;
@@ -83,27 +83,22 @@ public class PlotLinePage extends AppCompatActivity {
 
     actICheckboxView = findViewById(actICheckboxID);
     actICheckboxView.setOnClickListener(listener);
-    actICheckboxView.setOnLongClickListener(longClickListener);
     actICheckboxView.setText(initActName(currentPlotLine.getActIPlotLinePointId()));
 
     actIICheckboxView = findViewById(actIICheckboxID);
     actIICheckboxView.setOnClickListener(listener);
-    actIICheckboxView.setOnLongClickListener(longClickListener);
     actIICheckboxView.setText(initActName(currentPlotLine.getActIIPlotLinePointId()));
 
     actIIICheckboxView = findViewById(actIIICheckboxID);
     actIIICheckboxView.setOnClickListener(listener);
-    actIIICheckboxView.setOnLongClickListener(longClickListener);
     actIIICheckboxView.setText(initActName(currentPlotLine.getActIIIPlotLinePointId()));
 
     actIVCheckboxView = findViewById(actIVCheckboxID);
     actIVCheckboxView.setOnClickListener(listener);
-    actIVCheckboxView.setOnLongClickListener(longClickListener);
     actIVCheckboxView.setText(initActName(currentPlotLine.getActIVPlotLinePointId()));
 
     actVCheckboxView = findViewById(actVCheckboxID);
     actVCheckboxView.setOnClickListener(listener);
-    actVCheckboxView.setOnLongClickListener(longClickListener);
     actVCheckboxView.setText(initActName(currentPlotLine.getActVPlotLinePointId()));
 
     initProgress(currentPlotLine.getPlotLineProgress());
@@ -203,47 +198,25 @@ public class PlotLinePage extends AppCompatActivity {
       }
 
       if (selectedGoalId.length() > 0) {
-        updateGoal(selectedGoalId, selectedGoalCheckId);
+        updateGoal(selectedGoalId);
       } else {
         createNewGoal(selectedGoalCheckId);
       }
     }
   };
 
-  View.OnLongClickListener longClickListener = v -> {
-    String selectedGoalId = "";
-    if (v.getId() == actICheckboxID) {
-      selectedGoalId = currentPlotLine.getActIPlotLinePointId();
-    }
-    if (v.getId() == actIICheckboxID) {
-      selectedGoalId = currentPlotLine.getActIIPlotLinePointId();
-    }
-    if (v.getId() == actIIICheckboxID) {
-      selectedGoalId = currentPlotLine.getActIIIPlotLinePointId();
-    }
-    if (v.getId() == actIVCheckboxID) {
-      selectedGoalId = currentPlotLine.getActIVPlotLinePointId();
-    }
-    if (v.getId() == actVCheckboxID) {
-      selectedGoalId = currentPlotLine.getActVPlotLinePointId();
-    }
-
-    if (selectedGoalId.length() != 0) {
-      Intent selectedGoalIntent = new Intent(this, PageGoal.class);
-      selectedGoalIntent.putExtra(INTENT_GOAL_ID, selectedGoalId);
-      startActivity(selectedGoalIntent);
-    }
-    return true;
-  };
 
   void createNewGoal(int goalViewId) {
     GoalModel newModel = goalRepository.getDraftRecord();
     showDialog(newModel, goalViewId, GoalLocale.getLocalizationByKey(GoalLocale.Keys.createGoal));
   }
 
-  void updateGoal(String selectedGoal, int goalViewId) {
-    GoalModel model = goalRepository.getRecord(selectedGoal);
-    showDialog(model, goalViewId, GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
+  void updateGoal(String selectedGoalId) {
+    if (selectedGoalId.length() != 0) {
+      Intent selectedGoalIntent = new Intent(this, PageGoal.class);
+      selectedGoalIntent.putExtra(INTENT_GOAL_ID, selectedGoalId);
+      startActivity(selectedGoalIntent);
+    }
   }
 
   void showDialog(GoalModel model, int goalViewId, String title) {

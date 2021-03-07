@@ -3,7 +3,6 @@ package com.masterhelper.goals;
 import android.content.Intent;
 import android.view.View;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
@@ -20,6 +19,7 @@ import com.masterhelper.media.filesystem.EffectsPlayer;
 import com.masterhelper.media.music_player.IMusicPlayerWidget;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
+import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
@@ -37,7 +37,7 @@ import java.util.Collection;
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 
-public class PageGoal extends AppCompatActivity implements IMusicPlayerWidget {
+public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
   public static final String INTENT_GOAL_ID = "goalId";
   public static final int INTENT_RESULT_ID = 10000;
   public static final int GOAL_LOCATION_PLAYER_ID = R.id.GOAL_MUSIC_PLAYER_ID;
@@ -271,11 +271,7 @@ public class PageGoal extends AppCompatActivity implements IMusicPlayerWidget {
 
   @Override
   public String getCurrentTrackName() {
-    File currentTrack = library.getFileByPosition(player.getCurrentAudioIndex());
-    if (currentTrack == null) {
-      return "";
-    }
-    return currentTrack.getName();
+    return library.getFileNameByPosition(player.getCurrentAudioIndex());
   }
 
   @Override
