@@ -182,25 +182,8 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
     }
 
     locationPlayerWidget.setVisibility(View.VISIBLE);
-    MediaModel[] mediaModels = library.getFilesLibraryList();
-    Collection<String> currentSelectedUris = new ArrayList<>();
-    Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(attachedLocation.getMusicIds()));
-    for (MediaModel model : mediaModels) {
-      if (currentSelectedList.contains(model.id.toString())) {
-        currentSelectedUris.add(model.filePath.get());
-      }
-    }
-    player.setMediaListOfUri(currentSelectedUris.toArray(new String[0]));
-
-    Collection<String> currentEffectsUris = new ArrayList<>();
-    Collection<String> currentEffectsSelectedList = new ArrayList<>(Arrays.asList(attachedLocation.getMusicEffectsIds()));
-    for (MediaModel model : mediaModels) {
-      if (currentEffectsSelectedList.contains(model.id.toString())) {
-        currentEffectsUris.add(model.filePath.get());
-      }
-    }
-
-    effectsPlayer.setMediaListOfUri(currentEffectsUris.toArray(new String[0]));
+    player.setMediaListOfUri(getSelectedMedia(attachedLocation.getMusicIds(), true));
+    effectsPlayer.setMediaListOfUri(getSelectedMedia(attachedLocation.getMusicEffectsIds(), true));
   }
 
   @Override
@@ -269,9 +252,34 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
     effectsPlayer.stop();
   }
 
+  String[] getSelectedMedia(String[] mediaListIds, boolean isFilePath) {
+    MediaModel[] mediaModels = library.getFilesLibraryList();
+
+    Collection<String> currentUris = new ArrayList<>();
+    Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(mediaListIds));
+    for (MediaModel model : mediaModels) {
+      if (currentSelectedList.contains(model.id.toString())) {
+        if (isFilePath) {
+          currentUris.add(model.filePath.get());
+        } else {
+          currentUris.add(model.fileName.get());
+        }
+      }
+    }
+
+    return currentUris.toArray(new String[0]);
+  }
+
   @Override
   public String getCurrentTrackName() {
-    return library.getFileNameByPosition(player.getCurrentAudioIndex());
+    if (attachedLocation == null) {
+      return "";
+    }
+    String[] fileNamesList = getSelectedMedia(attachedLocation.getMusicIds(), false);
+    if (fileNamesList.length == 0) {
+      return "";
+    }
+    return fileNamesList[player.getCurrentAudioIndex()];
   }
 
   @Override

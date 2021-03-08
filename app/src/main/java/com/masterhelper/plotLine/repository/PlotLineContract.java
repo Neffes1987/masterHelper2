@@ -1,14 +1,12 @@
 package com.masterhelper.plotLine.repository;
 
 import android.database.Cursor;
-import android.util.Log;
 import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.contracts.AbstractContract;
 import com.masterhelper.global.db.repositories.common.contracts.GeneralColumn;
 import com.masterhelper.global.fields.DataID;
 import com.masterhelper.goals.repository.GoalContract;
 import com.masterhelper.journeys.repository.JourneyContract;
-import com.masterhelper.media.repository.MediaContract;
 
 public class PlotLineContract extends AbstractContract<PlotLineModel> {
   public final static String TABLE_NAME = "plots";
@@ -95,6 +93,12 @@ public class PlotLineContract extends AbstractContract<PlotLineModel> {
   public Cursor list(int offset, int limit) {
     String locationFields = TABLE_NAME + "." + id.getColumnTitle()
       + "," + TABLE_NAME + "." + name.getColumnTitle()
+      + "," + TABLE_NAME + "." + firstPlotPontId.getColumnTitle()
+      + "," + TABLE_NAME + "." + secondPlotPontId.getColumnTitle()
+      + "," + TABLE_NAME + "." + thirdPlotPontId.getColumnTitle()
+      + "," + TABLE_NAME + "." + fourthPlotPontId.getColumnTitle()
+      + "," + TABLE_NAME + "." + fifthPlotPontId.getColumnTitle()
+      + "," + TABLE_NAME + "." + description.getColumnTitle()
       + "," + TABLE_NAME + "." + plotProgress.getColumnTitle();
 
     String currentGoalName = GoalContract.TABLE_NAME + "." + GoalContract.title.getColumnTitle() + " as description";

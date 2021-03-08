@@ -137,7 +137,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         name.controls.setText(location.name.get());
 
         library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
-        setSoundsMusicList(true);
         reInitMusicPlayer();
     }
 
@@ -175,10 +174,13 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
         if (btnId == editButton.controls.getId() && currentSelectedTab == 2) {
             location.save();
+
             reInitMusicPlayer();
+            setSoundsMusicList(true);
         }
         if (btnId == editButton.controls.getId() && currentSelectedTab == 3) {
             location.save();
+            setSoundsMusicList(false);
         }
     }
 
@@ -237,6 +239,8 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
             libraryFileDataArrayList.add(fileData);
         }
 
+        libraryFileDataArrayList.sort((o1, o2) -> Boolean.compare(o2.isSelected, o1.isSelected));
+
         return libraryFileDataArrayList;
     }
 
@@ -290,6 +294,24 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
     }
 
+    String[] getSelectedMedia(String[] mediaListIds, boolean isFilePath) {
+        MediaModel[] mediaModels = library.getFilesLibraryList();
+
+        Collection<String> currentUris = new ArrayList<>();
+        Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(mediaListIds));
+        for (MediaModel model : mediaModels) {
+            if (currentSelectedList.contains(model.id.toString())) {
+                if (isFilePath) {
+                    currentUris.add(model.filePath.get());
+                } else {
+                    currentUris.add(model.fileName.get());
+                }
+            }
+        }
+
+        return currentUris.toArray(new String[0]);
+    }
+
     void reInitMusicPlayer() {
         View locationPlayerWidget = findViewById(R.id.LOCATION_MUSIC_PLAYER_WIDGET_ID);
 
@@ -299,28 +321,9 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         }
         locationPlayerWidget.setVisibility(View.VISIBLE);
 
-
-        MediaModel[] mediaModels = library.getFilesLibraryList();
-
-        Collection<String> currentBackgroundUris = new ArrayList<>();
-        Collection<String> currentBackgroundSelectedList = new ArrayList<>(Arrays.asList(location.getMusicIds()));
-        for (MediaModel model : mediaModels) {
-            if (currentBackgroundSelectedList.contains(model.id.toString())) {
-                currentBackgroundUris.add(model.filePath.get());
-            }
-        }
         player.stopMediaRecord();
-        player.setMediaListOfUri(currentBackgroundUris.toArray(new String[0]));
-
-        Collection<String> currentEffectsUris = new ArrayList<>();
-        Collection<String> currentEffectsSelectedList = new ArrayList<>(Arrays.asList(location.getMusicEffectsIds()));
-        for (MediaModel model : mediaModels) {
-            if (currentEffectsSelectedList.contains(model.id.toString())) {
-                currentEffectsUris.add(model.filePath.get());
-            }
-        }
-
-        effectsPlayer.setMediaListOfUri(currentEffectsUris.toArray(new String[0]));
+        player.setMediaListOfUri(getSelectedMedia(location.getMusicIds(), true));
+        effectsPlayer.setMediaListOfUri(getSelectedMedia(location.getMusicEffectsIds(), true));
     }
 
     @Override
@@ -335,8 +338,8 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
             currentSelectedList = new ArrayList<>(Arrays.asList(location.getMusicEffectsIds()));
         }
 
-        MediaModel selectedModel = library.getFilesLibraryList()[listItemId - 1];
-        String selectedId = selectedModel.id.toString();
+        CommonHolderPayloadData listMediaItem = mediaFilesList.controls.getItemByListId(listItemId);
+        String selectedId = listMediaItem.getId().toString();
         if (!currentSelectedList.contains(selectedId)) {
             currentSelectedList.add(selectedId);
         } else {
@@ -383,7 +386,11 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
     @Override
     public String getCurrentTrackName() {
-        return library.getFileNameByPosition(player.getCurrentAudioIndex());
+        String[] fileNamesList = getSelectedMedia(location.getMusicIds(), false);
+        if (fileNamesList.length == 0) {
+            return "";
+        }
+        return fileNamesList[player.getCurrentAudioIndex()];
     }
 
     @Override
