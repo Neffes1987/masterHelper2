@@ -19,28 +19,13 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
     return new LocationModel(this, null, "", "", null, "", "");
   }
 
+
   @Override
-  public LocationModel[] list(int offset, int limit) {
-    LocationContract contract = (LocationContract) getContract();
+  public LocationModel[] list(int offset, int limit, String searchStr) {
     ArrayList<LocationModel> dbRecords = new ArrayList<>();
-    Cursor dbList = getContract().list(offset, limit);
-    while (dbList.moveToNext()){
-      int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
-      int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
-      int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
-      int previewIdIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
-      int previewUrlIndex = dbList.getColumnIndex("previewUrl");
-      int musicListIndex = dbList.getColumnIndex(contract.musicList.getColumnTitle());
-      LocationModel foundedRecord = getDraftRecord();
-      foundedRecord.id.fromString(dbList.getString(idIndex));
-      foundedRecord.name.set(dbList.getString(nameIndex));
-      foundedRecord.description.set(dbList.getString(descriptionIndex));
-
-      foundedRecord.previewId.set(dbList.getString(previewIdIndex));
-      foundedRecord.previewUrl.set(previewUrlIndex != -1 ? dbList.getString(previewUrlIndex) : null);
-      foundedRecord.musicList.set(dbList.getString(musicListIndex));
-
-      dbRecords.add(foundedRecord);
+    Cursor dbList = ((LocationContract) getContract()).list(searchStr);
+    while (dbList.moveToNext()) {
+      dbRecords.add(extractDataFromCursor(dbList));
     }
     dbList.close();
     setItemsToCache(dbRecords, offset);
@@ -51,32 +36,36 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
     DataID dataID = new DataID();
     dataID.fromString(id);
     LocationModel event = findRecordById(dataID);
-    if(event != null){
+    if (event != null) {
       return event;
     }
-
-    LocationContract contract = (LocationContract) getContract();
-    LocationModel foundedRecord = getDraftRecord();
     Cursor dbList = getContract().getRecord(id);
-    while (dbList.moveToNext()){
-      int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
-      int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
-      int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
-      int previewIdIndex = dbList.getColumnIndex(contract.previewUrlId.getColumnTitle());
-      int previewUrlIndex = dbList.getColumnIndex("previewUrl");
-      int musicListIndex = dbList.getColumnIndex(contract.musicList.getColumnTitle());
-      int musicEffectsListIndex = dbList.getColumnIndex(contract.musicEffects.getColumnTitle());
-
-      foundedRecord.id.fromString(dbList.getString(idIndex));
-      foundedRecord.name.set(dbList.getString(nameIndex));
-      foundedRecord.description.set(dbList.getString(descriptionIndex));
-
-      foundedRecord.previewId.set(dbList.getString(previewIdIndex));
-      foundedRecord.previewUrl.set(previewUrlIndex != -1 ? dbList.getString(previewUrlIndex) : null);
-      foundedRecord.musicList.set(dbList.getString(musicListIndex));
-      foundedRecord.musicEffects.set(dbList.getString(musicEffectsListIndex));
-    }
+    LocationModel foundedRecord = extractDataFromCursor(dbList);
     dbList.close();
+    setItemToCache(foundedRecord, 0);
+    return foundedRecord;
+  }
+
+  @Override
+  public LocationModel extractDataFromCursor(Cursor cursor) {
+    LocationModel foundedRecord = getDraftRecord();
+    LocationContract contract = (LocationContract) getContract();
+    int idIndex = cursor.getColumnIndex(LocationContract.id.getColumnTitle());
+    int nameIndex = cursor.getColumnIndex(contract.title.getColumnTitle());
+    int descriptionIndex = cursor.getColumnIndex(contract.description.getColumnTitle());
+    int previewIdIndex = cursor.getColumnIndex(contract.previewUrlId.getColumnTitle());
+    int previewUrlIndex = cursor.getColumnIndex("previewUrl");
+    int musicListIndex = cursor.getColumnIndex(contract.musicList.getColumnTitle());
+    int musicEffectsListIndex = cursor.getColumnIndex(contract.musicEffects.getColumnTitle());
+
+    foundedRecord.id.fromString(cursor.getString(idIndex));
+    foundedRecord.name.set(cursor.getString(nameIndex));
+    foundedRecord.description.set(cursor.getString(descriptionIndex));
+
+    foundedRecord.previewId.set(cursor.getString(previewIdIndex));
+    foundedRecord.previewUrl.set(previewUrlIndex != -1 ? cursor.getString(previewUrlIndex) : null);
+    foundedRecord.musicList.set(cursor.getString(musicListIndex));
+    foundedRecord.musicEffects.set(musicEffectsListIndex != -1 ? cursor.getString(musicEffectsListIndex) : null);
     setItemToCache(foundedRecord, 0);
     return foundedRecord;
   }

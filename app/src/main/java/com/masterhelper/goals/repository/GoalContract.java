@@ -75,12 +75,12 @@ public class GoalContract extends AbstractContract<GoalModel> {
   @Override
   public Cursor list(int offset, int limit) {
     String where = externalId.getColumnTitle() + "='" + this.plotId + "'";
-    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), id.getColumnTitle() + " ASC ", where));
+    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), title.getColumnTitle() + " ASC ", where));
   }
 
   public Cursor listByIds(String listOfGoalIds) {
     String where = id.getColumnTitle() + " IN (" + listOfGoalIds + ")";
-    return getDbHelpers().read(getContract().selectRecords(0, 0, getContract().getColumnsTitles(), id.getColumnTitle() + " ASC ", where));
+    return getDbHelpers().read(getContract().selectRecords(0, 0, getContract().getColumnsTitles(), title.getColumnTitle() + " ASC ", where));
   }
 
   @Override

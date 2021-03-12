@@ -96,7 +96,7 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
 
     // init page components
     dialog = initDialog(journeyRepository.getNameLength());
-    list = initList(journeyRepository.list(0,0));
+    list = initList(journeyRepository.list(0, 0, null));
     initNewItemButton(dialog);
   }
 

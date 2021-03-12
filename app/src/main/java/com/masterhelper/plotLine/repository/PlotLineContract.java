@@ -105,7 +105,8 @@ public class PlotLineContract extends AbstractContract<PlotLineModel> {
 
     String query = "SELECT " + locationFields + "," + currentGoalName
       + " FROM " + TABLE_NAME + " LEFT OUTER JOIN " + GoalContract.TABLE_NAME
-      + " ON " + TABLE_NAME + "." + plotProgress.getColumnTitle() + "=" + GoalContract.TABLE_NAME + "." + GoalContract.id.getColumnTitle();
+      + " ON " + TABLE_NAME + "." + plotProgress.getColumnTitle() + "=" + GoalContract.TABLE_NAME + "." + GoalContract.id.getColumnTitle()
+      + " ORDER BY " + TABLE_NAME + "." + name.getColumnTitle() + " ASC ";
     return getDbHelpers().read(query);
 
   }
@@ -113,6 +114,6 @@ public class PlotLineContract extends AbstractContract<PlotLineModel> {
   @Override
   public Cursor getRecord(String recordId) {
     String where = id.getColumnTitle() + "='" + recordId + "'";
-    return getDbHelpers().read(getContract().selectRecords(0, 0, getContract().getColumnsTitles(), id.getColumnTitle() + " DESC ", where));
+    return getDbHelpers().read(getContract().selectRecords(0, 0, getContract().getColumnsTitles(), name.getColumnTitle() + " ASC ", where));
   }
 }

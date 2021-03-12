@@ -19,16 +19,16 @@ public class JourneyRepository extends AbstractRepository<JourneyModel> {
   }
 
   @Override
-  public JourneyModel[] list(int offset, int limit) {
+  public JourneyModel[] list(int offset, int limit, String searchStr) {
     List<JourneyModel> cacheList = getCacheList(offset, limit);
-    if(cacheList != null && cacheList.size() > 0){
+    if (cacheList != null && cacheList.size() > 0) {
       return cacheList.toArray(new JourneyModel[0]);
     }
 
     JourneyContract contract = (JourneyContract) getContract();
     ArrayList<JourneyModel> dbRecords = new ArrayList<>();
     Cursor dbList = contract.list(offset, limit);
-    while (dbList.moveToNext()){
+    while (dbList.moveToNext()) {
       int idIndex = dbList.getColumnIndex(JourneyContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
 
@@ -44,7 +44,12 @@ public class JourneyRepository extends AbstractRepository<JourneyModel> {
     return null;
   }
 
-  public int getNameLength(){
+  @Override
+  public JourneyModel extractDataFromCursor(Cursor cursor) {
+    return null;
+  }
+
+  public int getNameLength() {
     return JourneyContract.NAME_COLUMN_LENGTH;
   }
 }

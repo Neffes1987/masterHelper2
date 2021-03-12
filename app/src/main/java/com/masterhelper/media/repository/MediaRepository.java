@@ -21,7 +21,7 @@ public class MediaRepository extends AbstractRepository<MediaModel> {
   }
 
   @Override
-  public MediaModel[] list(int offset, int limit) {
+  public MediaModel[] list(int offset, int limit, String searchStr) {
     return new MediaModel[0];
   }
 
@@ -77,7 +77,12 @@ public class MediaRepository extends AbstractRepository<MediaModel> {
     return foundedRecord;
   }
 
-  public void delete(DataID id){
+  @Override
+  public MediaModel extractDataFromCursor(Cursor cursor) {
+    return null;
+  }
+
+  public void delete(DataID id) {
     MediaContract contract = (MediaContract) getContract();
     contract.deleteRecord(id);
   }

@@ -24,11 +24,11 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
   }
 
   @Override
-  public GoalModel[] list(int offset, int limit) {
+  public GoalModel[] list(int offset, int limit, String searchStr) {
     GoalContract contract = (GoalContract) getContract();
     ArrayList<GoalModel> dbRecords = new ArrayList<>();
     Cursor dbList = getContract().list(offset, limit);
-    while (dbList.moveToNext()){
+    while (dbList.moveToNext()) {
       int idIndex = dbList.getColumnIndex(GoalContract.id.getColumnTitle());
       int nameIndex = dbList.getColumnIndex(contract.title.getColumnTitle());
       int descriptionIndex = dbList.getColumnIndex(contract.description.getColumnTitle());
@@ -114,10 +114,16 @@ public class GoalRepository extends AbstractRepository<GoalModel> {
     return foundedRecord;
   }
 
-  public int getNameLength(){
+  @Override
+  public GoalModel extractDataFromCursor(Cursor cursor) {
+    return null;
+  }
+
+  public int getNameLength() {
     return GoalContract.NAME_COLUMN_LENGTH;
   }
-  public int getDescriptionLength(){
+
+  public int getDescriptionLength() {
     return GoalContract.DESCRIPTION_COLUMN_LENGTH;
   }
 }

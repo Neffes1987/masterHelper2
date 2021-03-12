@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             tools:context=".ux.components.library.search.ComponentUISearchBar">
+
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:inputType="textPersonName"
+      android:ems="10"
+      android:id="@+id/COMPONENT_SEARCH_TEXT_FIELD_ID"
+      android:layout_weight="1"
+      android:imeOptions="actionSearch"/>
+
+    <ImageButton
+      android:src="@mipmap/clear_black_18dp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/COMPONENT_SEARCH_CLEAR_ID"
+      android:layout_weight="0"
+      style="@style/common_action_button"/>
+  </LinearLayout>
+</FrameLayout>

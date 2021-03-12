@@ -19,6 +19,16 @@
 
   <fragment
     android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.search.ComponentUISearchBar"
+    android:id="@+id/LOCATION_LIST_SEARCH_ID"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:layout="@layout/fragment_component_ui_search_bar"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/EVENTS_APP_BAR"/>
+
+  <fragment
+    android:layout_width="0dp"
     android:layout_height="0dp"
     android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
     android:id="@+id/EVENTS_LIST_ID"
@@ -26,7 +36,7 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/EVENTS_APP_BAR"/>
+    app:layout_constraintTop_toBottomOf="@+id/LOCATION_LIST_SEARCH_ID"/>
 
   <fragment
     android:layout_width="wrap_content"

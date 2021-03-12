@@ -53,12 +53,12 @@ public class MediaContract extends AbstractContract<MediaModel> {
 
   @Override
   public Cursor list(int offset, int limit) {
-    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), id.getColumnTitle() + " ASC ", null));
+    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), fileName.getColumnTitle() + " ASC ", null));
   }
 
   public Cursor listByType(String type) {
     String where = fileType.getColumnTitle() + "='" + type + "'";
-    return getDbHelpers().read(getContract().selectRecords(0, 0, getContract().getColumnsTitles(), id.getColumnTitle() + " ASC ", where));
+    return getDbHelpers().read(getContract().selectRecords(0, 0, getContract().getColumnsTitles(), fileName.getColumnTitle() + " ASC ", where));
   }
 
   @Override

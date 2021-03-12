@@ -37,7 +37,7 @@ public class JourneyContract extends AbstractContract<JourneyModel> {
 
   @Override
   public Cursor list(int offset, int limit) {
-    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), id.getColumnTitle() + " DESC ", null));
+    return getDbHelpers().read(getContract().selectRecords(offset, limit, getContract().getColumnsTitles(), title.getColumnTitle() + " ASC ", null));
   }
 
   @Override

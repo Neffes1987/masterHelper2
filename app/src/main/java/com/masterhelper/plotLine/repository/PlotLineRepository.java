@@ -26,7 +26,7 @@ public class PlotLineRepository extends AbstractRepository<PlotLineModel> {
   }
 
   @Override
-  public PlotLineModel[] list(int offset, int limit) {
+  public PlotLineModel[] list(int offset, int limit, String searchStr) {
     return new PlotLineModel[0];
   }
 
@@ -109,6 +109,11 @@ public class PlotLineRepository extends AbstractRepository<PlotLineModel> {
       setItemToCache(foundedRecord, 0);
     }
     return foundedRecord;
+  }
+
+  @Override
+  public PlotLineModel extractDataFromCursor(Cursor cursor) {
+    return null;
   }
 
   public void delete(DataID id) {

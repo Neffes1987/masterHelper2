@@ -2,6 +2,7 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.locations.repository.LocationModel;
@@ -17,6 +18,7 @@ import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemControlsListener;
+import com.masterhelper.ux.components.library.search.ISearchBar;
 
 import java.util.ArrayList;
 
@@ -24,9 +26,12 @@ import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 
 
-public class PageLocationsList extends AppMenuActivity implements SetBtnLocation, ListItemControlsListener {
+public class PageLocationsList extends AppMenuActivity implements SetBtnLocation, ListItemControlsListener, ISearchBar {
   public static final String INTENT_LOCATION_ID = "locationId";
   public static final String INTENT_LOCATION_SELECTION_MODE = "isLocationsSelectionMode";
+
+  String currentSearchStr = "";
+
   FragmentManager mn;
   LocationRepository locationRepository;
 
@@ -50,7 +55,7 @@ public class PageLocationsList extends AppMenuActivity implements SetBtnLocation
 
     initNewItemButton(isSelectionMode);
 
-    list = initList(locationRepository.list(0, 0), isSelectionMode);
+    list = initList(locationRepository.list(0, 0, null), isSelectionMode);
   }
 
   ComponentUIList initList(LocationModel[] items, boolean isSelectionMode) {
@@ -111,7 +116,7 @@ public class PageLocationsList extends AppMenuActivity implements SetBtnLocation
   @Override
   protected void onStart() {
     super.onStart();
-    list = initList(locationRepository.list(0, 0), isSelectionMode);
+    list = initList(locationRepository.list(0, 0, currentSearchStr), isSelectionMode);
   }
 
   /**
@@ -188,5 +193,11 @@ public class PageLocationsList extends AppMenuActivity implements SetBtnLocation
   @Override
   public void onPlay(int listItemId) {
 
+  }
+
+  @Override
+  public void doSearch(String searchStr) {
+    currentSearchStr = searchStr;
+    list = initList(locationRepository.list(0, 0, currentSearchStr), isSelectionMode);
   }
 }
