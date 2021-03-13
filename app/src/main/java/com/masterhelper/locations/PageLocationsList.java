@@ -7,11 +7,8 @@ import com.masterhelper.R;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
-import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
 import com.masterhelper.ux.components.library.list.CommonItem;
@@ -25,7 +22,7 @@ import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.locations.LocationLocale.getLocalizationByKey;
 
 
-public class PageLocationsList extends AppMenuActivity implements SetBtnLocation, ListItemControlsListener, ISearchBar {
+public class PageLocationsList extends AppMenuActivity implements ListItemControlsListener, ISearchBar {
   public static final String INTENT_LOCATION_ID = "locationId";
   public static final String INTENT_LOCATION_SELECTION_MODE = "isLocationsSelectionMode";
 
@@ -36,7 +33,6 @@ public class PageLocationsList extends AppMenuActivity implements SetBtnLocation
 
   LocationDialog locationDialog;
   ComponentUIList list;
-  ComponentUIFloatingButton newItemButton;
   boolean isSelectionMode;
 
 
@@ -46,13 +42,12 @@ public class PageLocationsList extends AppMenuActivity implements SetBtnLocation
     setContentView(R.layout.activity_page_locations_list);
     mn = getSupportFragmentManager();
     locationRepository = GlobalApplication.getAppDB().locationRepository;
+    setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.createLocation));
 
     isSelectionMode = getIntent().getIntExtra(INTENT_LOCATION_SELECTION_MODE, 0) == 1;
 
     UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.listCaption), null);
     locationDialog = new LocationDialog(this, locationRepository.getNameLength());
-
-    initNewItemButton(isSelectionMode);
 
     list = initList(locationRepository.list(0, 0, null), isSelectionMode);
   }
@@ -84,16 +79,6 @@ public class PageLocationsList extends AppMenuActivity implements SetBtnLocation
     list.controls.add(newItem, false);
   }
 
-  void initNewItemButton(boolean isHide) {
-    newItemButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.EVENTS_ADD_NEW_ITEM_ID));
-    if (isHide) {
-      newItemButton.controls.hide();
-      return;
-    }
-    FloatingButtonsPreset.setPreset(FloatingButtonsPreset.Presets.addNewItem, newItemButton);
-    newItemButton.controls.setOnClick(this);
-  }
-
   void openAddNewItemDialog(){
     locationDialog.initCreateState();
     locationDialog.dialog.setListener(new ComponentUIDialog.DialogClickListener() {
@@ -116,29 +101,6 @@ public class PageLocationsList extends AppMenuActivity implements SetBtnLocation
   protected void onStart() {
     super.onStart();
     list = initList(locationRepository.list(0, 0, currentSearchStr), isSelectionMode);
-  }
-
-  /**
-   * click callback for short click event
-   *
-   * @param btnId - element unique id that fired event
-   * @param tag   -
-   */
-  @Override
-  public void onClick(int btnId, String tag) {
-    if (btnId == newItemButton.controls.getId()) {
-      openAddNewItemDialog();
-    }
-  }
-
-  /**
-   * click callback for long click event
-   *
-   * @param btnId - element unique id that fired event
-   */
-  @Override
-  public void onLongClick(int btnId) {
-
   }
 
   @Override
@@ -198,5 +160,10 @@ public class PageLocationsList extends AppMenuActivity implements SetBtnLocation
   public void doSearch(String searchStr) {
     currentSearchStr = searchStr;
     list = initList(locationRepository.list(0, 0, currentSearchStr), isSelectionMode);
+  }
+
+  @Override
+  protected void onItemControl() {
+    openAddNewItemDialog();
   }
 }

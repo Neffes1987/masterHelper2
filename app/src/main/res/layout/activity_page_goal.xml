@@ -79,15 +79,6 @@
   </ScrollView>
 
   <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/GOAL_EDIT_ID"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_floating_button"
-    app:layout_constraintBottom_toTopOf="@+id/GOAL_MUSIC_PLAYER_ID"/>
-
-  <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.media.music_player.ComponentUiMusicWidget"

@@ -12,16 +12,40 @@ import com.masterhelper.media.Formats;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AppMenuActivity extends AppCompatActivity {
+  String itemControlTitle = "";
+  Menu menu;
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.app_bar_menu, menu);
+    this.menu = menu;
+    setMenuItemTitle(itemControlTitle);
     return super.onCreateOptionsMenu(menu);
+  }
+
+  void setMenuItemTitle(String title) {
+    if (menu == null || title == null) {
+      return;
+    }
+
+    MenuItem itemControl = menu.findItem(R.id.MENU_ITEMS_CONTROLS_BUTTON_ID);
+    if (itemControl == null) {
+      return;
+    }
+
+    itemControl.setTitle(title);
+    itemControl.setVisible(title.length() > 0);
+  }
+
+  protected void setItemControlTitle(String title) {
+    itemControlTitle = title;
+    setMenuItemTitle(itemControlTitle);
   }
 
   @Override
   public boolean onOptionsItemSelected(@NonNull @NotNull MenuItem item) {
     Intent openSettingsScreen;
-    switch (item.getItemId()){
+    switch (item.getItemId()) {
       case R.id.MENU_LOCATIONS_ID:
         openSettingsScreen = new Intent(this, PageLocationsList.class);
         startActivity(openSettingsScreen);
@@ -35,7 +59,12 @@ public abstract class AppMenuActivity extends AppCompatActivity {
         );
         startActivity(openSettingsScreen);
         break;
+      case R.id.MENU_ITEMS_CONTROLS_BUTTON_ID:
+        onItemControl();
+        break;
     }
     return super.onOptionsItemSelected(item);
   }
+
+  protected abstract void onItemControl();
 }

@@ -9,17 +9,13 @@ import com.masterhelper.goals.GoalLocale;
 import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.plotLine.repository.PlotLineModel;
 import com.masterhelper.plotLine.repository.PlotLineRepository;
-import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemControlsListener;
-import com.masterhelper.ux.resources.ResourceColors;
-import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.util.ArrayList;
 
@@ -46,35 +42,6 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
     return dialog;
   }
 
-
-  void initNewItemButton(ComponentUIDialog itemDialog) {
-    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.PLOT_CREATE_BTN_ID));
-    floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
-    floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
-    floatingButton.controls.setOnClick(new SetBtnLocation() {
-      @Override
-      public void onClick(int btnId, String tag) {
-        itemDialog.setTitle(PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
-        itemDialog.setListener(new ComponentUIDialog.DialogClickListener() {
-          @Override
-          public void onResolve() {
-            onCreateItem(itemDialog.pNameField.getText());
-          }
-
-          @Override
-          public void onReject() {
-
-          }
-        });
-        itemDialog.show();
-      }
-
-      @Override
-      public void onLongClick(int btnId) {
-
-      }
-    });
-  }
 
   void initList(PlotLineModel[] items) {
     list = ComponentUIList.cast(mn.findFragmentById(R.id.PLOT_LIST_ID));
@@ -104,6 +71,7 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_plots_list);
     UIToolbar.setTitle(this, PlotLocale.getLocalizationByKey(PlotLocale.Keys.caption), "");
+    setItemControlTitle(PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
     String journeyId = getIntent().getStringExtra(INTENT_JOURNEY_ID);
     mn = getSupportFragmentManager();
     goalRepository = GlobalApplication.getAppDB().goalRepository;
@@ -115,7 +83,6 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
     dialog = initDialog(
       goalRepository.getNameLength()
     );
-    initNewItemButton(dialog);
   }
 
   @Override
@@ -165,5 +132,22 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
   @Override
   public void onPlay(int listItemId) {
 
+  }
+
+  @Override
+  protected void onItemControl() {
+    dialog.setTitle(PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
+    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+      @Override
+      public void onResolve() {
+        onCreateItem(dialog.pNameField.getText());
+      }
+
+      @Override
+      public void onReject() {
+
+      }
+    });
+    dialog.show();
   }
 }

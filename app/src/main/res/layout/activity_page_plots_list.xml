@@ -28,12 +28,4 @@
     tools:layout="@layout/fragment_component_ui_list"
     app:layout_constraintBottom_toBottomOf="parent"/>
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/PLOT_CREATE_BTN_ID"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_floating_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

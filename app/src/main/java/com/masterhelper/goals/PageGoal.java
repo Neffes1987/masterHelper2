@@ -21,13 +21,10 @@ import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
-import com.masterhelper.ux.resources.ResourceColors;
-import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,46 +63,6 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
       description = ComponentUILabel.cast(mn.findFragmentById(R.id.GOAL_DESCRIPTION_ID));
     }
     description.controls.setText(newDescription);
-  }
-
-  void initUpdateButton() {
-    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.GOAL_EDIT_ID));
-    floatingButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
-    floatingButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
-    floatingButton.controls.setOnClick(new SetBtnLocation() {
-      @Override
-      public void onClick(int btnId, String tag) {
-        dialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
-        dialog.pNameField.setText(currentGoal.name.get());
-        dialog.pDescriptionField.setText(currentGoal.description.get());
-        int selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).indexOf(currentGoal.progress.get());
-        dialog.pRadioGroup.setSelectedItem(selectedProgressOption);
-        dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-          @Override
-          public void onResolve() {
-            GoalModel.GoalProgress selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).get(dialog.pRadioGroup.getSelectedItemIndex());
-            currentGoal.name.set(dialog.pNameField.getText());
-            currentGoal.description.set(dialog.pDescriptionField.getText());
-            currentGoal.progress.set(selectedProgressOption);
-            currentGoal.save();
-
-            setDescriptionLabel(currentGoal.description.get());
-            setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
-          }
-
-          @Override
-          public void onReject() {
-
-          }
-        });
-        dialog.show();
-      }
-
-      @Override
-      public void onLongClick(int btnId) {
-
-      }
-    });
   }
 
   void initSelectLocationBtn() {
@@ -190,6 +147,7 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_goal);
+    setItemControlTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
     player = GlobalApplication.getPlayer();
     effectsPlayer = GlobalApplication.getEffectsPlayer();
     String goalId = getIntent().getStringExtra(INTENT_GOAL_ID);
@@ -205,7 +163,6 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
 
     setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
     setDescriptionLabel(currentGoal.description.get());
-    initUpdateButton();
 
     initSelectLocationBtn();
 
@@ -285,5 +242,33 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
   @Override
   public boolean checkIsPlaying() {
     return player.isPlayed();
+  }
+
+  @Override
+  protected void onItemControl() {
+    dialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
+    dialog.pNameField.setText(currentGoal.name.get());
+    dialog.pDescriptionField.setText(currentGoal.description.get());
+    int selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).indexOf(currentGoal.progress.get());
+    dialog.pRadioGroup.setSelectedItem(selectedProgressOption);
+    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+      @Override
+      public void onResolve() {
+        GoalModel.GoalProgress selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).get(dialog.pRadioGroup.getSelectedItemIndex());
+        currentGoal.name.set(dialog.pNameField.getText());
+        currentGoal.description.set(dialog.pDescriptionField.getText());
+        currentGoal.progress.set(selectedProgressOption);
+        currentGoal.save();
+
+        setDescriptionLabel(currentGoal.description.get());
+        setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
+      }
+
+      @Override
+      public void onReject() {
+
+      }
+    });
+    dialog.show();
   }
 }

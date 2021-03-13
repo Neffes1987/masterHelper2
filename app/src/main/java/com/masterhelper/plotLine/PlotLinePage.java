@@ -267,4 +267,8 @@ public class PlotLinePage extends AppMenuActivity {
     return dialog;
   }
 
+  @Override
+  protected void onItemControl() {
+
+  }
 }

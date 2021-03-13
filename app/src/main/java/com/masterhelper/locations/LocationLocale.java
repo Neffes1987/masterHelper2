@@ -23,6 +23,8 @@ public abstract class LocationLocale {
         return context.getResources().getString(R.string.event_update_title);
       case shortDescription:
         return context.getResources().getString(R.string.location_description);
+      case saveLocation:
+        return context.getResources().getString(R.string.event_update_media_title);
     }
     return "";
   }
@@ -36,5 +38,6 @@ public abstract class LocationLocale {
     shortDescription,
     createLocation,
     updateLocation,
+    saveLocation,
   }
 }

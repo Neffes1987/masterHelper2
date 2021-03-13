@@ -8,11 +8,8 @@ import com.masterhelper.journeys.repository.JourneyModel;
 import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.plotLine.PagePlotsList;
-import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
-import com.masterhelper.ux.components.library.buttons.floating.FloatingButtonsPreset;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
 import com.masterhelper.ux.components.library.list.CommonItem;
@@ -40,34 +37,6 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
     return dialog;
   }
 
-  void initNewItemButton(ComponentUIDialog itemDialog){
-    ComponentUIFloatingButton floatingButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.JOURNEY_ADD_NEW_ITEM_BUTTON));
-    FloatingButtonsPreset.setPreset(FloatingButtonsPreset.Presets.addNewItem, floatingButton);
-    floatingButton.controls.setOnClick(new SetBtnLocation() {
-      @Override
-      public void onClick(int btnId, String tag) {
-        itemDialog.setTitle(getLocalizationByKey(JourneyLocale.Keys.createJourney));
-        itemDialog.setListener(new ComponentUIDialog.DialogClickListener() {
-          @Override
-          public void onResolve() {
-            onCreateItem(itemDialog.pNameField.getText());
-          }
-
-          @Override
-          public void onReject() {
-
-          }
-        });
-        itemDialog.show();
-      }
-
-      @Override
-      public void onLongClick(int btnId) {
-
-      }
-    });
-  }
-
   ComponentUIList initList(JourneyModel[] items) {
     ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.JOURMEY_ITEMS_LIST));
     ArrayList<CommonItem.Flags> flags = new ArrayList<>();
@@ -89,6 +58,7 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_journey_list);
+    setItemControlTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.createJourney));
     mn = getSupportFragmentManager();
     journeyRepository = GlobalApplication.getAppDB().journeyRepository;
 
@@ -97,7 +67,6 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
     // init page components
     dialog = initDialog(journeyRepository.getNameLength());
     list = initList(journeyRepository.list(0, 0, null));
-    initNewItemButton(dialog);
   }
 
   @Override
@@ -141,5 +110,22 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
   @Override
   public void onPlay(int listItemId) {
 
+  }
+
+  @Override
+  protected void onItemControl() {
+    dialog.setTitle(getLocalizationByKey(JourneyLocale.Keys.createJourney));
+    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
+      @Override
+      public void onResolve() {
+        onCreateItem(dialog.pNameField.getText());
+      }
+
+      @Override
+      public void onReject() {
+
+      }
+    });
+    dialog.show();
   }
 }

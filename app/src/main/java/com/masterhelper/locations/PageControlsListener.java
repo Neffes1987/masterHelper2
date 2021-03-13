@@ -20,7 +20,6 @@ import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
-import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
@@ -28,8 +27,6 @@ import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemControlsListener;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
-import com.masterhelper.ux.resources.ResourceColors;
-import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,7 +42,6 @@ import static com.masterhelper.ux.components.library.list.CommonItem.Flags.showP
 
 public class PageControlsListener extends AppMenuActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemControlsListener, IMusicPlayerWidget {
     private int currentSelectedTab = 1;
-    private ComponentUIFloatingButton editButton;
     private ComponentUILabel description;
     private ComponentUILabel name;
     private ComponentUIImage previewControl;
@@ -69,14 +65,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     LocationRepository repository;
     MediaRepository mediaRepository;
     AppFilesLibrary library;
-
-    void initEditItemButton() {
-        editButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.LOCATION_EDIT_BTN));
-        editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
-        editButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
-        editButton.controls.setOnClick(this);
-        editButton.controls.setId(View.generateViewId());
-    }
 
     void initImageWidget(){
         previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.LOCATION_PREVIEW_ID));
@@ -126,8 +114,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         effectsPlayer = GlobalApplication.getEffectsPlayer();
 
         mn = getSupportFragmentManager();
-        initEditItemButton();
-
 
         initImageWidget();
         initDescriptionLabel();
@@ -165,23 +151,7 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
     @Override
     public void onClick(int btnId, String tag) {
-        if (btnId == editButton.controls.getId() && currentSelectedTab == 1) {
-            locationDialog.pNameField.setText(location.name.get());
-            locationDialog.pDescriptionField.setText(location.description.get());
-            locationDialog.setListener(this);
-            locationDialog.show();
-        }
 
-        if (btnId == editButton.controls.getId() && currentSelectedTab == 2) {
-            location.save();
-
-            reInitMusicPlayer();
-            setSoundsMusicList(true);
-        }
-        if (btnId == editButton.controls.getId() && currentSelectedTab == 3) {
-            location.save();
-            setSoundsMusicList(false);
-        }
     }
 
     @Override
@@ -264,20 +234,20 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         currentSelectedTab = newCurrentTab;
         switch (newCurrentTab) {
             case 1:
+                setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.updateLocation));
                 setVisibility(meta, true);
                 setVisibility(music, false);
-                editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.pencil));
                 break;
             case 2:
                 setVisibility(meta, false);
                 setVisibility(music, true);
-                editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.done));
+                setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.saveLocation));
                 setSoundsMusicList(true);
                 break;
             case 3:
                 setVisibility(meta, false);
                 setVisibility(music, true);
-                editButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.done));
+                setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.saveLocation));
                 setSoundsMusicList(false);
                 break;
         }
@@ -396,5 +366,28 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     @Override
     public boolean checkIsPlaying() {
         return player.isPlayed();
+    }
+
+
+    @Override
+    protected void onItemControl() {
+        if (currentSelectedTab == 1) {
+            locationDialog.pNameField.setText(location.name.get());
+            locationDialog.pDescriptionField.setText(location.description.get());
+            locationDialog.setListener(this);
+            locationDialog.show();
+        }
+
+        if (currentSelectedTab == 2) {
+            location.save();
+
+            reInitMusicPlayer();
+            setSoundsMusicList(true);
+        }
+
+        if (currentSelectedTab == 3) {
+            location.save();
+            setSoundsMusicList(false);
+        }
     }
 }

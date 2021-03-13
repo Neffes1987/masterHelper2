@@ -76,6 +76,7 @@
   <string name="location_tab_goals">Цели</string>
   <string name="event_create_title">Создать локацию</string>
   <string name="event_update_title">Изменить локацию</string>
+  <string name="event_update_media_title">Сохранить звуки локации</string>
 
   <!-- dialogs -->
   <string name="dialog_resolve">Применить</string>
@@ -96,5 +97,6 @@
   <string name="location_popup_setting">Список локаций</string>
   <string name="sounds_popup_setting">Библиотека звуков</string>
   <string name="create_popup_setting">Создать</string>
+  <string name="update_popup_setting">Изменить</string>
 
 </resources>

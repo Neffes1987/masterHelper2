@@ -38,13 +38,4 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/LOCATION_LIST_SEARCH_ID"/>
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/EVENTS_ADD_NEW_ITEM_ID"
-    tools:layout="@layout/fragment_component_ui_floating_button"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="@+id/EVENTS_LIST_ID"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
