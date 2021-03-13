@@ -40,7 +40,10 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
       return event;
     }
     Cursor dbList = getContract().getRecord(id);
-    LocationModel foundedRecord = extractDataFromCursor(dbList);
+    LocationModel foundedRecord = getDraftRecord();
+    while (dbList.moveToNext()) {
+      foundedRecord = extractDataFromCursor(dbList);
+    }
     dbList.close();
     setItemToCache(foundedRecord, 0);
     return foundedRecord;

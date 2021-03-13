@@ -140,14 +140,6 @@ public class AppFilesLibrary implements IAppFilesLibrary {
     return new File(model.filePath.get());
   }
 
-  public String getFileNameByPosition(int position) {
-    if (filesList.size() == 0) {
-      return null;
-    }
-    MediaModel model = filesList.get(position);
-    return model.fileName.get();
-  }
-
   @Override
   public MediaModel[] getFilesLibraryList() {
     return filesList.toArray(new MediaModel[0]);

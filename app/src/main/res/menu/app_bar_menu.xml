@@ -7,4 +7,7 @@
   <item
     android:title="@string/sounds_popup_setting"
     android:id="@+id/MENU_ADD_SOUNDS_ID"/>
+  <item
+    android:title="@string/create_popup_setting"
+    android:id="@+id/MENU_CREATE_BUTTON_ID"/>
 </menu>

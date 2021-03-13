@@ -56,7 +56,7 @@ public class ComponentUISearchBar extends Fragment {
       boolean isEnterPressed = keyCode == KeyEvent.KEYCODE_ENTER;
 
       if (isKeyDown && isEnterPressed) {
-        searchBarParentActivity.doSearch(textField.getText().toString());
+        searchBarParentActivity.doSearch(textField.getText().toString().toLowerCase());
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         return false;
       }

@@ -2,7 +2,6 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
 import com.masterhelper.locations.repository.LocationModel;

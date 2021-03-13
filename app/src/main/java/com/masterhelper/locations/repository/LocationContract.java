@@ -77,10 +77,9 @@ public class LocationContract extends AbstractContract<LocationModel> {
       + " ON " + TABLE_NAME + "." + previewUrlId.getColumnTitle() + "=" + MediaContract.TABLE_NAME + "." + MediaContract.id.getColumnTitle();
 
     if (searchString != null && searchString.length() > 3) {
-      query += " WHERE " + TABLE_NAME + "." + title.getColumnTitle() + " LIKE '" + searchString + "'";
+      query += " WHERE " + TABLE_NAME + "." + title.getColumnTitle() + " LIKE '%" + searchString + "%'";
     }
     query += " ORDER BY " + TABLE_NAME + "." + title.getColumnTitle() + " ASC ";
-    Log.i("TAG", "list: " + query);
     return getDbHelpers().read(query);
   }
 
