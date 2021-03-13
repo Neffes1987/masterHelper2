@@ -84,7 +84,7 @@ public class ComponentUIDialog extends UXElement<View> {
     dialogBuilder
       .setPositiveButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.resolveBtn), (d, v) -> {
         if(listener != null){
-          listener.onResolve();
+          listener.onResolve("");
           clean();
         }
       })
@@ -114,8 +114,4 @@ public class ComponentUIDialog extends UXElement<View> {
     pDialog.hide();
   }
 
-  /** callbacks for dialog buttons */
-  public interface DialogClickListener{
-    void onResolve();
-  }
 }

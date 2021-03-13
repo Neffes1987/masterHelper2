@@ -10,7 +10,7 @@ import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.plotLine.PagePlotsList;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.dialog.TextDialog;
 import com.masterhelper.ux.components.library.list.*;
 
 import java.util.ArrayList;
@@ -22,17 +22,9 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
   public static final String INTENT_JOURNEY_ID = "journeyId";
   FragmentManager mn;
 
-  ComponentUIDialog dialog;
   ComponentUIList list;
   JourneyRepository journeyRepository;
 
-  ComponentUIDialog initDialog(int maxNameLength) {
-    ComponentUIDialog dialog = new ComponentUIDialog(this);
-    dialog.pNameField.setText("");
-    dialog.pNameField.setMaxLength(maxNameLength);
-    dialog.pNameField.show();
-    return dialog;
-  }
 
   ComponentUIList initList(JourneyModel[] items) {
     ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.JOURMEY_ITEMS_LIST));
@@ -41,14 +33,6 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
     flags.add(CommonItem.Flags.showEdit);
     list.controls.setAdapter(convertFromModels(items), this, flags);
     return list;
-  }
-
-  void onCreateItem(String text) {
-    JourneyModel newJourney = journeyRepository.getDraftRecord();
-    newJourney.name.set(text);
-    CommonHolderPayloadData newItem = new CommonHolderPayloadData(newJourney.id, text, "");
-    list.controls.add(newItem, true);
-    newJourney.save();
   }
 
   @Override
@@ -61,23 +45,24 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
 
     UIToolbar.setTitle(this, getLocalizationByKey(JourneyLocale.Keys.listCaption), null);
 
-    // init page components
-    dialog = initDialog(journeyRepository.getNameLength());
     list = initList(journeyRepository.list(0, 0, null));
   }
 
 
   public void onUpdate(int listItemId) {
-    dialog.setTitle(getLocalizationByKey(JourneyLocale.Keys.updateJourney));
+    String updateTitle = getLocalizationByKey(JourneyLocale.Keys.updateJourney);
+    int nameLength = journeyRepository.getNameLength();
     CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
     JourneyModel item = journeyRepository.getRecord(listItem.getId());
-    dialog.pNameField.setText(item.name.get());
-    dialog.setListener(() -> {
-      item.name.set(dialog.pNameField.getText());
-      listItem.setTitle(dialog.pNameField.getText());
+    String defaultValue = item.name.get();
+
+    TextDialog dialog = new TextDialog(this, updateTitle, nameLength, defaultValue, (result) -> {
+      item.name.set(result);
+      listItem.setTitle(result);
       item.save();
       list.controls.update(listItem, listItemId);
     });
+
     dialog.show();
   }
 
@@ -96,8 +81,16 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
 
   @Override
   protected void onAppBarMenuItemControl() {
-    dialog.setTitle(getLocalizationByKey(JourneyLocale.Keys.createJourney));
-    dialog.setListener(() -> onCreateItem(dialog.pNameField.getText()));
+    String updateTitle = getLocalizationByKey(JourneyLocale.Keys.createJourney);
+    int nameLength = journeyRepository.getNameLength();
+    TextDialog dialog = new TextDialog(this, updateTitle, nameLength, "", (result) -> {
+      JourneyModel newJourney = journeyRepository.getDraftRecord();
+      newJourney.name.set(result);
+      CommonHolderPayloadData newItem = new CommonHolderPayloadData(newJourney.id, result, "");
+      list.controls.add(newItem, true);
+      newJourney.save();
+    });
+
     dialog.show();
   }
 

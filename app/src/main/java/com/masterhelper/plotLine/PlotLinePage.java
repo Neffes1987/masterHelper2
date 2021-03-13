@@ -15,7 +15,7 @@ import com.masterhelper.plotLine.repository.PlotLineModel;
 import com.masterhelper.plotLine.repository.PlotLineRepository;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.dialog.TextDialog;
 
 import java.util.HashMap;
 
@@ -48,7 +48,6 @@ public class PlotLinePage extends AppMenuActivity {
   PlotLineRepository plotLineRepository;
   GoalRepository goalRepository;
   HashMap<String, GoalModel> goals;
-  ComponentUIDialog dialog;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +101,6 @@ public class PlotLinePage extends AppMenuActivity {
     actVCheckboxView.setText(initActName(currentPlotLine.getActVPlotLinePointId()));
 
     initProgress(currentPlotLine.getPlotLineProgress());
-    dialog = initDialog(goalRepository.getNameLength());
   }
 
   String initActName(String actId) {
@@ -220,43 +218,33 @@ public class PlotLinePage extends AppMenuActivity {
   }
 
   void showDialog(GoalModel model, int goalViewId, String title) {
-    dialog.setTitle(title);
-    dialog.pNameField.setText(model.name.get());
-    dialog.setListener(() -> {
-      String newTitle = dialog.pNameField.getText();
-      model.name.set(newTitle);
+    String moduleId = model.id.toString();
+    TextDialog dialog = new TextDialog(this, title, goalRepository.getNameLength(), model.name.get(), (result) -> {
+      model.name.set(result);
       model.save();
       CheckBox act = findViewById(goalViewId);
-      act.setText(newTitle);
+      act.setText(result);
 
       switch (goalViewId) {
         case actICheckboxID:
-          currentPlotLine.setActIPlotPoint(model.id.toString());
+          currentPlotLine.setActIPlotPoint(moduleId);
           break;
         case actIICheckboxID:
-          currentPlotLine.setActIIPlotPoint(model.id.toString());
+          currentPlotLine.setActIIPlotPoint(moduleId);
           break;
         case actIIICheckboxID:
-          currentPlotLine.setActIIIPlotPoint(model.id.toString());
+          currentPlotLine.setActIIIPlotPoint(moduleId);
           break;
         case actIVCheckboxID:
-          currentPlotLine.setActIVPlotPoint(model.id.toString());
+          currentPlotLine.setActIVPlotPoint(moduleId);
           break;
         case actVCheckboxID:
-          currentPlotLine.setActVPlotPoint(model.id.toString());
+          currentPlotLine.setActVPlotPoint(moduleId);
           break;
       }
       currentPlotLine.save();
     });
     dialog.show();
-  }
-
-  ComponentUIDialog initDialog(int maxNameLength) {
-    ComponentUIDialog dialog = new ComponentUIDialog(this);
-    dialog.pNameField.setText("");
-    dialog.pNameField.setMaxLength(maxNameLength);
-    dialog.pNameField.show();
-    return dialog;
   }
 
   @Override

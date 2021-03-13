@@ -22,6 +22,7 @@ import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.dialog.DialogClickListener;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.list.*;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
@@ -36,9 +37,8 @@ import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_IN
 import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.locations.PageLocationsList.INTENT_LOCATION_ID;
 import static com.masterhelper.ux.components.library.list.CommonItem.Flags.*;
-import static com.masterhelper.ux.components.library.list.CommonItem.Flags.showPlay;
 
-public class PageControlsListener extends AppMenuActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemControlsListener, IMusicPlayerWidget {
+public class PageControlsListener extends AppMenuActivity implements SetBtnLocation, DialogClickListener, ITabs, ListItemControlsListener, IMusicPlayerWidget {
     private int currentSelectedTab = 1;
     private ComponentUILabel description;
     private ComponentUIImage previewControl;
@@ -157,7 +157,7 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     }
 
     @Override
-    public void onResolve() {
+    public void onResolve(String dialogTitle) {
         location.name.set(locationDialog.pNameField.getText());
         location.description.set(locationDialog.pDescriptionField.getText());
         location.save();

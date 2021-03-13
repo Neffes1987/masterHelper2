@@ -20,7 +20,7 @@ import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.dialog.TextDialog;
 import com.masterhelper.ux.components.library.list.*;
 
 import java.io.File;
@@ -55,7 +55,6 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
   private Layout layout;
   private ComponentUIList list;
   private FragmentManager mn;
-  ComponentUIDialog dialog;
 
   private int currentAudioTrack = 0;
 
@@ -65,21 +64,6 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
 
   public int getCurrentAudioTrack() {
     return currentAudioTrack;
-  }
-
-  void initAlertDialog() {
-    dialog.pNameLabel.hide();
-    dialog.pNameField.hide();
-    dialog.pDescriptionLabel.hide();
-    dialog.pDescriptionField.hide();
-    dialog.setTitle(FilesLocale.getLocalizationByKey(FilesLocale.Keys.removeSourceFiles));
-  }
-
-  void initEditDialog() {
-    dialog.pNameField.show();
-    dialog.pNameField.setText("");
-    dialog.pNameLabel.show();
-    dialog.setTitle(FilesLocale.getLocalizationByKey(FilesLocale.Keys.editFileName));
   }
 
   void setFormat(String format) {
@@ -169,7 +153,6 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
     stopTrack();
     ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
     list = initList(libraryFileDataArrayList);
-    dialog = new ComponentUIDialog(this);
   }
 
   @Override
@@ -197,14 +180,13 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
   }
 
   public void onUpdate(int listItemId) {
-    initEditDialog();
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
-    dialog.pNameLabel.setText(item.getTitle());
-    dialog.setListener(() -> {
-      library.updateFileName(item.getId().toString(), dialog.pNameField.getText());
-      item.setTitle(dialog.pNameField.getText());
+    TextDialog dialog = new TextDialog(this, FilesLocale.getLocalizationByKey(FilesLocale.Keys.editFileName), 0, item.getTitle(), (result) -> {
+      library.updateFileName(item.getId().toString(), result);
+      item.setTitle(result);
       list.controls.update(item, listItemId);
     });
+
     dialog.show();
   }
 
@@ -341,9 +323,12 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
     library.updateMediaLibrary(format);
     String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());
     list = initList(getLibraryItems(library.getFilesLibraryList(), currentSelectedFiles));
-    initAlertDialog();
-    dialog.setListener(() -> library.removeSourceFilesBunch(selectedFilesPaths.toArray(new Uri[0])));
-    dialog.show();
+
+    String alertTitle = FilesLocale.getLocalizationByKey(FilesLocale.Keys.removeSourceFiles);
+
+    TextDialog dialog = new TextDialog(this, alertTitle, 0, "", (result) -> library.removeSourceFilesBunch(selectedFilesPaths.toArray(new Uri[0])));
+
+    dialog.alert();
   }
 
 }

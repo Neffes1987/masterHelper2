@@ -251,7 +251,7 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
     dialog.pDescriptionField.setText(currentGoal.description.get());
     int selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).indexOf(currentGoal.progress.get());
     dialog.pRadioGroup.setSelectedItem(selectedProgressOption);
-    dialog.setListener(() -> {
+    dialog.setListener((title) -> {
       GoalModel.GoalProgress selectedProgressOption1 = Arrays.asList(GoalModel.dialogProgressOptionsValues).get(dialog.pRadioGroup.getSelectedItemIndex());
       currentGoal.name.set(dialog.pNameField.getText());
       currentGoal.description.set(dialog.pDescriptionField.getText());

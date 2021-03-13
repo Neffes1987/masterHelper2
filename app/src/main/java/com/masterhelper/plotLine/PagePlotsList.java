@@ -11,7 +11,7 @@ import com.masterhelper.plotLine.repository.PlotLineModel;
 import com.masterhelper.plotLine.repository.PlotLineRepository;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
+import com.masterhelper.ux.components.library.dialog.TextDialog;
 import com.masterhelper.ux.components.library.list.*;
 
 import java.util.ArrayList;
@@ -25,19 +25,6 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
   GoalRepository goalRepository;
   PlotLineRepository plotLineRepository;
   ComponentUIList list;
-
-  ComponentUIDialog dialog;
-
-  ComponentUIDialog initDialog(int nameMaxLength) {
-    ComponentUIDialog dialog = new ComponentUIDialog(this);
-    dialog.pNameLabel.show();
-    dialog.pNameLabel.setText(PlotLocale.getLocalizationByKey(PlotLocale.Keys.name));
-
-    dialog.pNameField.setText("");
-    dialog.pNameField.setMaxLength(nameMaxLength);
-    dialog.pNameField.show();
-    return dialog;
-  }
 
 
   void initList(PlotLineModel[] items) {
@@ -55,14 +42,6 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
     list.controls.setAdapter(listItems, this, flags);
   }
 
-  private void onCreateItem(String text) {
-    PlotLineModel newPlot = plotLineRepository.getDraftRecord();
-    newPlot.name.set(text);
-    newPlot.save();
-    CommonHolderPayloadData newItem = new CommonHolderPayloadData(newPlot.id, text, "");
-    list.controls.add(newItem, false);
-  }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -76,10 +55,6 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
 
     goalRepository.setPlotId(journeyId);
     plotLineRepository.setJourneyId(journeyId);
-
-    dialog = initDialog(
-      goalRepository.getNameLength()
-    );
   }
 
   @Override
@@ -89,14 +64,15 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
   }
 
   public void onUpdate(int listItemId) {
-    dialog.setTitle("");
     CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
     PlotLineModel item = plotLineRepository.getRecord(listItem.getId());
-    dialog.pNameField.setText(item.name.get());
-    dialog.setListener(() -> {
-      item.name.set(dialog.pNameField.getText());
+
+    String updateTitle = PlotLocale.getLocalizationByKey(PlotLocale.Keys.create);
+
+    TextDialog dialog = new TextDialog(this, updateTitle, 0, item.name.get(), (result) -> {
+      item.name.set(result);
       item.save();
-      listItem.setTitle(dialog.pNameField.getText());
+      listItem.setTitle(result);
       list.controls.update(listItem, listItemId);
     });
     dialog.show();
@@ -117,8 +93,16 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
 
   @Override
   protected void onAppBarMenuItemControl() {
-    dialog.setTitle(PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
-    dialog.setListener(() -> onCreateItem(dialog.pNameField.getText()));
+    String createTitle = PlotLocale.getLocalizationByKey(PlotLocale.Keys.create);
+
+    TextDialog dialog = new TextDialog(this, createTitle, 0, "", (result) -> {
+      PlotLineModel newPlot = plotLineRepository.getDraftRecord();
+      newPlot.name.set(result);
+      newPlot.save();
+      CommonHolderPayloadData newItem = new CommonHolderPayloadData(newPlot.id, result, "");
+      list.controls.add(newItem, false);
+    });
+
     dialog.show();
   }
 

@@ -9,6 +9,7 @@ import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
+import com.masterhelper.ux.components.library.dialog.TextDialog;
 import com.masterhelper.ux.components.library.list.*;
 import com.masterhelper.ux.components.library.search.ISearchBar;
 
@@ -27,7 +28,6 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
   FragmentManager mn;
   LocationRepository locationRepository;
 
-  LocationDialog locationDialog;
   ComponentUIList list;
   boolean isSelectionMode;
 
@@ -44,7 +44,6 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
     isSelectionMode = getIntent().getIntExtra(INTENT_LOCATION_SELECTION_MODE, 0) == 1;
 
     UIToolbar.setTitle(this, getLocalizationByKey(LocationLocale.Keys.listCaption), null);
-    locationDialog = new LocationDialog(this, locationRepository.getNameLength());
 
     list = initList(locationRepository.list(0, 0, null), isSelectionMode);
   }
@@ -67,22 +66,6 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
     return list;
   }
 
-  private void onCreateItem(String text) {
-    LocationModel newEvent = locationRepository.getDraftRecord();
-    newEvent.name.set(text);
-    newEvent.description.set("");
-    newEvent.save();
-    CommonHolderPayloadData newItem = new CommonHolderPayloadData(newEvent.id, text, "");
-    list.controls.add(newItem, false);
-  }
-
-  void openAddNewItemDialog(){
-    locationDialog.initCreateState();
-    locationDialog.dialog.setListener(() -> onCreateItem(
-      locationDialog.getName()
-    ));
-    locationDialog.show();
-  }
 
   @Override
   protected void onStart() {
@@ -93,17 +76,15 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
   public void onUpdate(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     LocationModel selectedLocation = locationRepository.getRecord(item.getId());
-    locationDialog.initUpdateState(
-      item.getTitle()
-    );
 
-    locationDialog.dialog.setListener(() -> {
-      selectedLocation.name.set(locationDialog.getName());
-      item.setTitle(locationDialog.getName());
+    TextDialog dialog = new TextDialog(this, LocationLocale.getLocalizationByKey(LocationLocale.Keys.updateLocation), locationRepository.getNameLength(), selectedLocation.name.get(), (result) -> {
+      selectedLocation.name.set(result);
+      item.setTitle(result);
       selectedLocation.save();
       list.controls.update(item, listItemId);
     });
-    locationDialog.show();
+
+    dialog.show();
   }
 
   public void onDelete(int listItemId) {
@@ -136,7 +117,16 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
 
   @Override
   protected void onAppBarMenuItemControl() {
-    openAddNewItemDialog();
+    TextDialog dialog = new TextDialog(this, "", locationRepository.getNameLength(), "", (result) -> {
+      LocationModel newEvent = locationRepository.getDraftRecord();
+      newEvent.name.set(result);
+      newEvent.description.set("");
+      newEvent.save();
+      CommonHolderPayloadData newItem = new CommonHolderPayloadData(newEvent.id, result, "");
+      list.controls.add(newItem, false);
+    });
+
+    dialog.show();
   }
 
   @Override
