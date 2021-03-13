@@ -268,7 +268,7 @@ public class PlotLinePage extends AppMenuActivity {
   }
 
   @Override
-  protected void onItemControl() {
+  protected void onAppBarMenuItemControl() {
 
   }
 }

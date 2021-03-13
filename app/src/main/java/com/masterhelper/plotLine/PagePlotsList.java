@@ -12,10 +12,7 @@ import com.masterhelper.plotLine.repository.PlotLineRepository;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
-import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
-import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemControlsListener;
+import com.masterhelper.ux.components.library.list.*;
 
 import java.util.ArrayList;
 
@@ -91,7 +88,6 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
     initList(plotLineRepository.list());
   }
 
-  @Override
   public void onUpdate(int listItemId) {
     dialog.setTitle("");
     CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
@@ -114,14 +110,12 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
     dialog.show();
   }
 
-  @Override
   public void onDelete(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     list.controls.delete(listItemId);
     plotLineRepository.removeRecord(item.getId());
   }
 
-  @Override
   public void onSelect(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     Intent eventIntent = new Intent(this, PlotLinePage.class);
@@ -130,12 +124,7 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
   }
 
   @Override
-  public void onPlay(int listItemId) {
-
-  }
-
-  @Override
-  protected void onItemControl() {
+  protected void onAppBarMenuItemControl() {
     dialog.setTitle(PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
     dialog.setListener(new ComponentUIDialog.DialogClickListener() {
       @Override
@@ -149,5 +138,20 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
       }
     });
     dialog.show();
+  }
+
+  @Override
+  public void listItemChanged(ListItemActionCodes code, int listItemId) {
+    switch (code) {
+      case select:
+        onSelect(listItemId);
+        break;
+      case delete:
+        onDelete(listItemId);
+        break;
+      case update:
+        onUpdate(listItemId);
+        break;
+    }
   }
 }

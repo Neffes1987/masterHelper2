@@ -21,10 +21,7 @@ import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
-import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
-import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemControlsListener;
+import com.masterhelper.ux.components.library.list.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -199,7 +196,6 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
     list.controls.update(listRecord, listItemId);
   }
 
-  @Override
   public void onUpdate(int listItemId) {
     initEditDialog();
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
@@ -220,7 +216,6 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
     dialog.show();
   }
 
-  @Override
   public void onDelete(int listItemId) {
     stopTrack();
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
@@ -243,7 +238,6 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
     finish();
   }
 
-  @Override
   public void onSelect(int listItemId) {
     if (layout == Layout.selectable) {
       checkSelectedItem(listItemId);
@@ -252,7 +246,6 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
     returnSelectedItem(listItemId);
   }
 
-  @Override
   public void onPlay(int listItemId) {
     if (format == Formats.audio) {
       if (listItemId == currentAudioTrack) {
@@ -265,12 +258,30 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
   }
 
   @Override
-  protected void onItemControl() {
+  protected void onAppBarMenuItemControl() {
     if (Build.VERSION.SDK_INT > 22) {
       requestPermissions(permissions, 1);
       return;
     }
     StartFilePickerIntent();
+  }
+
+  @Override
+  public void listItemChanged(ListItemActionCodes code, int listItemId) {
+    switch (code) {
+      case play:
+        onPlay(listItemId);
+        break;
+      case select:
+        onSelect(listItemId);
+        break;
+      case delete:
+        onDelete(listItemId);
+        break;
+      case update:
+        onUpdate(listItemId);
+        break;
+    }
   }
 
   public enum Layout {

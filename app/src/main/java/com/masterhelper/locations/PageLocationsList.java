@@ -10,10 +10,7 @@ import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
-import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
-import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemControlsListener;
+import com.masterhelper.ux.components.library.list.*;
 import com.masterhelper.ux.components.library.search.ISearchBar;
 
 import java.util.ArrayList;
@@ -104,7 +101,6 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
     list = initList(locationRepository.list(0, 0, currentSearchStr), isSelectionMode);
   }
 
-  @Override
   public void onUpdate(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     LocationModel selectedLocation = locationRepository.getRecord(item.getId());
@@ -128,14 +124,12 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
     locationDialog.show();
   }
 
-  @Override
   public void onDelete(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     list.controls.delete(listItemId);
     locationRepository.removeRecord(item.getId());
   }
 
-  @Override
   public void onSelect(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     Intent eventIntent;
@@ -153,18 +147,28 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
   }
 
   @Override
-  public void onPlay(int listItemId) {
-
-  }
-
-  @Override
   public void doSearch(String searchStr) {
     currentSearchStr = searchStr;
     list = initList(locationRepository.list(0, 0, currentSearchStr), isSelectionMode);
   }
 
   @Override
-  protected void onItemControl() {
+  protected void onAppBarMenuItemControl() {
     openAddNewItemDialog();
+  }
+
+  @Override
+  public void listItemChanged(ListItemActionCodes code, int listItemId) {
+    switch (code) {
+      case select:
+        onSelect(listItemId);
+        break;
+      case delete:
+        onDelete(listItemId);
+        break;
+      case update:
+        onUpdate(listItemId);
+        break;
+    }
   }
 }

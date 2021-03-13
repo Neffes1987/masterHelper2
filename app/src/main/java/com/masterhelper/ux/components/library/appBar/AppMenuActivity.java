@@ -3,7 +3,6 @@ package com.masterhelper.ux.components.library.appBar;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.masterhelper.R;
@@ -90,13 +89,13 @@ public abstract class AppMenuActivity extends AppCompatActivity {
         startActivity(openSettingsScreen);
         break;
       case R.id.MENU_ITEMS_CONTROLS_BUTTON_ID:
-        onItemControl();
+        onAppBarMenuItemControl();
         break;
     }
     return super.onOptionsItemSelected(item);
   }
 
-  protected abstract void onItemControl();
+  protected abstract void onAppBarMenuItemControl();
 
   protected enum MENU_ITEMS_CODES {
     create,

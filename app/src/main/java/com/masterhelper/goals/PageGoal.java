@@ -245,7 +245,7 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
   }
 
   @Override
-  protected void onItemControl() {
+  protected void onAppBarMenuItemControl() {
     dialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
     dialog.pNameField.setText(currentGoal.name.get());
     dialog.pDescriptionField.setText(currentGoal.description.get());

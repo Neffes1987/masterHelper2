@@ -63,28 +63,28 @@ public class CommonItem implements View.OnLongClickListener {
     selection = view.findViewById(CommonItem.TEMPLATE_CHECK_BTN_ID);
     if (!flags.contains(Flags.showSelection)) {
       selection.setVisibility(View.GONE);
-      body.setOnClickListener(v -> listItemEvents.onSelect(pListItemId));
+      body.setOnClickListener(v -> listItemEvents.listItemChanged(ListItemActionCodes.select, pListItemId));
     } else {
-      selection.setOnClickListener(v -> listItemEvents.onSelect(pListItemId));
+      selection.setOnClickListener(v -> listItemEvents.listItemChanged(ListItemActionCodes.select, pListItemId));
     }
 
     deleteBtn = view.findViewById(CommonItem.TEMPLATE_DELETE_BTN_ID);
     deleteBtn.setVisibility(View.GONE);
     if (flags.contains(Flags.showDelete)) {
-      deleteBtn.setOnClickListener(v -> listItemEvents.onDelete(pListItemId));
+      deleteBtn.setOnClickListener(v -> listItemEvents.listItemChanged(ListItemActionCodes.delete, pListItemId));
     }
 
     editBtn = view.findViewById(CommonItem.TEMPLATE_EDIT_BTN_ID);
     editBtn.setVisibility(View.GONE);
     if (flags.contains(Flags.showEdit)) {
-      editBtn.setOnClickListener(v -> listItemEvents.onUpdate(pListItemId));
+      editBtn.setOnClickListener(v -> listItemEvents.listItemChanged(ListItemActionCodes.update, pListItemId));
     }
 
     play = view.findViewById(CommonItem.TEMPLATE_PLAY_BTN_ID);
     if (!flags.contains(Flags.showPlay)) {
       play.setVisibility(View.GONE);
     } else {
-      play.setOnClickListener(v -> listItemEvents.onPlay(pListItemId));
+      play.setOnClickListener(v -> listItemEvents.listItemChanged(ListItemActionCodes.play, pListItemId));
     }
   }
 

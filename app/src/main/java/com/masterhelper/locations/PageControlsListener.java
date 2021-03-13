@@ -23,10 +23,7 @@ import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
-import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
-import com.masterhelper.ux.components.library.list.CommonItem;
-import com.masterhelper.ux.components.library.list.ComponentUIList;
-import com.masterhelper.ux.components.library.list.ListItemControlsListener;
+import com.masterhelper.ux.components.library.list.*;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 
 import java.io.File;
@@ -252,16 +249,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
     }
 
-    @Override
-    public void onUpdate(int listItemId) {
-
-    }
-
-    @Override
-    public void onDelete(int listItemId) {
-
-    }
-
     String[] getSelectedMedia(String[] mediaListIds, boolean isFilePath) {
         MediaModel[] mediaModels = library.getFilesLibraryList();
 
@@ -294,7 +281,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         effectsPlayer.setMediaListOfUri(getSelectedMedia(location.getMusicEffectsIds(), true));
     }
 
-    @Override
     public void onSelect(int listItemId) {
         Collection<String> currentSelectedList = new ArrayList<>();
 
@@ -324,7 +310,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
     }
 
-    @Override
     public void onPlay(int listItemId) {
         if (listItemId == currentAudioTrack) {
             stopTrack();
@@ -368,7 +353,7 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
 
     @Override
-    protected void onItemControl() {
+    protected void onAppBarMenuItemControl() {
         if (currentSelectedTab == 1) {
             locationDialog.pNameField.setText(location.name.get());
             locationDialog.pDescriptionField.setText(location.description.get());
@@ -386,6 +371,16 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         if (currentSelectedTab == 3) {
             location.save();
             setSoundsMusicList(false);
+        }
+    }
+
+    @Override
+    public void listItemChanged(ListItemActionCodes code, int listItemId) {
+        switch (code) {
+            case play:
+                onPlay(listItemId);
+            case select:
+                onSelect(listItemId);
         }
     }
 }
