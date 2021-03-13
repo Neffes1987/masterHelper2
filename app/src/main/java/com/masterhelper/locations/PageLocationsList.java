@@ -43,6 +43,7 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
     mn = getSupportFragmentManager();
     locationRepository = GlobalApplication.getAppDB().locationRepository;
     setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.createLocation));
+    setHiddenItemsCode(MENU_ITEMS_CODES.location);
 
     isSelectionMode = getIntent().getIntExtra(INTENT_LOCATION_SELECTION_MODE, 0) == 1;
 

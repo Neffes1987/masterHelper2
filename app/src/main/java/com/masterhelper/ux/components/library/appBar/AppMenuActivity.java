@@ -3,6 +3,7 @@ package com.masterhelper.ux.components.library.appBar;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Switch;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.masterhelper.R;
@@ -11,7 +12,10 @@ import com.masterhelper.media.FileViewerWidget;
 import com.masterhelper.media.Formats;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public abstract class AppMenuActivity extends AppCompatActivity {
+  ArrayList<MENU_ITEMS_CODES> hiddenItemsCodes = new ArrayList<>();
   String itemControlTitle = "";
   Menu menu;
 
@@ -20,7 +24,33 @@ public abstract class AppMenuActivity extends AppCompatActivity {
     getMenuInflater().inflate(R.menu.app_bar_menu, menu);
     this.menu = menu;
     setMenuItemTitle(itemControlTitle);
+    hideCodes();
     return super.onCreateOptionsMenu(menu);
+  }
+
+  void hideCodes() {
+    hiddenItemsCodes.forEach(code -> {
+      int itemId = 0;
+      switch (code) {
+        case media:
+          itemId = R.id.MENU_ADD_SOUNDS_ID;
+          break;
+        case create:
+          itemId = R.id.MENU_ITEMS_CONTROLS_BUTTON_ID;
+          break;
+        case location:
+          itemId = R.id.MENU_LOCATIONS_ID;
+          break;
+      }
+      if (itemId > 0) {
+        MenuItem item = menu.findItem(itemId);
+        item.setVisible(false);
+      }
+    });
+  }
+
+  protected void setHiddenItemsCode(MENU_ITEMS_CODES itemCode) {
+    hiddenItemsCodes.add(itemCode);
   }
 
   void setMenuItemTitle(String title) {
@@ -67,4 +97,10 @@ public abstract class AppMenuActivity extends AppCompatActivity {
   }
 
   protected abstract void onItemControl();
+
+  protected enum MENU_ITEMS_CODES {
+    create,
+    media,
+    location
+  }
 }

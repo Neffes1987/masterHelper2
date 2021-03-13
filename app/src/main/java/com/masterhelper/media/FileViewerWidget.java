@@ -7,11 +7,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
-import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
 import com.masterhelper.R;
@@ -20,16 +18,13 @@ import com.masterhelper.media.filesystem.AudioPlayer;
 import com.masterhelper.media.filesystem.FilesLocale;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.media.repository.MediaModel;
-import com.masterhelper.ux.components.core.SetBtnLocation;
+import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
 import com.masterhelper.ux.components.library.list.CommonItem;
 import com.masterhelper.ux.components.library.list.ComponentUIList;
 import com.masterhelper.ux.components.library.list.ListItemControlsListener;
-import com.masterhelper.ux.resources.ResourceColors;
-import com.masterhelper.ux.resources.ResourceIcons;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -40,7 +35,7 @@ import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PAT
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_IMAGE_PATH;
 import static com.masterhelper.ux.components.library.list.CommonItem.Flags.*;
 
-public class FileViewerWidget extends AppCompatActivity implements SetBtnLocation, ListItemControlsListener {
+public class FileViewerWidget extends AppMenuActivity implements ListItemControlsListener {
   String[] permissions = new String[]{
     Manifest.permission.READ_EXTERNAL_STORAGE,
     Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -61,8 +56,6 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
   String widgetTitle;
   String widgetWorkingDir;
   private Layout layout;
-  private ComponentUIFloatingButton newItemButton;
-  private ComponentUIFloatingButton applyItemsButton;
   private ComponentUIList list;
   private FragmentManager mn;
   ComponentUIDialog dialog;
@@ -140,25 +133,6 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     return selectedPaths.toArray(new String[0]);
   }
 
-  void initAddButton(){
-    newItemButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.WIDGET_FILES_ADD_ID));
-    newItemButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.add));
-    newItemButton.controls.setIconColor(ResourceColors.ResourceColorType.common);
-    newItemButton.controls.setId(View.generateViewId());
-    newItemButton.controls.setOnClick(this);
-  }
-
-  void initApplyButton(boolean isVisible){
-    applyItemsButton = ComponentUIFloatingButton.cast(mn.findFragmentById(R.id.WIDGET_FILES_APPLY_BTN_ID));
-    applyItemsButton.controls.setIcon(ResourceIcons.getIcon(ResourceIcons.ResourceColorType.done));
-    applyItemsButton.controls.setIconColor(ResourceColors.ResourceColorType.primary);
-    applyItemsButton.controls.setId(View.generateViewId());
-    applyItemsButton.controls.setOnClick(this);
-    if (!isVisible) {
-      applyItemsButton.controls.hide();
-    }
-  }
-
   ComponentUIList initList(ArrayList<CommonHolderPayloadData> items) {
     ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.WIDGET_FILES_LIST_ID));
     final ArrayList<CommonItem.Flags> flags = new ArrayList<>();
@@ -188,12 +162,12 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     setContentView(R.layout.activity_widget_file_viewer);
     setFormat(inputIntent.getStringExtra(FORMAT_INTENT_EXTRA_NAME));
     setLayout(inputIntent.getStringExtra(LAYOUT_INTENT_EXTRA_NAME));
+    setHiddenItemsCode(MENU_ITEMS_CODES.media);
+    setItemControlTitle(FilesLocale.getLocalizationByKey(FilesLocale.Keys.addNewMedia));
     mn = getSupportFragmentManager();
     library = new AppFilesLibrary(widgetWorkingDir, format);
 
     UIToolbar.setTitle(this, widgetTitle, "");
-    initAddButton();
-    initApplyButton(format == Formats.audio && layout != Layout.global);
     player = GlobalApplication.getPlayer();
     stopTrack();
     ArrayList<CommonHolderPayloadData> libraryFileDataArrayList = getLibraryItems(library.getFilesLibraryList(), inputIntent.getStringArrayExtra(SELECTED_IDS_INTENT_EXTRA_NAME));
@@ -223,42 +197,6 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
     listRecord.isPlayed = true;
     setCurrentAudioTrack(listItemId);
     list.controls.update(listRecord, listItemId);
-  }
-
-  /**
-   * click callback for short click event
-   *
-   * @param btnId - element unique id that fired event
-   * @param tag   - element unique tag for searching in list
-   */
-  @Override
-  public void onClick(int btnId, String tag) {
-    if(btnId == newItemButton.controls.getId()){
-      if(Build.VERSION.SDK_INT>22){
-        requestPermissions(permissions, 1);
-        return;
-      }
-      StartFilePickerIntent();
-      return;
-    }
-    if(btnId == applyItemsButton.controls.getId()){
-      String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());
-      Intent returnedIntent = new Intent();
-      returnedIntent.putExtra(SELECTED_IDS_INTENT_EXTRA_NAME, currentSelectedFiles);
-      setResult(RESULT_OK, returnedIntent);
-      finish();
-    }
-
-  }
-
-  /**
-   * click callback for long click event
-   *
-   * @param btnId - element unique id that fired event
-   */
-  @Override
-  public void onLongClick(int btnId) {
-
   }
 
   @Override
@@ -324,6 +262,15 @@ public class FileViewerWidget extends AppCompatActivity implements SetBtnLocatio
       stopTrack();
       startRecord(listItemId);
     }
+  }
+
+  @Override
+  protected void onItemControl() {
+    if (Build.VERSION.SDK_INT > 22) {
+      requestPermissions(permissions, 1);
+      return;
+    }
+    StartFilePickerIntent();
   }
 
   public enum Layout {

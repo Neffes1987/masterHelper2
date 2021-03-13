@@ -88,6 +88,7 @@
   <string name="audio_files_caption">Библиотека аудио файлов</string>
   <string name="audio_files_empty_list">Нет списка для воспроизведения</string>
   <string name="images_files_caption">Библиотека изображений</string>
+  <string name="add_files">Добавить медиа файлы</string>
 
   <string name="caption">Заголовок</string>
   <!-- TODO: Remove or change this placeholder text -->

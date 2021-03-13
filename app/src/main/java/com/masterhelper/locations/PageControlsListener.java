@@ -20,6 +20,7 @@ import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
+import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.list.CommonHolderPayloadData;
@@ -43,7 +44,6 @@ import static com.masterhelper.ux.components.library.list.CommonItem.Flags.showP
 public class PageControlsListener extends AppMenuActivity implements SetBtnLocation, ComponentUIDialog.DialogClickListener, ITabs, ListItemControlsListener, IMusicPlayerWidget {
     private int currentSelectedTab = 1;
     private ComponentUILabel description;
-    private ComponentUILabel name;
     private ComponentUIImage previewControl;
     private ComponentUIDialog locationDialog;
     private LocationModel location;
@@ -79,9 +79,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         description = ComponentUILabel.cast(mn.findFragmentById(R.id.LOCATION_DESCRIPTION_VIEW_ID));
     }
 
-    void initNameLabel() {
-        name = ComponentUILabel.cast(mn.findFragmentById(R.id.LOCATION_NAME_VIEW_ID));
-    }
 
 
     ComponentUIDialog initDialog(int nameMaxLength, int descriptionLength) {
@@ -110,6 +107,9 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         repository = GlobalApplication.getAppDB().locationRepository;
         mediaRepository = GlobalApplication.getAppDB().mediaRepository;
         location = repository.getRecord(getIntent().getStringExtra(INTENT_LOCATION_ID));
+        UIToolbar.setTitle(this, location.name.get(), null);
+        setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.updateLocation));
+
         player = GlobalApplication.getPlayer();
         effectsPlayer = GlobalApplication.getEffectsPlayer();
 
@@ -117,10 +117,8 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
         initImageWidget();
         initDescriptionLabel();
-        initNameLabel();
         locationDialog = initDialog(repository.getNameLength(), repository.getDescriptionLength());
         description.controls.setText(location.description.get());
-        name.controls.setText(location.name.get());
 
         library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
         reInitMusicPlayer();
@@ -167,7 +165,7 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         location.description.set(locationDialog.pDescriptionField.getText());
         location.save();
         description.controls.setText(location.description.get());
-        name.controls.setText(location.name.get());
+        UIToolbar.setTitle(this, location.name.get(), null);
     }
 
     @Override

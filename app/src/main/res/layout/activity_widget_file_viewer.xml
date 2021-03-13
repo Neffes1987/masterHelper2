@@ -30,21 +30,4 @@
     app:layout_constraintVertical_bias="1.0"
     app:layout_constraintTop_toBottomOf="@+id/WIDGET_FILES_APPBAR_ID"/>
 
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/WIDGET_FILES_ADD_ID"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_floating_button"/>
-
-  <fragment
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.buttons.floating.ComponentUIFloatingButton"
-    android:id="@+id/WIDGET_FILES_APPLY_BTN_ID"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="@+id/WIDGET_FILES_LIST_ID"
-    tools:layout="@layout/fragment_component_ui_floating_button"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

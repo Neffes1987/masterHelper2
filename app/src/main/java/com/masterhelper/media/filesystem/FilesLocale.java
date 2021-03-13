@@ -23,6 +23,8 @@ public abstract class FilesLocale {
         return context.getResources().getString(R.string.dialog_remove_source_files);
       case editFileName:
         return context.getResources().getString(R.string.dialog_edit_source_file);
+      case addNewMedia:
+        return context.getResources().getString(R.string.add_files);
     }
     return "";
   }
@@ -32,6 +34,7 @@ public abstract class FilesLocale {
    */
   public enum Keys {
     audiosListCaption,
+    addNewMedia,
     imagesListCaption,
     removeSourceFiles,
     editFileName,

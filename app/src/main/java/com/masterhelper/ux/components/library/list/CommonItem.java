@@ -1,7 +1,6 @@
 package com.masterhelper.ux.components.library.list;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.cardview.widget.CardView;
@@ -83,6 +82,7 @@ public class CommonItem {
       play.setOnClickListener(v -> listItemEvents.onPlay(pListItemId));
     }
   }
+
 
   public enum Flags {
     showPreview,

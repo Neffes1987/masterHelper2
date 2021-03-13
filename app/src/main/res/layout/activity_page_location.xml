@@ -10,12 +10,22 @@
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
+    android:id="@+id/fragment2"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    tools:layout="@layout/fragment_component_ui_app_bar"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
     android:name="com.masterhelper.locations.tabs.LocationTabs"
     android:id="@+id/LOCATION_TABS_ID"
     tools:layout="@layout/fragment_part_location_tabs"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent"/>
+    app:layout_constraintTop_toBottomOf="@+id/fragment2"/>
 
   <ScrollView
     android:layout_width="0dp"
@@ -62,16 +72,6 @@
           android:id="@+id/LOCATION_PREVIEW_ID"
           tools:layout="@layout/fragment_component_ui_image"
           />
-
-        <fragment
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:name="com.masterhelper.ux.components.library.text.label.ComponentUILabel"
-          android:id="@+id/LOCATION_NAME_VIEW_ID"
-          tools:layout="@layout/fragment_component_ui_label"
-          android:layout_marginTop="8dp"
-          android:layout_marginRight="8dp"
-          android:layout_marginLeft="8dp"/>
 
         <fragment
           android:layout_width="match_parent"
