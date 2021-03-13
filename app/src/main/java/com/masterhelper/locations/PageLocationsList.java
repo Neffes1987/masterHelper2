@@ -9,7 +9,6 @@ import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.list.*;
 import com.masterhelper.ux.components.library.search.ISearchBar;
 
@@ -79,19 +78,9 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
 
   void openAddNewItemDialog(){
     locationDialog.initCreateState();
-    locationDialog.dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        onCreateItem(
-          locationDialog.getName()
-        );
-      }
-
-      @Override
-      public void onReject() {
-
-      }
-    });
+    locationDialog.dialog.setListener(() -> onCreateItem(
+      locationDialog.getName()
+    ));
     locationDialog.show();
   }
 
@@ -108,18 +97,11 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
       item.getTitle()
     );
 
-    locationDialog.dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        selectedLocation.name.set(locationDialog.getName());
-        item.setTitle(locationDialog.getName());
-        selectedLocation.save();
-        list.controls.update(item, listItemId);
-      }
-      @Override
-      public void onReject() {
-
-      }
+    locationDialog.dialog.setListener(() -> {
+      selectedLocation.name.set(locationDialog.getName());
+      item.setTitle(locationDialog.getName());
+      selectedLocation.save();
+      list.controls.update(item, listItemId);
     });
     locationDialog.show();
   }

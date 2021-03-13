@@ -251,23 +251,15 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
     dialog.pDescriptionField.setText(currentGoal.description.get());
     int selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).indexOf(currentGoal.progress.get());
     dialog.pRadioGroup.setSelectedItem(selectedProgressOption);
-    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        GoalModel.GoalProgress selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).get(dialog.pRadioGroup.getSelectedItemIndex());
-        currentGoal.name.set(dialog.pNameField.getText());
-        currentGoal.description.set(dialog.pDescriptionField.getText());
-        currentGoal.progress.set(selectedProgressOption);
-        currentGoal.save();
+    dialog.setListener(() -> {
+      GoalModel.GoalProgress selectedProgressOption1 = Arrays.asList(GoalModel.dialogProgressOptionsValues).get(dialog.pRadioGroup.getSelectedItemIndex());
+      currentGoal.name.set(dialog.pNameField.getText());
+      currentGoal.description.set(dialog.pDescriptionField.getText());
+      currentGoal.progress.set(selectedProgressOption1);
+      currentGoal.save();
 
-        setDescriptionLabel(currentGoal.description.get());
-        setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
-      }
-
-      @Override
-      public void onReject() {
-
-      }
+      setDescriptionLabel(currentGoal.description.get());
+      setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
     });
     dialog.show();
   }

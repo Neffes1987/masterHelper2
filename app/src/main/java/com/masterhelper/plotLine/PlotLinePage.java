@@ -222,39 +222,31 @@ public class PlotLinePage extends AppMenuActivity {
   void showDialog(GoalModel model, int goalViewId, String title) {
     dialog.setTitle(title);
     dialog.pNameField.setText(model.name.get());
-    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        String newTitle = dialog.pNameField.getText();
-        model.name.set(newTitle);
-        model.save();
-        CheckBox act = findViewById(goalViewId);
-        act.setText(newTitle);
+    dialog.setListener(() -> {
+      String newTitle = dialog.pNameField.getText();
+      model.name.set(newTitle);
+      model.save();
+      CheckBox act = findViewById(goalViewId);
+      act.setText(newTitle);
 
-        switch (goalViewId) {
-          case actICheckboxID:
-            currentPlotLine.setActIPlotPoint(model.id.toString());
-            break;
-          case actIICheckboxID:
-            currentPlotLine.setActIIPlotPoint(model.id.toString());
-            break;
-          case actIIICheckboxID:
-            currentPlotLine.setActIIIPlotPoint(model.id.toString());
-            break;
-          case actIVCheckboxID:
-            currentPlotLine.setActIVPlotPoint(model.id.toString());
-            break;
-          case actVCheckboxID:
-            currentPlotLine.setActVPlotPoint(model.id.toString());
-            break;
-        }
-        currentPlotLine.save();
+      switch (goalViewId) {
+        case actICheckboxID:
+          currentPlotLine.setActIPlotPoint(model.id.toString());
+          break;
+        case actIICheckboxID:
+          currentPlotLine.setActIIPlotPoint(model.id.toString());
+          break;
+        case actIIICheckboxID:
+          currentPlotLine.setActIIIPlotPoint(model.id.toString());
+          break;
+        case actIVCheckboxID:
+          currentPlotLine.setActIVPlotPoint(model.id.toString());
+          break;
+        case actVCheckboxID:
+          currentPlotLine.setActVPlotPoint(model.id.toString());
+          break;
       }
-
-      @Override
-      public void onReject() {
-
-      }
+      currentPlotLine.save();
     });
     dialog.show();
   }

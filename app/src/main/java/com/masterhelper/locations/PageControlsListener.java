@@ -166,11 +166,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     }
 
     @Override
-    public void onReject() {
-
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){

@@ -93,19 +93,11 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
     CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
     PlotLineModel item = plotLineRepository.getRecord(listItem.getId());
     dialog.pNameField.setText(item.name.get());
-    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        item.name.set(dialog.pNameField.getText());
-        item.save();
-        listItem.setTitle(dialog.pNameField.getText());
-        list.controls.update(listItem, listItemId);
-      }
-
-      @Override
-      public void onReject() {
-
-      }
+    dialog.setListener(() -> {
+      item.name.set(dialog.pNameField.getText());
+      item.save();
+      listItem.setTitle(dialog.pNameField.getText());
+      list.controls.update(listItem, listItemId);
     });
     dialog.show();
   }
@@ -126,17 +118,7 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
   @Override
   protected void onAppBarMenuItemControl() {
     dialog.setTitle(PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
-    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        onCreateItem(dialog.pNameField.getText());
-      }
-
-      @Override
-      public void onReject() {
-
-      }
-    });
+    dialog.setListener(() -> onCreateItem(dialog.pNameField.getText()));
     dialog.show();
   }
 

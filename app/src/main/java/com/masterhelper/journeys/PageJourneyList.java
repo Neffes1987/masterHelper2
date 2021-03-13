@@ -72,19 +72,11 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
     CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
     JourneyModel item = journeyRepository.getRecord(listItem.getId());
     dialog.pNameField.setText(item.name.get());
-    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        item.name.set(dialog.pNameField.getText());
-        listItem.setTitle(dialog.pNameField.getText());
-        item.save();
-        list.controls.update(listItem, listItemId);
-      }
-
-      @Override
-      public void onReject() {
-
-      }
+    dialog.setListener(() -> {
+      item.name.set(dialog.pNameField.getText());
+      listItem.setTitle(dialog.pNameField.getText());
+      item.save();
+      list.controls.update(listItem, listItemId);
     });
     dialog.show();
   }
@@ -105,17 +97,7 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
   @Override
   protected void onAppBarMenuItemControl() {
     dialog.setTitle(getLocalizationByKey(JourneyLocale.Keys.createJourney));
-    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        onCreateItem(dialog.pNameField.getText());
-      }
-
-      @Override
-      public void onReject() {
-
-      }
-    });
+    dialog.setListener(() -> onCreateItem(dialog.pNameField.getText()));
     dialog.show();
   }
 

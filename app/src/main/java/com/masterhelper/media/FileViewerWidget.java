@@ -200,18 +200,10 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
     initEditDialog();
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
     dialog.pNameLabel.setText(item.getTitle());
-    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        library.updateFileName(item.getId().toString(), dialog.pNameField.getText());
-        item.setTitle(dialog.pNameField.getText());
-        list.controls.update(item, listItemId);
-      }
-
-      @Override
-      public void onReject() {
-
-      }
+    dialog.setListener(() -> {
+      library.updateFileName(item.getId().toString(), dialog.pNameField.getText());
+      item.setTitle(dialog.pNameField.getText());
+      list.controls.update(item, listItemId);
     });
     dialog.show();
   }
@@ -350,17 +342,7 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
     String[] currentSelectedFiles = getSelectedItemsFileUri(list.controls.getList());
     list = initList(getLibraryItems(library.getFilesLibraryList(), currentSelectedFiles));
     initAlertDialog();
-    dialog.setListener(new ComponentUIDialog.DialogClickListener() {
-      @Override
-      public void onResolve() {
-        library.removeSourceFilesBunch(selectedFilesPaths.toArray(new Uri[0]));
-      }
-
-      @Override
-      public void onReject() {
-
-      }
-    });
+    dialog.setListener(() -> library.removeSourceFilesBunch(selectedFilesPaths.toArray(new Uri[0])));
     dialog.show();
   }
 

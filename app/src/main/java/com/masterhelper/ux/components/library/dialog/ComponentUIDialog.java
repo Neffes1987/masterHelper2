@@ -90,7 +90,6 @@ public class ComponentUIDialog extends UXElement<View> {
       })
       .setNegativeButton(DialogLocale.getLocalizationByKey(DialogLocale.Keys.rejectBtn), (dialog, which) -> {
         if(listener != null){
-          listener.onReject();
           clean();
         }
       });
@@ -118,6 +117,5 @@ public class ComponentUIDialog extends UXElement<View> {
   /** callbacks for dialog buttons */
   public interface DialogClickListener{
     void onResolve();
-    void onReject();
   }
 }
