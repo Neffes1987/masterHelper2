@@ -46,7 +46,9 @@
           android:id="@+id/LIST_ITEM_TITLE_ID"
           android:layout_weight="4"
           android:gravity="center_vertical"
-          android:paddingStart="4dp"/>
+          android:paddingBottom="4dp"
+          android:paddingTop="4dp"
+          android:paddingLeft="4dp"/>
 
         <ImageButton
           android:src="@mipmap/clear_black_18dp"

@@ -11,12 +11,17 @@ import java.util.ArrayList;
 /**
  * list view control class where db data mapped into ui components
  */
-public class CommonItem {
+public class CommonItem implements View.OnLongClickListener {
+  boolean isShowControl = false;
+
   private final ImageView preview;
   private final TextView title;
   private final TextView description;
   private final CheckBox selection;
   private final ImageButton play;
+  ImageButton deleteBtn;
+  ImageButton editBtn;
+  ArrayList<Flags> flags;
 
   public static final int TEMPLATE_ID = R.layout.fragment_component_ui_list_item;
   public static final int TEMPLATE_PREVIEW_ID = R.id.LIST_ITEM_PREVIEW_ID;
@@ -41,7 +46,9 @@ public class CommonItem {
 
   public CommonItem(View view, ListItemControlsListener listItemEvents, ArrayList<Flags> flags) {
     title = view.findViewById(CommonItem.TEMPLATE_TITLE_ID);
+    this.flags = flags;
     CardView body = view.findViewById(CommonItem.TEMPLATE_BODY_ID);
+    body.setOnLongClickListener(this);
 
     description = view.findViewById(CommonItem.TEMPLATE_DESCRIPTION_ID);
     if (!flags.contains(Flags.showDescription)) {
@@ -61,17 +68,15 @@ public class CommonItem {
       selection.setOnClickListener(v -> listItemEvents.onSelect(pListItemId));
     }
 
-    ImageButton deleteBtn = view.findViewById(CommonItem.TEMPLATE_DELETE_BTN_ID);
-    if (!flags.contains(Flags.showDelete)) {
-      deleteBtn.setVisibility(View.GONE);
-    } else {
+    deleteBtn = view.findViewById(CommonItem.TEMPLATE_DELETE_BTN_ID);
+    deleteBtn.setVisibility(View.GONE);
+    if (flags.contains(Flags.showDelete)) {
       deleteBtn.setOnClickListener(v -> listItemEvents.onDelete(pListItemId));
     }
 
-    ImageButton editBtn = view.findViewById(CommonItem.TEMPLATE_EDIT_BTN_ID);
-    if (!flags.contains(Flags.showEdit)) {
-      editBtn.setVisibility(View.GONE);
-    } else {
+    editBtn = view.findViewById(CommonItem.TEMPLATE_EDIT_BTN_ID);
+    editBtn.setVisibility(View.GONE);
+    if (flags.contains(Flags.showEdit)) {
       editBtn.setOnClickListener(v -> listItemEvents.onUpdate(pListItemId));
     }
 
@@ -81,6 +86,26 @@ public class CommonItem {
     } else {
       play.setOnClickListener(v -> listItemEvents.onPlay(pListItemId));
     }
+  }
+
+  /**
+   * Called when a view has been clicked and held.
+   *
+   * @param v The view that was clicked and held.
+   * @return true if the callback consumed the long click, false otherwise.
+   */
+  @Override
+  public boolean onLongClick(View v) {
+    isShowControl = !isShowControl;
+    if (flags.contains(Flags.showDelete)) {
+      deleteBtn.setVisibility(isShowControl ? View.VISIBLE : View.GONE);
+    }
+
+    if (flags.contains(Flags.showEdit)) {
+      editBtn.setVisibility(isShowControl ? View.VISIBLE : View.GONE);
+    }
+
+    return true;
   }
 
 

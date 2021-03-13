@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item
     android:title="@string/location_popup_setting"
     android:id="@+id/MENU_LOCATIONS_ID"/>
+  <item
+    android:title="@string/npc_popup_setting"
+    android:id="@+id/MENU_NPC_ID"/>
   <item
     android:title="@string/sounds_popup_setting"
     android:id="@+id/MENU_ADD_SOUNDS_ID"/>
   <item
     android:title="@string/create_popup_setting"
     android:id="@+id/MENU_ITEMS_CONTROLS_BUTTON_ID"
-    />
+    android:icon="@mipmap/pencil"/>
 </menu>

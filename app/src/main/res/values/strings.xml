@@ -96,6 +96,7 @@
 
 
   <string name="location_popup_setting">Список локаций</string>
+  <string name="npc_popup_setting">Список персонажей</string>
   <string name="sounds_popup_setting">Библиотека звуков</string>
   <string name="create_popup_setting">Создать</string>
   <string name="update_popup_setting">Изменить</string>
