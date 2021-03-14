@@ -70,7 +70,8 @@
   <string name="locations_list">Список локаций</string>
   <string name="location_name">Имя локации</string>
   <string name="location_description">Описание локации</string>
-  <string name="location_tab_meta">Описание</string>
+  <string name="location_tab_meta">Обзор</string>
+  <string name="location_tab_edit">Редактирование</string>
   <string name="location_tab_media">Музыка</string>
   <string name="location_tab_effects">Эффекты</string>
   <string name="location_tab_goals">Цели</string>

@@ -2,10 +2,13 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.InputFilter;
 import android.view.View;
+import android.widget.EditText;
 import androidx.annotation.Nullable;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.masterhelper.R;
 import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
@@ -21,8 +24,6 @@ import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
-import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
-import com.masterhelper.ux.components.library.dialog.DialogClickListener;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.list.*;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
@@ -38,13 +39,17 @@ import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_
 import static com.masterhelper.locations.PageLocationsList.INTENT_LOCATION_ID;
 import static com.masterhelper.ux.components.library.list.CommonItem.Flags.*;
 
-public class PageControlsListener extends AppMenuActivity implements SetBtnLocation, DialogClickListener, ITabs, ListItemControlsListener, IMusicPlayerWidget {
+public class PageControlsListener extends AppMenuActivity implements SetBtnLocation, ITabs, ListItemControlsListener, IMusicPlayerWidget {
     private int currentSelectedTab = 1;
     private ComponentUILabel description;
     private ComponentUIImage previewControl;
-    private ComponentUIDialog locationDialog;
     private LocationModel location;
     private ComponentUIList mediaFilesList;
+    FloatingActionButton applyBtn;
+
+    EditText nameEdit;
+    EditText descriptionEdit;
+
     AudioPlayer player;
     EffectsPlayer effectsPlayer;
 
@@ -59,11 +64,21 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         return currentAudioTrack;
     }
 
+    void setMetaDefault(LocationModel location) {
+        nameEdit = findViewById(R.id.EDIT_LOCATION_NAME_FIELD_ID);
+        nameEdit.setText(location.name.get());
+        nameEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getNameLength())});
+
+        descriptionEdit = findViewById(R.id.EDIT_LOCATION_DESCRIPTION_FIELD_ID);
+        descriptionEdit.setText(location.description.get());
+        descriptionEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getDescriptionLength())});
+    }
+
     LocationRepository repository;
     MediaRepository mediaRepository;
     AppFilesLibrary library;
 
-    void initImageWidget(){
+    void initImageWidget() {
         previewControl = ComponentUIImage.cast(mn.findFragmentById(R.id.LOCATION_PREVIEW_ID));
         previewControl.controls.setOnClick(this);
         previewControl.controls.setId(View.generateViewId());
@@ -77,35 +92,20 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     }
 
 
-
-    ComponentUIDialog initDialog(int nameMaxLength, int descriptionLength) {
-        ComponentUIDialog dialog = new ComponentUIDialog(this);
-        dialog.pNameLabel.show();
-        dialog.pNameLabel.setText(LocationLocale.getLocalizationByKey(LocationLocale.Keys.locationName));
-
-        dialog.pNameField.setText("");
-        dialog.pNameField.setMaxLength(nameMaxLength);
-        dialog.pNameField.show();
-
-        dialog.pDescriptionLabel.show();
-        dialog.pDescriptionLabel.setText(LocationLocale.getLocalizationByKey(LocationLocale.Keys.shortDescription));
-
-        dialog.pDescriptionField.setText("");
-        dialog.pDescriptionLabel.setMaxLength(descriptionLength);
-        dialog.pDescriptionField.show();
-        return dialog;
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_location);
+
+        setHiddenItemsCode(MENU_ITEMS_CODES.create);
+
         repository = GlobalApplication.getAppDB().locationRepository;
         mediaRepository = GlobalApplication.getAppDB().mediaRepository;
         location = repository.getRecord(getIntent().getStringExtra(INTENT_LOCATION_ID));
         UIToolbar.setTitle(this, location.name.get(), null);
-        setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.updateLocation));
+        applyBtn = findViewById(R.id.LOCATION_APPLY_BTN_ID);
+        applyBtn.setOnClickListener(v -> onApplyBtnClicked());
+        setVisibility(applyBtn, false);
 
         player = GlobalApplication.getPlayer();
         effectsPlayer = GlobalApplication.getEffectsPlayer();
@@ -114,7 +114,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
 
         initImageWidget();
         initDescriptionLabel();
-        locationDialog = initDialog(repository.getNameLength(), repository.getDescriptionLength());
         description.controls.setText(location.description.get());
 
         library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
@@ -154,15 +153,6 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         if(btnId == previewControl.controls.getId()){
             previewControl.controls.openImageSelector(this);
         }
-    }
-
-    @Override
-    public void onResolve(String dialogTitle) {
-        location.name.set(locationDialog.pNameField.getText());
-        location.description.set(locationDialog.pDescriptionField.getText());
-        location.save();
-        description.controls.setText(location.description.get());
-        UIToolbar.setTitle(this, location.name.get(), null);
     }
 
     @Override
@@ -221,24 +211,37 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     public void updateSelectedTab(int newCurrentTab) {
         View meta = findViewById(R.id.LOCATION_META_CONTAINER_ID);
         View music = findViewById(R.id.LOCATION_MUSIC_CONTAINER_ID);
+        View edit = findViewById(R.id.LOCATION_EDIT_CONTAINER_ID);
         currentSelectedTab = newCurrentTab;
         switch (newCurrentTab) {
             case 1:
-                setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.updateLocation));
+                setItemControlTitle("");
                 setVisibility(meta, true);
                 setVisibility(music, false);
+                setVisibility(edit, false);
+                setVisibility(applyBtn, false);
                 break;
             case 2:
                 setVisibility(meta, false);
                 setVisibility(music, true);
-                setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.saveLocation));
                 setSoundsMusicList(true);
+                setVisibility(edit, false);
+                setVisibility(applyBtn, true);
                 break;
             case 3:
                 setVisibility(meta, false);
                 setVisibility(music, true);
-                setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.saveLocation));
                 setSoundsMusicList(false);
+                setVisibility(edit, false);
+                setVisibility(applyBtn, true);
+                break;
+            case 4:
+                setVisibility(meta, false);
+                setVisibility(music, false);
+                setSoundsMusicList(false);
+                setVisibility(edit, true);
+                setMetaDefault(location);
+                setVisibility(applyBtn, true);
                 break;
         }
 
@@ -346,14 +349,13 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         return player.isPlayed();
     }
 
-
-    @Override
-    protected void onAppBarMenuItemControl() {
-        if (currentSelectedTab == 1) {
-            locationDialog.pNameField.setText(location.name.get());
-            locationDialog.pDescriptionField.setText(location.description.get());
-            locationDialog.setListener(this);
-            locationDialog.show();
+    void onApplyBtnClicked() {
+        if (currentSelectedTab == 4) {
+            location.name.set(nameEdit.getText().toString());
+            location.description.set(descriptionEdit.getText().toString());
+            location.save();
+            description.controls.setText(location.description.get());
+            UIToolbar.setTitle(this, location.name.get(), null);
         }
 
         if (currentSelectedTab == 2) {
@@ -367,6 +369,10 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
             location.save();
             setSoundsMusicList(false);
         }
+    }
+
+    @Override
+    protected void onAppBarMenuItemControl() {
     }
 
     @Override

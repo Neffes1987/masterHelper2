@@ -33,7 +33,8 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/LOCATION_TABS_ID"
-    app:layout_constraintBottom_toTopOf="@+id/LOCATION_MUSIC_PLAYER_WIDGET_ID">
+    app:layout_constraintBottom_toTopOf="@+id/LOCATION_MUSIC_PLAYER_WIDGET_ID"
+    android:id="@+id/scrollView3">
 
     <LinearLayout
       android:orientation="vertical"
@@ -42,6 +43,47 @@
       android:id="@+id/LOCATION_CONTENT_ID"
       android:visibility="visible"
       >
+
+      <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/LOCATION_EDIT_CONTAINER_ID"
+        android:visibility="gone"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp">
+
+        <TextView
+          android:text="@string/location_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:id="@+id/EDIT_LOCATION_NAME_LABEL_ID"/>
+
+        <EditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:inputType="textPersonName"
+          android:ems="10"
+          android:id="@+id/EDIT_LOCATION_NAME_FIELD_ID"
+          android:layout_weight="1"/>
+
+        <TextView
+          android:text="@string/location_description"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/EDIT_LOCATION_DESCRIPTION_LABEL_ID"
+          android:layout_weight="1"
+          android:layout_marginTop="8dp"/>
+
+        <EditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:inputType="textPersonName"
+          android:ems="10"
+          android:id="@+id/EDIT_LOCATION_DESCRIPTION_FIELD_ID"
+          android:layout_weight="1"/>
+      </LinearLayout>
 
       <LinearLayout
         android:orientation="vertical"
@@ -96,5 +138,17 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     tools:layout="@layout/fragment_component_ui_music_widget"/>
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    app:srcCompat="@mipmap/done"
+    android:id="@+id/LOCATION_APPLY_BTN_ID"
+    app:layout_constraintBottom_toBottomOf="@+id/scrollView3"
+    app:layout_constraintEnd_toEndOf="parent"
+    style="@style/float_button_styles"
+    app:rippleColor="#B01717"
+    tools:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

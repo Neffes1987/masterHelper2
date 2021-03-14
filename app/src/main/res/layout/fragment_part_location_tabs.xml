@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -28,6 +29,12 @@
       android:layout_height="wrap_content"
       android:id="@+id/LOCATION_EFFECTS_TAB_ID"
       android:text="@string/location_tab_effects"/>
+
+    <com.google.android.material.tabs.TabItem
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/LOCATION_EDIT_TAB_ID"
+      android:icon="@mipmap/pencil"/>
 
   </com.google.android.material.tabs.TabLayout>
 </LinearLayout>
