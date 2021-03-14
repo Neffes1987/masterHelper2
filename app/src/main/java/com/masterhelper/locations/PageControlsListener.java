@@ -70,13 +70,11 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         nameEdit.setText(location.name.get());
         nameEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getNameLength())});
         nameEdit.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
-        ;
 
         descriptionEdit = findViewById(R.id.EDIT_LOCATION_DESCRIPTION_FIELD_ID);
         descriptionEdit.setText(location.description.get());
         descriptionEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getDescriptionLength())});
         descriptionEdit.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
-        ;
     }
 
     LocationRepository repository;
