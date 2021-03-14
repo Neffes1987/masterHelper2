@@ -10,7 +10,6 @@ import android.widget.EditText;
 public class TextDialog {
   AlertDialog.Builder builder;
   EditText name;
-  EditText description;
 
   public TextDialog(Activity pageActivity, String dialogTitle, int textLength, String defaultValue, DialogClickListener listener) {
     builder = new AlertDialog.Builder(pageActivity);

@@ -1,16 +1,12 @@
 package com.masterhelper.ux.components.library.image;
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.masterhelper.R;
 import com.masterhelper.ux.components.core.ComponentUIFragment;
-import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
-import com.masterhelper.ux.components.library.text.input.ComponentUIInputText;
-import com.masterhelper.ux.components.library.text.input.InputTextField;
 
 /**  */
 public class ComponentUIImage extends ComponentUIFragment {

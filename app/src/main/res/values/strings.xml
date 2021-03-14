@@ -63,6 +63,7 @@
   <string name="goal_in_progress">Ключевая точка активна</string>
   <string name="goal_failed">Ключевая точка провалена</string>
   <string name="goal_complete">Ключевая точка достигнута</string>
+  <string name="goal_meta">Обзор</string>
 
 
   <!-- location -->

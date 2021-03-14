@@ -1,10 +1,16 @@
 package com.masterhelper.goals;
 
 import android.content.Intent;
+import android.text.InputFilter;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import androidx.annotation.Nullable;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.goals.repository.GoalModel;
@@ -22,7 +28,6 @@ import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
-import com.masterhelper.ux.components.library.dialog.ComponentUIDialog;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 
@@ -31,13 +36,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static android.text.InputType.*;
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 
-public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
+public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, View.OnClickListener {
   public static final String INTENT_GOAL_ID = "goalId";
   public static final int INTENT_RESULT_ID = 10000;
   public static final int GOAL_LOCATION_PLAYER_ID = R.id.GOAL_MUSIC_PLAYER_ID;
+
+  int goalCurrentTab = 1;
+
+  FloatingActionButton applyBtn;
 
   GoalModel currentGoal;
   LocationModel attachedLocation;
@@ -47,16 +57,11 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
 
   View locationPlayerWidget;
 
-  ComponentUIDialog dialog;
   AudioPlayer player;
   EffectsPlayer effectsPlayer;
   AppFilesLibrary library;
 
   private ComponentUILabel description;
-
-  void setAppBarLabel(String newName, String newProgress) {
-    UIToolbar.setTitle(this, newName, newProgress);
-  }
 
   void setDescriptionLabel(String newDescription) {
     if (description == null) {
@@ -77,6 +82,55 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
 
       @Override
       public void onLongClick(int btnId) {
+
+      }
+    });
+  }
+
+  void initEditMode(GoalModel model) {
+    EditText name = findViewById(R.id.GOAL_EDIT_NAME_FIELD_ID);
+    name.setText(model.name.get());
+    name.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getNameLength())});
+    name.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
+
+    EditText description = findViewById(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID);
+    description.setText(model.description.get());
+    description.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getDescriptionLength())});
+    description.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
+    ;
+  }
+
+  void toggleTab(int tabIndex) {
+    LinearLayout editContainer = findViewById(R.id.GOAL_EDIT_CONTAINER_ID);
+    ScrollView viewContainer = findViewById(R.id.GOAL_VIEW_CONTAINER_ID);
+    if (tabIndex == 1) {
+      applyBtn.setVisibility(View.GONE);
+      editContainer.setVisibility(View.GONE);
+      viewContainer.setVisibility(View.VISIBLE);
+    } else {
+      applyBtn.setVisibility(View.VISIBLE);
+      editContainer.setVisibility(View.VISIBLE);
+      viewContainer.setVisibility(View.GONE);
+      initEditMode(currentGoal);
+    }
+  }
+
+  void initTabs() {
+    TabLayout tabs = findViewById(R.id.GOAL_TABS_BAR_ID);
+    tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+      @Override
+      public void onTabSelected(TabLayout.Tab tab) {
+        goalCurrentTab = tabs.getSelectedTabPosition() + 1;
+        toggleTab(goalCurrentTab);
+      }
+
+      @Override
+      public void onTabUnselected(TabLayout.Tab tab) {
+
+      }
+
+      @Override
+      public void onTabReselected(TabLayout.Tab tab) {
 
       }
     });
@@ -107,29 +161,6 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
     } else {
       locationPreview.controls.hide();
     }
-
-  }
-
-  ComponentUIDialog initDialog(int nameMaxLength, int descriptionLength) {
-    ComponentUIDialog dialog = new ComponentUIDialog(this);
-    dialog.pNameLabel.show();
-    dialog.pNameLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.goalName));
-
-    dialog.pNameField.setText("");
-    dialog.pNameField.setMaxLength(nameMaxLength);
-    dialog.pNameField.show();
-
-    dialog.pDescriptionLabel.show();
-    dialog.pDescriptionLabel.setText(GoalLocale.getLocalizationByKey(GoalLocale.Keys.shortDescription));
-
-    dialog.pDescriptionField.setText("");
-    dialog.pDescriptionLabel.setMaxLength(descriptionLength);
-    dialog.pDescriptionField.show();
-
-    dialog.pRadioGroup.setList(Arrays.asList(GoalModel.dialogProgressOptionsTitles));
-    dialog.pRadioGroup.show();
-
-    return dialog;
   }
 
   void reInitMusicPlayer() {
@@ -148,25 +179,28 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_page_goal);
     setItemControlTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
+
+    applyBtn = findViewById(R.id.GOAL_APPLY_BTN);
+    applyBtn.setVisibility(View.GONE);
+    applyBtn.setOnClickListener(this);
+    toggleTab(goalCurrentTab);
+
     player = GlobalApplication.getPlayer();
     effectsPlayer = GlobalApplication.getEffectsPlayer();
     String goalId = getIntent().getStringExtra(INTENT_GOAL_ID);
     mn = getSupportFragmentManager();
     repository = GlobalApplication.getAppDB().goalRepository;
     currentGoal = repository.getRecord(goalId);
-    dialog = initDialog(
-      repository.getNameLength(),
-      repository.getDescriptionLength()
-    );
 
     locationPlayerWidget = findViewById(GOAL_LOCATION_PLAYER_ID);
 
-    setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
+    UIToolbar.setTitle(this, currentGoal.name.get(), "");
     setDescriptionLabel(currentGoal.description.get());
 
     initSelectLocationBtn();
 
     library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
+    initTabs();
   }
 
   @Override
@@ -246,21 +280,23 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget {
 
   @Override
   protected void onAppBarMenuItemControl() {
-    dialog.setTitle(GoalLocale.getLocalizationByKey(GoalLocale.Keys.updateGoal));
-    dialog.pNameField.setText(currentGoal.name.get());
-    dialog.pDescriptionField.setText(currentGoal.description.get());
-    int selectedProgressOption = Arrays.asList(GoalModel.dialogProgressOptionsValues).indexOf(currentGoal.progress.get());
-    dialog.pRadioGroup.setSelectedItem(selectedProgressOption);
-    dialog.setListener((title) -> {
-      GoalModel.GoalProgress selectedProgressOption1 = Arrays.asList(GoalModel.dialogProgressOptionsValues).get(dialog.pRadioGroup.getSelectedItemIndex());
-      currentGoal.name.set(dialog.pNameField.getText());
-      currentGoal.description.set(dialog.pDescriptionField.getText());
-      currentGoal.progress.set(selectedProgressOption1);
-      currentGoal.save();
+  }
 
-      setDescriptionLabel(currentGoal.description.get());
-      setAppBarLabel(currentGoal.name.get(), currentGoal.progressToString());
-    });
-    dialog.show();
+  /**
+   * Called when a view has been clicked.
+   *
+   * @param v The view that was clicked.
+   */
+  @Override
+  public void onClick(View v) {
+    EditText name = findViewById(R.id.GOAL_EDIT_NAME_FIELD_ID);
+    EditText description = findViewById(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID);
+
+    currentGoal.name.set(name.getText().toString());
+    currentGoal.description.set(description.getText().toString());
+    currentGoal.save();
+
+    setDescriptionLabel(currentGoal.description.get());
+    UIToolbar.setTitle(this, currentGoal.name.get(), "");
   }
 }

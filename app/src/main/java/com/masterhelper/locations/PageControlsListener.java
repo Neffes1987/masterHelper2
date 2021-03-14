@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static android.text.InputType.*;
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
@@ -68,10 +69,14 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
         nameEdit = findViewById(R.id.EDIT_LOCATION_NAME_FIELD_ID);
         nameEdit.setText(location.name.get());
         nameEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getNameLength())});
+        nameEdit.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
+        ;
 
         descriptionEdit = findViewById(R.id.EDIT_LOCATION_DESCRIPTION_FIELD_ID);
         descriptionEdit.setText(location.description.get());
         descriptionEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getDescriptionLength())});
+        descriptionEdit.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
+        ;
     }
 
     LocationRepository repository;
