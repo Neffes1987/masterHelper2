@@ -18,7 +18,7 @@
     <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="wrap_content">
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +37,8 @@
           android:layout_height="60dp"
           android:id="@+id/LIST_ITEM_PREVIEW_ID"
           android:layout_weight="0"
-          />
+
+          android:scaleType="fitXY"/>
 
         <TextView
           android:text="TextView"
