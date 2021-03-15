@@ -11,7 +11,7 @@ import com.masterhelper.media.repository.MediaContract;
 public class LocationContract extends AbstractContract<LocationModel> {
   private final static String TABLE_NAME = "locations";
   public final static int NAME_COLUMN_LENGTH = 200;
-  public final static int DESCRIPTION_COLUMN_LENGTH = 200;
+  public final static int DESCRIPTION_COLUMN_LENGTH = 2000;
   public final static int PREVIEW_COLUMN_LENGTH = 2000;
   public final static GeneralColumn id = new GeneralColumn(TABLE_NAME, "id", GeneralColumn.ColumnTypes.Primary, ID_COLUMN_LENGTH, false);
   public final GeneralColumn title = new GeneralColumn(TABLE_NAME,"title", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);

@@ -24,7 +24,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   /**
    * Версия базы данных. При изменении схемы увеличить на единицу
    */
-  private static final int DATABASE_VERSION = 66;
+  private static final int DATABASE_VERSION = 69;
 
   SQLiteDatabase db;
 
@@ -71,17 +71,30 @@ public class DbHelpers extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     this.db = db;
-    //goalRepository.createTable();
-    locationRepository.createTable();
-    //initTables();
-    //this.db.execSQL("DELETE FROM media WHERE fileType='imagePng'");
   }
 
-  public Cursor read(String query){
+  void goalMigration() {
+    this.db.execSQL("PRAGMA foreign_keys=off;");
+    this.db.execSQL("BEGIN TRANSACTION;");
+
+    this.db.execSQL("ALTER TABLE goals RENAME TO _goals_old;");
+    goalRepository.createTable();
+
+
+    this.db.execSQL("INSERT INTO goals (id, plotId, title, description, progress, act, assigned_location) SELECT id, plotId, title, description, progress, act, assigned_location FROM _goals_old;");
+
+
+    this.db.execSQL("DROP TABLE _goals_old;");
+
+    this.db.execSQL("COMMIT;");
+    this.db.execSQL("PRAGMA foreign_keys=on;");
+  }
+
+  public Cursor read(String query) {
     return db.rawQuery(query, null);
   }
 
-  public void write(String query){
+  public void write(String query) {
     db.execSQL(query);
   }
 

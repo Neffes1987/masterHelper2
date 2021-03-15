@@ -17,6 +17,52 @@
     tools:layout="@layout/fragment_component_ui_app_bar"
     app:layout_constraintEnd_toEndOf="parent"/>
 
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintBottom_toTopOf="@+id/GOAL_MUSIC_PLAYER_ID"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/GOAL_TABS_BAR_ID"
+    app:layout_constraintVertical_bias="0.0"
+    tools:visibility="gone">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:id="@+id/GOAL_EDIT_CONTAINER_ID">
+
+      <TextView
+        android:text="@string/goal_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"/>
+
+      <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textPersonName"
+        android:ems="10"
+        android:id="@+id/GOAL_EDIT_NAME_FIELD_ID"/>
+
+      <TextView
+        android:text="@string/goal_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView7"
+        android:layout_marginTop="8dp"/>
+
+      <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/GOAL_EDIT_DESCRIPTION_FIELD_ID"/>
+
+    </LinearLayout>
+  </ScrollView>
+
   <com.google.android.material.tabs.TabLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -66,11 +112,13 @@
   <ScrollView
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/GOAL_TABS_BAR_ID"
-    android:id="@+id/GOAL_VIEW_CONTAINER_ID">
+    android:id="@+id/GOAL_VIEW_CONTAINER_ID"
+    app:layout_constraintBottom_toTopOf="@+id/GOAL_MUSIC_PLAYER_ID"
+    android:visibility="visible"
+    app:layout_constraintVertical_bias="0">
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -96,47 +144,6 @@
         />
     </LinearLayout>
   </ScrollView>
-
-  <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@+id/GOAL_TABS_BAR_ID"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/GOAL_MUSIC_PLAYER_ID"
-    app:layout_constraintVertical_bias="0.0"
-    tools:visibility="gone"
-    android:id="@+id/GOAL_EDIT_CONTAINER_ID">
-
-    <TextView
-      android:text="@string/goal_name"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/textView6"/>
-
-    <EditText
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="textMultiLine|textPersonName"
-      android:ems="10"
-      android:id="@+id/GOAL_EDIT_NAME_FIELD_ID"/>
-
-    <TextView
-      android:text="@string/goal_description"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:id="@+id/textView7"
-      android:layout_marginTop="8dp"/>
-
-    <EditText
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:inputType="textPersonName"
-      android:ems="10"
-      android:id="@+id/GOAL_EDIT_DESCRIPTION_FIELD_ID"/>
-
-  </LinearLayout>
 
   <fragment
     android:layout_width="0dp"

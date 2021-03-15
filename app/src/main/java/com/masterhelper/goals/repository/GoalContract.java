@@ -12,7 +12,7 @@ import java.util.UUID;
 public class GoalContract extends AbstractContract<GoalModel> {
   public final static String TABLE_NAME = "goals";
   public final static int NAME_COLUMN_LENGTH = 200;
-  public final static int DESCRIPTION_COLUMN_LENGTH = 200;
+  public final static int DESCRIPTION_COLUMN_LENGTH = 2000;
   public final static int PROGRESS_COLUMN_LENGTH = 100;
   public final static GeneralColumn id = new GeneralColumn(TABLE_NAME, "id", GeneralColumn.ColumnTypes.Primary, ID_COLUMN_LENGTH, false);
   public final static GeneralColumn externalId = new GeneralColumn(TABLE_NAME, "plotId", GeneralColumn.ColumnTypes.CharType, ID_COLUMN_LENGTH, false);

@@ -20,7 +20,7 @@
       android:layout_margin="4dp"
       android:minHeight="200dp"
       android:maxHeight="200dp"
-      android:scaleType="fitCenter"/>
+      android:scaleType="fitXY"/>
   </androidx.cardview.widget.CardView>
 
 </FrameLayout>
