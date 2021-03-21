@@ -27,7 +27,7 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
 
 
   ComponentUIList initList(JourneyModel[] items) {
-    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.JOURMEY_ITEMS_LIST));
+    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.ITEMS_LIST));
     ArrayList<CommonItem.Flags> flags = new ArrayList<>();
     flags.add(CommonItem.Flags.showDelete);
     flags.add(CommonItem.Flags.showEdit);
@@ -38,7 +38,7 @@ public class PageJourneyList extends AppMenuActivity implements ListItemControls
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_page_journey_list);
+    setContentView(R.layout.activity_page_simple_list);
     setItemControlTitle(JourneyLocale.getLocalizationByKey(JourneyLocale.Keys.createJourney));
     mn = getSupportFragmentManager();
     journeyRepository = GlobalApplication.getAppDB().journeyRepository;

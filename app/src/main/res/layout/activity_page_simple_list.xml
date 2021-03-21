@@ -5,37 +5,27 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".locations.PageLocationsList">
+  tools:context=".journeys.PageJourneyList">
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
-    android:id="@+id/EVENTS_APP_BAR"
+    android:id="@+id/MAIN_BAR_ID"
+    tools:layout="@layout/fragment_component_ui_app_bar"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_app_bar"/>
-
-  <fragment
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.components.library.search.ComponentUISearchBar"
-    android:id="@+id/LOCATION_LIST_SEARCH_ID"
-    app:layout_constraintStart_toStartOf="parent"
-    tools:layout="@layout/fragment_component_ui_search_bar"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/EVENTS_APP_BAR"/>
+    app:layout_constraintEnd_toEndOf="parent"/>
 
   <fragment
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:name="com.masterhelper.ux.components.library.list.ComponentUIList"
-    android:id="@+id/EVENTS_LIST_ID"
+    android:id="@+id/ITEMS_LIST"
     tools:layout="@layout/fragment_component_ui_list"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/LOCATION_LIST_SEARCH_ID"/>
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/MAIN_BAR_ID"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

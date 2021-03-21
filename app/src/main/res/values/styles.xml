@@ -10,6 +10,12 @@
     <item name="android:layout_marginBottom">8dp</item>
   </style>
 
+  <style name="npcPropertyRow">
+    <item name="android:background">@color/colorCardBG</item>
+    <item name="android:padding">8dp</item>
+    <item name="android:layout_marginBottom">8dp</item>
+  </style>
+
   <style name="EnemyTableCaption">
     <item name="android:layout_width">90dp</item>
     <item name="android:layout_height">wrap_content</item>

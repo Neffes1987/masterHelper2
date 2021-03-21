@@ -12,16 +12,13 @@ public abstract class UXButton<ButtonType extends View> extends UXElement<Button
    *  @param eventHandler - callback class for button click events
    * */
   public void setOnClick(final @NonNull SetBtnLocation eventHandler){
-    this.getUxElement().setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        if(v.getTag() == null){
-          eventHandler.onClick(v.getId(), null);
-        } else {
-          eventHandler.onClick(v.getId(), v.getTag().toString());
-        }
-
+    this.getUxElement().setOnClickListener(v -> {
+      if (v.getTag() == null) {
+        eventHandler.onClick(v.getId(), null);
+      } else {
+        eventHandler.onClick(v.getId(), v.getTag().toString());
       }
+
     });
 
     this.getUxElement().setOnLongClickListener(new View.OnLongClickListener() {

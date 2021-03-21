@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".npc.NPCPage">
+
+  <fragment
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.components.library.appBar.ComponentUIAppBar"
+    android:id="@+id/APP_BAR"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:layout="@layout/fragment_component_ui_app_bar"/>
+
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    app:srcCompat="@mipmap/done"
+    android:id="@+id/NPC_EDIT_TABS_APPLY_BTN_ID"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    style="@style/float_button_styles"/>
+
+  <com.google.android.material.tabs.TabLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/NPC_TABS_ID"
+    app:layout_constraintTop_toBottomOf="@+id/APP_BAR"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <com.google.android.material.tabs.TabItem
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/npc_tab_meta"
+      android:id="@+id/NPC_META_TAB_ID"
+      android:visibility="visible"/>
+
+    <com.google.android.material.tabs.TabItem
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/NPC_EDIT_TAB_ID"
+      android:icon="@mipmap/pencil"
+      android:adjustViewBounds="false"
+      />
+  </com.google.android.material.tabs.TabLayout>
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/NPC_TABS_ID"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginTop="8dp"
+    >
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/NPC_VIEW_MODE"
+        tools:visibility="visible">
+
+        <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginBottom="8dp">
+
+          <fragment
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
+            android:id="@+id/NPC_PREVIEW_ID"
+            tools:layout="@layout/fragment_component_ui_image"
+            />
+
+          <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            >
+
+            <LinearLayout
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="8dp"
+              android:background="@color/colorCardBG"
+              style="@style/npcPropertyRow">
+
+              <TextView
+                android:text="@string/npc_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/NPC_AGE_FIELD_LABEL"
+                android:layout_weight="1"/>
+
+              <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/NPC_AGE_VIEW_ID"
+                android:layout_weight="1"
+                android:textAlignment="textEnd"/>
+            </LinearLayout>
+
+            <LinearLayout
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              style="@style/npcPropertyRow">
+
+              <TextView
+                android:text="@string/npc_character"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:id="@+id/NPC_CHARACTER_LABEL"/>
+
+              <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/NPC_CHARACTER_VIEW_ID"
+                android:layout_marginBottom="8dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              style="@style/npcPropertyRow">
+
+              <TextView
+                android:text="@string/npc_relationship"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/NPC_RELATIONSHIP_LABEL"
+                android:layout_marginTop="4dp"/>
+
+              <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/NPC_RELATIONSHIP_VIEW_ID"/>
+            </LinearLayout>
+
+          </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          style="@style/npcPropertyRow">
+
+          <TextView
+            android:text="@string/npc_goals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_GOALS_LABEL"/>
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_GOALS_VIEW_ID"
+            android:layout_marginBottom="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          style="@style/npcPropertyRow">
+
+          <TextView
+            android:text="@string/npc_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_BACKGROUND_LABEL"/>
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_BACKGROUND_VIEW_ID"/>
+        </LinearLayout>
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/NPC_EDIT_MODE"
+        tools:visibility="gone">
+
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          style="@style/npcPropertyRow">
+
+          <TextView
+            android:text="@string/npc_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView15"/>
+
+          <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/NPC_NAME_EDIT_FIELD"/>
+        </LinearLayout>
+
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          style="@style/npcPropertyRow">
+
+          <TextView
+            android:text="@string/npc_relationship"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_RELATIONS_EDIT_LABEL"/>
+
+          <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/NPC_RELATIONS_EDIT_FIELD"
+            android:layout_marginBottom="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="8dp"
+          style="@style/npcPropertyRow">
+
+          <TextView
+            android:text="@string/npc_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_AGE_LABEL"
+            android:layout_weight="1"/>
+
+          <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number|textPersonName"
+            android:ems="10"
+            android:id="@+id/NPC_AGE_EDIT_FIELD"
+            android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          style="@style/npcPropertyRow">
+
+          <TextView
+            android:text="@string/npc_character"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_CHARACTER_EDIT_LABEL"/>
+
+          <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine|textCapSentences"
+            android:ems="10"
+            android:id="@+id/NPC_CHARACTER_EDIT_FIELD"
+            android:layout_marginBottom="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          style="@style/npcPropertyRow">
+
+          <TextView
+            android:text="@string/npc_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_BACKGROUND_EDIT_LABEL"/>
+
+          <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/NPC_BACKGROUND_EDIT_FIELD"
+            android:layout_marginBottom="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+          android:orientation="vertical"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          style="@style/npcPropertyRow">
+
+          <TextView
+            android:text="@string/npc_goals"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/NPC_GOALS_EDIT_LABEL"/>
+
+          <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/NPC_GOALS_EDIT_FIELD"/>
+        </LinearLayout>
+
+      </LinearLayout>
+
+    </LinearLayout>
+  </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

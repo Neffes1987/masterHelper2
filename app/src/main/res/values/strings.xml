@@ -80,6 +80,19 @@
   <string name="event_update_title">Изменить локацию</string>
   <string name="event_update_media_title">Сохранить звуки локации</string>
 
+  <!-- npc -->
+  <string name="npc_name">Имя</string>
+  <string name="npc_tab_meta">Обзор</string>
+  <string name="npc_tab_effects">Эффекты</string>
+  <string name="npc_age">Возраст</string>
+  <string name="npc_character">Характер</string>
+  <string name="npc_relationship">Отношение к игрокам</string>
+  <string name="npc_background">Предистория</string>
+  <string name="npc_goals">Цели</string>
+  <string name="npc_list_caption">Список NPC</string>
+  <string name="npc_new_npc">Создать нового NPC</string>
+  <string name="npc_update_name_npc">Изменить имя NPC</string>
+
   <!-- dialogs -->
   <string name="dialog_resolve">Применить</string>
   <string name="dialog_reject">Отменить</string>

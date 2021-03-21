@@ -28,7 +28,7 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
 
 
   void initList(PlotLineModel[] items) {
-    list = ComponentUIList.cast(mn.findFragmentById(R.id.PLOT_LIST_ID));
+    list = ComponentUIList.cast(mn.findFragmentById(R.id.ITEMS_LIST));
     ArrayList<CommonItem.Flags> flags = new ArrayList<>();
     flags.add(CommonItem.Flags.showDelete);
     flags.add(CommonItem.Flags.showEdit);
@@ -45,7 +45,7 @@ public class PagePlotsList extends AppMenuActivity implements ListItemControlsLi
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_page_plots_list);
+    setContentView(R.layout.activity_page_simple_list);
     UIToolbar.setTitle(this, PlotLocale.getLocalizationByKey(PlotLocale.Keys.caption), "");
     setItemControlTitle(PlotLocale.getLocalizationByKey(PlotLocale.Keys.create));
     String journeyId = getIntent().getStringExtra(INTENT_JOURNEY_ID);

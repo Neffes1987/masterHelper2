@@ -115,7 +115,7 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
   }
 
   ComponentUIList initList(ArrayList<CommonHolderPayloadData> items) {
-    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.WIDGET_FILES_LIST_ID));
+    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.ITEMS_LIST));
     final ArrayList<CommonItem.Flags> flags = new ArrayList<>();
 
     if (layout == Layout.global) {
@@ -140,7 +140,7 @@ public class FileViewerWidget extends AppMenuActivity implements ListItemControl
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Intent inputIntent = getIntent();
-    setContentView(R.layout.activity_widget_file_viewer);
+    setContentView(R.layout.activity_page_simple_list);
     setFormat(inputIntent.getStringExtra(FORMAT_INTENT_EXTRA_NAME));
     setLayout(inputIntent.getStringExtra(LAYOUT_INTENT_EXTRA_NAME));
     setHiddenItemsCode(MENU_ITEMS_CODES.media);

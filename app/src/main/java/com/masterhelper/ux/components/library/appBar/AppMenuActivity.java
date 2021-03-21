@@ -9,6 +9,7 @@ import com.masterhelper.R;
 import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.media.FileViewerWidget;
 import com.masterhelper.media.Formats;
+import com.masterhelper.npc.NPCPageList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,6 +18,10 @@ public abstract class AppMenuActivity extends AppCompatActivity {
   ArrayList<MENU_ITEMS_CODES> hiddenItemsCodes = new ArrayList<>();
   String itemControlTitle = "";
   Menu menu;
+
+  public void setPageTitle(String title) {
+    UIToolbar.setTitle(this, title, "");
+  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,6 +44,9 @@ public abstract class AppMenuActivity extends AppCompatActivity {
           break;
         case location:
           itemId = R.id.MENU_LOCATIONS_ID;
+          break;
+        case npc:
+          itemId = R.id.MENU_NPC_ID;
           break;
       }
       if (itemId > 0) {
@@ -88,6 +96,10 @@ public abstract class AppMenuActivity extends AppCompatActivity {
         );
         startActivity(openSettingsScreen);
         break;
+      case R.id.MENU_NPC_ID:
+        openSettingsScreen = new Intent(this, NPCPageList.class);
+        startActivity(openSettingsScreen);
+        break;
       case R.id.MENU_ITEMS_CONTROLS_BUTTON_ID:
         onAppBarMenuItemControl();
         break;
@@ -100,6 +112,7 @@ public abstract class AppMenuActivity extends AppCompatActivity {
   protected enum MENU_ITEMS_CODES {
     create,
     media,
-    location
+    location,
+    npc
   }
 }

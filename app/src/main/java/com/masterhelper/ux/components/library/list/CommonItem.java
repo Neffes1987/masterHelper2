@@ -38,7 +38,10 @@ public class CommonItem implements View.OnLongClickListener {
   protected void update(CommonHolderPayloadData itemData) {
     title.setText(itemData.getTitle());
     description.setText(itemData.getDescription());
-    preview.setImageURI(Uri.parse(itemData.getPreviewUrl()));
+    String previewUrl = itemData.getPreviewUrl();
+    if (previewUrl != null) {
+      preview.setImageURI(Uri.parse(previewUrl));
+    }
     selection.setChecked(itemData.isSelected);
     play.setImageResource(itemData.isPlayed ? R.mipmap.pause : R.mipmap.play);
     pListItemId = itemData.getListId();

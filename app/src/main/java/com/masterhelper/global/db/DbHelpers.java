@@ -8,6 +8,7 @@ import com.masterhelper.locations.repository.LocationRepository;
 import com.masterhelper.journeys.repository.JourneyRepository;
 import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.media.repository.MediaRepository;
+import com.masterhelper.npc.repository.NPCRepository;
 import com.masterhelper.plotLine.repository.PlotLineRepository;
 
 public class DbHelpers extends SQLiteOpenHelper {
@@ -16,6 +17,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   public LocationRepository locationRepository;
   public MediaRepository mediaRepository;
   public PlotLineRepository plotLineRepository;
+  public NPCRepository npcRepository;
 
   /**
    * Имя файла базы данных
@@ -24,7 +26,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   /**
    * Версия базы данных. При изменении схемы увеличить на единицу
    */
-  private static final int DATABASE_VERSION = 69;
+  private static final int DATABASE_VERSION = 70;
 
   SQLiteDatabase db;
 
@@ -36,6 +38,7 @@ public class DbHelpers extends SQLiteOpenHelper {
     locationRepository = new LocationRepository(this);
     mediaRepository = new MediaRepository(this);
     plotLineRepository = new PlotLineRepository(this);
+    npcRepository = new NPCRepository(this);
     db = getWritableDatabase();
   }
 
@@ -45,6 +48,7 @@ public class DbHelpers extends SQLiteOpenHelper {
     locationRepository.createTable();
     mediaRepository.createTable();
     plotLineRepository.createTable();
+    npcRepository.createTable();
   }
 
   /**
@@ -71,6 +75,7 @@ public class DbHelpers extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     this.db = db;
+    npcRepository.createTable();
   }
 
   void goalMigration() {

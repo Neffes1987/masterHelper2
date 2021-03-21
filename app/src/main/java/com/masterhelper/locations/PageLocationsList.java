@@ -35,7 +35,7 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_page_locations_list);
+    setContentView(R.layout.activity_page_search_list);
     mn = getSupportFragmentManager();
     locationRepository = GlobalApplication.getAppDB().locationRepository;
     setItemControlTitle(LocationLocale.getLocalizationByKey(LocationLocale.Keys.createLocation));
@@ -49,7 +49,7 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
   }
 
   ComponentUIList initList(LocationModel[] items, boolean isSelectionMode) {
-    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.EVENTS_LIST_ID));
+    ComponentUIList list = ComponentUIList.cast(mn.findFragmentById(R.id.LIST_ID));
     ArrayList<CommonItem.Flags> flags = new ArrayList<>();
     flags.add(CommonItem.Flags.showPreview);
     if (!isSelectionMode) {
