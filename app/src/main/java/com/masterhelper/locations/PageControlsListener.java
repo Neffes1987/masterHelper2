@@ -2,9 +2,7 @@ package com.masterhelper.locations;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.text.InputFilter;
 import android.view.View;
-import android.widget.EditText;
 import androidx.annotation.Nullable;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentManager;
@@ -27,13 +25,13 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.list.*;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
+import com.masterhelper.ux.components.library.text.text.EditTextField;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static android.text.InputType.*;
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
@@ -48,8 +46,8 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     private ComponentUIList mediaFilesList;
     FloatingActionButton applyBtn;
 
-    EditText nameEdit;
-    EditText descriptionEdit;
+    EditTextField nameEdit;
+    EditTextField descriptionEdit;
 
     AudioPlayer player;
     EffectsPlayer effectsPlayer;
@@ -66,15 +64,15 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     }
 
     void setMetaDefault(LocationModel location) {
-        nameEdit = findViewById(R.id.EDIT_LOCATION_NAME_FIELD_ID);
+        nameEdit = new EditTextField(R.id.EDIT_LOCATION_NAME_FIELD_ID, this);
         nameEdit.setText(location.name.get());
-        nameEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getNameLength())});
-        nameEdit.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
+        nameEdit.setMaxLength(repository.getNameLength());
+        nameEdit.setMultiLIneText();
 
-        descriptionEdit = findViewById(R.id.EDIT_LOCATION_DESCRIPTION_FIELD_ID);
+        descriptionEdit = new EditTextField(R.id.EDIT_LOCATION_DESCRIPTION_FIELD_ID, this);
         descriptionEdit.setText(location.description.get());
-        descriptionEdit.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getDescriptionLength())});
-        descriptionEdit.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
+        descriptionEdit.setMaxLength(repository.getDescriptionLength());
+        descriptionEdit.setMultiLIneText();
     }
 
     LocationRepository repository;

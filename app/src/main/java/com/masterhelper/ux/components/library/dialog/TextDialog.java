@@ -2,30 +2,28 @@ package com.masterhelper.ux.components.library.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.text.InputFilter;
-import android.view.View;
-import android.widget.EditText;
+import com.masterhelper.ux.components.library.text.text.EditTextField;
 
-import static android.text.InputType.*;
+import java.util.HashMap;
 
 public class TextDialog {
   AlertDialog.Builder builder;
-  EditText name;
+  EditTextField name;
 
   public TextDialog(Activity pageActivity, String dialogTitle, int textLength, String defaultValue, DialogClickListener listener) {
     builder = new AlertDialog.Builder(pageActivity);
     builder.setTitle("Title");
 
-    name = new EditText(pageActivity);
+    name = new EditTextField(0, pageActivity);
 
-    name.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
+    name.setMultiLIneText();
     name.setText(defaultValue);
 
     if (textLength > 0) {
-      name.setFilters(new InputFilter[]{new InputFilter.LengthFilter(textLength)});
+      name.setMaxLength(textLength);
     }
 
-    builder.setView(name);
+    builder.setView(name.getTextField());
     builder.setTitle(dialogTitle);
     builder.setPositiveButton("OK", (dialog, which) -> listener.onResolve(name.getText().toString()));
     builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -36,7 +34,7 @@ public class TextDialog {
   }
 
   public void alert() {
-    name.setVisibility(View.GONE);
+    name.hide();
     builder.show();
   }
 }

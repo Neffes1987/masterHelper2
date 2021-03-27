@@ -2,7 +2,6 @@ package com.masterhelper.npc;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -21,10 +20,10 @@ import com.masterhelper.npc.repository.NPCRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
+import com.masterhelper.ux.components.library.text.text.EditTextField;
 
 import java.io.File;
 
-import static android.text.InputType.*;
 import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 
@@ -115,12 +114,12 @@ public class NPCPage extends AppMenuActivity implements TabLayout.OnTabSelectedL
   }
 
   void initEditField(int id, String value, int textLength) {
-    EditText field = findViewById(id);
+    EditTextField field = new EditTextField(id, this);
     field.setText(value);
     if (textLength > 0) {
-      field.setFilters(new InputFilter[]{new InputFilter.LengthFilter(textLength)});
+      field.setMaxLength(textLength);
     }
-    field.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
+    field.setMultiLIneText();
   }
 
   void initMetaTab(NPCModel currentModel) {

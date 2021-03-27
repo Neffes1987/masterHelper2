@@ -1,7 +1,6 @@
 package com.masterhelper.goals;
 
 import android.content.Intent;
-import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -30,13 +29,13 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
+import com.masterhelper.ux.components.library.text.text.EditTextField;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static android.text.InputType.*;
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 
@@ -88,16 +87,15 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
   }
 
   void initEditMode(GoalModel model) {
-    EditText name = findViewById(R.id.GOAL_EDIT_NAME_FIELD_ID);
+    EditTextField name = new EditTextField(R.id.GOAL_EDIT_NAME_FIELD_ID, this);
     name.setText(model.name.get());
-    name.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getNameLength())});
-    name.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
+    name.setMaxLength(repository.getNameLength());
+    name.setMultiLIneText();
 
-    EditText description = findViewById(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID);
+    EditTextField description = new EditTextField(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID, this);
     description.setText(model.description.get());
-    description.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getDescriptionLength())});
-    description.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
-    ;
+    description.setMaxLength(repository.getDescriptionLength());
+    description.setMultiLIneText();
   }
 
   void toggleTab(int tabIndex) {
