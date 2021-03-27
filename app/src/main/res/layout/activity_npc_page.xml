@@ -83,7 +83,7 @@
 
           <fragment
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:name="com.masterhelper.ux.components.library.image.ComponentUIImage"
             android:id="@+id/NPC_PREVIEW_ID"
             tools:layout="@layout/fragment_component_ui_image"

@@ -120,7 +120,7 @@ public class NPCPage extends AppMenuActivity implements TabLayout.OnTabSelectedL
     if (textLength > 0) {
       field.setFilters(new InputFilter[]{new InputFilter.LengthFilter(textLength)});
     }
-    field.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
+    field.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
   }
 
   void initMetaTab(NPCModel currentModel) {

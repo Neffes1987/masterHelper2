@@ -91,12 +91,12 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
     EditText name = findViewById(R.id.GOAL_EDIT_NAME_FIELD_ID);
     name.setText(model.name.get());
     name.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getNameLength())});
-    name.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
+    name.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
 
     EditText description = findViewById(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID);
     description.setText(model.description.get());
     description.setFilters(new InputFilter[]{new InputFilter.LengthFilter(repository.getDescriptionLength())});
-    description.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
+    description.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
     ;
   }
 

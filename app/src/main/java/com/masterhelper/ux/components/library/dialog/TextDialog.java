@@ -18,7 +18,7 @@ public class TextDialog {
 
     name = new EditText(pageActivity);
 
-    name.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_VARIATION_POSTAL_ADDRESS | TYPE_TEXT_FLAG_MULTI_LINE);
+    name.setInputType(TYPE_CLASS_TEXT | TYPE_TEXT_FLAG_MULTI_LINE | TYPE_TEXT_FLAG_CAP_SENTENCES);
     name.setText(defaultValue);
 
     if (textLength > 0) {
