@@ -1,4 +1,4 @@
-package com.masterhelper.ux.components.library.text.text;
+package com.masterhelper.global.autocomplitefield.editField;
 
 import android.text.SpannableString;
 import android.text.Spanned;

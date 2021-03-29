@@ -14,8 +14,8 @@ public class LocationContract extends AbstractContract<LocationModel> {
   public final static int DESCRIPTION_COLUMN_LENGTH = 2000;
   public final static int PREVIEW_COLUMN_LENGTH = 2000;
   public final static GeneralColumn id = new GeneralColumn(TABLE_NAME, "id", GeneralColumn.ColumnTypes.Primary, ID_COLUMN_LENGTH, false);
-  public final GeneralColumn title = new GeneralColumn(TABLE_NAME,"title", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
-  public final GeneralColumn description = new GeneralColumn(TABLE_NAME,"description", GeneralColumn.ColumnTypes.CharType, DESCRIPTION_COLUMN_LENGTH, false);
+  public final static GeneralColumn title = new GeneralColumn(TABLE_NAME, "title", GeneralColumn.ColumnTypes.CharType, NAME_COLUMN_LENGTH, false);
+  public final GeneralColumn description = new GeneralColumn(TABLE_NAME, "description", GeneralColumn.ColumnTypes.CharType, DESCRIPTION_COLUMN_LENGTH, false);
   public final GeneralColumn previewUrlId = new GeneralColumn(TABLE_NAME,"preview", GeneralColumn.ColumnTypes.CharType, PREVIEW_COLUMN_LENGTH, true);
   public final GeneralColumn musicList = new GeneralColumn(TABLE_NAME, "musicList", GeneralColumn.ColumnTypes.TextTypes, 0, false);
   public final GeneralColumn musicEffects = new GeneralColumn(TABLE_NAME, "musicEffects", GeneralColumn.ColumnTypes.TextTypes, 0, false);
@@ -99,5 +99,15 @@ public class LocationContract extends AbstractContract<LocationModel> {
       + " ON " + TABLE_NAME + "." + previewUrlId.getColumnTitle() + "=" + MediaContract.TABLE_NAME + "." + MediaContract.id.getColumnTitle()
       + " WHERE " + TABLE_NAME + "." + id.getColumnTitle() + "='" + recordId + "'";
     return getDbHelpers().read(query);
+  }
+
+  public Cursor getLocationsDropDownList(String searchString) {
+    String locationFields = "SELECT " + id.getColumnTitle()
+      + "," + title.getColumnTitle();
+
+    locationFields += " FROM " + TABLE_NAME + " WHERE " + title.getColumnTitle() + " LIKE '%" + searchString + "%'";
+    locationFields += " ORDER BY " + title.getColumnTitle() + " ASC ";
+
+    return getDbHelpers().read(locationFields);
   }
 }

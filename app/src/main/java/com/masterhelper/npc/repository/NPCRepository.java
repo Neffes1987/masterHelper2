@@ -4,8 +4,10 @@ import android.database.Cursor;
 import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
 import com.masterhelper.global.fields.DataID;
+import com.masterhelper.locations.repository.LocationContract;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NPCRepository extends AbstractRepository<NPCModel> {
 
@@ -18,6 +20,17 @@ public class NPCRepository extends AbstractRepository<NPCModel> {
     return new NPCModel(this);
   }
 
+  public HashMap<String, String> getDropdownList(String searchStr) {
+    HashMap<String, String> dbRecords = new HashMap<>();
+    Cursor dbList = ((NPCContract) getContract()).getDropDownList(searchStr);
+    while (dbList.moveToNext()) {
+      int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
+      int nameIndex = dbList.getColumnIndex(LocationContract.title.getColumnTitle());
+      dbRecords.put(dbList.getString(idIndex), dbList.getString(nameIndex));
+    }
+    dbList.close();
+    return dbRecords;
+  }
 
   @Override
   public NPCModel[] list(int offset, int limit, String searchStr) {

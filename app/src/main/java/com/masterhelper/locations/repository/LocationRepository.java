@@ -6,6 +6,7 @@ import com.masterhelper.global.db.DbHelpers;
 import com.masterhelper.global.db.repositories.common.repositories.AbstractRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LocationRepository extends AbstractRepository<LocationModel> {
 
@@ -32,7 +33,19 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
     return dbRecords.toArray(new LocationModel[0]);
   }
 
-  public LocationModel getRecord(String id){
+  public HashMap<String, String> getDropdownList(String searchStr) {
+    HashMap<String, String> dbRecords = new HashMap<>();
+    Cursor dbList = ((LocationContract) getContract()).getLocationsDropDownList(searchStr);
+    while (dbList.moveToNext()) {
+      int idIndex = dbList.getColumnIndex(LocationContract.id.getColumnTitle());
+      int nameIndex = dbList.getColumnIndex(LocationContract.title.getColumnTitle());
+      dbRecords.put(dbList.getString(idIndex), dbList.getString(nameIndex));
+    }
+    dbList.close();
+    return dbRecords;
+  }
+
+  public LocationModel getRecord(String id) {
     DataID dataID = new DataID();
     dataID.fromString(id);
     LocationModel event = findRecordById(dataID);
@@ -54,7 +67,7 @@ public class LocationRepository extends AbstractRepository<LocationModel> {
     LocationModel foundedRecord = getDraftRecord();
     LocationContract contract = (LocationContract) getContract();
     int idIndex = cursor.getColumnIndex(LocationContract.id.getColumnTitle());
-    int nameIndex = cursor.getColumnIndex(contract.title.getColumnTitle());
+    int nameIndex = cursor.getColumnIndex(LocationContract.title.getColumnTitle());
     int descriptionIndex = cursor.getColumnIndex(contract.description.getColumnTitle());
     int previewIdIndex = cursor.getColumnIndex(contract.previewUrlId.getColumnTitle());
     int previewUrlIndex = cursor.getColumnIndex("previewUrl");

@@ -2,9 +2,7 @@ package com.masterhelper.ux.components.library.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import com.masterhelper.ux.components.library.text.text.EditTextField;
-
-import java.util.HashMap;
+import com.masterhelper.global.autocomplitefield.editField.EditTextField;
 
 public class TextDialog {
   AlertDialog.Builder builder;
@@ -22,6 +20,8 @@ public class TextDialog {
     if (textLength > 0) {
       name.setMaxLength(textLength);
     }
+
+    name.withAutofill();
 
     builder.setView(name.getTextField());
     builder.setTitle(dialogTitle);

@@ -29,7 +29,7 @@ import com.masterhelper.ux.components.library.appBar.UIToolbar;
 import com.masterhelper.ux.components.library.buttons.icon.ComponentUIImageButton;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
 import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
-import com.masterhelper.ux.components.library.text.text.EditTextField;
+import com.masterhelper.global.autocomplitefield.editField.EditTextField;
 
 import java.io.File;
 import java.util.ArrayList;

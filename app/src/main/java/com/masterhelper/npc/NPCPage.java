@@ -20,7 +20,7 @@ import com.masterhelper.npc.repository.NPCRepository;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.image.ComponentUIImage;
-import com.masterhelper.ux.components.library.text.text.EditTextField;
+import com.masterhelper.global.autocomplitefield.editField.EditTextField;
 
 import java.io.File;
 

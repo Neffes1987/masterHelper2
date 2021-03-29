@@ -36,7 +36,7 @@ public class NPCContract extends AbstractContract<NPCModel> {
     String[] values = new String[]{
       record.id.toString(),
       record.name.get(),
-      record.age.get().toString(),
+      record.age.get(),
       record.character.get(),
       record.relations.get(),
       record.goals.get(),
@@ -117,5 +117,14 @@ public class NPCContract extends AbstractContract<NPCModel> {
       + " ON " + TABLE_NAME + "." + previewUrlId.getColumnTitle() + "=" + MediaContract.TABLE_NAME + "." + MediaContract.id.getColumnTitle()
       + " WHERE " + TABLE_NAME + "." + id.getColumnTitle() + "='" + recordId + "'";
     return getDbHelpers().read(query);
+  }
+
+  public Cursor getDropDownList(String searchString) {
+    String npcs = "SELECT " + id.getColumnTitle()
+      + "," + title.getColumnTitle();
+
+    npcs += " FROM " + TABLE_NAME + " WHERE " + title.getColumnTitle() + " LIKE '%" + searchString + "%'";
+    npcs += " ORDER BY " + title.getColumnTitle() + " ASC ";
+    return getDbHelpers().read(npcs);
   }
 }
