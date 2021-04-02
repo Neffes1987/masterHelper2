@@ -21,8 +21,6 @@ public class TextDialog {
       name.setMaxLength(textLength);
     }
 
-    name.withAutofill();
-
     builder.setView(name.getTextField());
     builder.setTitle(dialogTitle);
     builder.setPositiveButton("OK", (dialog, which) -> listener.onResolve(name.getText().toString()));
