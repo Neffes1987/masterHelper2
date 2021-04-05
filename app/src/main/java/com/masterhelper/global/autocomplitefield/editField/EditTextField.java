@@ -12,15 +12,28 @@ import com.masterhelper.global.autocomplitefield.repository.AutoFillRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.text.InputType.*;
 
 public class EditTextField implements TextWatcher {
-
   MultiAutoCompleteTextView textField;
   int THRESHOLD = 2;
   int TOKEN_OFFSET = 1;
-  String TOKEN = "@";
+  static String TOKEN = "@";
+
+  public static ArrayList<String> findTokensText(String text) {
+    ArrayList<String> tokensList = new ArrayList<>();
+    String regularExpression = "@+?\\S+?\\[\\S+?\\](?=\\s)";
+    Pattern pattern = Pattern.compile(regularExpression);
+    Matcher match = pattern.matcher(text);
+    while (match.find()) {
+      String token = text.substring(match.start(), match.end());
+      tokensList.add(token);
+    }
+    return tokensList;
+  }
 
   public EditTextField(int textFieldId, Activity context) {
     if (textFieldId != 0) {
