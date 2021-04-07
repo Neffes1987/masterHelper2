@@ -67,8 +67,7 @@ public class NPCPageList extends AppMenuActivity implements ListItemControlsList
     CommonHolderPayloadData listItem = list.controls.getItemByListId(listItemId);
     switch (code) {
       case select:
-        Intent npcPage = new Intent(this, NPCPage.class);
-        npcPage.putExtra(INTENT_PAGE_NPC_ID, listItem.getId().get().toString());
+        Intent npcPage = NPCPage.getIntent(this, listItem.getId().get().toString());
         startActivity(npcPage);
         break;
       case delete:

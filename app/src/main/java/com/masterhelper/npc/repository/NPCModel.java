@@ -3,6 +3,7 @@ package com.masterhelper.npc.repository;
 import android.text.TextUtils;
 import com.masterhelper.global.db.repositories.common.model.GeneralModel;
 import com.masterhelper.global.fields.GeneralField;
+import com.masterhelper.npc.NPCLocale;
 
 public class NPCModel extends GeneralModel<NPCRepository> {
 
@@ -58,6 +59,22 @@ public class NPCModel extends GeneralModel<NPCRepository> {
       return new String[]{};
     }
     return musicEffects.get().split(",");
+  }
+
+  public String getAgeLocalesString() {
+    return NPCLocale.getLocalizationByKey(NPCLocale.Keys.age) + ": " + age.get();
+  }
+
+  public String getRelationLocalesString() {
+    return NPCLocale.getLocalizationByKey(NPCLocale.Keys.relations) + ": " + relations.get();
+  }
+
+  public String getGoalLocalesString() {
+    return NPCLocale.getLocalizationByKey(NPCLocale.Keys.goals) + ": " + goals.get();
+  }
+
+  public String getCharacterLocalesString() {
+    return NPCLocale.getLocalizationByKey(NPCLocale.Keys.character) + ": " + character.get();
   }
 
 

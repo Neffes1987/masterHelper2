@@ -1,7 +1,9 @@
 package com.masterhelper.global.autocomplitefield.repository;
 
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.locations.repository.LocationRepository;
+import com.masterhelper.npc.repository.NPCModel;
 import com.masterhelper.npc.repository.NPCRepository;
 
 import java.util.HashMap;
@@ -36,5 +38,15 @@ public class AutoFillRepository {
     cache.putAll(getLocationList(bdSearchRequest));
     cache.putAll(getNPCList(bdSearchRequest));
     return cache;
+  }
+
+  public static NPCModel getNPCDataById(String id) {
+    NPCRepository locationRepository = GlobalApplication.getAppDB().npcRepository;
+    return locationRepository.getRecord(id);
+  }
+
+  public static LocationModel getLocationDataById(String id) {
+    LocationRepository locationRepository = GlobalApplication.getAppDB().locationRepository;
+    return locationRepository.getRecord(id);
   }
 }

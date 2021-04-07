@@ -1,5 +1,6 @@
 package com.masterhelper.npc;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -227,5 +228,11 @@ public class NPCPage extends AppMenuActivity implements TabLayout.OnTabSelectedL
   @Override
   protected void onAppBarMenuItemControl() {
 
+  }
+
+  public static Intent getIntent(Activity context, String id) {
+    Intent npcPage = new Intent(context, NPCPage.class);
+    npcPage.putExtra(INTENT_PAGE_NPC_ID, id);
+    return npcPage;
   }
 }

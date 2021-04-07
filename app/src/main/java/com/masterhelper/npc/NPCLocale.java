@@ -23,6 +23,14 @@ public abstract class NPCLocale {
         return context.getResources().getString(R.string.npc_new_npc);
       case updateNewNPC:
         return context.getResources().getString(R.string.npc_update_name_npc);
+      case age:
+        return context.getResources().getString(R.string.npc_age);
+      case relations:
+        return context.getResources().getString(R.string.npc_relationship);
+      case goals:
+        return context.getResources().getString(R.string.npc_goals);
+      case character:
+        return context.getResources().getString(R.string.npc_character);
     }
     return "";
   }
@@ -34,5 +42,9 @@ public abstract class NPCLocale {
     listCaption,
     createNewNPC,
     updateNewNPC,
+    age,
+    relations,
+    character,
+    goals
   }
 }

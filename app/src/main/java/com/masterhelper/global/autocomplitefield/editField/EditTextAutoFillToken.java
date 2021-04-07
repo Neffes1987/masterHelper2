@@ -13,31 +13,13 @@ public class EditTextAutoFillToken implements MultiAutoCompleteTextView.Tokenize
   }
 
   public int findTokenStart(CharSequence text, int cursor) {
-    int i = cursor;
-
-    while (i > 0 && text.charAt(i - 1) != separator.charAt(0)) {
-      i--;
-    }
-    while (i < cursor && text.charAt(i) == ' ') {
-      i++;
-    }
-
-    return i;
+    return text.toString().lastIndexOf(separator);
   }
 
   public int findTokenEnd(CharSequence text, int cursor) {
-    int i = cursor;
     int len = text.length();
-
-    while (i < len) {
-      if (text.charAt(i) == separator.charAt(0)) {
-        return i;
-      } else {
-        i++;
-      }
-    }
-
-    return len;
+    int tokenIndex = text.toString().lastIndexOf(separator);
+    return len - (tokenIndex + 1);
   }
 
   public CharSequence terminateToken(CharSequence text) {

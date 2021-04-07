@@ -10,8 +10,6 @@ public class TextDialog {
 
   public TextDialog(Activity pageActivity, String dialogTitle, int textLength, String defaultValue, DialogClickListener listener) {
     builder = new AlertDialog.Builder(pageActivity);
-    builder.setTitle("Title");
-
     name = new EditTextField(0, pageActivity);
 
     name.setMultiLIneText();

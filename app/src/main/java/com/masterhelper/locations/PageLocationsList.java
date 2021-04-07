@@ -95,17 +95,13 @@ public class PageLocationsList extends AppMenuActivity implements ListItemContro
 
   public void onSelect(int listItemId) {
     CommonHolderPayloadData item = list.controls.getItemByListId(listItemId);
-    Intent eventIntent;
-    eventIntent = new Intent(this, PageControlsListener.class);
-    eventIntent.putExtra(INTENT_LOCATION_ID, item.getId().get().toString());
+    Intent eventIntent = PageControlsListener.getIntent(this, item.getId().get().toString());
 
     if (isSelectionMode) {
       setResult(RESULT_OK, eventIntent);
       finish();
       return;
     }
-
-    eventIntent.putExtra(INTENT_GOAL_ID, getIntent().getStringExtra(INTENT_GOAL_ID));
     startActivity(eventIntent);
   }
 

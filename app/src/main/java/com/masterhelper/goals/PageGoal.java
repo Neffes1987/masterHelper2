@@ -12,6 +12,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
+import com.masterhelper.global.autocomplitefield.editField.MultiAutofillEditTextField;
+import com.masterhelper.global.autocomplitefield.label.TextLabel;
 import com.masterhelper.goals.repository.GoalModel;
 import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.locations.PageControlsListener;
@@ -60,13 +62,13 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
   EffectsPlayer effectsPlayer;
   AppFilesLibrary library;
 
-  private ComponentUILabel description;
+  private TextLabel description;
 
   void setDescriptionLabel(String newDescription) {
     if (description == null) {
-      description = ComponentUILabel.cast(mn.findFragmentById(R.id.GOAL_DESCRIPTION_ID));
+      description = new TextLabel(R.id.GOAL_DESCRIPTION_ID, this);
     }
-    description.controls.setText(newDescription);
+    description.setLabel(newDescription, true);
   }
 
   void initSelectLocationBtn() {
@@ -92,10 +94,8 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
     name.setMaxLength(repository.getNameLength());
     name.setMultiLIneText();
 
-    EditTextField description = new EditTextField(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID, this);
+    MultiAutofillEditTextField description = new MultiAutofillEditTextField(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID, this, repository.getDescriptionLength());
     description.setText(model.description.get());
-    description.setMaxLength(repository.getDescriptionLength());
-    description.setMultiLIneText();
   }
 
   void toggleTab(int tabIndex) {
@@ -146,8 +146,7 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
     locationTitle.controls.setText(title);
     locationTitle.controls.setOnClickListener(v -> {
       if (locationId != null && locationId.length() != 0) {
-        Intent locationListIntent = new Intent(PageGoal.this, PageControlsListener.class);
-        locationListIntent.putExtra(PageLocationsList.INTENT_LOCATION_ID, currentGoal.assignedLocation.get().toString());
+        Intent locationListIntent = PageControlsListener.getIntent(this, currentGoal.assignedLocation.get().toString());
         startActivity(locationListIntent);
       }
     });

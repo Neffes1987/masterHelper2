@@ -1,5 +1,6 @@
 package com.masterhelper.locations;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import static com.masterhelper.goals.PageGoal.INTENT_GOAL_ID;
 import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 import static com.masterhelper.ux.components.library.image.Image.IMAGE_WIDGET_INTENT_RESULT;
 import static com.masterhelper.media.FileViewerWidget.SELECTED_IDS_INTENT_EXTRA_NAME;
@@ -376,13 +378,19 @@ public class PageControlsListener extends AppMenuActivity implements SetBtnLocat
     protected void onAppBarMenuItemControl() {
     }
 
-    @Override
-    public void listItemChanged(ListItemActionCodes code, int listItemId) {
-        switch (code) {
-            case play:
-                onPlay(listItemId);
-            case select:
-                onSelect(listItemId);
-        }
+  @Override
+  public void listItemChanged(ListItemActionCodes code, int listItemId) {
+    switch (code) {
+      case play:
+        onPlay(listItemId);
+      case select:
+        onSelect(listItemId);
     }
+  }
+
+  public static Intent getIntent(Activity context, String locationId) {
+    Intent locationIntent = new Intent(context, PageControlsListener.class);
+    locationIntent.putExtra(INTENT_LOCATION_ID, locationId);
+    return locationIntent;
+  }
 }
