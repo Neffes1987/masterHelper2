@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,16 +14,25 @@ import android.widget.TextView;
 import com.klinker.android.link_builder.Link;
 import com.klinker.android.link_builder.LinkBuilder;
 import com.klinker.android.link_builder.TouchableMovementMethod;
+import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.global.autocomplitefield.editField.MultiAutofillEditTextField;
 import com.masterhelper.global.autocomplitefield.repository.AutoFillRepository;
 import com.masterhelper.locations.PageControlsListener;
 import com.masterhelper.locations.repository.LocationModel;
+import com.masterhelper.media.Formats;
+import com.masterhelper.media.filesystem.AppFilesLibrary;
+import com.masterhelper.media.repository.MediaModel;
+import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.npc.NPCPage;
 import com.masterhelper.npc.repository.NPCModel;
 import com.masterhelper.ux.resources.ResourceColors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+
+import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 
 public class TextLabel {
   TextView label;
@@ -65,7 +75,9 @@ public class TextLabel {
     ArrayList<String> tokensList = MultiAutofillEditTextField.findTokensText(labelText);
     ArrayList<String> tokensNamesList = MultiAutofillEditTextField.findTokensNames(labelText);
     List<Link> links = new ArrayList<>();
+
     for (String tokensName : tokensNamesList) {
+
       int previewNameIndex = tokensNamesList.indexOf(tokensName);
 
       labelText = labelText.replace(tokensList.get(previewNameIndex), tokensName);
@@ -83,14 +95,14 @@ public class TextLabel {
           NPCModel npc = AutoFillRepository.getNPCDataById(tokenId);
           if (npc != null && npc.id.toString().equals(tokenId)) {
             Intent npcPage = NPCPage.getIntent((Activity) label.getContext(), tokenId);
-            getTokenPopup(npc.name.get(), npc.previewUrl.get(), getNPCDescription(npc), npcPage);
+            getTokenPopup(npc.name.get(), npc.previewUrl.get(), getNPCDescription(npc), npcPage, null, npc.getMusicEffectsIds());
             return;
           }
 
           LocationModel location = AutoFillRepository.getLocationDataById(tokenId);
           if (location != null && location.id.toString().equals(tokenId)) {
             Intent locationIntent = PageControlsListener.getIntent((Activity) label.getContext(), tokenId);
-            getTokenPopup(location.name.get(), location.previewUrl.get(), location.description.get(), locationIntent);
+            getTokenPopup(location.name.get(), location.previewUrl.get(), location.description.get(), locationIntent, location.getMusicIds(), location.getMusicEffectsIds());
           }
 
         });
@@ -105,7 +117,7 @@ public class TextLabel {
   }
 
 
-  void getTokenPopup(String tokenName, String tokenPreviewUrl, String description, Intent tokenIntent) {
+  void getTokenPopup(String tokenName, String tokenPreviewUrl, String description, Intent tokenIntent, String[] backgroundMediaListIds, String[] effectsMediaListIds) {
     Context context = label.getContext();
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setTitle(tokenName);
@@ -140,11 +152,49 @@ public class TextLabel {
     }
 
     if (tokenIntent != null) {
-      builder.setPositiveButton("Open", (dialog, which) -> {
-        context.startActivity(tokenIntent);
+      builder.setPositiveButton("Open", (dialog, which) -> context.startActivity(tokenIntent));
+    }
+    builder.setNegativeButton("Cancel", (dialog, which) -> {
+      dialog.cancel();
+      GlobalApplication.getPlayer().stopMediaRecord();
+      GlobalApplication.getEffectsPlayer().stop();
+    });
+
+    boolean isBackgroundMusicAvailable = backgroundMediaListIds != null && backgroundMediaListIds.length > 0;
+    boolean isEffectMusicAvailable = effectsMediaListIds != null && effectsMediaListIds.length > 0;
+
+    if (isBackgroundMusicAvailable || isEffectMusicAvailable) {
+      builder.setNeutralButton("Play", (dialog, which) -> {
+        if (isBackgroundMusicAvailable) {
+          GlobalApplication.getPlayer().setMediaListOfUri(getSelectedMedia(backgroundMediaListIds, true));
+          GlobalApplication.getPlayer().startNextMediaFile();
+        }
+        if (isEffectMusicAvailable) {
+          GlobalApplication.getEffectsPlayer().setMediaListOfUri(getSelectedMedia(effectsMediaListIds, true));
+          GlobalApplication.getEffectsPlayer().start();
+        }
       });
     }
-    builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
     builder.create().show();
+  }
+
+  String[] getSelectedMedia(String[] mediaListIds, boolean isFilePath) {
+    AppFilesLibrary library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
+    MediaModel[] mediaModels = library.getFilesLibraryList();
+
+    Collection<String> currentUris = new ArrayList<>();
+    Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(mediaListIds));
+    for (MediaModel model : mediaModels) {
+      if (currentSelectedList.contains(model.id.toString())) {
+        if (isFilePath) {
+          currentUris.add(model.filePath.get());
+        } else {
+          currentUris.add(model.fileName.get());
+        }
+      }
+    }
+
+    return currentUris.toArray(new String[0]);
   }
 }

@@ -19,12 +19,8 @@ import com.masterhelper.goals.repository.GoalRepository;
 import com.masterhelper.locations.PageControlsListener;
 import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.locations.repository.LocationModel;
-import com.masterhelper.media.Formats;
-import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.filesystem.AudioPlayer;
 import com.masterhelper.media.filesystem.EffectsPlayer;
-import com.masterhelper.media.music_player.IMusicPlayerWidget;
-import com.masterhelper.media.repository.MediaModel;
 import com.masterhelper.ux.components.core.SetBtnLocation;
 import com.masterhelper.ux.components.library.appBar.AppMenuActivity;
 import com.masterhelper.ux.components.library.appBar.UIToolbar;
@@ -34,21 +30,17 @@ import com.masterhelper.ux.components.library.text.label.ComponentUILabel;
 import com.masterhelper.global.autocomplitefield.editField.EditTextField;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 import static com.masterhelper.goals.GoalLocale.getLocalizationByKey;
-import static com.masterhelper.media.filesystem.AppFilesLibrary.FORMAT_AUDIO_PATH;
 
-public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, View.OnClickListener {
+public class PageGoal extends AppMenuActivity implements View.OnClickListener {
   public static final String INTENT_GOAL_ID = "goalId";
   public static final int INTENT_RESULT_ID = 10000;
-  public static final int GOAL_LOCATION_PLAYER_ID = R.id.GOAL_MUSIC_PLAYER_ID;
 
   int goalCurrentTab = 1;
 
   FloatingActionButton applyBtn;
+  FloatingActionButton playBtn;
 
   GoalModel currentGoal;
   LocationModel attachedLocation;
@@ -56,11 +48,8 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
   FragmentManager mn;
   GoalRepository repository;
 
-  View locationPlayerWidget;
-
   AudioPlayer player;
   EffectsPlayer effectsPlayer;
-  AppFilesLibrary library;
 
   private TextLabel description;
 
@@ -160,17 +149,6 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
     }
   }
 
-  void reInitMusicPlayer() {
-    if (attachedLocation == null || attachedLocation.getMusicIds().length == 0) {
-      locationPlayerWidget.setVisibility(View.GONE);
-      return;
-    }
-
-    locationPlayerWidget.setVisibility(View.VISIBLE);
-    player.setMediaListOfUri(getSelectedMedia(attachedLocation.getMusicIds(), true));
-    effectsPlayer.setMediaListOfUri(getSelectedMedia(attachedLocation.getMusicEffectsIds(), true));
-  }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -180,6 +158,10 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
     applyBtn = findViewById(R.id.GOAL_APPLY_BTN);
     applyBtn.setVisibility(View.GONE);
     applyBtn.setOnClickListener(this);
+
+    playBtn = findViewById(R.id.GOAL_MUSIC_STOP_ID);
+    playBtn.setVisibility(View.GONE);
+    playBtn.setOnClickListener(this);
     toggleTab(goalCurrentTab);
 
     player = GlobalApplication.getPlayer();
@@ -189,14 +171,10 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
     repository = GlobalApplication.getAppDB().goalRepository;
     currentGoal = repository.getRecord(goalId);
 
-    locationPlayerWidget = findViewById(GOAL_LOCATION_PLAYER_ID);
-
     UIToolbar.setTitle(this, currentGoal.name.get(), "");
     setDescriptionLabel(currentGoal.description.get());
 
     initSelectLocationBtn();
-
-    library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
     initTabs();
   }
 
@@ -204,7 +182,14 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
   protected void onStart() {
     super.onStart();
     initLocationMeta(currentGoal.assignedLocation.toString());
-    reInitMusicPlayer();
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    if (playBtn != null) {
+      playBtn.setVisibility(player.isPlayed() ? View.VISIBLE : View.GONE);
+    }
   }
 
   @Override
@@ -223,59 +208,6 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
   }
 
   @Override
-  public void next() {
-    player.startNextMediaFile();
-    effectsPlayer.next();
-  }
-
-  @Override
-  public void play() {
-    player.startNextMediaFile();
-    effectsPlayer.start();
-  }
-
-  @Override
-  public void stop() {
-    player.stopMediaRecord();
-    effectsPlayer.stop();
-  }
-
-  String[] getSelectedMedia(String[] mediaListIds, boolean isFilePath) {
-    MediaModel[] mediaModels = library.getFilesLibraryList();
-
-    Collection<String> currentUris = new ArrayList<>();
-    Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(mediaListIds));
-    for (MediaModel model : mediaModels) {
-      if (currentSelectedList.contains(model.id.toString())) {
-        if (isFilePath) {
-          currentUris.add(model.filePath.get());
-        } else {
-          currentUris.add(model.fileName.get());
-        }
-      }
-    }
-
-    return currentUris.toArray(new String[0]);
-  }
-
-  @Override
-  public String getCurrentTrackName() {
-    if (attachedLocation == null) {
-      return "";
-    }
-    String[] fileNamesList = getSelectedMedia(attachedLocation.getMusicIds(), false);
-    if (fileNamesList.length == 0) {
-      return "";
-    }
-    return fileNamesList[player.getCurrentAudioIndex()];
-  }
-
-  @Override
-  public boolean checkIsPlaying() {
-    return player.isPlayed();
-  }
-
-  @Override
   protected void onAppBarMenuItemControl() {
   }
 
@@ -286,14 +218,21 @@ public class PageGoal extends AppMenuActivity implements IMusicPlayerWidget, Vie
    */
   @Override
   public void onClick(View v) {
-    EditText name = findViewById(R.id.GOAL_EDIT_NAME_FIELD_ID);
-    EditText description = findViewById(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID);
+    if (v == applyBtn) {
+      EditText name = findViewById(R.id.GOAL_EDIT_NAME_FIELD_ID);
+      EditText description = findViewById(R.id.GOAL_EDIT_DESCRIPTION_FIELD_ID);
 
-    currentGoal.name.set(name.getText().toString());
-    currentGoal.description.set(description.getText().toString());
-    currentGoal.save();
+      currentGoal.name.set(name.getText().toString());
+      currentGoal.description.set(description.getText().toString());
+      currentGoal.save();
 
-    setDescriptionLabel(currentGoal.description.get());
-    UIToolbar.setTitle(this, currentGoal.name.get(), "");
+      setDescriptionLabel(currentGoal.description.get());
+      UIToolbar.setTitle(this, currentGoal.name.get(), "");
+    }
+
+    if (v == playBtn) {
+      player.stopMediaRecord();
+      effectsPlayer.stop();
+    }
   }
 }

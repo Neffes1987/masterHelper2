@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -109,11 +110,18 @@ public class MultiAutofillEditTextField implements TextWatcher {
     final int lastSeparatorIndex = typedString.lastIndexOf(" ");
     final int typedTextLen = typedString.length();
 
-    if (lastTokenIndex < 0 || lastSeparatorIndex > lastTokenIndex || typedTextLen - TOKEN_OFFSET < THRESHOLD) {
+    if (typedTextLen <= 0 || lastTokenIndex < 0 || lastSeparatorIndex > lastTokenIndex || typedTextLen - TOKEN_OFFSET < THRESHOLD) {
+      textField.setAdapter(null);
       return;
     }
 
     String lastTokenQueryRange = typedString.substring(lastTokenIndex + TOKEN_OFFSET);
+
+
+    if (lastTokenQueryRange.length() <= 0) {
+      textField.setAdapter(null);
+      return;
+    }
 
     boolean isAutofillInRange = typedTextLen - lastTokenIndex >= THRESHOLD;
 

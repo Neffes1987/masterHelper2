@@ -20,12 +20,10 @@
   <ScrollView
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    app:layout_constraintBottom_toTopOf="@+id/GOAL_MUSIC_PLAYER_ID"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/GOAL_TABS_BAR_ID"
-    app:layout_constraintVertical_bias="0.0"
-    tools:visibility="gone">
+    app:layout_constraintBottom_toBottomOf="parent">
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -114,9 +112,8 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/GOAL_TABS_BAR_ID"
     android:id="@+id/GOAL_VIEW_CONTAINER_ID"
-    app:layout_constraintBottom_toTopOf="@+id/GOAL_MUSIC_PLAYER_ID"
     android:visibility="visible"
-    app:layout_constraintVertical_bias="0">
+    >
 
     <LinearLayout
       android:layout_width="match_parent"
@@ -139,15 +136,15 @@
     </LinearLayout>
   </ScrollView>
 
-  <fragment
-    android:layout_width="0dp"
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:name="com.masterhelper.media.music_player.ComponentUiMusicWidget"
-    android:id="@+id/GOAL_MUSIC_PLAYER_ID"
+    android:clickable="true"
+    app:srcCompat="@mipmap/music"
+    android:id="@+id/GOAL_MUSIC_STOP_ID"
+    style="@style/float_secondary_button"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    tools:layout="@layout/fragment_component_ui_music_widget"/>
+    app:layout_constraintStart_toStartOf="parent"/>
 
   <com.google.android.material.floatingactionbutton.FloatingActionButton
     android:layout_width="wrap_content"
@@ -155,8 +152,8 @@
     android:clickable="true"
     app:srcCompat="@mipmap/done"
     android:id="@+id/GOAL_APPLY_BTN"
-    app:layout_constraintBottom_toTopOf="@+id/GOAL_MUSIC_PLAYER_ID"
     style="@style/float_button_styles"
-    app:layout_constraintEnd_toEndOf="parent"/>
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
