@@ -22,12 +22,12 @@ import static android.text.InputType.*;
 public class MultiAutofillEditTextField implements TextWatcher {
   MultiAutoCompleteTextView textField;
   int THRESHOLD = 2;
-  int TOKEN_OFFSET = 1;
+  int currentTypedTokenIndex = -1;
   static String TOKEN = "@";
 
   public static ArrayList<String> findTokensText(String text) {
     ArrayList<String> tokensList = new ArrayList<>();
-    String regularExpression = "@.+?\\[\\S+?\\]\\s+?";
+    String regularExpression = "@.+?\\[\\S+?\\]{1}";
     Pattern pattern = Pattern.compile(regularExpression);
     Matcher match = pattern.matcher(text);
     while (match.find()) {
@@ -39,7 +39,7 @@ public class MultiAutofillEditTextField implements TextWatcher {
 
   public static ArrayList<String> findTokensNames(String text) {
     ArrayList<String> tokensNamesList = new ArrayList<>();
-    String regularExpression = "@.+?(?=\\[\\S+?\\]\\s+?)";
+    String regularExpression = "@.+?(?=\\[\\S+?\\]{1})";
     Pattern pattern = Pattern.compile(regularExpression);
     Matcher match = pattern.matcher(text);
     while (match.find()) {
@@ -104,40 +104,51 @@ public class MultiAutofillEditTextField implements TextWatcher {
 
   @Override
   public void onTextChanged(CharSequence s, int start, int before, int count) {
-    String typedString = s.toString();
-
-    final int lastTokenIndex = typedString.lastIndexOf(TOKEN);
-    final int lastSeparatorIndex = typedString.lastIndexOf(" ");
-    final int typedTextLen = typedString.length();
-
-    if (typedTextLen <= 0 || lastTokenIndex < 0 || lastSeparatorIndex > lastTokenIndex || typedTextLen - TOKEN_OFFSET < THRESHOLD) {
+    if (s.length() == 0) {
       textField.setAdapter(null);
-      return;
     }
-
-    String lastTokenQueryRange = typedString.substring(lastTokenIndex + TOKEN_OFFSET);
-
-
-    if (lastTokenQueryRange.length() <= 0) {
-      textField.setAdapter(null);
-      return;
-    }
-
-    boolean isAutofillInRange = typedTextLen - lastTokenIndex >= THRESHOLD;
-
-    if (isAutofillInRange) {
-      HashMap<String, String> cache = AutoFillRepository.getAutofillList(lastTokenQueryRange, THRESHOLD);
-      ArrayList<String> list = new ArrayList<>();
-      for (String id : cache.keySet()) {
-        list.add(TOKEN + Objects.requireNonNull(cache.get(id)).replace("\\s", "") + "[" + id + "]");
-      }
-      ArrayAdapter<String> adapter = new ArrayAdapter<>(textField.getContext(), android.R.layout.simple_dropdown_item_1line, list);
-      textField.setAdapter(adapter);
-    }
+    final String tokenQuery = accumulateToken(s, start, before > 0);
+    generateAutofillList(tokenQuery);
   }
 
   @Override
   public void afterTextChanged(Editable s) {
 
+  }
+
+  private String accumulateToken(CharSequence typedChar, int start, boolean isErase) {
+    if (typedChar.length() <= start) {
+      return "";
+    }
+    String typedString = typedChar.toString();
+    String lastTypedChar = typedString.charAt(start) + "";
+    boolean isTokenEnded = (lastTypedChar.contains("\r") || lastTypedChar.contains("\n") || lastTypedChar.contains(" ")) && !isErase;
+
+    if (lastTypedChar.contains(TOKEN)) {
+      currentTypedTokenIndex = start;
+    } else if (isTokenEnded) {
+      currentTypedTokenIndex = -1;
+    }
+
+    if (currentTypedTokenIndex == -1 || start - currentTypedTokenIndex <= 0) {
+      return "";
+    }
+
+    return typedString.substring(currentTypedTokenIndex, start).replace(TOKEN, "");
+  }
+
+  private void generateAutofillList(String tokenQuery) {
+    if (tokenQuery.length() == 0 || tokenQuery.length() < THRESHOLD) {
+      textField.setAdapter(null);
+      return;
+    }
+    HashMap<String, String> cache = AutoFillRepository.getAutofillList(tokenQuery, THRESHOLD);
+    ArrayList<String> list = new ArrayList<>();
+    for (String id : cache.keySet()) {
+      list.add(TOKEN + Objects.requireNonNull(cache.get(id)).replace("\\s", "") + "[" + id + "]");
+    }
+
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(textField.getContext(), android.R.layout.simple_dropdown_item_1line, list);
+    textField.setAdapter(adapter);
   }
 }

@@ -22,7 +22,6 @@ import com.masterhelper.locations.repository.LocationModel;
 import com.masterhelper.media.Formats;
 import com.masterhelper.media.filesystem.AppFilesLibrary;
 import com.masterhelper.media.repository.MediaModel;
-import com.masterhelper.media.repository.MediaRepository;
 import com.masterhelper.npc.NPCPage;
 import com.masterhelper.npc.repository.NPCModel;
 import com.masterhelper.ux.resources.ResourceColors;
@@ -75,11 +74,9 @@ public class TextLabel {
     ArrayList<String> tokensList = MultiAutofillEditTextField.findTokensText(labelText);
     ArrayList<String> tokensNamesList = MultiAutofillEditTextField.findTokensNames(labelText);
     List<Link> links = new ArrayList<>();
-
     for (String tokensName : tokensNamesList) {
 
       int previewNameIndex = tokensNamesList.indexOf(tokensName);
-
       labelText = labelText.replace(tokensList.get(previewNameIndex), tokensName);
       label.setText(labelText);
 
@@ -166,11 +163,11 @@ public class TextLabel {
     if (isBackgroundMusicAvailable || isEffectMusicAvailable) {
       builder.setNeutralButton("Play", (dialog, which) -> {
         if (isBackgroundMusicAvailable) {
-          GlobalApplication.getPlayer().setMediaListOfUri(getSelectedMedia(backgroundMediaListIds, true));
+          GlobalApplication.getPlayer().setMediaListOfUri(getSelectedMedia(backgroundMediaListIds));
           GlobalApplication.getPlayer().startNextMediaFile();
         }
         if (isEffectMusicAvailable) {
-          GlobalApplication.getEffectsPlayer().setMediaListOfUri(getSelectedMedia(effectsMediaListIds, true));
+          GlobalApplication.getEffectsPlayer().setMediaListOfUri(getSelectedMedia(effectsMediaListIds));
           GlobalApplication.getEffectsPlayer().start();
         }
       });
@@ -179,7 +176,7 @@ public class TextLabel {
     builder.create().show();
   }
 
-  String[] getSelectedMedia(String[] mediaListIds, boolean isFilePath) {
+  String[] getSelectedMedia(String[] mediaListIds) {
     AppFilesLibrary library = new AppFilesLibrary(FORMAT_AUDIO_PATH, Formats.audio);
     MediaModel[] mediaModels = library.getFilesLibraryList();
 
@@ -187,11 +184,7 @@ public class TextLabel {
     Collection<String> currentSelectedList = new ArrayList<>(Arrays.asList(mediaListIds));
     for (MediaModel model : mediaModels) {
       if (currentSelectedList.contains(model.id.toString())) {
-        if (isFilePath) {
-          currentUris.add(model.filePath.get());
-        } else {
-          currentUris.add(model.fileName.get());
-        }
+        currentUris.add(model.filePath.get());
       }
     }
 

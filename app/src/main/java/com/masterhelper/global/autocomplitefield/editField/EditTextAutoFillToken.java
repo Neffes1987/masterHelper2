@@ -3,6 +3,7 @@ package com.masterhelper.global.autocomplitefield.editField;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.MultiAutoCompleteTextView;
 
 public class EditTextAutoFillToken implements MultiAutoCompleteTextView.Tokenizer {
@@ -13,18 +14,15 @@ public class EditTextAutoFillToken implements MultiAutoCompleteTextView.Tokenize
   }
 
   public int findTokenStart(CharSequence text, int cursor) {
-    return text.toString().lastIndexOf(separator);
+    return getCharIndex(text, cursor);
   }
 
   public int findTokenEnd(CharSequence text, int cursor) {
-    int len = text.length();
-    int tokenIndex = text.toString().lastIndexOf(separator);
-    return len - (tokenIndex + 1);
+    return getCharIndex(text, cursor);
   }
 
   public CharSequence terminateToken(CharSequence text) {
     int i = text.length();
-
     while (i > 0 && text.charAt(i - 1) == ' ') {
       i--;
     }
@@ -41,5 +39,10 @@ public class EditTextAutoFillToken implements MultiAutoCompleteTextView.Tokenize
         return text + " ";
       }
     }
+  }
+
+  int getCharIndex(CharSequence text, int cursor) {
+    String lastSeparator = text.toString().substring(0, cursor);
+    return lastSeparator.lastIndexOf(separator);
   }
 }
