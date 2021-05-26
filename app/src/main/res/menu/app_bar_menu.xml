@@ -3,6 +3,9 @@
       xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item
+    android:title="@string/journey_list_name"
+    android:id="@+id/MENU_ITEM_JOURNEYS_ID"/>
+  <item
     android:title="@string/location_popup_setting"
     android:id="@+id/MENU_LOCATIONS_ID"/>
   <item

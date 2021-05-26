@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.masterhelper.R;
+import com.masterhelper.journeys.PageJourneyList;
 import com.masterhelper.locations.PageLocationsList;
 import com.masterhelper.media.FileViewerWidget;
 import com.masterhelper.media.Formats;
@@ -102,6 +103,10 @@ public abstract class AppMenuActivity extends AppCompatActivity {
         break;
       case R.id.MENU_ITEMS_CONTROLS_BUTTON_ID:
         onAppBarMenuItemControl();
+        break;
+      case R.id.MENU_ITEM_JOURNEYS_ID:
+        openSettingsScreen = new Intent(this, PageJourneyList.class);
+        startActivity(openSettingsScreen);
         break;
     }
     return super.onOptionsItemSelected(item);
