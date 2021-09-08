@@ -107,7 +107,6 @@
     android:clickable="true"
     app:srcCompat="@mipmap/done"
     android:id="@+id/GOAL_APPLY_BTN"
-    style="@style/float_button_styles"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"/>
 

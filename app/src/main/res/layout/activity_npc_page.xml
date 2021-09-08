@@ -24,8 +24,7 @@
     app:srcCompat="@mipmap/done"
     android:id="@+id/NPC_EDIT_TABS_APPLY_BTN_ID"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    style="@style/float_button_styles"/>
+    app:layout_constraintEnd_toEndOf="parent"/>
 
   <com.google.android.material.tabs.TabLayout
     android:layout_width="match_parent"
@@ -101,8 +100,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginBottom="8dp"
-              android:background="@color/colorCardBG"
-              style="@style/npcPropertyRow">
+              android:background="@color/accentWhite">
 
               <TextView
                 android:text="@string/npc_age"
@@ -122,8 +120,7 @@
             <LinearLayout
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              style="@style/npcPropertyRow">
+              android:layout_height="wrap_content">
 
               <TextView
                 android:text="@string/npc_character"
@@ -143,8 +140,7 @@
             <LinearLayout
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              style="@style/npcPropertyRow">
+              android:layout_height="match_parent">
 
               <TextView
                 android:text="@string/npc_relationship"
@@ -166,7 +162,7 @@
           android:orientation="vertical"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
-          style="@style/npcPropertyRow">
+          >
 
           <TextView
             android:text="@string/npc_goals"
@@ -184,8 +180,7 @@
         <LinearLayout
           android:orientation="vertical"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          style="@style/npcPropertyRow">
+          android:layout_height="match_parent">
 
           <TextView
             android:text="@string/npc_background"
@@ -211,8 +206,7 @@
         <LinearLayout
           android:orientation="vertical"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          style="@style/npcPropertyRow">
+          android:layout_height="match_parent">
 
           <TextView
             android:text="@string/npc_name"
@@ -231,8 +225,7 @@
         <LinearLayout
           android:orientation="vertical"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          style="@style/npcPropertyRow">
+          android:layout_height="match_parent">
 
           <TextView
             android:text="@string/npc_relationship"
@@ -253,8 +246,7 @@
           android:orientation="horizontal"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginBottom="8dp"
-          style="@style/npcPropertyRow">
+          android:layout_marginBottom="8dp">
 
           <TextView
             android:text="@string/npc_age"
@@ -276,8 +268,7 @@
         <LinearLayout
           android:orientation="vertical"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          style="@style/npcPropertyRow">
+          android:layout_height="match_parent">
 
           <TextView
             android:text="@string/npc_character"
@@ -297,8 +288,7 @@
         <LinearLayout
           android:orientation="vertical"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          style="@style/npcPropertyRow">
+          android:layout_height="match_parent">
 
           <TextView
             android:text="@string/npc_background"
@@ -318,8 +308,7 @@
         <LinearLayout
           android:orientation="vertical"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          style="@style/npcPropertyRow">
+          android:layout_height="match_parent">
 
           <TextView
             android:text="@string/npc_goals"

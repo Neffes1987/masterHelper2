@@ -12,15 +12,23 @@ public class ResourceColors {
   public static int getColor(ResourceColorType type){
     Context context = GlobalApplication.getAppContext();
     switch (type){
-      case secondary: return context.getResources().getColor(R.color.colorPrimary);
-      case primary: return context.getResources().getColor(R.color.colorTextReverse);
-      case alert: return context.getResources().getColor(R.color.colorDelete);
-      case common: return context.getResources().getColor(R.color.colorCommon);
-      case attention: return context.getResources().getColor(R.color.colorAttention);
-      case musicStarted: return context.getResources().getColor(R.color.colorMusicStartedFloatTint);
-      case battleEvent: return context.getResources().getColor(R.color.listItemHeaderBattle);
-      case accidentEvent: return context.getResources().getColor(R.color.listItemHeaderAccident);
-      case meetingEvent: return context.getResources().getColor(R.color.listItemHeaderMeeting);
+      case secondary:
+        return context.getResources().getColor(R.color.accentWhite);
+      case primary:
+        return context.getResources().getColor(R.color.primary);
+      case alert:
+        return context.getResources().getColor(R.color.accentWhite);
+      case common:
+        return context.getResources().getColor(R.color.primary);
+      case attention:
+      case musicStarted:
+        return context.getResources().getColor(R.color.neutralYellow);
+      case battleEvent:
+        return context.getResources().getColor(R.color.primary);
+      case accidentEvent:
+        return context.getResources().getColor(R.color.primary);
+      case meetingEvent:
+        return context.getResources().getColor(R.color.primary);
       default:
         throw new Error("ResourceColors - Wrong type of color");
     }

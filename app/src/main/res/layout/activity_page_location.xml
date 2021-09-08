@@ -147,7 +147,6 @@
     android:id="@+id/LOCATION_APPLY_BTN_ID"
     app:layout_constraintBottom_toBottomOf="@+id/scrollView3"
     app:layout_constraintEnd_toEndOf="parent"
-    style="@style/float_button_styles"
     app:rippleColor="#B01717"
     tools:visibility="gone"/>
 

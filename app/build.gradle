@@ -25,6 +25,8 @@ android {
 }
 
 dependencies {
+    def nav_version = '2.2.2'
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'

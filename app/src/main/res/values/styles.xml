@@ -1,75 +1,53 @@
 <resources>
 
-  <style name="CustomTheme" parent="Platform.MaterialComponents">
+  <style name="DefaultScreenTheme" parent="Platform.MaterialComponents.Light">
+    <item name="backgroundColor">@color/accentLightGray</item>
+  </style>
+
+  <style name="NoActionBarTheme" parent="DefaultScreenTheme">
     <item name="windowActionBar">false</item>
-    <item name="windowNoTitle">true</item>
+    <item name="windowNoTitle">false</item>
   </style>
 
-  <style name="rowStyled">
-    <item name="android:minHeight">40dp</item>
-    <item name="android:layout_marginBottom">8dp</item>
+  <style name="text">
+    <item name="android:textColor">@color/accentDarkBlue</item>
   </style>
 
-  <style name="npcPropertyRow">
-    <item name="android:background">@color/colorCardBG</item>
-    <item name="android:padding">8dp</item>
-    <item name="android:layout_marginBottom">8dp</item>
+  <style name="text.title">
+    <item name="android:textSize">28sp</item>
+    <item name="fontWeight">700</item>
   </style>
 
-  <style name="EnemyTableCaption">
-    <item name="android:layout_width">90dp</item>
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:layout_weight">0</item>
-    <item name="android:paddingRight">8dp</item>
-    <item name="android:paddingBottom">8dp</item>
+  <style name="text.title.subtitle">
+    <item name="android:textSize">24sp</item>
   </style>
 
-  <style name="common_action_button">
-    <item name="android:layout_width">wrap_content</item>
-    <item name="android:layout_height">match_parent</item>
-    <item name="android:layout_weight">0</item>
-    <item name="android:paddingLeft">10dp</item>
-    <item name="android:paddingRight">10dp</item>
-    <item name="android:tint">@color/colorCommon</item>
-    <item name="android:textColor">@color/colorCommon</item>
+  <style name="text.body">
+    <item name="android:textSize">20sp</item>
   </style>
 
-  <style name="float_button_styles" parent="common_action_button">
-    <item name="android:layout_height">wrap_content</item>
-    <item name="android:clickable">true</item>
-    <item name="android:layout_margin">8dp</item>
-    <item name="android:backgroundTint">@color/colorFloatBtnBackground</item>
-    <item name="android:focusable">true</item>
+  <style name="text.body.bold">
+    <item name="fontWeight">700</item>
   </style>
 
-  <style name="delete_action_button"  parent="common_action_button">
-    <item name="android:tint">@color/colorDelete</item>
-    <item name="android:textColor">@color/colorDelete</item>
-    <item name="android:foregroundGravity">clip_horizontal|center_horizontal</item>
+  <style name="text.caption">
+    <item name="android:textSize">16sp</item>
   </style>
 
-  <style name="secondary_action_button" parent="common_action_button">
-    <item name="android:tint">@color/colorAttention</item>
-    <item name="android:textColor">@color/colorAttention</item>
+  <style name="text.caption.bold">
+    <item name="fontWeight">700</item>
   </style>
 
-  <style name="float_secondary_button"  parent="float_button_styles">
-    <item name="android:tint">@color/colorAttention</item>
-    <item name="android:textColor">@color/colorAttention</item>
+  <style name="text.title.subtitle.add_button">
+    <item name="android:layout_width">80dp</item>
+    <item name="android:layout_height">80dp</item>
+    <item name="android:textSize">44sp</item>
+    <item name="android:background">@drawable/roundedbutton</item>
+    <item name="android:textColor">@color/neutralYellow</item>
   </style>
 
-  <style name="float_alert_button" parent="float_button_styles">
-    <item name="android:tint">@color/colorDelete</item>
-    <item name="android:textColor">@color/colorDelete</item>
+  <style name="text.title.subtitle.primary_button">
+    <item name="android:background">@drawable/primarybutton</item>
+    <item name="android:textColor">@color/neutralYellow</item>
   </style>
-
-  <style name="page_layout">
-    <item name="android:layout_margin">8dp</item>
-  </style>
-
-  <style name="row_layout">
-    <item name="android:layout_marginLeft">8dp</item>
-    <item name="android:layout_marginRight">8dp</item>
-  </style>
-
 </resources>

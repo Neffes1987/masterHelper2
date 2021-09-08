@@ -36,8 +36,7 @@
         android:text="@string/screen_intro_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        style="@style/rowStyled"/>
+        android:id="@+id/textView"/>
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -55,23 +54,20 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/ACT_I_PLOT_POINT_BTN_ID"
-          android:layout_weight="0"
-          style="@style/common_action_button"/>
+          android:layout_weight="0"/>
       </LinearLayout>
 
       <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:backgroundTint="#622D2D"
-        style="@style/rowStyled"/>
+        android:backgroundTint="#622D2D"/>
 
       <TextView
         android:text="@string/screen_puzzle_intro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        style="@style/rowStyled"/>
+        android:id="@+id/textView2"/>
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -89,8 +85,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/ACT_II_PLOT_POINT_BTN_ID"
-          android:layout_weight="0"
-          style="@style/common_action_button"/>
+          android:layout_weight="0"/>
 
       </LinearLayout>
 
@@ -98,15 +93,13 @@
         android:id="@+id/divider3"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:backgroundTint="#622D2D"
-        style="@style/rowStyled"/>
+        android:backgroundTint="#622D2D"/>
 
       <TextView
         android:text="@string/screen_plot_twist_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        style="@style/rowStyled"/>
+        android:id="@+id/textView3"/>
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -124,8 +117,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/ACT_III_PLOT_POINT_BTN_ID"
-          android:layout_weight="0"
-          style="@style/common_action_button"/>
+          android:layout_weight="0"/>
 
       </LinearLayout>
 
@@ -133,15 +125,13 @@
         android:id="@+id/divider4"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:backgroundTint="#622D2D"
-        style="@style/rowStyled"/>
+        android:backgroundTint="#622D2D"/>
 
       <TextView
         android:text="@string/screen_main_challenge_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView4"
-        style="@style/rowStyled"/>
+        android:id="@+id/textView4"/>
 
       <LinearLayout
         android:layout_width="match_parent"
@@ -159,8 +149,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/ACT_IV_PLOT_POINT_BTN_ID"
-          android:layout_weight="0"
-          style="@style/common_action_button"/>
+          android:layout_weight="0"/>
 
       </LinearLayout>
 
@@ -168,8 +157,7 @@
         android:id="@+id/divider5"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:backgroundTint="#622D2D"
-        style="@style/rowStyled"/>
+        android:backgroundTint="#622D2D"/>
 
       <TextView
         android:text="@string/screen_call_second_deep_tip"
@@ -193,8 +181,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/ACT_V_PLOT_POINT_BTN_ID"
-          android:layout_weight="0"
-          style="@style/common_action_button"/>
+          android:layout_weight="0"/>
 
       </LinearLayout>
 

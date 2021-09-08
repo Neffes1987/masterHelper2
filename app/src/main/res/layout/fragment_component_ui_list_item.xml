@@ -12,7 +12,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/COMPONENT_LIST_ITEM_CARD"
-    style="@style/rowStyled"
     >
 
     <LinearLayout
@@ -56,24 +55,21 @@
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
           android:id="@+id/LIST_ITEM_DELETE_BTN_ID"
-          android:layout_weight="0"
-          style="@style/delete_action_button"/>
+          android:layout_weight="0"/>
 
         <ImageButton
           android:src="@mipmap/pencil"
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
           android:id="@+id/LIST_ITEM_EDIT_BTN_ID"
-          android:layout_weight="0"
-          style="@style/common_action_button"/>
+          android:layout_weight="0"/>
 
         <ImageButton
           android:src="@mipmap/play"
           android:layout_width="wrap_content"
           android:layout_height="match_parent"
           android:id="@+id/LIST_ITEM_PLAY_BTN_ID"
-          android:layout_weight="0"
-          style="@style/secondary_action_button"/>
+          android:layout_weight="0"/>
 
       </LinearLayout>
 

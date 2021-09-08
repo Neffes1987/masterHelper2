@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             tools:context=".ux.UIAddButtonFragment">
+
+  <Button
+    android:text="@string/add"
+    android:id="@+id/ADD_BUTTON_ID"
+    style="@style/text.title.subtitle.add_button"
+    />
+
+</FrameLayout>

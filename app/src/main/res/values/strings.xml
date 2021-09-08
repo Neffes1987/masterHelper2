@@ -1,5 +1,29 @@
 <resources>
-  <!-- support texts -->
+  <!-- All screens -->
+  <string name="add">+</string>
+  <string name="apply">Применить</string>
+  <string name="edit">Редактировать</string>
+  <string name="delete">Удалить</string>
+  <string name="rename">Переименовать</string>
+  <string name="start">Запустить</string>
+  <string name="stop">Остановить</string>
+  <string name="finish">Завершить</string>
+
+  <!-- Main screen -->
+  <string name="no_journey">Нет приключений</string>
+  <string name="no_journey_description">Создайте свое первое приключение</string>
+  <string name="journey_title">Имя приключения</string>
+  <string name="journey_theme">Референс</string>
+  <string name="journey_time">Временной отрезок в мире</string>
+  <string name="journey_restrictions">Временной отрезок в мире</string>
+
+  <!-- Edit journey screen -->
+  <string name="journey_edit_title">Редактор приключения</string>
+  <string name="journey_edit_placeholder_name">Название приключения</string>
+  <string name="journey_edit_placeholder_theme">Тема приключения</string>
+  <string name="journey_edit_placeholder_timestamp">Временной отрезок</string>
+  <string name="journey_edit_placeholder_restrictions">Ограничения, за которые не следует выходить</string>
+
   <string name="ui_text">text-component-fragment</string>
 
   <!-- journey -->
