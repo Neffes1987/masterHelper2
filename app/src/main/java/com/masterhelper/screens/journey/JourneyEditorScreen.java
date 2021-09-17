@@ -1,22 +1,25 @@
 package com.masterhelper.screens.journey;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 import com.masterhelper.R;
 import com.masterhelper.screens.CommonScreen;
 import com.masterhelper.ux.ApplyButtonFragment;
-import com.masterhelper.ux.ContextPopupMenu;
-import com.masterhelper.ux.PropertyBarFragment;
+import com.masterhelper.ux.ContextPopupMenuBuilder;
+import com.masterhelper.ux.list.propertyBar.PropertyBar;
+import com.masterhelper.ux.TextDialogBuilder;
 
 public class JourneyEditorScreen extends CommonScreen {
-  String[] CONTEXT_MENU_ITEMS = {"Test"};
+  PropertyBar nameFragment;
+  PropertyBar timeFragment;
+  PropertyBar themeFragment;
+  PropertyBar restrictionsFragment;
 
-  PropertyBarFragment nameFragment;
-  PropertyBarFragment timeFragment;
-  PropertyBarFragment themeFragment;
-  PropertyBarFragment restrictionsFragment;
+  ContextPopupMenuBuilder popupBuilder;
+  TextDialogBuilder textDialogBuilder;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -24,15 +27,18 @@ public class JourneyEditorScreen extends CommonScreen {
     setContentView(R.layout.activity_journey_editor_screen);
 
     setActionBarTitle(R.string.journey_edit_title);
+
+    popupBuilder = new ContextPopupMenuBuilder(new String[]{
+      getResources().getString(R.string.edit)
+    });
+    popupBuilder.setPopupMenuClickHandler(this::onPopupMenuItemClick);
   }
 
-  protected void onStart() {
-    super.onStart();
-
+  protected void onInitScreen() {
     ApplyButtonFragment applyButtonFragment = (ApplyButtonFragment) getSupportFragmentManager().findFragmentById(R.id.APPLY_BUTTON_FRAGMENT_ID);
     if (applyButtonFragment != null) {
       applyButtonFragment.setListener(v -> {
-        onBackPressed();
+        startActivity(CurrentJourneyScreen.getScreenIntent(this));
       });
     }
 
@@ -42,14 +48,24 @@ public class JourneyEditorScreen extends CommonScreen {
     restrictionsFragment = initProperty(R.id.JOURNEY_RESTRICTIONS_FRAGMENT_ID, R.string.journey_restrictions, "");
   }
 
-  private PropertyBarFragment initProperty(int fragmentId, int labelId, String text) {
-    PropertyBarFragment property = (PropertyBarFragment) getSupportFragmentManager().findFragmentById(fragmentId);
-    assert property != null;
+  boolean onPopupMenuItemClick(String tag, int menuItemIndex) {
+    textDialogBuilder = new TextDialogBuilder(this);
+    AlertDialog dialog = textDialogBuilder.setPositiveButton((v) -> {
+        Log.i("TAG", "onCreate: " + tag);
+        Log.i("TAG", "onCreate: " + menuItemIndex);
+      })
+      .setTitle("edit")
+      .create();
+
+    dialog.show();
+    return true;
+  }
+
+  private PropertyBar initProperty(int fragmentId, int labelId, String text) {
+    PropertyBar property = new PropertyBar(getSupportFragmentManager().findFragmentById(fragmentId));
     property.setLabel(labelId);
     property.setTitle(text);
-    property.setOnPropertyBarClick((tag, menuItemName) -> {
-
-    }, labelId, CONTEXT_MENU_ITEMS);
+    property.setCardContextMenu(popupBuilder.cloneBuilder(labelId + ""));
 
     return property;
   }

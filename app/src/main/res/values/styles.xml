@@ -46,8 +46,13 @@
     <item name="android:textColor">@color/neutralYellow</item>
   </style>
 
-  <style name="text.title.subtitle.primary_button">
-    <item name="android:background">@drawable/primarybutton</item>
+  <style name="text.body.primary">
+    <item name="android:background">@drawable/primary_button</item>
     <item name="android:textColor">@color/neutralYellow</item>
+  </style>
+
+  <style name="text.body.secondary">
+    <item name="android:background">@drawable/secondary_button</item>
+    <item name="android:textColor">@color/accentDarkBlue</item>
   </style>
 </resources>

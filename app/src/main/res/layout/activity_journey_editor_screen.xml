@@ -30,28 +30,28 @@
     <androidx.fragment.app.FragmentContainerView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:name="com.masterhelper.ux.PropertyBarFragment"
+      android:name="com.masterhelper.ux.list.propertyBar.PropertyBarFragment"
       android:id="@+id/JOURNEY_TITLE_FRAGMENT_ID"
       tools:layout="@layout/fragment_property_bar"/>
 
     <androidx.fragment.app.FragmentContainerView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:name="com.masterhelper.ux.PropertyBarFragment"
+      android:name="com.masterhelper.ux.list.propertyBar.PropertyBarFragment"
       android:id="@+id/JOURNEY_THEME_FRAGMENT_ID"
       tools:layout="@layout/fragment_property_bar"/>
 
     <androidx.fragment.app.FragmentContainerView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:name="com.masterhelper.ux.PropertyBarFragment"
+      android:name="com.masterhelper.ux.list.propertyBar.PropertyBarFragment"
       android:id="@+id/JOURNEY_RESTRICTIONS_FRAGMENT_ID"
       tools:layout="@layout/fragment_property_bar"/>
 
     <androidx.fragment.app.FragmentContainerView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:name="com.masterhelper.ux.PropertyBarFragment"
+      android:name="com.masterhelper.ux.list.propertyBar.PropertyBarFragment"
       android:id="@+id/JOURNEY_TIMELINE_FRAGMENT_ID"
       tools:layout="@layout/fragment_property_bar"/>
 

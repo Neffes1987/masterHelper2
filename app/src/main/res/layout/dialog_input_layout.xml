@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:background="#001E1E1E">
+
+  <androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/primary"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="8dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    >
+
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/DIALOG_TITLE_ID"
+        style="@style/text.title"
+        android:text="test"
+        android:textAlignment="center"
+        android:textColor="@color/accentDarkBlue"
+        android:background="@color/accentWhite"/>
+
+      <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/DIALOG_INPUT_ID"
+        android:textColor="@color/accentWhite"
+        android:textColorHighlight="@color/accentWhite"
+        android:textColorHint="@color/accentWhite"
+        android:textColorLink="@color/accentWhite"
+        android:shadowColor="@color/accentWhite"
+        android:backgroundTint="@color/accentWhite"/>
+
+      <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+          android:text="Button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/DIALOG_NEGATIVE_BUTTON_ID"
+          android:layout_weight="1"
+          style="@style/text.body.secondary"
+          android:padding="4dp"
+          android:layout_margin="10dp"/>
+
+        <Button
+          android:text="Button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/DIALOG_POSITIVE_BUTTON_ID"
+          android:layout_weight="1"
+          style="@style/text.body.primary"
+          android:backgroundTint="#2A6F46"
+          android:layout_margin="10dp"/>
+
+      </LinearLayout>
+    </LinearLayout>
+  </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

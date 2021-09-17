@@ -8,6 +8,8 @@
   <string name="start">Запустить</string>
   <string name="stop">Остановить</string>
   <string name="finish">Завершить</string>
+  <string name="cancel">Отменить</string>
+  <string name="ok">OK</string>
 
   <!-- Main screen -->
   <string name="no_journey">Нет приключений</string>
@@ -23,6 +25,43 @@
   <string name="journey_edit_placeholder_theme">Тема приключения</string>
   <string name="journey_edit_placeholder_timestamp">Временной отрезок</string>
   <string name="journey_edit_placeholder_restrictions">Ограничения, за которые не следует выходить</string>
+
+  <!-- journey acts -->
+  <string name="act_number_1">Обыденный мир</string>
+  <string name="act_number_1_description">Обыденный мир</string>
+
+  <string name="act_number_2">Зов к странствиям</string>
+  <string name="act_number_2_description">Зов к странствиям</string>
+
+  <string name="act_number_3">Отвержение зова</string>
+  <string name="act_number_3_description">Отвержение зова</string>
+
+  <string name="act_number_4">Встреча с наставником</string>
+  <string name="act_number_4_description">Встреча с наставником</string>
+
+  <string name="act_number_5">Преодаление первого порога</string>
+  <string name="act_number_5_description">Преодаление первого порога</string>
+
+  <string name="act_number_6">Испытания, союзники и враги</string>
+  <string name="act_number_6_description">Испытания, союзники и враги</string>
+
+  <string name="act_number_7">Приближение с сокрытой пещере</string>
+  <string name="act_number_7_description">Приближение с сокрытой пещере</string>
+
+  <string name="act_number_8">Главное испытание</string>
+  <string name="act_number_8_description">Главное испытание</string>
+
+  <string name="act_number_9">Награда</string>
+  <string name="act_number_9_description">Награда</string>
+
+  <string name="act_number_10">Обратный путь</string>
+  <string name="act_number_10_description">Обратный путь</string>
+
+  <string name="act_number_11">Возрождение (Кульминация)</string>
+  <string name="act_number_11_description">Возрождение (Кульминация)</string>
+
+  <string name="act_number_12">Возвращение с эликсиром</string>
+  <string name="act_number_12_description">Возвращение с эликсиром</string>
 
   <string name="ui_text">text-component-fragment</string>
 
