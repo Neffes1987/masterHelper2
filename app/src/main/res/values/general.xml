@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="add">+</string>
+  <string name="apply">Применить</string>
+  <string name="edit">Редактировать</string>
+  <string name="delete">Удалить</string>
+  <string name="rename">Переименовать</string>
+  <string name="open">Открыть</string>
+  <string name="start">Запустить</string>
+  <string name="stop">Остановить</string>
+  <string name="finish">Завершить</string>
+  <string name="cancel">Отменить</string>
+  <string name="ok">OK</string>
+  <string name="attach">Прикрепить</string>
+  <string name="detach">Открепить</string>
+</resources>

@@ -1,26 +1,42 @@
 package com.masterhelper.global.db.repository;
 
 public abstract class AbstractModel {
-  public String id;
-  public String name;
-  public String description;
+  public static int TITLE_MAX_LENGTH = 2000;
+  public static int DESCRIPTION_MAX_LENGTH = 4048;
 
-  public AbstractModel(String id, String name) {
-    init(id, name, "");
-  }
+  protected String id;
+  protected String title;
+  protected String description;
 
-  public AbstractModel(String id, String name, String description) {
-    init(id, name, description);
-  }
-
-  private void init(String id, String name, String description) {
-    this.name = name;
-    this.description = description;
+  public AbstractModel(String id) {
+    this.title = "";
+    this.description = "";
 
     if (id != null) {
       if (id.length() > 0) {
         this.id = id;
       }
     }
+  }
+
+
+  public String getId() {
+    return id;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 }

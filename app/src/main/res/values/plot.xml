@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- List plot twist screen -->
+  <string name="plot_twist_list">Список сюжетных поворотов</string>
+
+  <!-- Edit plot twist screen -->
+  <string name="plot_twist_edit">Редактировать сюжетный поворот</string>
+  <string name="plot_twist_name">Имя сюжетного поворота</string>
+  <string name="plot_twist_description">Описание сюжетного поворота</string>
+  <string name="plot_twist_deadline">Deadline, в кол-ве партий</string>
+  <string name="plot_edit_title_error">Сюжетный поворот должен иметь название</string>
+  <string name="plot_deadline_title_error">Сюжетный поворот должен иметь дедлайн</string>
+  <string name="plot_description_title_error">Сюжетный поворот должен иметь описание</string>
+</resources>

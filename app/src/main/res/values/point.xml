@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- List point twist screen -->
+  <string name="point_list">Список сюжетных точек</string>
+
+  <!-- Edit point twist screen -->
+  <string name="point_edit">Редактировать сюжетную точку</string>
+  <string name="point_edit_name">Редактировать имя точки</string>
+  <string name="point_edit_description">Редактировать описание точки</string>
+  <string name="point_edit_status">Редактировать статус точки</string>
+  <string name="point_name">Имя сюжетной точки</string>
+  <string name="point_description">Описание сюжетной точки</string>
+  <string name="point_status">Статус сюжетной точки</string>
+  <string name="point_edit_title_error">Сюжетная точка должна иметь название</string>
+  <string name="point_description_title_error">Сюжетная точка должна иметь описание</string>
+
+  <string name="point_hold_status">Не активна</string>
+  <string name="point_started_status">Активирована</string>
+  <string name="point_succeed_status">Завершена успешно</string>
+  <string name="point_failure_status">Провалена</string>
+
+</resources>

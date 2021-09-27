@@ -5,7 +5,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".screens.journey.CurrentJourneyScreen">
+  tools:context=".screens.journey.CurrentScreen">
 
   <LinearLayout
     android:orientation="vertical"
@@ -17,47 +17,21 @@
     app:layout_constraintBottom_toBottomOf="parent"
     android:id="@+id/linearLayout">
 
-    <LinearLayout
-      android:orientation="horizontal"
+    <androidx.fragment.app.FragmentContainerView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:name="com.masterhelper.ux.ActsFragment"
+      android:id="@+id/JOURNEY_ACTS_FRAGMENT_ID"
       android:layout_weight="0"
-      android:background="@color/accentWhite">
-
-      <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        app:srcCompat="@mipmap/arrow_down"
-        android:id="@+id/JOURNEY_PREV_ACT_BUTTON_ID"
-        android:layout_weight="0"
-        android:rotation="90"
-        style="@style/text.body.secondary"
-        />
-
-      <Button
-        android:text="@string/act_number_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/JOURNEY_CURRENT_ACT_BUTTON_ID"
-        android:layout_weight="1"
-        style="@style/text.body.secondary"/>
-
-      <ImageButton
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
-        app:srcCompat="@mipmap/arrow_down"
-        android:id="@+id/JOURNEY_NEXT_ACT_BUTTON_ID"
-        android:layout_weight="0"
-        android:rotation="-90"
-        style="@style/text.body.secondary"/>
-    </LinearLayout>
+      tools:layout="@layout/fragment_acts"/>
 
     <androidx.fragment.app.FragmentContainerView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:name="com.masterhelper.ux.list.ListFragment"
-      android:id="@+id/fragmentContainerView2"
-      android:layout_weight="1"/>
+      android:id="@+id/JOURNEY_PLOTS_LIST_FRAGMENT_ID"
+      android:layout_weight="1"
+      tools:layout="@layout/fragment_item_list"/>
 
     <androidx.fragment.app.FragmentContainerView
       android:layout_width="match_parent"
@@ -68,5 +42,17 @@
       android:layout_weight="0"/>
 
   </LinearLayout>
+
+  <androidx.fragment.app.FragmentContainerView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:name="com.masterhelper.ux.UIAddButtonFragment"
+    android:id="@+id/JOURNEY_ADD_PLOT_FRAGMENT_ID"
+    android:layout_weight="0"
+    tools:layout="@layout/fragment_ui_add_button"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginBottom="64dp"
+    android:layout_marginEnd="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

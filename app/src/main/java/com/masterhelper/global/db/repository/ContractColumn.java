@@ -1,4 +1,4 @@
-package com.masterhelper.global.db.contracts;
+package com.masterhelper.global.db.repository;
 
 import java.text.MessageFormat;
 
@@ -56,6 +56,9 @@ public class ContractColumn {
       case CharType:
         query = MessageFormat.format("{0} CHAR({1}) {2}", (Object[]) new String[]{columnTitle, length + "", nullable});
         break;
+      case ID:
+        query = MessageFormat.format("{0} CHAR(200)", (Object[]) new String[]{columnTitle});
+        break;
       case TextTypes:
         query = MessageFormat.format("{0} TEXT({1})", (Object[]) new String[]{columnTitle, nullable});
         break;
@@ -72,12 +75,9 @@ public class ContractColumn {
     this.columnType = query;
   }
 
-  public String generateForeignKey(ContractColumn externalContractColumn) {
-    return MessageFormat.format("FOREIGN KEY {0}  REFERENCES {1}({2}) ON DELETE CASCADE", (Object[]) new String[]{columnTitle, externalContractColumn.getTableName(), externalContractColumn.getColumnTitle()});
-  }
-
   public enum ColumnType {
     Preview,
+    ID,
     Primary,
     CharType,
     TextTypes,

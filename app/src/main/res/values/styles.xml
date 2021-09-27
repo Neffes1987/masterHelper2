@@ -31,7 +31,7 @@
   </style>
 
   <style name="text.caption">
-    <item name="android:textSize">16sp</item>
+    <item name="android:textSize">12sp</item>
   </style>
 
   <style name="text.caption.bold">
@@ -39,19 +39,19 @@
   </style>
 
   <style name="text.title.subtitle.add_button">
-    <item name="android:layout_width">80dp</item>
-    <item name="android:layout_height">80dp</item>
-    <item name="android:textSize">44sp</item>
+    <item name="android:layout_width">40dp</item>
+    <item name="android:layout_height">40dp</item>
+    <item name="android:textSize">22sp</item>
     <item name="android:background">@drawable/roundedbutton</item>
     <item name="android:textColor">@color/neutralYellow</item>
   </style>
 
-  <style name="text.body.primary">
+  <style name="text.caption.primary">
     <item name="android:background">@drawable/primary_button</item>
     <item name="android:textColor">@color/neutralYellow</item>
   </style>
 
-  <style name="text.body.secondary">
+  <style name="text.caption.secondary">
     <item name="android:background">@drawable/secondary_button</item>
     <item name="android:textColor">@color/accentDarkBlue</item>
   </style>

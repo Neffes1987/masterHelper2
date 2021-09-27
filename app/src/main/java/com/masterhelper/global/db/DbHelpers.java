@@ -1,17 +1,18 @@
 package com.masterhelper.global.db;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.masterhelper.screens.journey.JourneyRepository;
+import com.masterhelper.screens.journey.JourneyProgressRepository;
+import com.masterhelper.screens.plotTwist.PlotTwistRepository;
+import com.masterhelper.screens.plotTwist.point.PointRepository;
 
 public class DbHelpers extends SQLiteOpenHelper {
-  //public JourneyRepository journeyRepository;
-  //public GoalRepository goalRepository;
-  //public LocationRepository locationRepository;
-  //public MediaRepository mediaRepository;
-  //public PlotLineRepository plotLineRepository;
-  //public NPCRepository npcRepository;
+  public JourneyRepository journeyRepository;
+  public PlotTwistRepository plotRepository;
+  public JourneyProgressRepository journeyProgressRepository;
+  public PointRepository pointRepository;
 
   /**
    * Имя файла базы данных
@@ -27,22 +28,30 @@ public class DbHelpers extends SQLiteOpenHelper {
 
   public DbHelpers(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    // journeyRepository = new JourneyRepository(this);
-    //goalRepository = new GoalRepository(this);
-    //locationRepository = new LocationRepository(this);
-    //mediaRepository = new MediaRepository(this);
-    //plotLineRepository = new PlotLineRepository(this);
-    //npcRepository = new NPCRepository(this);
+
     db = getWritableDatabase();
+    setupRepositories(db);
   }
 
+  public void setupRepositories(SQLiteDatabase db) {
+    if (db == null) {
+      return;
+    }
+
+    journeyRepository = new JourneyRepository(db);
+    plotRepository = new PlotTwistRepository(db);
+    journeyProgressRepository = new JourneyProgressRepository(db);
+    pointRepository = new PointRepository(db);
+  }
+
+
   private void initTables() {
-    //journeyRepository.createTable();
-    //goalRepository.createTable();
-    // locationRepository.createTable();
-    //mediaRepository.createTable();
-    //plotLineRepository.createTable();
-    // npcRepository.createTable();
+    setupRepositories(db);
+
+    journeyRepository.createTable();
+    plotRepository.createTable();
+    journeyProgressRepository.createTable();
+    pointRepository.createTable();
   }
 
   /**
@@ -69,15 +78,5 @@ public class DbHelpers extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     this.db = db;
-    //npcRepository.createTable();
   }
-
-  public Cursor read(String query) {
-    return db.rawQuery(query, null);
-  }
-
-  public void write(String query) {
-    db.execSQL(query);
-  }
-
 }

@@ -51,8 +51,15 @@ public class PropertyBar {
   }
 
   public void setCardContextMenu(ContextPopupMenuBuilder popupMenuBuilder) {
+    if (popupMenuBuilder == null) {
+      return;
+    }
+
     PopupMenu menu = popupMenuBuilder.create(cardView.getContext(), editButtonView);
     toggleViewVisibility(editButtonView, true);
+    editButtonView.setOnClickListener(v -> {
+      menu.show();
+    });
     cardView.setOnClickListener(v -> {
       menu.show();
     });
@@ -94,19 +101,19 @@ public class PropertyBar {
   private void setTextColor(CardStatus status, TextView view) {
     switch (status) {
       case Success:
-        view.setTextColor(R.color.neutralGreen);
+        view.setTextColor(view.getResources().getColor(R.color.neutralGreen));
         break;
       case Danger:
-        view.setTextColor(R.color.neutralRed);
+        view.setTextColor(view.getResources().getColor(R.color.neutralRed));
         break;
       case Attention:
-        view.setTextColor(R.color.neutralYellow);
+        view.setTextColor(view.getResources().getColor(R.color.neutralYellow));
         break;
       case Disabled:
-        view.setTextColor(R.color.accentGray);
+        view.setTextColor(view.getResources().getColor(R.color.accentGray));
       case Active:
       default:
-        view.setTextColor(R.color.accentDarkBlue);
+        view.setTextColor(view.getResources().getColor(R.color.accentDarkBlue));
     }
   }
 

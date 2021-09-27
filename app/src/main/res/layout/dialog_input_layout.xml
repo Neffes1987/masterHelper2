@@ -9,14 +9,13 @@
   <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/primary"
     app:cardElevation="8dp"
     app:cardCornerRadius="8dp"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    >
+    app:cardBackgroundColor="@color/accentLightGray">
 
     <LinearLayout
       android:orientation="vertical"
@@ -36,15 +35,14 @@
       <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="Name"
+        android:inputType="textMultiLine|textPersonName|textCapSentences"
         android:ems="10"
         android:id="@+id/DIALOG_INPUT_ID"
-        android:textColor="@color/accentWhite"
-        android:textColorHighlight="@color/accentWhite"
-        android:textColorHint="@color/accentWhite"
-        android:textColorLink="@color/accentWhite"
-        android:shadowColor="@color/accentWhite"
+        android:textColor="@color/accentDarkBlue"
+        android:textColorHighlight="@color/accentDarkBlue"
+        android:textColorHint="@color/accentDarkBlue"
+        android:textColorLink="@color/accentDarkBlue"
+        android:shadowColor="@color/accentDarkBlue"
         android:backgroundTint="@color/accentWhite"/>
 
       <LinearLayout
@@ -58,7 +56,7 @@
           android:layout_height="wrap_content"
           android:id="@+id/DIALOG_NEGATIVE_BUTTON_ID"
           android:layout_weight="1"
-          style="@style/text.body.secondary"
+          style="@style/text.caption.secondary"
           android:padding="4dp"
           android:layout_margin="10dp"/>
 
@@ -68,8 +66,7 @@
           android:layout_height="wrap_content"
           android:id="@+id/DIALOG_POSITIVE_BUTTON_ID"
           android:layout_weight="1"
-          style="@style/text.body.primary"
-          android:backgroundTint="#2A6F46"
+          style="@style/text.caption.primary"
           android:layout_margin="10dp"/>
 
       </LinearLayout>

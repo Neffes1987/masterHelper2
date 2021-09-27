@@ -1,23 +1,24 @@
-package com.masterhelper.screens.journey;
+package com.masterhelper.ux;
 
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import androidx.fragment.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import com.masterhelper.R;
-import com.masterhelper.screens.CommonScreen;
 
-public class CurrentJourneyScreen extends CommonScreen {
+public class ActsFragment extends Fragment {
   Button currentActName;
   ImageButton prevActButton;
   ImageButton nextActButton;
 
   int MIN_ACT_NUMBER = 0;
   int MAX_ACT_NUMBER = 11;
-  int currentActIndex = MIN_ACT_NUMBER;
+
+  int currentJourney = MAX_ACT_NUMBER;
 
   int[] ACT_TITLES = {
     R.string.act_number_1,
@@ -50,55 +51,61 @@ public class CurrentJourneyScreen extends CommonScreen {
   };
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_current_journey_screen);
 
-    currentActName = findViewById(R.id.JOURNEY_CURRENT_ACT_BUTTON_ID);
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    View view = inflater.inflate(R.layout.fragment_acts, container, false);
+
+    currentActName = view.findViewById(R.id.JOURNEY_CURRENT_ACT_BUTTON_ID);
     currentActName.setOnLongClickListener(v -> {
-      AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+      AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
 
       dialogBuilder
-        .setTitle(ACT_TITLES[currentActIndex])
-        .setMessage(ACT_TITLES_DESCRIPTIONS[currentActIndex])
+        .setTitle(ACT_TITLES[currentJourney])
+        .setMessage(ACT_TITLES_DESCRIPTIONS[currentJourney])
         .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss());
 
       dialogBuilder.create().show();
       return false;
     });
 
-    prevActButton = findViewById(R.id.JOURNEY_PREV_ACT_BUTTON_ID);
+    prevActButton = view.findViewById(R.id.JOURNEY_PREV_ACT_BUTTON_ID);
     prevActButton.setOnClickListener(this::toggleAct);
-    prevActButton.setVisibility(View.GONE);
 
-    nextActButton = findViewById(R.id.JOURNEY_NEXT_ACT_BUTTON_ID);
+    nextActButton = view.findViewById(R.id.JOURNEY_NEXT_ACT_BUTTON_ID);
     nextActButton.setOnClickListener(this::toggleAct);
+    return view;
+  }
 
-    addContextMenuItems(new Integer[]{R.string.edit});
+  public void setCurrentActIndex(int index) {
+    currentActName.setText(ACT_TITLES[index]);
+    currentJourney = index;
+    prevActButton.setVisibility(index <= MIN_ACT_NUMBER ? View.GONE : View.VISIBLE);
+    nextActButton.setVisibility(index >= MAX_ACT_NUMBER ? View.GONE : View.VISIBLE);
   }
 
   private void toggleAct(View v) {
     if (v.getId() == R.id.JOURNEY_PREV_ACT_BUTTON_ID) {
-      currentActIndex -= 1;
+      currentJourney -= 1;
     }
 
     if (v.getId() == R.id.JOURNEY_NEXT_ACT_BUTTON_ID) {
-      currentActIndex += 1;
+      currentJourney += 1;
     }
 
-    prevActButton.setVisibility(currentActIndex <= MIN_ACT_NUMBER ? View.GONE : View.VISIBLE);
-    nextActButton.setVisibility(currentActIndex >= MAX_ACT_NUMBER ? View.GONE : View.VISIBLE);
-
-    currentActName.setText(ACT_TITLES[currentActIndex]);
-
-    // TODO: set page update from repo for each call
+    setCurrentActIndex(currentJourney);
+    if (getActivity() instanceof ActControls) {
+      ((ActControls) getActivity()).onActChanged(currentJourney);
+    }
   }
 
-  @Override
-  protected void onInitScreen() {
-  }
-
-  public static Intent getScreenIntent(Context context) {
-    return new Intent(context, CurrentJourneyScreen.class);
+  public interface ActControls {
+    void onActChanged(int newActNumber);
   }
 }

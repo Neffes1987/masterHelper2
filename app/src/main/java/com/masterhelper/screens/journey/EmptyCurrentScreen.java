@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.masterhelper.R;
 import com.masterhelper.ux.UIAddButtonFragment;
 
-public class JourneyEmptyScreen extends AppCompatActivity {
+public class EmptyCurrentScreen extends AppCompatActivity {
   UIAddButtonFragment addButtonFr;
 
   @Override
@@ -23,12 +23,12 @@ public class JourneyEmptyScreen extends AppCompatActivity {
     addButtonFr = (UIAddButtonFragment) getSupportFragmentManager().findFragmentById(R.id.ADD_JOURNEY_FRAGMENT_ID);
     if (addButtonFr != null) {
       addButtonFr.setListener(v -> {
-        startActivity(JourneyEditorScreen.getScreenIntent(this));
+        startActivity(EditorScreen.getScreenIntent(this));
       });
     }
   }
 
   public static Intent getScreenIntent(Context context) {
-    return new Intent(context, JourneyEmptyScreen.class);
+    return new Intent(context, EmptyCurrentScreen.class);
   }
 }

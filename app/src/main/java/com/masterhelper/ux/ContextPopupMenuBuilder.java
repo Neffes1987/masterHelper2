@@ -4,15 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import java.util.Arrays;
-
 public class ContextPopupMenuBuilder {
   PopupMenu popupMenu;
-  String[] menuItems;
+  int[] menuItems;
   OnContextPopupClick listener;
   String elementTag;
 
-  public ContextPopupMenuBuilder(String[] menuItems) {
+  public ContextPopupMenuBuilder(int[] menuItems) {
     this.menuItems = menuItems;
   }
 
@@ -28,7 +26,7 @@ public class ContextPopupMenuBuilder {
     popupMenu = new PopupMenu(context, uiElement);
 
     if (menuItems.length > 0) {
-      for (String title : this.menuItems) {
+      for (int title : this.menuItems) {
         popupMenu.getMenu().add(title);
       }
     }
@@ -36,8 +34,8 @@ public class ContextPopupMenuBuilder {
     if (listener != null) {
       popupMenu.setOnMenuItemClickListener(menuItem -> {
         int ind = 0;
-        for (String title : this.menuItems) {
-          if (title == menuItem.getTitle()) {
+        for (int title : this.menuItems) {
+          if (context.getResources().getString(title) == menuItem.getTitle()) {
             break;
           }
 
@@ -60,7 +58,7 @@ public class ContextPopupMenuBuilder {
   }
 
   public interface OnContextPopupClick {
-    Boolean onClick(String tag, int menuItemName);
+    Boolean onClick(String tag, int menuItemIndex);
   }
 
 }

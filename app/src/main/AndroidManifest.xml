@@ -14,14 +14,22 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/Platform.MaterialComponents.Light">
-    <activity android:name=".screens.journey.JourneysList">
+    <activity android:name=".screens.plotTwist.point.EditPointScreen">
     </activity>
-    <activity android:name=".screens.journey.CurrentJourneyScreen">
+    <activity android:name=".screens.plotTwist.point.PointsListScreen">
     </activity>
-    <activity android:name=".screens.journey.JourneyEditorScreen">
+    <activity android:name=".screens.plotTwist.PlotTwistsList">
+    </activity>
+    <activity android:name=".screens.plotTwist.PlotTwistEditScreen">
+    </activity>
+    <activity android:name=".screens.journey.JourneyList">
+    </activity>
+    <activity android:name=".screens.journey.CurrentScreen">
+    </activity>
+    <activity android:name=".screens.journey.EditorScreen">
     </activity>
     <activity
-      android:name=".screens.journey.JourneyEmptyScreen"
+      android:name=".screens.journey.EmptyCurrentScreen"
       android:theme="@style/Theme.AppCompat.Light.NoActionBar">
     </activity>
     <activity

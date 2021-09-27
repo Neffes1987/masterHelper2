@@ -5,20 +5,18 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  tools:context=".screens.journey.JourneyList">
+  tools:context=".screens.plotTwist.PlotTwistsList">
 
   <androidx.fragment.app.FragmentContainerView
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:name="com.masterhelper.ux.list.ListFragment"
-    android:id="@+id/JOURNEYS_LIST_FRAGMENT_ID"
+    android:id="@+id/PLOTS_LIST_FRAGMENT_ID"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.51"
-    tools:layout="@layout/fragment_item_list"
     app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
-    android:layout_marginBottom="64dp"/>
+    tools:layout="@layout/fragment_item_list"/>
 
   <androidx.fragment.app.FragmentContainerView
     android:layout_width="wrap_content"
@@ -28,6 +26,6 @@
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     tools:layout="@layout/fragment_ui_add_button"
-    android:layout_marginBottom="8dp"
-    android:layout_marginEnd="8dp"/>
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="32dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
