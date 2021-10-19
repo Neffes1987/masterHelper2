@@ -9,9 +9,9 @@
 
   <androidx.fragment.app.FragmentContainerView
     android:layout_width="0dp"
-    android:layout_height="wrap_content"
+    android:layout_height="0dp"
     android:name="com.masterhelper.ux.list.ListFragment"
-    android:id="@+id/POINTS_LIST_FRAGMENT_ID"
+    android:id="@+id/LIST_FRAGMENT_ID"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -27,5 +27,5 @@
     android:layout_marginEnd="8dp"
     app:layout_constraintEnd_toEndOf="parent"
     tools:layout="@layout/fragment_ui_add_button"
-    android:id="@+id/ADD_POINT_FRAGMENT_ID"/>
+    android:id="@+id/ADD_NEW_ITEM_FRAGMENT_ID"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

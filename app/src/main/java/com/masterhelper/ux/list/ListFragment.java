@@ -28,8 +28,6 @@ public class ListFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
     view = inflater.inflate(R.layout.fragment_item_list, container, false);
-
-    setAdapter(new ListAdapter(PlaceholderContent.ITEMS));
     return view;
   }
 

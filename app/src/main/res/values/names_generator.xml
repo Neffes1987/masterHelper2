@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="names_generator_title">Сгенерировать имя</string>
+
+  <string name="names_generator_filters_title">Что именно ты ищешь?</string>
+  <string name="names_generator_group_nicks">Никнеймы</string>
+  <string name="names_generator_group_fantasy">Фентезийные</string>
+  <string name="names_generator_group_elfs">Эльфийские</string>
+  <string name="names_generator_group_dnd">Для DnD</string>
+  <string name="names_generator_group_players">Для персонажей</string>
+  <string name="names_generator_group_clans">Для кланов</string>
+  <string name="names_generator_group_heros">Геройские</string>
+  <string name="names_generator_group_rpg">Для RPG</string>
+
+  <string name="names_generator_gender_title">Пол</string>
+  <string name="names_generator_gender_male">Мужской</string>
+  <string name="names_generator_gender_female">Женский</string>
+
+  <string name="names_generator_api_error">API для генерации имен пока не доступно. Попробуйте позднее.</string>
+</resources>

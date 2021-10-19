@@ -44,6 +44,16 @@ public class JourneyModel extends AbstractModel {
     return restrictions;
   }
 
+  public String printRestrictions(String title) {
+    String template = "<h2>{0}</h2><p>{1}</p>";
+    return printToHtml(template, new String[]{title, getRestrictions()});
+  }
+
+  public String printDescription(String title) {
+    String template = "<h2>{0}</h2><p>{1}</p>";
+    return printToHtml(template, new String[]{title, getDescription()});
+  }
+
   public void setRestrictions(String restrictions) {
     this.restrictions = restrictions;
   }

@@ -54,10 +54,11 @@ public class CurrentScreen extends CommonScreen implements ActsFragment.ActContr
 
     addContextMenuItems(new Integer[]{
       R.string.journey_list,
-      R.string.edit
+      R.string.details
     });
 
     setActionBarTitle(currentJourney.getTitle());
+    setActionBarSubtitle(getResources().getString(R.string.journey_current));
 
     ContextPopupMenuBuilder contextPopupMenuBuilder = new ContextPopupMenuBuilder(new int[]{
       R.string.open,
@@ -87,7 +88,7 @@ public class CurrentScreen extends CommonScreen implements ActsFragment.ActContr
       startActivity(JourneyList.getScreenIntent(this));
     }
 
-    if (item.getTitle() == getResources().getString(R.string.edit)) {
+    if (item.getTitle() == getResources().getString(R.string.details)) {
       Intent intent = EditorScreen.getScreenIntent(this);
       intent.putExtra(EditScreen.INTENT_EDIT_SCREEN_ID, currentJourney.getId());
 
@@ -111,6 +112,9 @@ public class CurrentScreen extends CommonScreen implements ActsFragment.ActContr
     super.onStart();
 
     if (currentJourney != null) {
+      currentJourney = journeyRepository.get(currentJourney.getId());
+      setActionBarTitle(currentJourney.getTitle());
+
       JourneyProgressRepository progressRepository = GlobalApplication.getAppDB().journeyProgressRepository;
       plotsListAdapter.addPlots(progressRepository.getJourneyPlots(currentJourney));
     }

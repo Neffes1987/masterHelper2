@@ -6,6 +6,8 @@
   <string name="journey_title">Имя приключения</string>
   <string name="journey_theme">Референс</string>
   <string name="journey_restrictions">Ограничения по сценарию</string>
+  <string name="journey_current">Текущее приключение</string>
+  <string name="journey_about">Детали приколючения</string>
 
   <!-- Edit journey screen -->
   <string name="journey_list">Список приключений</string>

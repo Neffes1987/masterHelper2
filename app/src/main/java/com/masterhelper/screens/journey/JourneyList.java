@@ -3,31 +3,38 @@ package com.masterhelper.screens.journey;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.screens.CommonScreen;
+import com.masterhelper.screens.ListScreen;
 import com.masterhelper.ux.ContextPopupMenuBuilder;
-import com.masterhelper.ux.UIAddButtonFragment;
-import com.masterhelper.ux.list.ListAdapter;
-import com.masterhelper.ux.list.ListFragment;
 import com.masterhelper.ux.list.propertyBar.PropertyBarContentModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class JourneyList extends CommonScreen {
-  private JourneyListAdapter adapter;
+public class JourneyList extends ListScreen<JourneyModel> {
   String currentJourneyId;
+  ContextPopupMenuBuilder contextPopupMenuBuilder;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_journeys_list);
+  public String getListTitle() {
+    return getResources().getString(R.string.journey_list);
+  }
+
+  @Override
+  public Boolean getBackButtonVisible() {
+    return true;
+  }
+
+  @Override
+  public Intent getCreateItemIntent() {
+    return EditorScreen.getScreenIntent(this);
+  }
+
+  @Override
+  public ContextPopupMenuBuilder getHeaderPopup() {
     JourneyRepository repository = GlobalApplication.getAppDB().journeyRepository;
 
-    ContextPopupMenuBuilder contextPopupMenuBuilder = new ContextPopupMenuBuilder(new int[]{
+    contextPopupMenuBuilder = new ContextPopupMenuBuilder(new int[]{
       R.string.open,
       R.string.delete
     });
@@ -42,7 +49,7 @@ public class JourneyList extends CommonScreen {
 
           builder.setPositiveButton(R.string.ok, (dialog, which) -> {
               repository.delete(journeyId);
-              adapter.deleteItem(journeyId);
+              deleteItem(journeyId);
               if (currentJourneyId.equals(journeyId)) {
                 showBackButton(false);
                 cleanSetting(Setting.JourneyId);
@@ -58,11 +65,31 @@ public class JourneyList extends CommonScreen {
       }
       return true;
     });
-    ArrayList<JourneyModel> journeyModels = repository.list(null);
-    adapter = new JourneyListAdapter(contextPopupMenuBuilder);
-    adapter.addJourneys(journeyModels);
 
-    setActionBarTitle(R.string.journey_list);
+    return contextPopupMenuBuilder;
+  }
+
+  @Override
+  public ArrayList<PropertyBarContentModel> getListItems() {
+    JourneyRepository repository = GlobalApplication.getAppDB().journeyRepository;
+
+    ArrayList<JourneyModel> journeyModels = repository.list(null);
+    ArrayList<PropertyBarContentModel> items = new ArrayList<>();
+
+    for (JourneyModel model : journeyModels) {
+      PropertyBarContentModel UIItem = convertToItem(model);
+
+      items.add(UIItem);
+    }
+    return items;
+  }
+
+  @Override
+  public PropertyBarContentModel convertToItem(JourneyModel model) {
+    return new PropertyBarContentModel(
+      model.getId(),
+      model.getTitle()
+    );
   }
 
   @Override
@@ -70,23 +97,10 @@ public class JourneyList extends CommonScreen {
     super.onStart();
     currentJourneyId = getSetting(Setting.JourneyId);
     showBackButton(currentJourneyId.length() > 0);
+
     if (adapter.getItemCount() == 0) {
       startActivity(EmptyCurrentScreen.getScreenIntent(this));
     }
-  }
-
-  @Override
-  protected void onInitScreen() {
-    UIAddButtonFragment addButtonFr = (UIAddButtonFragment) getSupportFragmentManager().findFragmentById(R.id.ADD_JOURNEY_FRAGMENT_ID);
-    if (addButtonFr != null) {
-      addButtonFr.setListener(v -> {
-        startActivity(EditorScreen.getScreenIntent(this));
-      });
-    }
-
-    ListFragment listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.JOURNEYS_LIST_FRAGMENT_ID);
-    assert listFragment != null;
-    listFragment.setAdapter(adapter);
   }
 
   public static Intent getScreenIntent(Context context) {

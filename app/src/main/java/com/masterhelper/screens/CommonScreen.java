@@ -3,15 +3,16 @@ package com.masterhelper.screens;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.Menu;
+import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import com.masterhelper.ux.ContextPopupMenuBuilder;
-import com.masterhelper.ux.list.propertyBar.PropertyBar;
 
 public abstract class CommonScreen extends AppCompatActivity {
   Boolean isInit = false;
   Menu actionBarMenu;
   Integer[] actionBarMenuItems;
+  boolean asActions;
+
   ActionBar bar;
 
   public void setActionBarTitle(String toolbarTitle) {
@@ -22,6 +23,10 @@ public abstract class CommonScreen extends AppCompatActivity {
   public void setActionBarTitle(int toolbarTitle) {
     init();
     bar.setTitle(toolbarTitle);
+  }
+
+  public void setActionBarSubtitle(String subtitle) {
+    bar.setSubtitle(subtitle);
   }
 
   public void showBackButton(Boolean isVisible) {
@@ -52,8 +57,15 @@ public abstract class CommonScreen extends AppCompatActivity {
 
     if (actionBarMenuItems != null) {
       for (Integer title : this.actionBarMenuItems) {
-        actionBarMenu.add(title);
+        if (asActions) {
+          MenuItem item = actionBarMenu.add("icon");
+          item.setIcon(title);
+          item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        } else {
+          actionBarMenu.add(title);
+        }
       }
+
       return true;
     }
 
@@ -64,6 +76,12 @@ public abstract class CommonScreen extends AppCompatActivity {
 
   public void addContextMenuItems(Integer[] actionBarMenuItems) {
     this.actionBarMenuItems = actionBarMenuItems;
+    asActions = false;
+  }
+
+  public void addContextMenuItems(Integer[] actionBarMenuItems, Boolean asActions) {
+    this.actionBarMenuItems = actionBarMenuItems;
+    this.asActions = asActions;
   }
 
   @Override
@@ -99,14 +117,5 @@ public abstract class CommonScreen extends AppCompatActivity {
 
   public enum Setting {
     JourneyId
-  }
-
-  protected PropertyBar initProperty(int fragmentId, int labelId, String text, String tag, ContextPopupMenuBuilder popupBuilder) {
-    PropertyBar property = new PropertyBar(getSupportFragmentManager().findFragmentById(fragmentId));
-    property.setLabel(labelId);
-    property.setTitle(text);
-    property.setCardContextMenu(popupBuilder.cloneBuilder(tag));
-
-    return property;
   }
 }

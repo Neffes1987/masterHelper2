@@ -19,4 +19,6 @@
   <string name="point_succeed_status">Завершена успешно</string>
   <string name="point_failure_status">Провалена</string>
 
+  <string name="point_about">Детали сюжетной точки</string>
+
 </resources>

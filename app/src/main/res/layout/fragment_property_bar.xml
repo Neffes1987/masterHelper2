@@ -70,7 +70,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/PROPERTY_TITLE_ID"
                 android:layout_weight="1"
-                android:textColor="@color/primary"/>
+                android:textColor="@color/primary"
+                android:paddingBottom="10dp"
+                style="@style/text.body.bold"/>
 
             </LinearLayout>
 
@@ -85,7 +87,9 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/PROPERTY_DESCRIPTION_ID"
                 android:layout_weight="1"
-                android:textColor="@color/primary"/>
+                android:singleLine="false"
+                android:textColor="@color/primary"
+                android:inputType="textMultiLine"/>
             </LinearLayout>
           </LinearLayout>
         </LinearLayout>

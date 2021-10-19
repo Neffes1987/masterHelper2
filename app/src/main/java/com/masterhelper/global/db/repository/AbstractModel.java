@@ -1,5 +1,7 @@
 package com.masterhelper.global.db.repository;
 
+import java.text.MessageFormat;
+
 public abstract class AbstractModel {
   public static int TITLE_MAX_LENGTH = 2000;
   public static int DESCRIPTION_MAX_LENGTH = 4048;
@@ -38,5 +40,9 @@ public abstract class AbstractModel {
 
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  public String printToHtml(String template, String[] params) {
+    return MessageFormat.format(template, (Object[]) params);
   }
 }

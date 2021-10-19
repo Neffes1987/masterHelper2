@@ -11,4 +11,10 @@
   <string name="plot_edit_title_error">Сюжетный поворот должен иметь название</string>
   <string name="plot_deadline_title_error">Сюжетный поворот должен иметь дедлайн</string>
   <string name="plot_description_title_error">Сюжетный поворот должен иметь описание</string>
+
+  <string name="plot_popup_edit_description">Редактировать описание</string>
+  <string name="plot_popup_edit_title">Редактировать имя</string>
+  <string name="plot_popup_edit_deadline">Редактировать крайний срок</string>
+
+  <string name="plot_about">Детали сюжетного поворота</string>
 </resources>

@@ -2,54 +2,49 @@ package com.masterhelper.screens.plotTwist;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import androidx.annotation.Nullable;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.screens.CommonScreen;
+import com.masterhelper.screens.ListScreen;
 import com.masterhelper.screens.journey.JourneyProgressRepository;
 import com.masterhelper.ux.ContextPopupMenuBuilder;
-import com.masterhelper.ux.UIAddButtonFragment;
-import com.masterhelper.ux.list.ListAdapter;
-import com.masterhelper.ux.list.ListFragment;
+import com.masterhelper.ux.list.propertyBar.PropertyBarContentModel;
 
 import java.util.ArrayList;
 
+import static com.masterhelper.screens.EditScreen.INTENT_EDIT_SCREEN_ID;
 import static com.masterhelper.screens.journey.CurrentScreen.INTENT_CURRENT_JOURNEY_ACT_NUMBER;
 import static com.masterhelper.screens.journey.CurrentScreen.INTENT_CURRENT_JOURNEY_ID;
-import static com.masterhelper.screens.plotTwist.PlotTwistEditScreen.INTENT_PLOT_TWIST_ID;
 
-public class PlotTwistsList extends CommonScreen {
+public class PlotTwistsList extends ListScreen<PlotTwistModel> {
   int EDIT_PLOT_LINE_REQUEST_CODE = 200;
-  int CREATE_PLOT_LINE_REQUEST_CODE = 300;
-  private PlotsListAdapter adapter;
 
-  private ArrayList<PlotTwistModel> getList() {
-    String journeyId = getIntent().getStringExtra(INTENT_CURRENT_JOURNEY_ID);
-
-    JourneyProgressRepository journeyProgressRepository = GlobalApplication.getAppDB().journeyProgressRepository;
-
-    if (journeyId != null) {
-      return journeyProgressRepository.getDetachedPlots(journeyId);
-    }
-
-    PlotTwistRepository plotTwistRepository = GlobalApplication.getAppDB().plotRepository;
-    return plotTwistRepository.list(0, 0, null, null);
+  @Override
+  public String getListTitle() {
+    return getResources().getString(R.string.plot_twist_list);
   }
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_plots_list);
+  public Boolean getBackButtonVisible() {
+    return true;
+  }
 
+  @Override
+  public Intent getCreateItemIntent() {
+
+    return PlotTwistEditScreen.getScreenIntent(this);
+  }
+
+  @Override
+  public ContextPopupMenuBuilder getHeaderPopup() {
     int[] options;
     if (getIntent().getStringExtra(INTENT_CURRENT_JOURNEY_ID) == null) {
-      options = new int[]{R.string.edit, R.string.delete};
+      options = new int[]{R.string.details, R.string.delete};
     } else {
-      options = new int[]{R.string.edit, R.string.delete, R.string.attach};
+      options = new int[]{R.string.details, R.string.delete, R.string.attach};
     }
     ContextPopupMenuBuilder contextPopupMenuBuilder = new ContextPopupMenuBuilder(options);
+
     JourneyProgressRepository journeyProgressRepository = GlobalApplication.getAppDB().journeyProgressRepository;
     PlotTwistRepository plotTwistRepository = GlobalApplication.getAppDB().plotRepository;
 
@@ -64,40 +59,53 @@ public class PlotTwistsList extends CommonScreen {
           plotId
         );
 
-        adapter.deleteItem(plotId);
-      } else if (options[itemIndex] == R.string.edit) {
+        deleteItem(plotId);
+      } else if (options[itemIndex] == R.string.details) {
         Intent editPlotIntent = PlotTwistEditScreen.getScreenIntent(this);
-        editPlotIntent.putExtra(INTENT_PLOT_TWIST_ID, plotId);
+        editPlotIntent.putExtra(INTENT_EDIT_SCREEN_ID, plotId);
 
         startActivityForResult(editPlotIntent, EDIT_PLOT_LINE_REQUEST_CODE);
       } else if (options[itemIndex] == R.string.delete) {
         journeyProgressRepository.detachPlot(plotId);
         plotTwistRepository.delete(plotId);
-        adapter.deleteItem(plotId);
+        deleteItem(plotId);
       }
 
       return true;
     });
 
-    setActionBarTitle(R.string.plot_twist_list);
-    showBackButton(true);
-
-    adapter = new PlotsListAdapter(contextPopupMenuBuilder);
-    adapter.addPlots(getList());
+    return contextPopupMenuBuilder;
   }
 
   @Override
-  protected void onInitScreen() {
-    UIAddButtonFragment addPlotLineButtonFragment = (UIAddButtonFragment) getSupportFragmentManager().findFragmentById(R.id.ADD_JOURNEY_FRAGMENT_ID);
-    assert addPlotLineButtonFragment != null;
-    addPlotLineButtonFragment.setListener(v -> {
-      Intent createPlotIntent = PlotTwistEditScreen.getScreenIntent(this);
-      startActivityForResult(createPlotIntent, CREATE_PLOT_LINE_REQUEST_CODE);
-    });
+  public ArrayList<PropertyBarContentModel> getListItems() {
+    ArrayList<PropertyBarContentModel> listItems = new ArrayList<>();
 
-    ListFragment listFragment = (ListFragment) getSupportFragmentManager().findFragmentById(R.id.PLOTS_LIST_FRAGMENT_ID);
-    assert listFragment != null;
-    listFragment.setAdapter(adapter);
+    String journeyId = getIntent().getStringExtra(INTENT_CURRENT_JOURNEY_ID);
+
+    ArrayList<PlotTwistModel> bdData;
+    if (journeyId != null) {
+      JourneyProgressRepository journeyProgressRepository = GlobalApplication.getAppDB().journeyProgressRepository;
+      bdData = journeyProgressRepository.getDetachedPlots(journeyId);
+    } else {
+      PlotTwistRepository plotTwistRepository = GlobalApplication.getAppDB().plotRepository;
+      bdData = plotTwistRepository.list(0, 0, null, null);
+    }
+
+    for (PlotTwistModel model : bdData) {
+      listItems.add(convertToItem(model));
+    }
+
+    return listItems;
+  }
+
+  @Override
+  public PropertyBarContentModel convertToItem(PlotTwistModel model) {
+    return new PropertyBarContentModel(
+      model.getId(),
+      model.getTitle(),
+      model.getDescription()
+    );
   }
 
   @Override
@@ -108,15 +116,15 @@ public class PlotTwistsList extends CommonScreen {
       return;
     }
 
-    String newPlotId = data.getStringExtra(INTENT_PLOT_TWIST_ID);
+    String newPlotId = data.getStringExtra(INTENT_EDIT_SCREEN_ID);
     PlotTwistModel newModel = GlobalApplication.getAppDB().plotRepository.get(newPlotId);
 
-    if (requestCode == CREATE_PLOT_LINE_REQUEST_CODE && resultCode == RESULT_OK) {
-      adapter.addPlot(newModel, true);
+    if (requestCode == CREATE_POINT_REQUEST_CODE && resultCode == RESULT_OK) {
+      addToList(newModel, true);
     }
 
     if (requestCode == EDIT_PLOT_LINE_REQUEST_CODE && resultCode == RESULT_OK) {
-      adapter.updatePlot(newModel);
+      updateItem(newModel);
     }
   }
 

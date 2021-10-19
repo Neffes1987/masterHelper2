@@ -36,14 +36,8 @@ public class LoadingScreen extends CommonScreen {
   }
 
   @Override
-  protected void onStart() {
-    super.onStart();
-    mTimer.schedule(progressBarTimer, LOADER_DELAY, LOADER_DELAY);
-  }
-
-  @Override
   protected void onInitScreen() {
-
+    mTimer.schedule(progressBarTimer, LOADER_DELAY, LOADER_DELAY);
   }
 
   class ProgressBarTimer extends TimerTask {

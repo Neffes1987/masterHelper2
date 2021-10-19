@@ -48,8 +48,7 @@ public class PlotsListAdapter extends ListAdapter {
     return new PropertyBarContentModel(
       model.getId(),
       model.getTitle(),
-      model.getDescription(),
-      builder.cloneBuilder(model.getId())
+      model.getDescription()
     );
   }
 }

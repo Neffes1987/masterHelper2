@@ -3,19 +3,23 @@ package com.masterhelper.screens.plotTwist.point;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
+import androidx.annotation.Nullable;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.global.db.repository.AbstractModel;
 import com.masterhelper.screens.EditScreen;
-import com.masterhelper.ux.TextDialogBuilder;
+import com.masterhelper.screens.NamesGenerator;
+import com.masterhelper.screens.TextEditor;
 import com.masterhelper.ux.list.propertyBar.PropertyBar;
 
-import static com.masterhelper.screens.plotTwist.PlotTwistEditScreen.INTENT_PLOT_TWIST_ID;
-
 public class EditPointScreen extends EditScreen {
-  public static String INTENT_POINT_ID = "pointId";
-  PointModel currentModel;
+  private final int EDIT_TITLE_RESULT_CODE = 0;
+  private final int EDIT_DESCRIPTION_RESULT_CODE = 1;
+  public static String INTENT_PLOT_TWIST_ID = "INTENT_PLOT_TWIST_ID";
+
+  private PointModel currentModel;
+  private PointRepository pointRepository;
+  private Boolean isNew = false;
 
   int[] options = new int[]{
     R.string.point_edit_status,
@@ -23,18 +27,25 @@ public class EditPointScreen extends EditScreen {
     R.string.point_edit_name
   };
 
-  private int convertStatusToCaption(PointModel.PointStatus status) {
+  private String convertStatusToCaption(PointModel.PointStatus status) {
+    int statusResource;
+
     switch (status) {
       case Started:
-        return R.string.point_started_status;
+        statusResource = R.string.point_started_status;
+        break;
       case Succeed:
-        return R.string.point_succeed_status;
+        statusResource = R.string.point_succeed_status;
+        break;
       case Failure:
-        return R.string.point_failure_status;
+        statusResource = R.string.point_failure_status;
+        break;
       case Hold:
       default:
-        return R.string.point_hold_status;
+        statusResource = R.string.point_hold_status;
     }
+
+    return getResources().getString(statusResource);
   }
 
   @Override
@@ -59,11 +70,13 @@ public class EditPointScreen extends EditScreen {
 
   @Override
   protected AbstractModel getCurrentModel(String id) {
+    pointRepository = GlobalApplication.getAppDB().pointRepository;
     if (id != null) {
-      currentModel = GlobalApplication.getAppDB().pointRepository.get(id);
+      currentModel = pointRepository.get(id);
     } else {
-      currentModel = GlobalApplication.getAppDB().pointRepository.draft();
+      currentModel = pointRepository.draft();
       currentModel.setPlotTwistId(getIntent().getStringExtra(INTENT_PLOT_TWIST_ID));
+      isNew = true;
     }
 
     return currentModel;
@@ -91,10 +104,10 @@ public class EditPointScreen extends EditScreen {
       AlertDialog statusDialog = new AlertDialog.Builder(this)
         .setTitle(R.string.point_status)
         .setSingleChoiceItems(new CharSequence[]{
-          getResources().getString(convertStatusToCaption(PointModel.PointStatus.Hold)),
-          getResources().getString(convertStatusToCaption(PointModel.PointStatus.Started)),
-          getResources().getString(convertStatusToCaption(PointModel.PointStatus.Succeed)),
-          getResources().getString(convertStatusToCaption(PointModel.PointStatus.Failure)),
+          convertStatusToCaption(PointModel.PointStatus.Hold),
+          convertStatusToCaption(PointModel.PointStatus.Started),
+          convertStatusToCaption(PointModel.PointStatus.Succeed),
+          convertStatusToCaption(PointModel.PointStatus.Failure),
         }, selectedItem, (dialog, which) -> {
           switch (which) {
             case 1:
@@ -121,44 +134,53 @@ public class EditPointScreen extends EditScreen {
       statusDialog.show();
       return true;
     }
-    TextDialogBuilder textDialogBuilder = new TextDialogBuilder(this);
 
     if (options[menuItemIndex] == R.string.point_edit_description) {
-      textDialogBuilder.setMaxLength(PointModel.DESCRIPTION_MAX_LENGTH);
+      Intent editDescriptionIntent = TextEditor.getIntent(
+        this,
+        getResources().getString(R.string.plot_popup_edit_description),
+        currentModel.getDescription(),
+        AbstractModel.DESCRIPTION_MAX_LENGTH
+      );
 
-      textDialogBuilder
-        .setValue(currentModel.getDescription())
-        .setControlsButton((v) -> {
-          String newValue = textDialogBuilder.getValue();
-
-          currentModel.setTitle(newValue);
-          updateView();
-        }, null)
-        .setTitle(R.string.edit)
-        .create().show();
+      startActivityForResult(editDescriptionIntent, EDIT_DESCRIPTION_RESULT_CODE);
     }
 
     if (options[menuItemIndex] == R.string.point_edit_name) {
-      textDialogBuilder.setMaxLength(PointModel.TITLE_MAX_LENGTH);
+      Intent title = NamesGenerator.getIntent(
+        this,
+        currentModel.getTitle(),
+        AbstractModel.TITLE_MAX_LENGTH
+      );
 
-      textDialogBuilder
-        .setValue(currentModel.getTitle())
-        .setControlsButton((v) -> {
-          String newValue = textDialogBuilder.getValue();
-
-          currentModel.setTitle(newValue);
-          updateView();
-        }, null)
-        .setTitle(R.string.edit)
-        .create()
-        .show();
+      startActivityForResult(title, EDIT_TITLE_RESULT_CODE);
     }
     return true;
   }
 
   @Override
-  protected void onUserApplyChanges(View v) {
+  protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode != RESULT_OK) {
+      return;
+    }
 
+    switch (requestCode) {
+      case EDIT_DESCRIPTION_RESULT_CODE:
+        currentModel.setDescription(TextEditor.getIntentTextEditValue(data));
+        break;
+      case EDIT_TITLE_RESULT_CODE:
+        currentModel.setTitle(NamesGenerator.getIntentTextEditValue(data));
+        break;
+    }
+
+    if (isNew) {
+      pointRepository.create(currentModel);
+      isNew = false;
+    } else {
+      pointRepository.update(currentModel);
+    }
+    updateView();
   }
 
   @Override
@@ -167,12 +189,17 @@ public class EditPointScreen extends EditScreen {
   }
 
   @Override
+  protected String getSubtitleField() {
+    return getResources().getString(R.string.point_about);
+  }
+
+  @Override
   protected String getDescriptionField() {
     return currentModel.getDescription();
   }
 
   @Override
-  protected int getLabelField() {
+  protected String getLabelField() {
     return convertStatusToCaption(currentModel.getStatus());
   }
 

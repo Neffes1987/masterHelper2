@@ -14,7 +14,8 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintBottom_toTopOf="@+id/EDIT_FRAGMENT_APPLY_BTN_ID">
+    app:layout_constraintBottom_toBottomOf="parent"
+    >
 
     <androidx.fragment.app.FragmentContainerView
       android:layout_width="match_parent"
@@ -25,13 +26,4 @@
 
   </LinearLayout>
 
-  <androidx.fragment.app.FragmentContainerView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:name="com.masterhelper.ux.ApplyButtonFragment"
-    android:id="@+id/EDIT_FRAGMENT_APPLY_BTN_ID"
-    tools:layout="@layout/fragment_apply_button"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

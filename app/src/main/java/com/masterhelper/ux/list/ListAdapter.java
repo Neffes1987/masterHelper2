@@ -1,5 +1,6 @@
 package com.masterhelper.ux.list;
 
+import android.text.Html;
 import android.view.View;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +23,10 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
   protected List<PropertyBarContentModel> mValues;
 
+  public void setValues(List<PropertyBarContentModel> mValues) {
+    this.mValues = mValues;
+  }
+
   public ListAdapter(List<PropertyBarContentModel> items) {
     mValues = items;
   }
@@ -41,8 +46,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     PropertyBarContentModel item = mValues.get(position);
 
     holder.propertyBar.setTitle(item.getTitle());
-    holder.propertyBar.setDescription(item.getDescription());
-    holder.propertyBar.setCardContextMenu(item.getContextPopupMenuBuilder());
+    holder.propertyBar.setDescription(Html.fromHtml(item.getDescription(), Html.FROM_HTML_MODE_COMPACT));
+
+    if (builder != null) {
+      holder.propertyBar.setCardContextMenu(builder.cloneBuilder(item.getId()));
+    }
   }
 
   @Override

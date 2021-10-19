@@ -13,4 +13,10 @@
   <string name="ok">OK</string>
   <string name="attach">Прикрепить</string>
   <string name="detach">Открепить</string>
+
+  <string name="details">Детали</string>
+
+  <string name="max_content_length">Количество символов в документе больше максимального количества символов</string>
+  <string name="min_content_length">Поле не может быть пустым</string>
+  <string name="max_name_length">Количество символов в имени больше максимального количества символов</string>
 </resources>
