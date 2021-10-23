@@ -6,12 +6,12 @@ import androidx.annotation.Nullable;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.global.db.repository.AbstractModel;
-import com.masterhelper.screens.EditScreen;
+import com.masterhelper.screens.DetailsScreen;
 import com.masterhelper.screens.NamesGenerator;
 import com.masterhelper.screens.TextEditor;
 import com.masterhelper.ux.TextDialogBuilder;
 
-public class PlotTwistEditScreen extends EditScreen {
+public class PlotTwistDetailsScreen extends DetailsScreen {
   private final int EDIT_TITLE_RESULT_CODE = 0;
   private final int EDIT_DESCRIPTION_RESULT_CODE = 1;
   private boolean isNew = false;
@@ -25,7 +25,7 @@ public class PlotTwistEditScreen extends EditScreen {
   };
 
   public static Intent getScreenIntent(Context context) {
-    return new Intent(context, PlotTwistEditScreen.class);
+    return new Intent(context, PlotTwistDetailsScreen.class);
   }
 
   @Override

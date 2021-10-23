@@ -18,19 +18,19 @@
     </activity>
     <activity android:name=".screens.TextEditor">
     </activity>
-    <activity android:name=".screens.plotTwist.point.EditPointScreen">
+    <activity android:name=".screens.plotTwist.point.PointDetailsScreen">
     </activity>
     <activity android:name=".screens.plotTwist.point.PointsListScreen">
     </activity>
     <activity android:name=".screens.plotTwist.PlotTwistsList">
     </activity>
-    <activity android:name=".screens.plotTwist.PlotTwistEditScreen">
+    <activity android:name=".screens.plotTwist.PlotTwistDetailsScreen">
     </activity>
     <activity android:name=".screens.journey.JourneyList">
     </activity>
     <activity android:name=".screens.journey.CurrentScreen">
     </activity>
-    <activity android:name=".screens.journey.EditorScreen">
+    <activity android:name=".screens.journey.JourneyDetailsScreen">
     </activity>
     <activity
       android:name=".screens.journey.EmptyCurrentScreen"

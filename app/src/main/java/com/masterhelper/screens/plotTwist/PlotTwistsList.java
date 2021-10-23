@@ -12,7 +12,7 @@ import com.masterhelper.ux.list.propertyBar.PropertyBarContentModel;
 
 import java.util.ArrayList;
 
-import static com.masterhelper.screens.EditScreen.INTENT_EDIT_SCREEN_ID;
+import static com.masterhelper.screens.DetailsScreen.INTENT_EDIT_SCREEN_ID;
 import static com.masterhelper.screens.journey.CurrentScreen.INTENT_CURRENT_JOURNEY_ACT_NUMBER;
 import static com.masterhelper.screens.journey.CurrentScreen.INTENT_CURRENT_JOURNEY_ID;
 
@@ -32,7 +32,7 @@ public class PlotTwistsList extends ListScreen<PlotTwistModel> {
   @Override
   public Intent getCreateItemIntent() {
 
-    return PlotTwistEditScreen.getScreenIntent(this);
+    return PlotTwistDetailsScreen.getScreenIntent(this);
   }
 
   @Override
@@ -61,7 +61,7 @@ public class PlotTwistsList extends ListScreen<PlotTwistModel> {
 
         deleteItem(plotId);
       } else if (options[itemIndex] == R.string.details) {
-        Intent editPlotIntent = PlotTwistEditScreen.getScreenIntent(this);
+        Intent editPlotIntent = PlotTwistDetailsScreen.getScreenIntent(this);
         editPlotIntent.putExtra(INTENT_EDIT_SCREEN_ID, plotId);
 
         startActivityForResult(editPlotIntent, EDIT_PLOT_LINE_REQUEST_CODE);

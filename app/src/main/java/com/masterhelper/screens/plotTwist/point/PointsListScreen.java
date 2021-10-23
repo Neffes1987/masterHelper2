@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
-import com.masterhelper.screens.EditScreen;
+import com.masterhelper.screens.DetailsScreen;
 import com.masterhelper.screens.ListScreen;
 import com.masterhelper.screens.plotTwist.PlotTwistModel;
 import com.masterhelper.ux.ContextPopupMenuBuilder;
@@ -13,7 +13,7 @@ import com.masterhelper.ux.list.propertyBar.PropertyBarContentModel;
 
 import java.util.ArrayList;
 
-import static com.masterhelper.screens.EditScreen.INTENT_EDIT_SCREEN_ID;
+import static com.masterhelper.screens.DetailsScreen.INTENT_EDIT_SCREEN_ID;
 
 public class PointsListScreen extends ListScreen<PointModel> {
   PlotTwistModel currentTwistModel;
@@ -21,7 +21,7 @@ public class PointsListScreen extends ListScreen<PointModel> {
 
   @Override
   public String getListTitle() {
-    String plotTwistId = getIntent().getStringExtra(EditScreen.INTENT_EDIT_SCREEN_ID);
+    String plotTwistId = getIntent().getStringExtra(DetailsScreen.INTENT_EDIT_SCREEN_ID);
 
     currentTwistModel = GlobalApplication.getAppDB().plotRepository.get(plotTwistId);
     return currentTwistModel.getTitle();
@@ -41,18 +41,18 @@ public class PointsListScreen extends ListScreen<PointModel> {
 
   @Override
   public Intent getCreateItemIntent() {
-    String plotTwistId = getIntent().getStringExtra(EditScreen.INTENT_EDIT_SCREEN_ID);
-    return EditPointScreen.getIntent(this, plotTwistId, null);
+    String plotTwistId = getIntent().getStringExtra(DetailsScreen.INTENT_EDIT_SCREEN_ID);
+    return PointDetailsScreen.getIntent(this, plotTwistId, null);
   }
 
   @Override
   public ContextPopupMenuBuilder getHeaderPopup() {
-    String plotTwistId = getIntent().getStringExtra(EditScreen.INTENT_EDIT_SCREEN_ID);
+    String plotTwistId = getIntent().getStringExtra(DetailsScreen.INTENT_EDIT_SCREEN_ID);
     ContextPopupMenuBuilder contextPopupMenuBuilder = new ContextPopupMenuBuilder(options);
 
     contextPopupMenuBuilder.setPopupMenuClickHandler((plotId, itemIndex) -> {
       if (options[itemIndex] == R.string.details) {
-        Intent editPlotIntent = EditPointScreen.getIntent(this, plotTwistId, currentTwistModel.getId());
+        Intent editPlotIntent = PointDetailsScreen.getIntent(this, plotTwistId, currentTwistModel.getId());
         editPlotIntent.putExtra(INTENT_EDIT_SCREEN_ID, plotId);
 
         startActivity(editPlotIntent);
@@ -71,7 +71,7 @@ public class PointsListScreen extends ListScreen<PointModel> {
   public ArrayList<PropertyBarContentModel> getListItems() {
     ArrayList<PropertyBarContentModel> items = new ArrayList<>();
     PointRepository repository = GlobalApplication.getAppDB().pointRepository;
-    String plotTwistId = getIntent().getStringExtra(EditScreen.INTENT_EDIT_SCREEN_ID);
+    String plotTwistId = getIntent().getStringExtra(DetailsScreen.INTENT_EDIT_SCREEN_ID);
 
     for (PointModel model : repository.list(PointRepository.plotTwistId.getColumnTitle() + "='" + plotTwistId + "'")
     ) {
@@ -91,7 +91,7 @@ public class PointsListScreen extends ListScreen<PointModel> {
 
   public static Intent getIntent(Context context, String pointId) {
     Intent intent = new Intent(context, PointsListScreen.class);
-    intent.putExtra(EditScreen.INTENT_EDIT_SCREEN_ID, pointId);
+    intent.putExtra(DetailsScreen.INTENT_EDIT_SCREEN_ID, pointId);
 
     return intent;
   }

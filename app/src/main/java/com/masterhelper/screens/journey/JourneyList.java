@@ -27,7 +27,7 @@ public class JourneyList extends ListScreen<JourneyModel> {
 
   @Override
   public Intent getCreateItemIntent() {
-    return EditorScreen.getScreenIntent(this);
+    return JourneyDetailsScreen.getScreenIntent(this);
   }
 
   @Override

@@ -8,7 +8,7 @@ import com.masterhelper.global.db.repository.AbstractModel;
 import com.masterhelper.ux.ContextPopupMenuBuilder;
 import com.masterhelper.ux.list.propertyBar.PropertyBar;
 
-public abstract class EditScreen extends CommonScreen {
+public abstract class DetailsScreen extends CommonScreen {
   public static String INTENT_EDIT_SCREEN_ID = "INTENT_EDIT_SCREEN_ID";
   ContextPopupMenuBuilder popupBuilder;
   PropertyBar editorFragment;

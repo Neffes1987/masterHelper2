@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.screens.CommonScreen;
-import com.masterhelper.screens.EditScreen;
+import com.masterhelper.screens.DetailsScreen;
 import com.masterhelper.screens.plotTwist.PlotTwistsList;
 import com.masterhelper.screens.plotTwist.PlotsListAdapter;
 import com.masterhelper.screens.plotTwist.point.PointsListScreen;
@@ -89,8 +89,8 @@ public class CurrentScreen extends CommonScreen implements ActsFragment.ActContr
     }
 
     if (item.getTitle() == getResources().getString(R.string.details)) {
-      Intent intent = EditorScreen.getScreenIntent(this);
-      intent.putExtra(EditScreen.INTENT_EDIT_SCREEN_ID, currentJourney.getId());
+      Intent intent = JourneyDetailsScreen.getScreenIntent(this);
+      intent.putExtra(DetailsScreen.INTENT_EDIT_SCREEN_ID, currentJourney.getId());
 
       startActivityForResult(intent, EDIT_JOURNEY_REQUEST_CODE);
     }

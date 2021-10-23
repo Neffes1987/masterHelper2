@@ -24,6 +24,7 @@ public class PropertyBar {
   private ImageButton editButtonView;
   private CardView cardView;
   private View fragment;
+  private final int PREVIEW_HEIGHT = 100;
 
   public PropertyBar(@Nullable Fragment fragment) {
     assert fragment != null;
@@ -56,6 +57,22 @@ public class PropertyBar {
     ViewGroup.LayoutParams params = fragment.getLayoutParams();
     params.height = RecyclerView.LayoutParams.MATCH_PARENT;
     fragment.setLayoutParams(params);
+  }
+
+  public void usePreviewHeight() {
+    ViewGroup.LayoutParams descriptionParams = descriptionView.getLayoutParams();
+    descriptionParams.height = PREVIEW_HEIGHT;
+    descriptionView.setLayoutParams(descriptionParams);
+
+    descriptionView.setOnClickListener(v -> {
+      ViewGroup.LayoutParams currentDescriptionParams = descriptionView.getLayoutParams();
+      if (currentDescriptionParams.height == RecyclerView.LayoutParams.MATCH_PARENT) {
+        currentDescriptionParams.height = PREVIEW_HEIGHT;
+      } else {
+        currentDescriptionParams.height = RecyclerView.LayoutParams.MATCH_PARENT;
+      }
+      descriptionView.setLayoutParams(currentDescriptionParams);
+    });
   }
 
   public void setCardContextMenu(ContextPopupMenuBuilder popupMenuBuilder) {

@@ -48,6 +48,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     holder.propertyBar.setTitle(item.getTitle());
     holder.propertyBar.setDescription(Html.fromHtml(item.getDescription(), Html.FROM_HTML_MODE_COMPACT));
 
+    holder.propertyBar.usePreviewHeight();
+
     if (builder != null) {
       holder.propertyBar.setCardContextMenu(builder.cloneBuilder(item.getId()));
     }

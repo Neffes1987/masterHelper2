@@ -7,12 +7,12 @@ import androidx.annotation.Nullable;
 import com.masterhelper.R;
 import com.masterhelper.global.GlobalApplication;
 import com.masterhelper.global.db.repository.AbstractModel;
-import com.masterhelper.screens.EditScreen;
+import com.masterhelper.screens.DetailsScreen;
 import com.masterhelper.screens.NamesGenerator;
 import com.masterhelper.screens.TextEditor;
 import com.masterhelper.ux.list.propertyBar.PropertyBar;
 
-public class EditPointScreen extends EditScreen {
+public class PointDetailsScreen extends DetailsScreen {
   private final int EDIT_TITLE_RESULT_CODE = 0;
   private final int EDIT_DESCRIPTION_RESULT_CODE = 1;
   public static String INTENT_PLOT_TWIST_ID = "INTENT_PLOT_TWIST_ID";
@@ -204,7 +204,7 @@ public class EditPointScreen extends EditScreen {
   }
 
   public static Intent getIntent(Context context, String plotTwistId, String pointId) {
-    Intent intent = new Intent(context, EditPointScreen.class);
+    Intent intent = new Intent(context, PointDetailsScreen.class);
     intent.putExtra(INTENT_EDIT_SCREEN_ID, pointId);
     intent.putExtra(INTENT_PLOT_TWIST_ID, plotTwistId);
 

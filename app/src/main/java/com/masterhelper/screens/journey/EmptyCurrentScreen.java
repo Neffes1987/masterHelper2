@@ -23,7 +23,7 @@ public class EmptyCurrentScreen extends AppCompatActivity {
     addButtonFr = (UIAddButtonFragment) getSupportFragmentManager().findFragmentById(R.id.ADD_JOURNEY_FRAGMENT_ID);
     if (addButtonFr != null) {
       addButtonFr.setListener(v -> {
-        startActivity(EditorScreen.getScreenIntent(this));
+        startActivity(JourneyDetailsScreen.getScreenIntent(this));
       });
     }
   }
